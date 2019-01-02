@@ -1,0 +1,2 @@
+module EgHelper
+end

@@ -1,0 +1,2 @@
+module Eg005EnvelopeRecipientsHelper
+end

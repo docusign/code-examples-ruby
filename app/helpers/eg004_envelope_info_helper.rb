@@ -1,0 +1,2 @@
+module Eg004EnvelopeInfoHelper
+end

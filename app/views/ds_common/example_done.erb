@@ -1,0 +1,14 @@
+<h2><%= @h1 %></h2>
+<% if !@message.nil? %>
+<p><%= @message.html_safe %></p>
+<% end %>
+
+<% if @json %>
+  <!-- Data from the server -->
+  <div id="server_json_data" data-server-json-data='{"json":<%= @json %>}' class="hidden"></div>
+  <p><pre class="json-display"><code id="json-display"></code></pre></p>
+
+
+<% end %>
+
+<p><a href="/">Continue</a></p>

@@ -1,0 +1,2 @@
+module Eg010SendBinaryDocsHelper
+end
