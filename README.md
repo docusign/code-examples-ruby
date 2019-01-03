@@ -4,6 +4,7 @@
 ## Introduction
 This repo is a Ruby on Rails application that demonstrates:
 
+* Multiple workflow examples using the DocuSign SDK. See the Example Workflows list below. 
 * **Authentication with DocuSign** via the
 [Authorization Code Grant flow](https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant).
   When the token expires, the user is asked to re-authenticate.
