@@ -12,7 +12,7 @@ This repo is a Ruby on Rails application that demonstrates:
 
   The [OmniAuth](https://github.com/omniauth/omniauth) library is used
   for authentication. This example includes a DocuSign OAuth2
-  [strategy](https://github.com/docusign/eg-03-ruby-auth-code-grant/blob/master/app/lib/docusign.rb)
+  [strategy](https://github.com/docusign/eg-03-ruby-auth-code-grant/blob/master/lib/docusign.rb)
   for the OAuth package. The DocuSign strategy:
   
   * Uses the Authorization Code Grant flow to obtain an access token.
@@ -22,7 +22,8 @@ This repo is a Ruby on Rails application that demonstrates:
     account id, account name, and base path.
 
   In this example, OmniAuth is called from 
-  [session_controller.rb](https://github.com/docusign/eg-03-ruby-auth-code-grant/blob/master/app/controllers/session_controller.rb). Omniauth is additionally configured and referenced in other files, search the project for "omni" for a complete list.
+  [session_controller.rb](https://github.com/docusign/eg-03-ruby-auth-code-grant/blob/master/app/controllers/session_controller.rb). 
+  OmniAuth is additionally configured and referenced in other files; search the project for "omni" for a complete list.
 
 ### Example Workflows
 This launcher includes code examples for the following workflows:
