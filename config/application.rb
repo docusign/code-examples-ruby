@@ -23,6 +23,7 @@ module Eg03RubyAuthCodeGrant
     # NOTE => You must add a Redirect URI of {app_url}/auth/docusign/callback 
     #         to your Integration Key.
     #
+    # NOTE: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing.
     config.client_id = '{CLIENT_ID}'
     config.client_secret = '{CLIENT_SECRET}'
     config.signer_email =  '{USER_EMAIL}'
