@@ -67,9 +67,14 @@ class Eg008CreateTemplateController < EgController
       # Step 2 create the template
       template_req_object = make_template_req(template_name)
       results = templates_api.create_template(args['account_id'], template_req_object)
-      template_id = results.template_id
-      results_template_name = results.name
       created_new_template = true
+
+      # Retreive the new template id
+      results = templates_api.list_templates(args['account_id'], options)
+      template_id = results.envelope_templates[0].template_id
+      results_template_name = results.envelope_templates[0].name
+
+
     end
     {
         'template_id' => template_id,
@@ -185,13 +190,13 @@ class Eg008CreateTemplateController < EgController
     # Create top two objects
     envelope_template_definition = DocuSign_eSign::EnvelopeTemplateDefinition.new(
       'description' => 'Example template created via the API',
-      'name' => template_name,
       'shared' => 'false'
       )
 
     # Top object:
     template_request = DocuSign_eSign::EnvelopeTemplate.new(
-      'documents' => [document],
+      'documents' => [document],      
+      'name' => template_name,
       'emailSubject' => 'Please sign this document',
       'envelopeTemplateDefinition' => envelope_template_definition,
       'recipients' => DocuSign_eSign::Recipients.new(

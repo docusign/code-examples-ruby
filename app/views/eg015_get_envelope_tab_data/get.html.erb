@@ -1,0 +1,36 @@
+<h4>15. Get the tab data from an envelope</h4>
+<p>Get the tab (field) values from an envelope for all of the envelope's recipients.</p>
+
+<p>
+    This method is used to read the updated tab values from
+    the envelope. The method can be used after the envelope is complete or while it is
+    still in progress.
+</p>
+
+<% if @show_doc  %>
+<p><a target='_blank' href='<%= @documentation %>'>Documentation</a> about this example.</p>
+<% end %>
+
+  <p>API method used:
+  <a target='_blank' href="https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeFormData/get">EnvelopeFormData::get</a>.
+  </p>
+
+  <p>
+    View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
+  </p>
+
+  <% if @envelope_ok %>
+<p>The envelope you created from an earlier example will be queried.</p>
+
+<form class="eg" action="" method="post" data-busy="form">
+  <button type="submit" class="btn btn-primary">Continue</button>
+</form>
+
+<%  else  %>
+<p>Problem: please first create an envelope using <a href="eg002">example 2.</a> <br/>
+  Thank you.</p>
+
+<form class="eg" action="eg002" method="get">
+  <button type="submit" class="btn btn-primary">Continue</button>
+</form>
+<% end %>
