@@ -55,6 +55,18 @@ Rails.application.routes.draw do
   get 'eg014' => 'eg014_collect_payment#get'
   post 'eg014' => 'eg014_collect_payment#create'
 
+  get 'eg015' => 'eg015_get_envelope_tab_data#get'
+  post 'eg015' => 'eg015_get_envelope_tab_data#create'
+
+  get 'eg016' => 'eg016_set_envelope_tab_data#get'
+  post 'eg016' => 'eg016_set_envelope_tab_data#create'
+
+  get 'eg017' => 'eg017_set_template_tab_values#get'
+  post 'eg017' => 'eg017_set_template_tab_values#create'
+
+  get 'eg018' => 'eg018_get_envelope_custom_field_data#get'
+  post 'eg018' => 'eg018_get_envelope_custom_field_data#create'
+
   get '/ds_common-return' => 'ds_common#ds_return'
   get '/ds/mustAuthenticate' => 'ds_common#ds_must_authenticate'
 
