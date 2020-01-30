@@ -77,19 +77,34 @@ This launcher includes code examples for the following workflows:
 
 1. **Get the envelope tab data.**
    Retrieve the tab (field) values for all of the envelope's recipients.
-   [Source.](./app/controllers/EG015EnvelopeTabData_controller.rb)
+   [Source.](./app/controllers/eg015_envelope_tab_data_controller.rb)
 1. **Set envelope tab values.**
    The example creates an envelope and sets the initial values for its tabs (fields). Some of the tabs
    are set to be read-only, others can be updated by the recipient. The example also stores
    metadata with the envelope.
-   [Source.](./app/controllers/EG016SetTabValues_controller.rb)
+   [Source.](./app/controllers/eg016_set_tab_values_controller.rb)
 1. **Set template tab values.**
    The example creates an envelope using a template and sets the initial values for its tabs (fields).
    The example also stores metadata with the envelope.
-   [Source.](./app/controllers/EG017SetTemplateTabValues_controller.rb)
+   [Source.](./app/controllers/eg017_set_template_tab_values_controller.rb)
 1. **Get the envelope custom field data (metadata).**
    The example retrieves the custom metadata (custom data fields) stored with the envelope.
-   [Source.](./app/controllers/EG018EnvelopeCustomFieldData_controller.rb)
+   [Source.](./app/controllers/eg018_envelope_custom_field_data_controller.rb)
+1. **Requiring an Access Code for a Recipient**
+   [Source.](./app/controllers/eg019_access_code_authentication_controller.rb)
+   This example sends an envelope that requires an access-code for the purpose of multi-factor authentication.
+1. **Requiring SMS authentication for a recipient**
+   [Source.](./app/controllers/eg020_sms_authentication_controller.rb)
+   This example sends an envelope that requires entering in a six digit code from an text message for the purpose of multi-factor authentication.
+1. **Requiring Phone authentication for a recipient**
+   [Source.](./app/controllers/eg021_phone_authentication_controller.rb)
+   This example sends an envelope that requires entering in a voice-based response code for the purpose of multi-factor authentication.
+1. **Requiring Knowledge-Based Authentication (KBA) for a Recipient**
+   [Source.](./app/controllers/eg022_kba_authentication_controller.rb)
+   This example sends an envelope that requires passing a Public records check to validate identity for the purpose of multi-factor authentication.
+ 1. **Requiring ID Verification (IDV) for a recipient**
+   [Source.](./app/controllers/eg023_idv_authentication_controller.rb)
+   This example sends an envelope that requires the recipient to upload a government issued id.    
 
 
 
