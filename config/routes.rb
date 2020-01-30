@@ -67,6 +67,21 @@ Rails.application.routes.draw do
   get 'eg018' => 'eg018_get_envelope_custom_field_data#get'
   post 'eg018' => 'eg018_get_envelope_custom_field_data#create'
 
+  get 'eg019' => 'eg019_access_code_authentication#get'
+  post 'eg019' => 'eg019_access_code_authentication#create'
+
+  get 'eg020' => 'eg020_sms_authentication#get'
+  post 'eg020' => 'eg020_sms_authentication#create'
+
+  get 'eg021' => 'eg021_phone_authentication#get'
+  post 'eg021' => 'eg021_phone_authentication#create'
+
+  get 'eg022' => 'eg022_kba_authentication#get'
+  post 'eg022' => 'eg022_kba_authentication#create'
+
+  get 'eg023' => 'eg023_idv_authentication#get'
+  post 'eg023' => 'eg023_idv_authentication#create'
+
   get '/ds_common-return' => 'ds_common#ds_return'
   get '/ds/mustAuthenticate' => 'ds_common#ds_must_authenticate'
 
