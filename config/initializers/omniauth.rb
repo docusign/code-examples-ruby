@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'docusign'
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :docusign, Rails.application.config.client_id, Rails.application.config.client_secret,
-           :setup => lambda{|env|
+           setup: lambda { |env|
              strategy = env['omniauth.strategy']
              strategy.options[:client_options].site = Rails.application.config.app_url
              strategy.options[:prompt] = 'login'

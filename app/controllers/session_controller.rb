@@ -1,5 +1,6 @@
-class SessionController < ApplicationController
+# frozen_string_literal: true
 
+class SessionController < ApplicationController
   def create
     # reset the session
     internal_destroy
@@ -35,7 +36,6 @@ class SessionController < ApplicationController
     session.delete :envelope_documents
     session.delete :template_id
   end
-
 
   def auth_hash
     request.env['omniauth.auth']

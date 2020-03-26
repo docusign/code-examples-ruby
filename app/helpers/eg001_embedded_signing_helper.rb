@@ -1,2 +1,0 @@
-module Eg001EmbeddedSigningHelper
-end

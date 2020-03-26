@@ -1,0 +1,76 @@
+<h4>31. Bulk sending envelopes to multiple recipients</a></h4>
+
+<p>
+  Method BulkSend:createBulkSendList creates a bulk list that you can to use an envelope to up 
+  to 1,000 recipients at once.
+</p>
+
+<p>API method used:
+  <a target='_blank' href="https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeRecipients/create">EnvelopeRecipients::create</a>,
+  <a target='_blank' href="https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create">Envelopes::create</a>,  
+  <a target='_blank' href="https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkEnvelopes/get">BulkEnvelopes::get</a>,
+  <a target='_blank' href="https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeCustomFields/create">EnvelopeCustomFields::create</a>,
+  <a target='_blank' href="https://support.docusign.com/en/guides/ndse-user-guide-create-a-bulk-send-recipient-list">BulkSend::createBulkSendList</a>,
+  <a target='_blank' href="https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeRecipients/createEnvelopeRecipientPreview">EnvelopeRecipients::create</a>
+</p>
+
+<p>
+  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
+</p>
+
+<form class="eg" action="" method="post" data-busy="form">
+  <h4>Bulk copy #1</h4>
+  <div class="your-class">
+    <div class="form-group">
+      <label for="signerEmail">Signer Email</label>
+      <input type="email" class="form-control" id="signerEmail" name="signerEmail"
+             aria-describedby="emailHelp" placeholder="pat@example.com" required
+             value="<%= @config.signer_email %>">
+    </div>
+    <div class="form-group">
+      <label for="signerName">Signer Name</label>
+      <input type="text" class="form-control" id="signerName" placeholder="Pat Johnson" name="signerName"
+             value="<%= @config.signer_name %>" required>
+    </div>
+  </div>
+  <div class="your-class">
+    <div class="form-group">
+      <label for="ccEmail">CC Email</label>
+      <input type="email" class="form-control" id="ccEmail" name="ccEmail"
+             aria-describedby="emailHelp" placeholder="pat@example.com" required />
+    </div>
+    <div class="form-group">
+      <label for="ccName">CC Name</label>
+      <input type="text" class="form-control" id="ccName" placeholder="Pat Johnson" name="ccName"
+             required>
+    </div>
+  </div>
+
+  <h4>Bulk copy #2</h4>
+  <div class="your-class">
+    <div class="form-group">
+      <label for="signerEmail1">Signer Email</label>
+      <input type="email" class="form-control" id="signerEmail1" name="signerEmail1"
+             aria-describedby="emailHelp" placeholder="pat@example.com" required
+             value="<%= @config.signer_email %>">
+    </div>
+    <div class="form-group">
+      <label for="signerName1">Signer Name</label>
+      <input type="text" class="form-control" id="signerName1" placeholder="Pat Johnson" name="signerName1"
+             value="<%= @config.signer_name %>" required>
+    </div>
+  </div>
+  <div class="your-class">
+    <div class="form-group">
+      <label for="ccEmail1">CC Email</label>
+      <input type="email" class="form-control" id="ccEmail1" name="ccEmail1"
+             aria-describedby="emailHelp" placeholder="pat@example.com" required />
+    </div>
+    <div class="form-group">
+      <label for="ccName1">CC Name</label>
+      <input type="text" class="form-control" id="ccName1" placeholder="Pat Johnson" name="ccName1"
+             required>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form> 

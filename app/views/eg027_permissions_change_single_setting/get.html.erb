@@ -1,0 +1,23 @@
+<h4>27. Changing a setting in an existing permission profile</a></h4>
+
+<p>
+  This code example demonstrates how to change setting in the existion permission profile.
+</p>
+
+ <p>API method used:
+  <a target='_blank' href="https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/update">AccountPermissionProfiles::update</a>.
+</p>
+<p>
+  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
+</p>
+<form class="eg" action="" method="post" data-busy="form">
+  <div class="form-group">
+    <label for="lists">Permissions lists</label>
+    <select id="lists" name="lists" class="form-control">
+      <% @permissions_lists.each do |list| %>
+        <option value="<%= list.permission_profile_id %>" selected><%= list.permission_profile_name %></option>
+      <% end %>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
