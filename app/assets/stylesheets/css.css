@@ -122,3 +122,8 @@ pre.json-display {
            -webkit-transform: scaleY(1.0);
        }
 }
+
+.your-class div{
+  float:left;
+  margin-left: 10px;
+}

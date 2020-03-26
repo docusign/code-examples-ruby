@@ -1,5 +1,6 @@
-class DsCommonController < ApplicationController
+# frozen_string_literal: true
 
+class DsCommonController < ApplicationController
   # miscellaneous controllers
   #
 
@@ -17,19 +18,17 @@ class DsCommonController < ApplicationController
   end
 
   def ds_return
-    @title = "Return from DocuSign"
+    @title = 'Return from DocuSign'
     @event = request.params['event']
     @state = request.params['state']
     @envelope_id = request.params['envelopeId']
   end
 
   def ds_must_authenticate
-    @title = "Authenticate with DocuSign"
+    @title = 'Authenticate with DocuSign'
   end
 
-  def example_done
-  end
+  def example_done; end
 
-  def error
-  end
+  def error; end
 end

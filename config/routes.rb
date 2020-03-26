@@ -1,5 +1,6 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
+Rails.application.routes.draw do
   root 'ds_common#index'
 
   # login starts with /ds_common/login
@@ -84,6 +85,30 @@ Rails.application.routes.draw do
 
   get '/ds_common-return' => 'ds_common#ds_return'
   get '/ds/mustAuthenticate' => 'ds_common#ds_must_authenticate'
+
+  get 'eg024' => 'eg024_permission_create#get'
+  post 'eg024' => 'eg024_permission_create#create'
+
+  get 'eg025' => 'eg025_permissions_set_user_group#get'
+  post 'eg025' => 'eg025_permissions_set_user_group#create'
+
+  get 'eg026' => 'eg026_permissions_change_single_setting#get'
+  post 'eg026' => 'eg026_permissions_change_single_setting#create'
+
+  get 'eg027' => 'eg027_permissions_delete#get'
+  post 'eg027' => 'eg027_permissions_delete#create'
+
+  get 'eg028' => 'eg028_brands_creating#get'
+  post 'eg028' => 'eg028_brands_creating#create'
+
+  get 'eg029' => 'eg029_brands_apply_to_envelope#get'
+  post 'eg029' => 'eg029_brands_apply_to_envelope#create'
+
+  get 'eg030' => 'eg030_brands_apply_to_template#get'
+  post 'eg030' => 'eg030_brands_apply_to_template#create'
+
+  get 'eg031' => 'eg031_bulk_sending_envelopes#get'
+  post 'eg031' => 'eg031_bulk_sending_envelopes#create'
 
   # default root
   get 'ds_common/index'
