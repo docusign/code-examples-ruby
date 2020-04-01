@@ -31,7 +31,7 @@ class Eg014Service
   # ***DS.snippet.0.start
   def worker(args)
     envelope_definition = make_envelope(envelope_args)
-    # 2. Call the API method
+    # 2. Create and send the envelope
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
     results = envelope_api.create_envelope args[:account_id], envelope_definition
@@ -50,16 +50,16 @@ class Eg014Service
     # recipient 1 - signer
     # recipient 2 - cc
     # The envelope will be sent first to the signer
-    # After it is signed, a copy is sent to the cc person    #
+    # After it is signed, a copy is sent to the cc person    
     #
     #    #################################################################
-    #    #                                                               #
-    #    # NOTA BENE: This method programmatically constructs the        #
-    #    #            order form. For many use cases, it would be        #
-    #    #            better to create the order form as a template      #
-    #    #            using the DocuSign web tool as WYSIWYG             #
-    #    #            form designer.                                     #
-    #    #                                                               #
+    #    #                                                               
+    #    # NOTA BENE: This method programmatically constructs the        
+    #    #            order form. For many use cases, it would be        
+    #    #            better to create the order form as a template      
+    #    #            using the DocuSign web tool as WYSIWYG             
+    #    #            form designer.                                     
+    #    #                                                               
     #    #################################################################
     #
 

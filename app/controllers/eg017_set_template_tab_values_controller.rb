@@ -3,23 +3,11 @@
 class Eg017SetTemplateTabValuesController < EgController
   def create
     minimum_buffer_min = 3
-    template_id = session[:template_id] || nil
+    template_id = session[:template_id]
     token_ok = check_token(minimum_buffer_min)
-
     if token_ok && template_id
-      begin
-        results = ::Eg017Service.new(request, session, template_id).call
-        # results is an object that implements ArrayAccess. Convert to a regular array:
-        @title = 'Envelope sent'
-        @h1 = 'Envelope sent'
-        @message = "The envelope has been created and sent!<br/>Envelope ID #{results[:envelope_id]}."
-        render 'ds_common/example_done'
-      rescue  DocuSign_eSign::ApiError => e
-        error = JSON.parse e.response_body
-        @error_code = error['errorCode']
-        @error_message = error['message']
-        render 'ds_common/error'
-      end
+        redirect_url = ::Eg017Service.new(request, session, template_id).call
+        redirect_to redirect_url
     elsif !token_ok
       flash[:messages] = 'Sorry, you need to re-authenticate.'
       # We could store the parameters of the requested operation so it could be restarted

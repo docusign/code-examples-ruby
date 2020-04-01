@@ -24,21 +24,21 @@ class Eg016Service
 
   # ***DS.snippet.0.start
   def worker
-    ds_ping_url = 'http://localhost:3000/'
-    ds_return_url = "#{Rails.application.config.app_url}/ds_common-return"
+    ds_ping_url = Rails.application.config.app_url
+    ds_return_url = "#{ds_ping_url}/ds_common-return"
     signer_client_id = 1000
     pdf_filename = 'World_Wide_Corp_salary.docx'
 
-    # Step 1. Create the envelope definition
+    # Step 4. Construct the request body
     envelope = make_envelope(args[:signer_email], args[:signer_name], signer_client_id, pdf_filename)
 
-    # Step 2. Call DocuSign to create the envelope
+    # Step 5. Call the eSignature REST API
     results = create_envelope_api(args).create_envelope args[:account_id], envelope
     envelope_id = results.envelope_id
     # Save for future use within the example launcher
     session[:envelope_id] = envelope_id
 
-    # Step 3. Create the recipient view for the signing ceremony
+    # Step 6. Create the View Request
     view_request = make_recipient_view_request(args[:signer_email], args[:signer_name], signer_client_id, ds_return_url, ds_ping_url)
 
     # Call the CreateRecipientView API
@@ -99,6 +99,8 @@ class Eg016Service
       email: args[:signer_email], name: args[:signer_name],
       clientUserId: signer_client_id, recipientId: 1
     })
+
+    # Step 3. Create Tabs and CustomFields
     salary = '$123,000'
 
     sign_here1 = DocuSign_eSign::SignHere.new

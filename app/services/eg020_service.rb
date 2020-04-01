@@ -22,8 +22,6 @@ class Eg020Service
 
   def call
     # ***DS.snippet.0.start
-    # Step 1. Obtain your OAuth token
-    # Step 2. Construct your API headers
     envelope_api = create_envelope_api(args)
 
     # Step 3: Construct your envelope JSON body
@@ -81,5 +79,6 @@ class Eg020Service
     results = envelope_api.create_envelope args[:account_id], envelope_definition
     session[:envelope_id] = results.envelope_id
     results
+    # ***DS.snippet.0.end
   end
 end

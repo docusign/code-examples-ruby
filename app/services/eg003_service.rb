@@ -13,7 +13,6 @@ class Eg003Service
   end
 
   def call
-    envelope_api = create_envelope_api(args)
     # Step 1. List the envelopes
     # The Envelopes::listStatusChanges method has many options
     # See https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/listStatusChange#
@@ -21,6 +20,7 @@ class Eg003Service
     # a set of envelopeIds. Here we filter using a from_date.
     # Here we set the from_date to filter envelopes for the last month
     # Use ISO 8601 date format
+    envelope_api = create_envelope_api(args)
     options = DocuSign_eSign::ListStatusChangesOptions.new
     options.from_date = (Date.today - 30).strftime('%Y/%m/%d')
     # Exceptions will be caught by the calling function

@@ -87,7 +87,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.1.6)
     crass (1.0.6)
-    docusign_esign (3.0.0)
+    docusign_esign (3.2.0.rc1)
       json (~> 2.1, >= 2.1.0)
       jwt (~> 1.0, >= 1.5.2)
       typhoeus (~> 1.0, >= 1.0.1)
@@ -254,7 +254,7 @@ DEPENDENCIES
   capybara (~> 3.31.0)
   chromedriver-helper (~> 2.1.1)
   coffee-rails (~> 5.0.0)
-  docusign_esign (~> 3.0.0)
+  docusign_esign (~> 3.2.0.rc1)
   jbuilder (~> 2.10.0)
   listen (~> 3.2.1)
   omniauth-oauth2 (~> 1.6.0)
@@ -273,7 +273,7 @@ DEPENDENCIES
   web-console (~> 4.0.1)
 
 RUBY VERSION
-   ruby 2.6.5p114
+   ruby 2.6.4p104
 
 BUNDLED WITH
    1.17.3

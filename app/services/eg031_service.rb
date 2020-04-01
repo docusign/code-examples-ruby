@@ -6,16 +6,16 @@ class Eg031Service
 
   def initialize(request, session)
     @signers = {
-      signer_email: request.params['signerName'].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name: request.params['signerEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_email: request.params['ccName'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_name: request.params['ccEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
+      signer_email: request.params['signerEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
+      signer_name: request.params['signerName'].gsub(/([^\w \-\@\.\,])+/, ''),
+      cc_email: request.params['ccEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
+      cc_name: request.params['ccName'].gsub(/([^\w \-\@\.\,])+/, ''),
       status: 'created',
 
-      signer_email1: request.params['signerName1'].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name1: request.params['signerEmail1'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_email1: request.params['ccName1'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_name1: request.params['ccEmail1'].gsub(/([^\w \-\@\.\,])+/, '')
+      signer_email1: request.params['signerEmail1'].gsub(/([^\w \-\@\.\,])+/, ''),
+      signer_name1: request.params['signerName1'].gsub(/([^\w \-\@\.\,])+/, ''),
+      cc_email1: request.params['ccEmail1'].gsub(/([^\w \-\@\.\,])+/, ''),
+      cc_name1: request.params['ccName1'].gsub(/([^\w \-\@\.\,])+/, '')
     }
     @args = {
       account_id: session['ds_account_id'],
@@ -30,10 +30,10 @@ class Eg031Service
     configuration.host = args[:base_path]
     api_client = DocuSign_eSign::ApiClient.new configuration
 
-    # Step 2. Construct API headers
+    # Step 2. Construct your API headers
     construct_api_headers(api_client)
 
-    #  Step 3. Create and submit bulk sending list
+    #  Step 3. Create and submit the bulk sending list
     bulk_envelopes_api = DocuSign_eSign::BulkEnvelopesApi.new api_client
     bulk_sending_list = create_bulk_sending_list
     bulk_list = bulk_envelopes_api.create_bulk_send_list(args[:account_id], bulk_sending_list)
@@ -41,7 +41,7 @@ class Eg031Service
 
     # Step 4. Create the draft envelope
     envelope_api = create_envelope_api(args)
-    envelope_definition = create_envelope_api(args)
+    envelope_definition = make_envelope
     envelope = envelope_api.create_envelope(args[:account_id], envelope_definition, options = DocuSign_eSign::CreateEnvelopeOptions.default)
     envelope_id = envelope.envelope_id
 
@@ -74,7 +74,7 @@ class Eg031Service
       roleName: 'signer',
       tabs: [],
       name: signers[:signer_name],
-      email: signers[:signer_email]
+      email: signers[:signer_email],
     )
 
     # Create a cc recipient to receive a copy of the documents
@@ -82,21 +82,21 @@ class Eg031Service
       roleName: 'cc',
       tabs: [],
       name: signers[:cc_name],
-      email: signers[:cc_email]
+      email: signers[:cc_email],
     )
 
     recipient3 = DocuSign_eSign::BulkSendingCopyRecipient.new(
       roleName: 'signer',
       tabs: [],
       name: signers[:signer_name1],
-      email: signers[:signer_email1]
+      email: signers[:signer_email1],
     )
 
     recipient4 = DocuSign_eSign::BulkSendingCopyRecipient.new(
       roleName: 'cc',
       tabs: [],
       name: signers[:cc_name1],
-      email: signers[:cc_email1]
+      email: signers[:cc_email1],
     )
 
     # Add the recipients to the envelope object
@@ -138,7 +138,7 @@ class Eg031Service
       note: "",
       routingOrder: 1,
       status: "created",
-      templateAccessCodeRequired: 'null',
+      templateAccessCodeRequired: "null",
       deliveryMethod: "email",
       recipientId: "10",
       recipientType: "signer"
@@ -151,11 +151,35 @@ class Eg031Service
       note: "",
       routingOrder: 1,
       status: "created",
-      templateAccessCodeRequired: 'null',
+      templateAccessCodeRequired: "null",
       deliveryMethod: "email",
       recipientId: "11",
       recipientType: "signer"
     )
     [signer, cc]
   end
+
+  def make_envelope
+    # Create the envelope definition
+    envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
+    envelope_definition.email_subject = 'Please sign this document set'
+    # Add the documents
+    doc_b64 = "DQoNCg0KCQkJCXRleHQgZG9jDQoNCg0KDQoNCg0KUk0gIwlSTSAjCVJNICMNCg0KDQoNClxzMVwNCg0KLy9hbmNoMSANCgkvL2FuY2gyDQoJCS8vYW5jaDM="
+   
+    # Create the document models
+    doc = DocuSign_eSign::Document.new(
+      # Create the DocuSign Document object
+      documentBase64: doc_b64,
+      name: 'NDA', # Can be different from the actual file name
+      fileExtension: 'txt', # Many different document types are accepted
+      documentId: '1' # A label used to reference the doc
+    )
+   
+    # The order in the docs array determines the order in the envelope
+    envelope_definition.documents = [doc]
+    envelope_definition.envelope_id_stamping = "true"
+    envelope_definition.status = "created"
+    envelope_definition
+  end
+  
 end

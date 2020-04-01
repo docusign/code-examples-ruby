@@ -21,7 +21,7 @@ class Eg015Service
 
   # ***DS.snippet.0.start
   def worker
-    # Step 1. List the envelope form data
+    # Step 3. Call the eSignature REST API
     # The Envelopes::getEnvelopeFormData method has many options
     # See https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeFormData/get
     # The get form data call requires an account ID and an envelope ID

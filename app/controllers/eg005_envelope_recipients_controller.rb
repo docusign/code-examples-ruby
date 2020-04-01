@@ -46,7 +46,7 @@ class Eg005EnvelopeRecipientsController < EgController
 
   # ***DS.snippet.0.start
   def worker(args)
-    # 1. call API method
+    # Step 1. List envelope recipients
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
     results = envelope_api.list_recipients args[:account_id], args[:envelope_id]

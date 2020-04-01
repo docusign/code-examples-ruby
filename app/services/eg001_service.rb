@@ -22,8 +22,8 @@ class Eg001Service
 
   # ***DS.snippet.0.start
   def worker
-    ds_ping_url = 'http://localhost:3000/'
-    ds_return_url = "#{Rails.application.config.app_url}/ds_common-return"
+    ds_ping_url = Rails.application.config.app_url
+    ds_return_url = "#{ds_ping_url}/ds_common-return"
     signer_client_id = 1000
     pdf_filename = 'World_Wide_Corp_lorem.pdf'
 

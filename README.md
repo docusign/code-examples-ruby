@@ -22,7 +22,7 @@ This repo is a Ruby on Rails application that demonstrates:
     account id, account name, and base path.
 
   In this example, OmniAuth is called from 
-  [session_controller.rb](./app/services/sessi_servicerb). 
+  [session_controller.rb](./app/controllers/session_controller.rb). 
   OmniAuth is additionally configured and referenced in other files; search the project for "omni" for a complete list.
 
 ### Example Workflows

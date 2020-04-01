@@ -56,7 +56,7 @@ class Eg010Service
         bytes: doc3_pdf_bytes }
     ]
 
-    # Step 3. Create the multipart body
+    # Step 3. Create and send the envelope
     crlf = "\r\n"
     boundary = 'multipartboundary_multipartboundary'
     hyphens = '--'
@@ -129,30 +129,6 @@ class Eg010Service
     end
   end
 
-  def create_document1
-    "
-    <!DOCTYPE html>
-    <html>
-        <head>
-          <meta charset=\"UTF-8\">
-        </head>
-        <body style=\"font-family:sans-serif;margin-left:2em;\">
-        <h1 style=\"font-family: 'Trebuchet MS', Helvetica, sans-serif;
-color: darkblue;margin-bottom: 0;\">World Wide Corp</h1>
-        <h2 style=\"font-family: 'Trebuchet MS', Helvetica, sans-serif;
-margin-top: 0px;margin-bottom: 3.5em;font-size: 1em;
-color: darkblue;\">Order Processing Division</h2>
-        <h4>Ordered by #{args[:signer_name]}</h4>
-        <p style=\"margin-top:0em; margin-bottom:0em;\">Email: #{args[:signer_email]}</p>
-        <p style=\"margin-top:0em; margin-bottom:0em;\">Copy to: #{args[:cc_name]}, #{args[:cc_email]}</p>
-        <p style=\"margin-top:3em;\">
-  Candy bonbon pastry jujubes lollipop wafer biscuit biscuit. Topping brownie sesame snaps sweet roll pie. Croissant danish biscuit soufflé caramels jujubes jelly. Dragée danish caramels lemon drops dragée. Gummi bears cupcake biscuit tiramisu sugar plum pastry. Dragée gummies applicake pudding liquorice. Donut jujubes oat cake jelly-o. Dessert bear claw chocolate cake gummies lollipop sugar plum ice cream gummies cheesecake.
-        </p>
-        <!-- Note the anchor tag for the signature field is in white. -->
-        <h3 style=\"margin-top:3em;\">Agreed: <span style=\"color:white;\">**signature_1**/</span></h3>
-        </body>
-    </html>"
-  end
 
   def make_envelope_json
     # document 1 (HTML) has tag **signature_1**
@@ -239,6 +215,31 @@ color: darkblue;\">Order Processing Division</h2>
     puts env_json[:recipients] = recipients
     puts env_json[:status] = 'sent'
     env_json
+  end
+
+  def create_document1
+    "
+    <!DOCTYPE html>
+    <html>
+        <head>
+          <meta charset=\"UTF-8\">
+        </head>
+        <body style=\"font-family:sans-serif;margin-left:2em;\">
+        <h1 style=\"font-family: 'Trebuchet MS', Helvetica, sans-serif;
+color: darkblue;margin-bottom: 0;\">World Wide Corp</h1>
+        <h2 style=\"font-family: 'Trebuchet MS', Helvetica, sans-serif;
+margin-top: 0px;margin-bottom: 3.5em;font-size: 1em;
+color: darkblue;\">Order Processing Division</h2>
+        <h4>Ordered by #{args[:signer_name]}</h4>
+        <p style=\"margin-top:0em; margin-bottom:0em;\">Email: #{args[:signer_email]}</p>
+        <p style=\"margin-top:0em; margin-bottom:0em;\">Copy to: #{args[:cc_name]}, #{args[:cc_email]}</p>
+        <p style=\"margin-top:3em;\">
+  Candy bonbon pastry jujubes lollipop wafer biscuit biscuit. Topping brownie sesame snaps sweet roll pie. Croissant danish biscuit soufflé caramels jujubes jelly. Dragée danish caramels lemon drops dragée. Gummi bears cupcake biscuit tiramisu sugar plum pastry. Dragée gummies applicake pudding liquorice. Donut jujubes oat cake jelly-o. Dessert bear claw chocolate cake gummies lollipop sugar plum ice cream gummies cheesecake.
+        </p>
+        <!-- Note the anchor tag for the signature field is in white. -->
+        <h3 style=\"margin-top:3em;\">Agreed: <span style=\"color:white;\">**signature_1**/</span></h3>
+        </body>
+    </html>"
   end
   # ***DS.snippet.0.end
 end

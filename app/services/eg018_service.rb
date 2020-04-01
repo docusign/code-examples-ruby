@@ -14,7 +14,7 @@ class Eg018Service
   end
 
   def call
-    # Exceptions will be caught by the calling function
+    # Step 3. Call the eSignature REST API
     results = create_envelope_api(args).list_custom_fields args[:account_id], args[:envelope_id]
   end
 end

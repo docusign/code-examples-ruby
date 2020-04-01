@@ -1,6 +1,6 @@
-# frozen_string_literal: true
+# frozen_string_literal: true 
 
-class Eg019Service
+class Eg023Service
   include ApiCreator
   attr_reader :args, :envelope_args, :request, :session
 
@@ -22,18 +22,24 @@ class Eg019Service
 
   def call
     # ***DS.snippet.0.start
-    envelope_api = create_envelope_api(args)
 
-    # Step 3: Construct your envelope JSON body
+    # Step 3. Obtain your workflow ID
+    accounts_api = create_account_api(args)
+    wf_res = accounts_api.get_account_identity_verification args[:account_id]
+    workflow_id = wf_res.identity_verification[0].workflow_id
+
+    # Step 4. Construct your envelope JSON body
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document set'
 
-    # Add the documents and create the document models
-    pdf_filename = 'World_Wide_Corp_lorem.pdf'
+    # Add the documents
+    pdf_filename = "World_Wide_Corp_lorem.pdf"
+
+    # Create the document models
     document1 = DocuSign_eSign::Document.new(
       # Create the DocuSign Document object
       documentBase64: Base64.encode64(File.binread(File.join('data', pdf_filename))),
-      name: 'NDA', # Can be different from actual file name
+      name: 'Lorem', # Can be different from the actual file name
       fileExtension: 'pdf', # Many different document types are accepted
       documentId: '1' # A label used to reference the doc
     )
@@ -46,7 +52,6 @@ class Eg019Service
     signer1.name = envelope_args[:signer_name]
     signer1.recipient_id = '1'
     signer1.routing_order = '1'
-    signer1.access_code = request.params['accessCode']
 
     sign_here1 = DocuSign_eSign::SignHere.new
     sign_here1.anchor_string = '/sn1/'
@@ -61,18 +66,25 @@ class Eg019Service
     })
     signer1.tabs = signer1_tabs
 
+    wf = DocuSign_eSign::RecipientIdentityVerification.new
+    wf.workflow_id = workflow_id
+    signer1.identity_verification = wf
+
     # Add the recipients to the Envelope object
     recipients = DocuSign_eSign::Recipients.new(
       signers: [signer1]
     )
-    # Request that the envelope be sent by setting |status| to "sent"
-    # To request that the envelope be created as a draft, set to "created"
+    # Request that the envelope be sent by setting status to "sent"
+    # To request that the envelope be created as a draft, set status to "created"
     envelope_definition.recipients = recipients
     envelope_definition.status = envelope_args[:status]
-    # Step 4. Call the eSignature REST API
-    results = envelope_api.create_envelope(args[:account_id], envelope_definition)
+
+    # Step 5. Call the eSignature REST API
+    envelope_api = create_envelope_api(args)
+    results = envelope_api.create_envelope args[:account_id], envelope_definition
     session[:envelope_id] = results.envelope_id
     results
+
     # ***DS.snippet.0.end
   end
 end
