@@ -133,7 +133,9 @@ This launcher includes code examples for the following workflows:
    This code example demonstrates how to apply a brand you've created to a template using using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method. 
    You must have at least one created template and brand.
    Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
-6. **Bulk sending envelopes to multiple recipients** (Coming soon...)
+6. **Bulk sending envelopes to multiple recipients**
+   [Source.](./app/services/eg031_service.rb)
+   This example creates and sends a bulk envelope by generating a bulk recipient list and initiating a bulk send.
 
 
 
