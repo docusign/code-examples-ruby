@@ -127,12 +127,12 @@ This launcher includes code examples for the following workflows:
    [Source.](./app/services/eg029_service.rb)
    This code example demonstrates how to apply a brand you've created to an envelope using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method. 
    First, creates the envelope and then applies brand to it.
-   Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
+   
 5. **Applying a brand to a template**
    [Source.](./app/services/eg030_service.rb)
    This code example demonstrates how to apply a brand you've created to a template using using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method. 
    You must have at least one created template and brand.
-   Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
+   
 6. **Bulk sending envelopes to multiple recipients**
    [Source.](./app/services/eg031_service.rb)
    This example creates and sends a bulk envelope by generating a bulk recipient list and initiating a bulk send.
@@ -161,7 +161,7 @@ This launcher includes code examples for the following workflows:
 
    `http://localhost:3000/auth/docusign/callback`
 
-1. Ruby version 2.5.3 or later. Or you can update the Gemfile to use other versions of Ruby.
+1. Ruby version 2.6.4 or later. Or you can update the Gemfile to use other versions of Ruby.
 1. A name and email for a signer, and a name and email for a cc recipient.
 
 ### Installation steps
