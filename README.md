@@ -1,29 +1,9 @@
-# Ruby: Authorization Code Grant Examples
+# Ruby Launcher Code Examples
 
-### Github repo: eg-03-ruby-auth-code-grant
+### Github repo: [code-examples-ruby](./)
 ## Introduction
 This repo is a Ruby on Rails application that demonstrates:
 
-* Multiple workflow examples using the DocuSign SDK. See the Example Workflows list below. 
-* **Authentication with DocuSign** via the
-[Authorization Code Grant flow](https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant).
-  When the token expires, the user is asked to re-authenticate.
-  The **refresh token** is not used in this example.
-
-  The [OmniAuth](https://github.com/omniauth/omniauth) library is used
-  for authentication. This example includes a DocuSign OAuth2
-  [strategy](./lib/docusign.rb)
-  for the OAuth package. The DocuSign strategy:
-  
-  * Uses the Authorization Code Grant flow to obtain an access token.
-  * Calls the [OAuth::getUser](https://developers.docusign.com/esign-rest-api/guides/authentication/user-info-endpoints)
-    API method.
-  * Processes the OAuth::getUser results to obtain the user's name, email,
-    account id, account name, and base path.
-
-  In this example, OmniAuth is called from 
-  [session_controller.rb](./app/controllers/session_controller.rb). 
-  OmniAuth is additionally configured and referenced in other files; search the project for "omni" for a complete list.
 
 ### Example Workflows
 This launcher includes code examples for the following workflows:
@@ -105,6 +85,7 @@ This launcher includes code examples for the following workflows:
 1. **Requiring ID Verification (IDV) for a recipient**
    [Source.](./app/services/eg023_service.rb)
    This example sends an envelope that requires the recipient to upload a government issued id. 
+
 1. **Creating a permission profile**
    [Source.](./app/services/eg024_service.rb)
    This code example demonstrates how to create a user group's permission profile using the [Create Profile](https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/create) method. 
@@ -116,28 +97,37 @@ This launcher includes code examples for the following workflows:
    [Source.](./app/services/eg026_service.rb)
    This code example demonstrates how to update individual settings for a specific permission profile using the [Update Permission Profile](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/update) method.
    You must have already created permissions profile and group of users.
-2. **Deleting a permission profile**
+1. **Deleting a permission profile**
    [Source.](./app/services/eg027_service.rb)
    This code example demonstrates how to an account's permission profile using the [Delete AccountPermissionProfiles](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/delete) method. 
    You cannot delete the Everyone nor the Administrator profile types as those are defaults.
-3. **Creating a brand**
+
+1. **Creating a brand**
    [Source.](./app/services/eg028_service.rb)
    This example creates brand profile for an account using the [Create Brand](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/create) method.
-4. **Applying a brand to an envelope**
+1. **Applying a brand to an envelope**
    [Source.](./app/services/eg029_service.rb)
    This code example demonstrates how to apply a brand you've created to an envelope using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method. 
    First, creates the envelope and then applies brand to it.
    
-5. **Applying a brand to a template**
+1. **Applying a brand to a template**
    [Source.](./app/services/eg030_service.rb)
    This code example demonstrates how to apply a brand you've created to a template using using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method. 
    You must have at least one created template and brand.
    
-6. **Bulk sending envelopes to multiple recipients**
+1. **Bulk sending envelopes to multiple recipients**
    [Source.](./app/services/eg031_service.rb)
    This example creates and sends a bulk envelope by generating a bulk recipient list and initiating a bulk send.
 
 
+## Included OAuth grant types:
+
+* Authentication with Docusign via [Authorization Code Grant flow](https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant) .
+When the token expires, the user is asked to re-authenticate.
+The **refresh token** is not used in this example.
+
+* Authentication with DocuSign via the [JSON Web Token (JWT) Grant](https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-jsonwebtoken).
+When the token expires, it updates automatically.
 
 
 ## Installation
@@ -145,8 +135,8 @@ This launcher includes code examples for the following workflows:
 ### Prerequisites
 1. A DocuSign Developer Sandbox account (email and password) on [demo.docusign.net](https://demo.docusign.net).
    Create a [free account](https://go.docusign.com/sandbox/productshot/?elqCampaignId=16536).
-1. A DocuSign Integration Key (a client ID) that is configured to use the
-   OAuth Authorization Code flow.
+1. A DocuSign Integration Key and secret key (a client ID).  If using JWT grant, you will need an RSA private key instead of your Integration secret key.
+   
    You will need the **Integration Key** itself, and its **secret**.
 
    The Integration key must include a **Redirect URI** of
@@ -165,8 +155,8 @@ This launcher includes code examples for the following workflows:
 1. A name and email for a signer, and a name and email for a cc recipient.
 
 ### Installation steps
-1. Download or clone this repository to your workstation to directory **eg-03-ruby-auth-code-grant**
-1. **cd eg-03-ruby-auth-code-grant**
+1. Download or clone this repository to your workstation to directory **code-examples-ruby**
+1. **cd code-examples-ruby**
 1. Install the needed gems listed in the Gemfile:
 
    Run **bundler install**
@@ -196,7 +186,7 @@ Then add the payment gateway account id to the **config/application.rb** file.
 ## Using the examples with other authentication flows
 
 The examples in this repository can also be used with the
-JWT OAuth flow.
+Implicit grant OAuth flow.
 See the [Authentication guide](https://developers.docusign.com/esign-rest-api/guides/authentication)
 for information on choosing the right authentication flow for your application.
 

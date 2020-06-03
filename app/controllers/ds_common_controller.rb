@@ -26,6 +26,15 @@ class DsCommonController < ApplicationController
 
   def ds_must_authenticate
     @title = 'Authenticate with DocuSign'
+    if params[:auth] == 'grand-auth'
+      redirect_to('/auth/docusign')
+    elsif params[:auth] == 'jwt-auth'
+      redirect_to root_path if session[:token].present?
+      configuration = DocuSign_eSign::Configuration.new
+      api_client = DocuSign_eSign::ApiClient.new(configuration)
+      ::JwtAuth::JwtCreator.new(session, api_client).check_jwt_token
+      redirect_to root_path
+    end
   end
 
   def example_done; end
