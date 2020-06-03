@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.2.2'
+gem 'rails', '~> 6.0.3.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '~> 1.4.2'
 # Use Puma as the app server
@@ -62,7 +62,8 @@ group :test do
   gem 'chromedriver-helper', '~> 2.1.1'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'docusign_esign', '~> 3.2.0.rc1'
+gem 'docusign_esign', '~> 3.3.0-rc'
 gem 'omniauth-oauth2', '~> 1.6.0'
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', '~> 1.2019.3', platforms: %i[mingw mswin x64_mingw jruby]
+gem 'wdm', '>= 0.1.0'
