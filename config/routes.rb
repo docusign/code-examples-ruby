@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get '/ds/login' => redirect('/auth/docusign')
   # Next, the oauth callback is handled by session#create in /app/controllers/session_controller
   get '/auth/:provider/callback', to: 'session#create'
-
+  get '/ds/callback' => redirect('/auth/docusign/callback')
   # Logout
   get '/ds/logout', to: 'session#destroy'
 

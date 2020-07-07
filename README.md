@@ -141,7 +141,7 @@ When the token expires, it updates automatically.
 
    The Integration key must include a **Redirect URI** of
 
-   `{base_url}/auth/docusign/callback`
+   `{base_url}/ds/callback`
 
    Where `{base_url}` is the url for the web app.
 
@@ -149,9 +149,9 @@ When the token expires, it updates automatically.
    
    So the default Redirect URI for your Integration Key is
 
-   `http://localhost:3000/auth/docusign/callback`
+   `http://localhost:3000/ds/callback`
 
-1. Ruby version 2.6.4 or later. Or you can update the Gemfile to use other versions of Ruby.
+1. Ruby version 2.6.6 or later. Or you can update the Gemfile to use other versions of Ruby.
 1. A name and email for a signer, and a name and email for a cc recipient.
 
 ### Installation steps
@@ -160,7 +160,7 @@ When the token expires, it updates automatically.
 1. Install the needed gems listed in the Gemfile:
 
    Run **bundler install**
-1. Update the file **config/application.rb**
+1. Update the file **config/appsettings.yml**
      with the Integration Key and other settings.
      Note: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing.
 
@@ -171,6 +171,11 @@ When the token expires, it updates automatically.
 1. To start the development web server and application:
 
    Run **rails s** 
+   *Note that on Windows additional actions might be necessary:*
+   - *Install sqlite3: **gem install sqlite3 --platform=ruby***
+   - *Download curllib.dll (https://curl.haxx.se/windows/)*
+   - *libcurl-x64.dll should be copied as libcurl.dll*
+   - *Place curllib.dll into Ruby `C:\\<Ruby installation>\bin`*
 1. Open a browser to the example's base url to view the index page.
 
 #### Payments code example

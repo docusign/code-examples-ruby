@@ -29,7 +29,7 @@
     Thank you.</p>
 
  <form class="eg" action="eg002" method="get">
-     <button type="submit" class="btn btn-primary">Continue</button>
+     <button type="submit" class="btn btn-docu">Continue</button>
  </form>
 <% elsif !@documents_ok %>
   <p>Problem: please first create a list of the envelope's documents using
@@ -37,7 +37,7 @@
     Thank you.</p>
 
  <form class="eg" action="eg006" method="get">
-     <button type="submit" class="btn btn-primary">Continue</button>
+     <button type="submit" class="btn btn-docu">Continue</button>
  </form>
 <% else %>
   <p>Please choose a document.<br/>
@@ -53,6 +53,6 @@
         <% end %>
         </select>
     </div>
-    <button type="submit" class="btn btn-primary">Continue</button>
+    <button type="submit" class="btn btn-docu">Continue</button>
   </form>
 <% end %>
