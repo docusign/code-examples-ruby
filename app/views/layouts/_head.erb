@@ -59,10 +59,6 @@
 
 <div class="container">
   <!-- The closing div is in foot.ejs -->
-  <% if session["ds_account_name"] %>
-    <p>DocuSign Account: <%= session["ds_account_name"] %>.</p>
-  <% end %>
-
   <div class="col-md-12 feedback" id="feedback">
     <h3>Working...&nbsp;&nbsp;&nbsp;<span></span></h3>
   </div>
@@ -78,4 +74,12 @@
   </section>
   <p id="download-continue" class="feedback"><a href="/">Continue</a></p>
   </div>
-  <section id="content" class="container-full-bg" style="margin-top:-60px!important; padding-top:30px!important;">
+
+
+  <% if session["ds_account_name"] %>
+    <div class="container" style="margin-top:60px!important; padding-top:30px!important;">
+  <% unless !session["ds_account_name"] %>
+    <section id="content" class="container-full-bg">
+  <% end %>
+  <% end %>
+

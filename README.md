@@ -151,7 +151,7 @@ When the token expires, it updates automatically.
 
    `http://localhost:3000/ds/callback`
 
-1. Ruby version 2.6.6 or later. Or you can update the Gemfile to use other versions of Ruby.
+1. Ruby version 2.7.1 or later. Or you can update the Gemfile to use other versions of Ruby.
 1. A name and email for a signer, and a name and email for a cc recipient.
 
 ### Installation steps
@@ -160,8 +160,8 @@ When the token expires, it updates automatically.
 1. Install the needed gems listed in the Gemfile:
 
    Run **bundler install**
-1. Update the file **config/appsettings.yml**
-     with the Integration Key and other settings.
+1. Copy the file **config/appsettings.example.yml** into a new file named **config/appsettings.yml**
+1. Update the file **config/appsettings.yml** with the Integration Key and other settings.
      Note: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing.
 
 1. Update your Integration Key's settings to include a **Redirect URI** for
