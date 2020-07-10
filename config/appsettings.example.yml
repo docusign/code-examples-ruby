@@ -7,9 +7,9 @@ default: &default
   signer_name: {USER_FULLNAME}
   cc_email: {CC_EMAIL}
   cc_name: {CC_FULLNAME}
-  aud: account-d.docusign.com
   client_secret: {CLIENT_SECRET}
   authorization_server: https://account-d.docusign.com
+  aud: account-d.docusign.com
   allow_silent_authentication: true # a user can be silently authenticated if they have an
                                     # active login session on another tab of the same browser
                                     # Set if you want a specific DocuSign AccountId, If false, the users default account will be used.
