@@ -6,10 +6,18 @@ class Eg023IdvAuthenticationController < EgController
     if check_token(minimum_buffer_min)
       begin
         results = ::Eg023Service.new(request, session).call
-        @title = 'Envelope sent'
-        @h1 = 'Envelope sent'
-        @message = "The envelope has been created and sent!<br/>Envelope ID #{results.envelope_id}."
-        render 'ds_common/example_done'
+        if results.to_s == 'needs_idv_activated'
+          @title = 'Error'
+          @h1 = 'Error'
+          @message = 'Please activate IDV on your account to use this example.'
+          render 'ds_common/example_done'
+          
+        else
+          @title = 'Envelope sent'
+          @h1 = 'Envelope sent'
+          @message = "The envelope has been created and sent!<br/>Envelope ID #{results.envelope_id}."
+          render 'ds_common/example_done'
+        end
       rescue DocuSign_eSign::ApiError => e
         error = JSON.parse e.response_body
         @error_code = error['errorCode']
