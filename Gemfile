@@ -62,7 +62,7 @@ group :test do
   gem 'chromedriver-helper', '~> 2.1.1'
 end
 
-gem 'docusign_esign', '~> 3.3.0-rc'
+gem 'docusign_esign', '~> 3.4.0'
 gem 'omniauth-oauth2', '~> 1.6.0'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', '~> 1.2019.3', platforms: %i[mingw mswin x64_mingw jruby]

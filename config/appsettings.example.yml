@@ -1,4 +1,7 @@
 default: &default
+  # do not add a slash to the end of the callback string,
+  # It will break the JWT callback string
+  app_url: http://localhost:3000
   # NOTE: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing.
   client_id: {CLIENT_ID}
   # NOTE: impersonated_user_guid and user ID are synonyms. They refer to the same thing.

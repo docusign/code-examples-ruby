@@ -32,8 +32,10 @@ class DsCommonController < ApplicationController
       redirect_to root_path if session[:token].present?
       configuration = DocuSign_eSign::Configuration.new
       api_client = DocuSign_eSign::ApiClient.new(configuration)
-      ::JwtAuth::JwtCreator.new(session, api_client).check_jwt_token
-      redirect_to root_path
+      resp = ::JwtAuth::JwtCreator.new(session, api_client).check_jwt_token
+      if resp.is_a? String
+        redirect_to resp
+      end
     end
   end
 

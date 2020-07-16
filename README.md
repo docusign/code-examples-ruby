@@ -141,7 +141,7 @@ When the token expires, it updates automatically.
 
    The Integration key must include a **Redirect URI** of
 
-   `{base_url}/ds/callback`
+   `{base_url}/auth/docusign/callback`
 
    Where `{base_url}` is the url for the web app.
 
@@ -149,7 +149,7 @@ When the token expires, it updates automatically.
    
    So the default Redirect URI for your Integration Key is
 
-   `http://localhost:3000/ds/callback`
+   `http://localhost:3000/auth/docusign/callback`
 
 1. Ruby version 2.7.1 or later. Or you can update the Gemfile to use other versions of Ruby.
 1. A name and email for a signer, and a name and email for a cc recipient.
