@@ -3,15 +3,13 @@ default: &default
   # It will break the JWT callback string
   app_url: http://localhost:3000
   # NOTE: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing.
-  integration_key: {INTEGRATION_KEY}
-  integration_secret: {INTEGRATION_SECRET}
-  jwt_integration_key: {JWT_INTEGRATION_KEY}
+  integration_key: {INTEGRATION_KEY_AUTH_CODE}
+  integration_secret: {SECRET_KEY}
+  jwt_integration_key: {INTEGRATION_KEY_JWT}
   # NOTE: impersonated_user_guid and user ID are synonyms. They refer to the same thing.
-  impersonated_user_guid: {IMPERSONATED_USER_GUID}
+  impersonated_user_guid: {IMPERSONATED_USER_ID}
   signer_email:  {SIGNER_EMAIL}
-  signer_name: {SIGNER_FULLNAME}
-  cc_email: {CC_EMAIL}
-  cc_name: {CC_FULLNAME}
+  signer_name: {SIGNER_NAME}
   authorization_server: https://account-d.docusign.com
   aud: account-d.docusign.com
   allow_silent_authentication: true # a user can be silently authenticated if they have an
