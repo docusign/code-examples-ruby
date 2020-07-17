@@ -1,13 +1,15 @@
 default: &default
+  # do not add a slash to the end of the callback string,
+  # It will break the JWT callback string
+  app_url: http://localhost:3000
   # NOTE: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing.
-  client_id: {CLIENT_ID}
+  integration_key: {INTEGRATION_KEY_AUTH_CODE}
+  integration_secret: {SECRET_KEY}
+  jwt_integration_key: {INTEGRATION_KEY_JWT}
   # NOTE: impersonated_user_guid and user ID are synonyms. They refer to the same thing.
-  impersonated_user_guid: {IMPERSONATED_USER_GUID}
-  signer_email:  {USER_EMAIL}
-  signer_name: {USER_FULLNAME}
-  cc_email: {CC_EMAIL}
-  cc_name: {CC_FULLNAME}
-  client_secret: {CLIENT_SECRET}
+  impersonated_user_guid: {IMPERSONATED_USER_ID}
+  signer_email:  {SIGNER_EMAIL}
+  signer_name: {SIGNER_NAME}
   authorization_server: https://account-d.docusign.com
   aud: account-d.docusign.com
   allow_silent_authentication: true # a user can be silently authenticated if they have an
@@ -21,7 +23,7 @@ default: &default
   doc_pdf: World_Wide_Corp_lorem.pdf
   gateway_name: "stripe"
   gateway_display_name: "Stripe"
-  github_example_url: https://github.com/docusign/eg-03-ruby-auth-code-grant/tree/master/app/controllers/
+  github_example_url: https://github.com/docusign/code-examples-ruby/tree/master/app/controllers/
   documentation: false
   api_only: false
 

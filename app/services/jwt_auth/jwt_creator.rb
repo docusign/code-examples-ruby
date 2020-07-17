@@ -33,19 +33,36 @@ module JwtAuth
     protected
 
     def update_token
-      rsa_pk = File.join(File.dirname(File.absolute_path(__FILE__)), 'docusign_private_key.txt')
-      @api_client.set_oauth_base_path(Rails.configuration.aud)
-      token = @api_client.request_jwt_user_token(Rails.configuration.client_id, Rails.configuration.impersonated_user_guid, rsa_pk)
-      @account= get_account_info(token.access_token)
-      @api_client.config.host = @account.base_uri
-      @account_id = @account.account_id
-      session[:ds_access_token] = token.access_token
-      session[:ds_account_id] = @account_id
-      session[:ds_base_path] = @account.base_uri
-      session[:ds_account_name] = @account.account_name
-      @expireIn = Time.now.to_f + token.expires_in.to_i
-      session[:ds_expires_at] = @expireIn
-      puts "Received token"
+      resp = Hash.new
+      begin
+        rsa_pk = File.join(File.dirname(File.absolute_path(__FILE__)), 'docusign_private_key.txt')
+        @api_client.set_oauth_base_path(Rails.configuration.aud)
+        token = @api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk)
+      rescue => exception
+        body = JSON.parse(exception.response_body)
+
+        if body['error'] == "consent_required"
+          consent_scopes = "signature%20impersonation"
+          consent_url = "#{Rails.configuration.authorization_server}/oauth/auth?response_type=code&scope=#{consent_scopes}&client_id=#{Rails.configuration.jwt_integration_key}&redirect_uri=#{Rails.configuration.app_url}/auth/docusign/callback"
+          resp["url"] = consent_url;
+          return resp["url"]
+        end
+      else
+        @account= get_account_info(token.access_token)
+        @api_client.config.host = @account.base_uri
+        @account_id = @account.account_id
+        session[:ds_access_token] = token.access_token
+        session[:ds_account_id] = @account_id
+        session[:ds_base_path] = @account.base_uri
+        session[:ds_account_name] = @account.account_name
+        @expireIn = Time.now.to_f + token.expires_in.to_i
+        session[:ds_expires_at] = @expireIn
+        puts "Received token"  
+        resp["url"] = "#{Rails.configuration.app_url}";
+        return resp["url"]
+      end
+      end
+    end 
     end
 
     private
@@ -71,5 +88,4 @@ module JwtAuth
         end
       end
     end
-  end
-end
+

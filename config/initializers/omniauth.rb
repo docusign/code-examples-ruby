@@ -3,7 +3,7 @@
 require 'docusign'
 
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :docusign, Rails.application.config.client_id, Rails.application.config.client_secret,
+  provider :docusign, Rails.application.config.integration_key, Rails.application.config.integration_secret,
            setup: lambda { |env|
              strategy = env['omniauth.strategy']
              strategy.options[:client_options].site = Rails.application.config.app_url
