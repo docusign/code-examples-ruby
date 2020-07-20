@@ -135,7 +135,7 @@ When the token expires, it updates automatically.
 ### Prerequisites
 1. A DocuSign Developer Sandbox account (email and password) on [demo.docusign.net](https://demo.docusign.net).
    Create a [free account](https://go.docusign.com/sandbox/productshot/?elqCampaignId=16536).
-1. A DocuSign Integration Key and secret key (a client ID).  If using JWT grant, you will need an RSA private key instead of your Integration secret key.
+1. A DocuSign Integration Key and secret key (a client ID). To use JSON Web token, you will need the Integration Key itself, the RSA Secret Key and an API user ID for the user you are impersonating.
    
    You will need the **Integration Key** itself, and its **secret**.
 
@@ -177,6 +177,19 @@ When the token expires, it updates automatically.
    - *libcurl-x64.dll should be copied as libcurl.dll*
    - *Place curllib.dll into Ruby `C:\\<Ruby installation>\bin`*
 1. Open a browser to the example's base url to view the index page.
+
+
+### Configuring JWT
+
+1. Create a developer sandbox account on developers.docusign.com if you don't already have one.
+2. Create a new API key in the Admin panel: https://admindemo.docusign.com/api-integrator-key, take note of the public key.
+3. Set a redirect URI of `http://localhost:3000/auth/docusign/callback` as mentioned in the installation steps above for the API key you make in step 2.
+4. Generate an RSA keypair in the administrator console on the DocuSign developer sandbox and copy the private key to a secure location.
+5. Create a new file in the config folder named **docusign_private_key.txt**, and paste in that copied RSA private key, then save it.
+6. Update the file **config/appsettings.yml** and include the newly created API key from step 2 as well as your account user id GUID which is also found on the Admin panel: `https://admindemo.docusign.com/api-integrator-key`.
+
+From there you should be able to run the launcher using **rails s** then selecting **JSON Web Token** when authenticaing your account.
+
 
 #### Payments code example
 To use the payments example, create a
