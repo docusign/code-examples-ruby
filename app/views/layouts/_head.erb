@@ -73,12 +73,13 @@
     </div>
   </section>
   <p id="download-continue" class="feedback"><a href="/">Continue</a></p>
-  </div>
+
 
 
   <% if session["ds_account_name"] %>
     <div class="container" style="padding-top:30px!important;">
   <% unless !session["ds_account_name"] %>
+  <%# </div> %>
     <section id="content" class="container-full-bg">
   <% end %>
   <% end %>
