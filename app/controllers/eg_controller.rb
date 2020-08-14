@@ -37,7 +37,7 @@ class EgController < ApplicationController
   
   private
 
-  def check_token(minBuffer = 60)
+  def check_token(minBuffer = 10)
     expires_at = session[:ds_expires_at]
     if expires_at.nil?
       false
