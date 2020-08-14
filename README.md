@@ -1,6 +1,6 @@
 # Ruby Launcher Code Examples
 
-### Github repo: [code-examples-ruby](./)
+### Github repo: code-examples-ruby
 ## Introduction
 This repo is a Ruby on Rails application that demonstrates:
 
