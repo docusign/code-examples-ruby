@@ -59,6 +59,26 @@ class Eg009Service
                                             name: args[:cc_name],
                                             roleName: 'cc'
                                           })
+
+    check1 = DocuSign_eSign::Checkbox.new(
+      tabLabel: 'ckAuthorization',
+      selected: true
+    )
+
+    check3 = DocuSign_eSign::Checkbox.new
+    check3.tab_label = 'ckAgreement'
+    check3.selected = true
+
+    text = DocuSign_eSign::Text.new
+    text.tab_label = 'text'
+    text.value = 'Jabberwocky!'
+
+    # Pull together the pre-filled tabs in a Tabs object
+    tabs = DocuSign_eSign::Tabs.new
+    tabs.checkbox_tabs = [check1, check3]
+    tabs.text_tabs = [text]
+    signer.tabs = tabs
+
     # Add the TemplateRole objects to the envelope object
     envelope_definition.template_roles = [signer, cc]
     envelope_definition

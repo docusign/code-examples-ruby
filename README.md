@@ -34,6 +34,7 @@ This launcher includes code examples for the following workflows:
 1. **Programmatically create a template.**
    [Source.](./app/services/eg008_service.rb)
 1. **Send an envelope using a template.**
+   The example creates an envelope using a template and sets the initial values for some of its tabs (fields).
    [Source.](./app/services/eg009_service.rb)
 1. **Send an envelope and upload its documents with multpart binary transfer.**
    [Source.](./app/services/eg010_service.rb)
@@ -64,7 +65,7 @@ This launcher includes code examples for the following workflows:
    metadata with the envelope.
    [Source.](./app/services/eg016_service.rb)
 1. **Set template tab values.**
-   The example creates an envelope using a template and sets the initial values for its tabs (fields).
+   The example creates an envelope and sets the initial values for its tabs (fields).
    The example also stores metadata with the envelope.
    [Source.](./app/services/eg017_service.rb)
 1. **Get the envelope custom field data (metadata).**
