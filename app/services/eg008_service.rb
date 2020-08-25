@@ -2,7 +2,7 @@
 
 class Eg008Service
   include ApiCreator
-  attr_reader :args, :session
+  attr_reader :args, :session, :template_name
 
   def initialize(session)
     @args = {
@@ -15,6 +15,7 @@ class Eg008Service
 
   def call
     session[:template_id] = false # reset
+    @template_name = 'Example Signer and CC template'
     results = worker
     session[:template_id] = results[:template_id]
     results
@@ -27,7 +28,6 @@ class Eg008Service
     templates_api = create_template_api(args)
     # Step 1. Does the template exist? Try to look it up by name
     options = DocuSign_eSign::ListTemplatesOptions.new
-    template_name = 'Example Signer and CC template'
     options.search_text = template_name
     results = templates_api.list_templates(args[:account_id], options)
     created_new_template = false
