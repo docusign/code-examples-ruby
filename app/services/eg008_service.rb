@@ -39,14 +39,12 @@ class Eg008Service
       # Template not found -- so create it
       # Step 2 create the template
       template_req_object = make_template_req
-      results = templates_api.create_template(args[:account_id], template_req_object)
+      result = templates_api.create_template(args[:account_id], template_req_object)
       created_new_template = true
 
       # Retreive the new template ID
-      results = templates_api.list_templates(args[:account_id], options)
-      template_id = results.envelope_templates[0].template_id
-      results_template_name = results.envelope_templates[0].name
-
+      template_id = result.template_id
+      results_template_name = result.name
     end
     {
       template_id: template_id,
