@@ -8,7 +8,7 @@ class Eg008CreateTemplateController < EgController
     if token_ok
       begin
         results = ::Eg008Service.new(session).call
-        msg = if results['created_new_template']
+        msg = if results.fetch(:created_new_template)
                 'The template has been created!'
               else
                 'Done. The template already existed in your account.'
