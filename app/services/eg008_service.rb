@@ -168,7 +168,7 @@ class Eg008Service
       'textTabs' => [text]
     )
     # Create top two objects
-    envelope_template_definition = DocuSign_eSign::EnvelopeTemplateDefinition.new(
+    envelope_template_definition = DocuSign_eSign::EnvelopeTemplate.new(
       'description' => 'Example template created via the API',
       'shared' => 'false'
     )
