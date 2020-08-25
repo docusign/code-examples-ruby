@@ -2,7 +2,7 @@
 
 class Eg009Service
   include ApiCreator
-  attr_reader :args, :envelope_args
+  attr_reader :args
 
   def initialize(request, session, template_id)
     envelope_args = {
