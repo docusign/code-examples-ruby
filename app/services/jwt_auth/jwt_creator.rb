@@ -22,9 +22,9 @@ module JwtAuth
       # Check that the token should be good
       if @token == nil or ((@now + TOKEN_REPLACEMENT_IN_SECONDS) > @expireIn)
         if @token == nil
-          puts "\nStarting up: fetching token"
+          puts "\nJWT: Starting up: fetching token"
         else
-          puts "\nToken is about to expire: fetching token"
+          puts "\nJWT: Token is about to expire: fetching token"
         end
         self.update_token
       end
