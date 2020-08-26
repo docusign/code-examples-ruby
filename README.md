@@ -183,13 +183,15 @@ When the token expires, it updates automatically.
 ### Configuring JWT
 
 1. Create a developer sandbox account on developers.docusign.com if you don't already have one.
-2. Create a new API key in the Admin panel: https://admindemo.docusign.com/api-integrator-key, take note of the public key.
-3. Set a redirect URI of `http://localhost:3000/auth/docusign/callback` as mentioned in the installation steps above for the API key you make in step 2.
-4. Generate an RSA keypair in the administrator console on the DocuSign developer sandbox and copy the private key to a secure location.
-5. Create a new file in the config folder named **docusign_private_key.txt**, and paste in that copied RSA private key, then save it.
-6. Update the file **config/appsettings.yml** and include the newly created API key from step 2 as well as your account user id GUID which is also found on the Admin panel: `https://admindemo.docusign.com/api-integrator-key`.
+2. Create a new API key in the Admin panel: https://admindemo.docusign.com/api-integrator-key
+  - Take note of the _Integration Key_.
+  - Create a _Secret Key_ and take note of that too.
+  - Generate a _RSA Keypair_ and copy the private key to a secure location.
+  - Set a _Redirect URI_ of `http://localhost:3000/auth/docusign/callback` as mentioned in the installation steps above.
+3. Create a new file in the config folder named **docusign_private_key.txt**, and paste in that copied RSA private key, then save it.
+4. Update the file **config/appsettings.yml** and include the settings from step 2.
 
-From there you should be able to run the launcher using **rails s** then selecting **JSON Web Token** when authenticaing your account.
+From there you should be able to run the launcher using `bundle exec rails server` then selecting **JSON Web Token** when authenticaing your account.
 
 
 #### Payments code example

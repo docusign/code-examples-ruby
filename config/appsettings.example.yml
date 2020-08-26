@@ -8,6 +8,7 @@ default: &default
   # NOTE: this jwt_integration_key can have the same value as the above integration_key
   jwt_integration_key: {INTEGRATION_KEY_JWT}
   # NOTE: impersonated_user_guid, "User ID" and "API Username" are synonyms. They refer to the same thing.
+  # See: https://admindemo.docusign.com/users for the API Username.
   impersonated_user_guid: {IMPERSONATED_USER_ID}
   signer_email:  {SIGNER_EMAIL}
   signer_name: {SIGNER_NAME}
