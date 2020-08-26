@@ -191,6 +191,8 @@ When the token expires, it updates automatically.
 3. Create a new file in the config folder named **docusign_private_key.txt**, and paste in that copied RSA private key, then save it.
 4. Update the file **config/appsettings.yml** and include the settings from step 2.
 
+[Obtaining consent](https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent) does not need to be configured, as it is already being done in the code at [JwtAuth::JwtCreator#update_token](./app/services/jwt_auth/jwt_creator.rb#L35)
+
 From there you should be able to run the launcher using `bundle exec rails server` then selecting **JSON Web Token** when authenticaing your account.
 
 
