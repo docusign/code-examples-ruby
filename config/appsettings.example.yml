@@ -2,6 +2,7 @@ default: &default
   # Do not add a slash to the end of the app_url,
   # It will break the JWT callback string
   app_url: http://localhost:3000
+  quickstart: {QUICKSTART_VALUE}
   # NOTE: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing.
   integration_key: {INTEGRATION_KEY_AUTH_CODE}
   integration_secret: {SECRET_KEY}
