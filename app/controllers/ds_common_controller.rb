@@ -6,6 +6,10 @@ class DsCommonController < ApplicationController
 
   def index
     @show_doc = Rails.application.config.documentation
+
+    if Rails.configuration.quickstart == true && session[:been_here].nil?
+      redirect_to '/eg001'
+    end
   end
 
   def login
@@ -18,6 +22,8 @@ class DsCommonController < ApplicationController
   end
 
   def ds_return
+    # To break out of the Quickstart loop if an example has been completed
+    session[:been_here] = true
     @title = 'Return from DocuSign'
     @event = request.params['event']
     @state = request.params['state']
@@ -25,6 +31,11 @@ class DsCommonController < ApplicationController
   end
 
   def ds_must_authenticate
+    
+    if Rails.configuration.quickstart == "true"
+      redirect_to('auth/docusign')
+     
+    end
     @title = 'Authenticate with DocuSign'
     if params[:auth] == 'grand-auth'
       redirect_to('/auth/docusign')
@@ -39,6 +50,7 @@ class DsCommonController < ApplicationController
       end
     end
   end
+
 
   def example_done; end
 

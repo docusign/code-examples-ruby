@@ -29,6 +29,10 @@ class EgController < ApplicationController
       @source_url = "#{@config.github_example_url}#{@source_file}"
       @documentation = "#{@config.documentation}#{eg_name}" #= Config.documentation + EgName
       @show_doc = @config.documentation
+    elsif @config.quickstart == true
+
+      redirect_to '/ds/login'
+
     else
       # RequestItemsService.EgName = EgName
       redirect_to '/ds/mustAuthenticate'
