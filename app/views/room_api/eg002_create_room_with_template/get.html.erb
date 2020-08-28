@@ -1,0 +1,26 @@
+<%=render 'room_api/eg002_create_room_with_template/information' %>
+
+
+<% unless @templates.blank? %>
+
+  <form class="eg" id="data_form" action="" method="post" data-busy="form">
+    <div class="form-group">
+      <label for="roomName">Room Name</label>
+      <input type="text" class="form-control" id="roomName" name="roomName" value="Room 123">
+
+      <label for="starting_view">Templates</label>
+      <%= select_tag "templateId", options_for_select(@templates.map { |obj| [obj['name'], obj['templateId']] }), {:class => 'form-control'}  %>
+    </div>
+    <button type="submit" class="btn btn-docu">Submit</button>
+  </form>
+
+<% else %>
+
+  <label>Room</label>
+  <p>
+    Problem: you don`t have any templates. Please first create a form template using
+    <a target ='_blank'  href="https://demo.rooms.docusign.com/admin/company/companysettings">DociSign::Admin</a>
+    Thank you.
+  </p>
+
+<% end %>

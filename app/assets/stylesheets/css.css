@@ -168,3 +168,11 @@ pre.json-display {
     -webkit-transform: scaleY(1.0);
   }
 }
+
+.header-div{
+    margin-top: -60px;
+    padding-top: 30px;
+}
+.body-div{
+    margin-top: 40px;
+}

@@ -1,0 +1,17 @@
+<%=render "room_api/#{@scenarios_name}/information" %>
+
+<h4>Result</h4>
+
+<% if @scenarios_name == 'eg006_create_an_external_form_fill_session' %>
+  <a href=<%= @link %>>link</a>
+<% end %>
+
+<div id="server_json_data" data-server-json-data='{"json":<%= @result %>}' class="hidden"></div>
+<p>
+  <pre class="json-display">
+    <code id="json-display"></code>
+  </pre>
+</p>
+<p><a href="/">Continue</a></p>
+
+

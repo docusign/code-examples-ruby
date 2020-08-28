@@ -1,0 +1,26 @@
+<%= render 'room_api/eg006_create_an_external_form_fill_session/information' %>
+
+<% if @rooms.count.positive? %>
+
+  <form class="eg" id="data_form" action="eg006_forms" method="get" data-busy="form">
+      <div class="form-group">
+        <label for="starting_view">Rooms</label>
+        <%= select_tag "roomId", options_for_select(@rooms.map { |obj| [obj['name'], obj['roomId']] }), {:class => 'form-control'}  %>
+      </div>
+      <button type="submit" class="btn btn-docu">Submit</button>
+  </form>
+
+<% else %>
+
+  <div class="form-group">
+    <p>
+      Problem: you don`t have any rooms. Please first create a room using
+      <a target ='_blank'  href="eg001">Create a new room</a>
+      or
+      <a target ='_blank'  href="eg002">Create room with a template</a>.
+      <br>
+      Thank you.
+    </p>
+  </div>
+
+<% end %>
