@@ -3,6 +3,8 @@ default: &default
   # It will break the JWT callback string
   app_url: http://localhost:3000
   quickstart: {QUICKSTART_VALUE}
+  # It will select part off project 'roomsAPI' or 'signature'
+  examples_API: 'signature'
   # NOTE: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing.
   integration_key: {INTEGRATION_KEY_AUTH_CODE}
   integration_secret: {SECRET_KEY}

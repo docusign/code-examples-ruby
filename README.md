@@ -9,114 +9,114 @@ This repo is a Ruby on Rails application that demonstrates:
 This launcher includes code examples for the following workflows:
 
 1. **Embedded Signing Ceremony.**
-   [Source.](./app/services/eg001_service.rb)
+   [Source.](./app/services/e_sign/eg001_service.rb)
    This example sends an envelope, and then uses an embedded signing ceremony for the first signer.
    With embedded signing, the DocuSign signing ceremony is initiated from your website.
 1. **Send an envelope with a remote (email) signer and cc recipient.**
-   [Source.](./app/services/eg002_service.rb)
+   [Source.](./app/services/e_sign/eg002_service.rb)
    The envelope includes a pdf, Word, and HTML document.
    Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
 1. **List envelopes in the user's account.**
-   [Source.](./app/services/eg003_service.rb)
+   [Source.](./app/services/e_sign/eg003_service.rb)
    The envelopes' current status is included.
 1. **Get an envelope's basic information.**
-   [Source.](./app/services/eg004_service.rb)
+   [Source.](./app/services/e_sign/eg004_service.rb)
    The example lists the basic information about an envelope, including its overall status.
 1. **List an envelope's recipients**
    [Source.](./app/controllers/eg005_envelope_recipients_controller.rb)
    Includes current recipient status.
 1. **List an envelope's documents.**
-   [Source.](./app/services/eg006_service.rb)
+   [Source.](./app/services/e_sign/eg006_service.rb)
 1. **Download an envelope's documents.**
-   [Source.](./app/services/eg007_service.rb)
+   [Source.](./app/services/e_sign/eg007_service.rb)
    The example can download individual
    documents, the documents concatenated together, or a zip file of the documents.
 1. **Programmatically create a template.**
-   [Source.](./app/services/eg008_service.rb)
+   [Source.](./app/services/e_sign/eg008_service.rb)
 1. **Send an envelope using a template.**
-   [Source.](./app/services/eg009_service.rb)
+   [Source.](./app/services/e_sign/eg009_service.rb)
 1. **Send an envelope and upload its documents with multpart binary transfer.**
-   [Source.](./app/services/eg010_service.rb)
+   [Source.](./app/services/e_sign/eg010_service.rb)
    Binary transfer is 33% more efficient than using Base64 encoding.
 1. **Embedded sending.**
-   [Source.](./app/services/eg011_service.rb)
+   [Source.](./app/services/e_sign/eg011_service.rb)
    Embeds the DocuSign web tool (NDSE) in your web app to finalize or update
    the envelope and documents before they are sent.
 1. **Embedded DocuSign web tool (NDSE).**
-   [Source.](./app/services/eg012_service.rb)
+   [Source.](./app/services/e_sign/eg012_service.rb)
 1. **Embedded Signing Ceremony from a template with an added document.**
-   [Source.](./app/services/eg013_service.rb)
+   [Source.](./app/services/e_sign/eg013_service.rb)
    This example sends an envelope based on a template.
    In addition to the template's document(s), the example adds an
    additional document to the envelope by using the
    [Composite Templates](https://developers.docusign.com/esign-rest-api/guides/features/templates#composite-templates)
    feature.
 1. **Payments example: an order form, with online payment by credit card.**
-   [Source.](./app/services/eg014_service.rb)
+   [Source.](./app/services/e_sign/eg014_service.rb)
 
 
 1. **Get the envelope tab data.**
    Retrieve the tab (field) values for all of the envelope's recipients.
-   [Source.](./app/services/eg015_service.rb)
+   [Source.](./app/services/e_sign/eg015_service.rb)
 1. **Set envelope tab values.**
    The example creates an envelope and sets the initial values for its tabs (fields). Some of the tabs
    are set to be read-only, others can be updated by the recipient. The example also stores
    metadata with the envelope.
-   [Source.](./app/services/eg016_service.rb)
+   [Source.](./app/services/e_sign/eg016_service.rb)
 1. **Set template tab values.**
    The example creates an envelope using a template and sets the initial values for its tabs (fields).
    The example also stores metadata with the envelope.
-   [Source.](./app/services/eg017_service.rb)
+   [Source.](./app/services/e_sign/eg017_service.rb)
 1. **Get the envelope custom field data (metadata).**
    The example retrieves the custom metadata (custom data fields) stored with the envelope.
-   [Source.](./app/services/eg018_service.rb)
+   [Source.](./app/services/e_sign/eg018_service.rb)
 1. **Requiring an Access Code for a Recipient**
-   [Source.](./app/services/eg019_service.rb)
+   [Source.](./app/services/e_sign/eg019_service.rb)
    This example sends an envelope that requires an access-code for the purpose of multi-factor authentication.
 1. **Requiring SMS authentication for a recipient**
-   [Source.](./app/services/eg020_service.rb)
+   [Source.](./app/services/e_sign/eg020_service.rb)
    This example sends an envelope that requires entering in a six digit code from an text message for the purpose of multi-factor authentication.
 1. **Requiring Phone authentication for a recipient**
-   [Source.](./app/services/eg021_service.rb)
+   [Source.](./app/services/e_sign/eg021_service.rb)
    This example sends an envelope that requires entering in a voice-based response code for the purpose of multi-factor authentication.
 1. **Requiring Knowledge-Based Authentication (KBA) for a Recipient**
-   [Source.](./app/services/eg022_service.rb)
+   [Source.](./app/services/e_sign/eg022_service.rb)
    This example sends an envelope that requires passing a Public records check to validate identity for the purpose of multi-factor authentication.
 1. **Requiring ID Verification (IDV) for a recipient**
-   [Source.](./app/services/eg023_service.rb)
+   [Source.](./app/services/e_sign/eg023_service.rb)
    This example sends an envelope that requires the recipient to upload a government issued id. 
 
 1. **Creating a permission profile**
-   [Source.](./app/services/eg024_service.rb)
+   [Source.](./app/services/e_sign/eg024_service.rb)
    This code example demonstrates how to create a user group's permission profile using the [Create Profile](https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/create) method. 
 1. **Setting a permission profile**
-   [Source.](./app/services/eg025_service.rb)
+   [Source.](./app/services/e_sign/eg025_service.rb)
    This code example demonstrates how to set a user group's permission profile using the [Update Group](https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/update) method. 
    You must have already created permissions profile and group of users.
 1. **Updating individual permission settings** 
-   [Source.](./app/services/eg026_service.rb)
+   [Source.](./app/services/e_sign/eg026_service.rb)
    This code example demonstrates how to update individual settings for a specific permission profile using the [Update Permission Profile](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/update) method.
    You must have already created permissions profile and group of users.
 1. **Deleting a permission profile**
-   [Source.](./app/services/eg027_service.rb)
+   [Source.](./app/services/e_sign/eg027_service.rb)
    This code example demonstrates how to an account's permission profile using the [Delete AccountPermissionProfiles](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/delete) method. 
    You cannot delete the Everyone nor the Administrator profile types as those are defaults.
 
 1. **Creating a brand**
-   [Source.](./app/services/eg028_service.rb)
+   [Source.](./app/services/e_sign/eg028_service.rb)
    This example creates brand profile for an account using the [Create Brand](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/create) method.
 1. **Applying a brand to an envelope**
-   [Source.](./app/services/eg029_service.rb)
+   [Source.](./app/services/e_sign/eg029_service.rb)
    This code example demonstrates how to apply a brand you've created to an envelope using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method. 
    First, creates the envelope and then applies brand to it.
    
 1. **Applying a brand to a template**
-   [Source.](./app/services/eg030_service.rb)
+   [Source.](./app/services/e_sign/eg030_service.rb)
    This code example demonstrates how to apply a brand you've created to a template using using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method. 
    You must have at least one created template and brand.
    
 1. **Bulk sending envelopes to multiple recipients**
-   [Source.](./app/services/eg031_service.rb)
+   [Source.](./app/services/e_sign/eg031_service.rb)
    This example creates and sends a bulk envelope by generating a bulk recipient list and initiating a bulk send.
 
 
@@ -178,6 +178,10 @@ When the token expires, it updates automatically.
    - *Place curllib.dll into Ruby `C:\\<Ruby installation>\bin`*
 1. Open a browser to the example's base url to view the index page.
 
+### Before running an application!
+Current we have 2 diff launchers of application: eSign and roomAPI. By default we are running eSign. In order ti run rooms launcher you have to change `config/appseting.yml` 
+1.   *To run roomsAPI set `examples_API = roomsAPI` in `config/appsetings.yml`*
+1.   *To run eSign set `examples_API = signature` in `config/appsetings.yml`*
 
 ### Configuring JWT
 

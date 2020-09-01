@@ -1,0 +1,103 @@
+<% if !session[:ds_user_name] %>
+<!-- IF not signed in -->
+<div class="container-fill-bg header-div">
+<div class="jumbotron jumbotron-fluid">
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <h1 class="display-4">Ruby Launcher</h1>
+          <p class="Xlead">Welcome to the DocuSign Ruby examples using multiple OAuth flows (JWT and Authorization Code Grant).</p>
+        </td>
+        <td>
+          <img src="banner-code.png" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<% end %>
+
+  <div class="container body-div" id="index-page">
+    <h2>Welcome</h2>
+    <p>This launcher both demonstrates use of JWT and OAuth Authorization Code Grant flow and includes multiple usage examples for the DocuSign eSignature REST API.</p>
+
+    <% if @show_doc  %>
+    <p><a target='_blank' href='<%= :documentation %>'>Documentation</a> on using JWT or OAuth Authorization Code Grant from a Node Express application.</p>
+    <% end %>
+
+      <h2>Basic Examples</h2>
+
+      <h4 id="create_room_with_data">1. <a href="eg001">Create room with data</a></h4>
+      <p>
+        This example creates a room.
+      </p>
+      <p>
+        API methods used:
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/reference/Roles/Roles/GetRoles">Roles::GetRoles</a> and
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/code-examples/rooms-creating">Rooms::CreateRoom</a>.
+      </p>
+
+      <h4 id="create_room_with_a_template">2. <a href="eg002">Create room with a template</a></h4>
+      <p>
+        This code example demonstrates creating a DocuSign Room using a predefined template. If you've created a template for your organization in either Rooms for Mortgage or Rooms for Real Estate, you can create rooms based on this template using the Rooms API.
+      </p>
+      <p>
+        API methods used:
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/reference/Roles/Roles/GetRoles">Roles::GetRoles</a> and
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/code-examples/rooms-creating-with-template">Rooms::CreateRoom</a> and
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/reference/RoomTemplates/RoomTemplates/GetRoomTemplates">RoomTemplates::GetRoomTemplates</a>.
+      </p>
+
+      <h4 id="export_data_from_room">3. <a href="eg003">Export data from a room</a></h4>
+      <p>
+        This code example demonstrates how to export rooms data from a
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/guides"> DocuSign Room.</a>.
+      </p>
+      <p>
+        API methods used:
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/reference/Rooms/Rooms/GetRooms">Rooms::GetRooms</a>.
+      </p>
+
+      <h4 id="export_data_from_room">4. <a href="eg004">Adding forms to a room</a></h4>
+      <p>
+        This code example demonstrates how to attach forms to a room using the Rooms API.
+      </p>
+      <p>
+        API methods used:
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/reference/Rooms/Rooms/GetRooms">Rooms::GetRooms</a> and
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/reference/Forms/FormLibraries/GetFormLibraries">FormLibraries::GetFormLibraryForms</a>.
+      </p>
+
+      <h4 id="export_data_from_room">5. <a href="eg005">Get Rooms with filters</a></h4>
+      <p>
+        This code example demonstrates how to return rooms filtered by your parameters using the
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/guides">Rooms API.</a>
+        This specific code example filters for all rooms that have had their field data, updated within the last 10 days, as shown on the Details tab in the UI.
+      </p>
+      <p>
+        API methods used:
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/reference/Rooms/Rooms/GetRooms">Rooms::GetRooms</a> and
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/code-examples/rooms-exporting-data">Rooms::CreateRoom</a>.
+      </p>
+
+      <h4 id="export_data_from_room">6. <a href="eg006">Creating an external form fill session</a></h4>
+      <p>
+        The DocuSign Rooms API offers developers the option to have users fill out forms without logging in to the Rooms UI through the use of an
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/guides/forms">external form fill session.</a>
+        This code example demonstrates how to create an external form fill session using the
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/guides">Rooms API: </a>
+        the result of this code example is the URL for the form fill session, which you can embed in your integration or send to the user.
+      </p>
+      <p>
+        API methods used:
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/reference/Rooms/Rooms/GetRooms">Rooms::GetRooms</a> and
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/reference/Forms/FormLibraries/GetFormLibraries">FormLibraries: GetFormLibraries</a> and
+        <a target ='_blank' href="https://developers.docusign.com/rooms-api/reference/Forms/FormLibraries/GetFormLibraryForms">FormLibraries::GetFormLibraryForms</a>.
+      </p>
+  </div>
+  <!-- anchor-js is only for the index page -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.1/anchor.min.js"></script>
+  <script>anchors.options.placement = 'left'; anchors.add('h4')</script>

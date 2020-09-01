@@ -5,10 +5,12 @@ class DsCommonController < ApplicationController
   #
 
   def index
-    @show_doc = Rails.application.config.documentation
-
-    if Rails.configuration.quickstart == true && session[:been_here].nil?
-      redirect_to '/eg001'
+    if Rails.configuration.examples_API == 'roomsAPI'
+      render 'room_api/index'
+    elsif Rails.configuration.examples_API == 'signature'
+      @show_doc = Rails.application.config.documentation
+      if Rails.configuration.quickstart == true && session[:been_here].nil?
+        redirect_to '/eg001'
     end
   end
 
@@ -41,8 +43,13 @@ class DsCommonController < ApplicationController
       redirect_to('/auth/docusign')
     elsif params[:auth] == 'jwt-auth'
       redirect_to root_path if session[:token].present?
-      configuration = DocuSign_eSign::Configuration.new
-      api_client = DocuSign_eSign::ApiClient.new(configuration)
+      if Rails.configuration.examples_API == 'roomsAPI'
+        configuration = DocuSign_Rooms::Configuration.new
+        api_client = DocuSign_Rooms::ApiClient.new(configuration)
+      elsif Rails.configuration.examples_API == 'signature'
+        configuration = DocuSign_eSign::Configuration.new
+        api_client = DocuSign_eSign::ApiClient.new(configuration)
+      end
       resp = ::JwtAuth::JwtCreator.new(session, api_client).check_jwt_token
       if resp.is_a? String
         redirect_to resp

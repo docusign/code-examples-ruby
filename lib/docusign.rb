@@ -9,6 +9,9 @@ module OmniAuth
 
       def client
         options.client_options.authorize_url = "#{options.oauth_base_uri}/oauth/auth"
+        if Rails.configuration.examples_API == 'roomsAPI'
+          options.authorize_params.scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
+        end
         options.client_options.user_info_url = "#{options.oauth_base_uri}/oauth/userinfo"
         options.client_options.token_url = "#{options.oauth_base_uri}/oauth/token"
         unless options.allow_silent_authentication
