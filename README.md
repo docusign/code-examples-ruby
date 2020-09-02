@@ -185,7 +185,6 @@ When the token expires, it updates automatically.
 1. Create a developer sandbox account on developers.docusign.com if you don't already have one.
 2. Create a new API key in the Admin panel: https://admindemo.docusign.com/api-integrator-key
   - Take note of the _Integration Key_.
-  - Create a _Secret Key_ and take note of that too.
   - Generate a _RSA Keypair_ and copy the private key to a secure location.
   - Set a _Redirect URI_ of `http://localhost:3000/auth/docusign/callback` as mentioned in the installation steps above.
 3. Create a new file in the config folder named **docusign_private_key.txt**, and paste in that copied RSA private key, then save it.
