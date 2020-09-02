@@ -9,7 +9,7 @@ This repo is a Ruby on Rails application that demonstrates:
 This launcher includes code examples for the following workflows:
 
 1. **Embedded Signing Ceremony.**
-   [Source.](./app/services/e_sign/eg001_service.rb)
+   [Source.](./app/services/eg001_service.rb)
    This example sends an envelope, and then uses an embedded signing ceremony for the first signer.
    With embedded signing, the DocuSign signing ceremony is initiated from your website.
 1. **Send an envelope with a remote (email) signer and cc recipient.**
@@ -23,7 +23,7 @@ This launcher includes code examples for the following workflows:
    [Source.](./app/services/e_sign/eg004_service.rb)
    The example lists the basic information about an envelope, including its overall status.
 1. **List an envelope's recipients**
-   [Source.](./app/controllers/eg005_envelope_recipients_controller.rb)
+   [Source.](./app/controllers/e_sign/eg005_envelope_recipients_controller.rb)
    Includes current recipient status.
 1. **List an envelope's documents.**
    [Source.](./app/services/e_sign/eg006_service.rb)
@@ -35,7 +35,7 @@ This launcher includes code examples for the following workflows:
    [Source.](./app/services/e_sign/eg008_service.rb)
 1. **Send an envelope using a template.**
    The example creates an envelope using a template and sets the initial values for some of its tabs (fields).
-   [Source.](./app/services/eg009_service.rb)
+   [Source.](./app/services/e_sign/eg009_service.rb)
 1. **Send an envelope and upload its documents with multpart binary transfer.**
    [Source.](./app/services/e_sign/eg010_service.rb)
    Binary transfer is 33% more efficient than using Base64 encoding.
