@@ -62,3 +62,9 @@ yarn-debug.log*
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
+
+# private key files
+*.key
+*.pem
+appsettings.yml
+config/docusign_private_key.txt
