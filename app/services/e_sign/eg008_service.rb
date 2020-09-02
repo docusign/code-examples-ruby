@@ -2,7 +2,7 @@
 
 class ESign::Eg008Service
   include ApiCreator
-  attr_reader :args, :session
+  attr_reader :args, :session, :template_name
 
   def initialize(session)
     @args = {
@@ -15,6 +15,7 @@ class ESign::Eg008Service
 
   def call
     session[:template_id] = false # reset
+    @template_name = 'Example Signer and CC template'
     results = worker
     session[:template_id] = results[:template_id]
     results
@@ -27,7 +28,6 @@ class ESign::Eg008Service
     templates_api = create_template_api(args)
     # Step 1. Does the template exist? Try to look it up by name
     options = DocuSign_eSign::ListTemplatesOptions.new
-    template_name = 'Example Signer and CC template'
     options.search_text = template_name
     results = templates_api.list_templates(args[:account_id], options)
     created_new_template = false
@@ -39,14 +39,12 @@ class ESign::Eg008Service
       # Template not found -- so create it
       # Step 2 create the template
       template_req_object = make_template_req
-      results = templates_api.create_template(args[:account_id], template_req_object)
+      result = templates_api.create_template(args[:account_id], template_req_object)
       created_new_template = true
 
       # Retreive the new template ID
-      results = templates_api.list_templates(args[:account_id], options)
-      template_id = results.envelope_templates[0].template_id
-      results_template_name = results.envelope_templates[0].name
-
+      template_id = result.template_id
+      results_template_name = result.name
     end
     {
       template_id: template_id,
@@ -168,7 +166,7 @@ class ESign::Eg008Service
       'textTabs' => [text]
     )
     # Create top two objects
-    envelope_template_definition = DocuSign_eSign::EnvelopeTemplateDefinition.new(
+    envelope_template_definition = DocuSign_eSign::EnvelopeTemplate.new(
       'description' => 'Example template created via the API',
       'shared' => 'false'
     )

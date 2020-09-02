@@ -7,8 +7,8 @@ class ESign::Eg016Service
   def initialize(request, session)
     @args = {
       # Validation: Delete any non-usual characters
-      signer_email: request.params[:signerEmail].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name: request.params[:signerName].gsub(/([^\w \-\@\.\,])+/, ''),
+      signer_email: request.params[:signerEmail].gsub(/([^\w\-.+@, ])+/, ''),
+      signer_name: request.params[:signerName].gsub(/([^\w\-., ])+/, ''),
       access_token: session['ds_access_token'],
       base_path: session['ds_base_path'],
       account_id: session['ds_account_id']
