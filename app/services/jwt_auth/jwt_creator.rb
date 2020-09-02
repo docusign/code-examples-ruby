@@ -22,9 +22,9 @@ module JwtAuth
       # Check that the token should be good
       if @token == nil or ((@now + TOKEN_REPLACEMENT_IN_SECONDS) > @expireIn)
         if @token == nil
-          puts "\nStarting up: fetching token"
+          puts "\nJWT: Starting up: fetching token"
         else
-          puts "\nToken is about to expire: fetching token"
+          puts "\nJWT: Token is about to expire: fetching token"
         end
         self.update_token
       end
@@ -38,14 +38,31 @@ module JwtAuth
         rsa_pk = File.join(Rails.root, 'config', 'docusign_private_key.txt')
         @api_client.set_oauth_base_path(Rails.configuration.aud)
         token = @api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk)
-      rescue => exception
+      rescue OpenSSL::PKey::RSAError => exception
+        Rails.logger.error exception.inspect
+        if File.read(rsa_pk).starts_with? '{RSA_PRIVATE_KEY}'
+          fail "Please add your private RSA key to: #{rsa_pk}"
+        else
+          raise
+        end
+      rescue DocuSign_eSign::ApiError => exception
+        Rails.logger.warn exception.inspect
         body = JSON.parse(exception.response_body)
 
         if body['error'] == "consent_required"
           consent_scopes = "signature%20impersonation"
           consent_url = "#{Rails.configuration.authorization_server}/oauth/auth?response_type=code&scope=#{consent_scopes}&client_id=#{Rails.configuration.jwt_integration_key}&redirect_uri=#{Rails.configuration.app_url}/auth/docusign/callback"
+          # https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
+          Rails.logger.info "Obtain Consent: #{consent_url}"
           resp["url"] = consent_url;
           return resp["url"]
+        else
+          details = <<~TXT
+            See: https://support.docusign.com/articles/DocuSign-Developer-Support-FAQs#Troubleshoot-JWT-invalid_grant
+            or https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant#troubleshooting-errors
+            or try enabling `configuration.debugging = true` in DsCommonController#ds_must_authenticate for more logging output
+          TXT
+          fail "JWT response error: `#{body}`. #{details}"
         end
       else
         @account= get_account_info(token.access_token)

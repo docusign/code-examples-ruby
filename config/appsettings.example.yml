@@ -2,12 +2,16 @@ default: &default
   # Do not add a slash to the end of the app_url,
   # It will break the JWT callback string
   app_url: http://localhost:3000
+  # quickstart is an optional setting and can be enabled by setting it to: true
   quickstart: {QUICKSTART_VALUE}
-  # NOTE: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing.
+
+  # NOTE: The terms "client_id" and "Integration Key" are synonyms. They refer to the same thing.
   integration_key: {INTEGRATION_KEY_AUTH_CODE}
   integration_secret: {SECRET_KEY}
+  # NOTE: this jwt_integration_key can have the same value as the above integration_key
   jwt_integration_key: {INTEGRATION_KEY_JWT}
-  # NOTE: impersonated_user_guid and user ID are synonyms. They refer to the same thing.
+  # NOTE: impersonated_user_guid, "User ID" and "API Username" are synonyms. They refer to the same thing.
+  # See: https://admindemo.docusign.com/users for the API Username.
   impersonated_user_guid: {IMPERSONATED_USER_ID}
   signer_email:  {SIGNER_EMAIL}
   signer_name: {SIGNER_NAME}
