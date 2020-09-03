@@ -28,7 +28,7 @@ class ESign::Eg011Service
   def call
     # Step 1. Create the envelope as a draft using eg002's worker
     # Exceptions will be caught by the calling function
-    results = ::Eg002Service.new(session, request, 'created').call
+    results = ESign::Eg002Service.new(session, request, 'created').call
     envelope_id = results['envelope_id']
     # Step 2. Create the sender view
     view_request = DocuSign_eSign::ReturnUrlRequest.new({ returnUrl: args[:ds_return_url] })
