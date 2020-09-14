@@ -5,6 +5,7 @@ class SessionController < ApplicationController
     # reset the session
     internal_destroy
 
+    Rails.logger.debug "\n==> DocuSign callback Authentication response:\n#{auth_hash.to_yaml}\n"
     # populate the session
     session[:ds_expires_at]   = auth_hash.credentials['expires_at']
     session[:ds_user_name]    = auth_hash.info.name
