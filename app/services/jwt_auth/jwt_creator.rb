@@ -74,12 +74,12 @@ module JwtAuth
         session[:ds_account_name] = @account.account_name
         @expireIn = Time.now.to_f + token.expires_in.to_i
         session[:ds_expires_at] = @expireIn
-        puts "Received token"  
+        puts "Received token"
         resp["url"] = "#{Rails.configuration.app_url}";
         return resp["url"]
       end
     end
-  end 
+  end
 end
 
 private
@@ -88,7 +88,7 @@ def get_account_info(access_token)
   response = @api_client.get_user_info(access_token)
   accounts = response.accounts
   session[:ds_user_name] = response.name
-  target = Rails.configuration.target_account_id 
+  target = Rails.configuration.target_account_id
 
   if target != nil and target != false
     accounts.each do |acct|
