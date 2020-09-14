@@ -78,31 +78,30 @@ module JwtAuth
         resp["url"] = "#{Rails.configuration.app_url}";
         return resp["url"]
       end
-      end
-    end 
     end
+  end 
+end
 
-    private
+private
 
-    def get_account_info(access_token)
-      response = @api_client.get_user_info(access_token)
-      accounts = response.accounts
-      session[:ds_user_name] = response.name
-      target = Rails.configuration.target_account_id 
+def get_account_info(access_token)
+  response = @api_client.get_user_info(access_token)
+  accounts = response.accounts
+  session[:ds_user_name] = response.name
+  target = Rails.configuration.target_account_id 
 
-      if target != nil and target != false
-        accounts.each do |acct|
-          if acct.account_id == target
-            return acct
-          end
-        end
-        raise "The user does not have access to account #{target}"
-      end
-
-      accounts.each do |acct|
-        if acct.is_default
-          return acct
-        end
+  if target != nil and target != false
+    accounts.each do |acct|
+      if acct.account_id == target
+        return acct
       end
     end
+    raise "The user does not have access to account #{target}"
+  end
 
+  accounts.each do |acct|
+    if acct.is_default
+      return acct
+    end
+  end
+end
