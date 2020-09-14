@@ -11,11 +11,6 @@ class DsCommonController < ApplicationController
     end
   end
 
-  def callback
-    auth = request.env['omniauth.auth']
-    render json: auth.to_json
-  end
-
   def ds_return
     # To break out of the Quickstart loop an example has been completed
     session[:been_here] = true
