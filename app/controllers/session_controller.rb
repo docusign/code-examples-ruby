@@ -6,15 +6,12 @@ class SessionController < ApplicationController
     internal_destroy
 
     # populate the session
-    userinfo = request.env['omniauth.auth']
-    info = userinfo.info
-    cred = userinfo.credentials
-    session[:ds_expires_at] = userinfo.credentials['expires_at']
-    session[:ds_user_name] = info.name
-    session[:ds_access_token] = cred.token
-    session[:ds_account_id] = userinfo.extra.account_id
-    session[:ds_account_name] = userinfo.extra.account_name
-    session[:ds_base_path] = userinfo.extra.base_uri
+    session[:ds_expires_at]   = auth_hash.credentials['expires_at']
+    session[:ds_user_name]    = auth_hash.info.name
+    session[:ds_access_token] = auth_hash.credentials.token
+    session[:ds_account_id]   = auth_hash.extra.account_id
+    session[:ds_account_name] = auth_hash.extra.account_name
+    session[:ds_base_path]    = auth_hash.extra.base_uri
     redirect_to root_path
   end
 
@@ -38,6 +35,6 @@ class SessionController < ApplicationController
   end
 
   def auth_hash
-    request.env['omniauth.auth']
+    @auth_hash ||= request.env['omniauth.auth']
   end
 end
