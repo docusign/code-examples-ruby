@@ -11,10 +11,6 @@ class DsCommonController < ApplicationController
     end
   end
 
-  def login
-    redirect_to('/oauth/docusign')
-  end
-
   def callback
     auth = request.env['omniauth.auth']
     render json: auth.to_json

@@ -101,7 +101,7 @@ Rails.application.routes.draw do
 
   root 'ds_common#index'
 
-  # login starts with /ds_common/login
+  # login starts with /ds/login
   # /auth/docusign is an internal route created by omniauth and the docusign strategy.
   # The docusign strategy file is /lib/docusign
   get '/ds/login' => redirect('/auth/docusign')
