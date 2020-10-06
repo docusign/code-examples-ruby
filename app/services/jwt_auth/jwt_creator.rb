@@ -28,9 +28,9 @@ module JwtAuth
     def expired?
       @now = Time.now.to_f # seconds since epoch
       # Check that the token should be good
-      is_expired = token == nil or ((@now + TOKEN_REPLACEMENT_IN_SECONDS) > @expireIn)
+      is_expired = token.nil? or ((@now + TOKEN_REPLACEMENT_IN_SECONDS) > @expireIn)
       if is_expired
-        if token == nil
+        if token.nil?
           puts "\nJWT: Starting up: fetching token"
         else
           puts "\nJWT: Token is about to expire: fetching token"
@@ -93,7 +93,7 @@ module JwtAuth
       session[:ds_user_name] = response.name
       target = Rails.configuration.target_account_id
 
-      if target != nil and target != false
+      if target.present?
         accounts.each do |acct|
           if acct.account_id == target
             return acct
