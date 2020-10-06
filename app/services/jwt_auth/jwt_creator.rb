@@ -2,7 +2,7 @@ require 'yaml'
 
 module JwtAuth
   class JwtCreator
-    attr_reader :session, :api_client
+    attr_reader :session, :api_client, :token
 
     TOKEN_REPLACEMENT_IN_SECONDS = 10 * 60 # 10 minutes Application
 
@@ -28,9 +28,9 @@ module JwtAuth
     def expired?
       @now = Time.now.to_f # seconds since epoch
       # Check that the token should be good
-      is_expired = @token == nil or ((@now + TOKEN_REPLACEMENT_IN_SECONDS) > @expireIn)
+      is_expired = token == nil or ((@now + TOKEN_REPLACEMENT_IN_SECONDS) > @expireIn)
       if is_expired
-        if @token == nil
+        if token == nil
           puts "\nJWT: Starting up: fetching token"
         else
           puts "\nJWT: Token is about to expire: fetching token"
