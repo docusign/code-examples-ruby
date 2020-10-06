@@ -42,7 +42,6 @@ class DsCommonController < ApplicationController
         redirect_to resp
       end
     end
-    end
   end
 
 
@@ -50,3 +49,4 @@ class DsCommonController < ApplicationController
 
   def error; end
 
+end
