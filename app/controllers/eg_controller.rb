@@ -20,11 +20,11 @@ class EgController < ApplicationController
     @config = Rails.application.config
     if @token_ok
       # addSpecialAttributes(model)
-      @envelope_ok = !session[:envelope_id].nil?
-      @documents_ok = !session[:envelope_documents].nil?
-      @document_options = session[:envelope_documents].nil? ? nil : session[:envelope_documents]['documents']
-      @gateway_ok = @config.gateway_account_id && @config.gateway_account_id.length > 25
-      @template_ok = !session[:template_id].nil?
+      @envelope_ok = session[:envelope_id].present?
+      @documents_ok = session[:envelope_documents].present?
+      @document_options = session.fetch(:envelope_documents, {})['documents']
+      @gateway_ok = @config.gateway_account_id.try(:length) > 25
+      @template_ok = session[:template_id].present?
       @source_file = file_name.to_s
       @source_url = "#{@config.github_example_url}#{@source_file}"
       @documentation = "#{@config.documentation}#{eg_name}" #= Config.documentation + EgName
