@@ -2,14 +2,14 @@ require 'yaml'
 
 module JwtAuth
   class JwtCreator
-    attr_reader :session, :api_client, :token
+    attr_reader :session, :api_client, :token, :expires_at
 
     TOKEN_REPLACEMENT_IN_SECONDS = 10 * 60 # 10 minutes Application
 
     @account = nil
     @account_id = nil
     @token = nil
-    @expireIn = 0
+    @expires_at = 0
     @private_key = nil
 
     def initialize(session, client)
@@ -28,7 +28,7 @@ module JwtAuth
     def expired?
       @now = Time.now.to_f # seconds since epoch
       # Check that the token should be good
-      is_expired = token.nil? or ((@now + TOKEN_REPLACEMENT_IN_SECONDS) > @expireIn)
+      is_expired = token.nil? or ((@now + TOKEN_REPLACEMENT_IN_SECONDS) > expires_at)
       if is_expired
         if token.nil?
           puts "\nJWT: Starting up: fetching token"
@@ -79,8 +79,8 @@ module JwtAuth
         session[:ds_account_id] = @account_id
         session[:ds_base_path] = @account.base_uri
         session[:ds_account_name] = @account.account_name
-        @expireIn = Time.now.to_f + token.expires_in.to_i
-        session[:ds_expires_at] = @expireIn
+        expires_at = Time.now.to_f + token.expires_in.to_i
+        session[:ds_expires_at] = expires_at
         puts "Received token"
         resp["url"] = "#{Rails.configuration.app_url}";
         return resp["url"]
