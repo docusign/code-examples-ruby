@@ -21,7 +21,6 @@ class DsCommonController < ApplicationController
   end
 
   def ds_must_authenticate
-    
     if Rails.configuration.quickstart == "true"
       redirect_to('auth/docusign')
     end
@@ -43,7 +42,6 @@ class DsCommonController < ApplicationController
       end
     end
   end
-
 
   def example_done; end
 
