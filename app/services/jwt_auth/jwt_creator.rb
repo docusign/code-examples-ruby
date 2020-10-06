@@ -30,7 +30,7 @@ module JwtAuth
       end
     end
 
-    protected
+    private
 
     def update_token
       resp = Hash.new
@@ -79,8 +79,6 @@ module JwtAuth
         return resp["url"]
       end
     end
-
-    private
 
     def get_account_info(access_token)
       response = @api_client.get_user_info(access_token)
