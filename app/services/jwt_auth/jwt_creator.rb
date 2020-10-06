@@ -26,7 +26,7 @@ module JwtAuth
         else
           puts "\nJWT: Token is about to expire: fetching token"
         end
-        self.update_token
+        update_token
       end
     end
 
