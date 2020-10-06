@@ -25,8 +25,6 @@ class DsCommonController < ApplicationController
       redirect_to('auth/docusign')
     end
     @title = 'Authenticate with DocuSign'
-    configuration = DocuSign_eSign::Configuration.new
-    api_client = DocuSign_eSign::ApiClient.new(configuration)
     @show_doc = Rails.application.config.documentation
 
     if params[:auth] == 'grand-auth'
