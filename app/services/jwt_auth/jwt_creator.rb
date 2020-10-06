@@ -2,7 +2,7 @@ require 'yaml'
 
 module JwtAuth
   class JwtCreator
-    attr_reader :args, :session, :api_client
+    attr_reader :session, :api_client
 
     TOKEN_REPLACEMENT_IN_SECONDS = 10 * 60 # 10 minutes Application
 
