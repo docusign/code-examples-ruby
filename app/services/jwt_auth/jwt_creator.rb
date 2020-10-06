@@ -18,19 +18,26 @@ module JwtAuth
     end
 
     def check_jwt_token
-      @now = Time.now.to_f # seconds since epoch
-      # Check that the token should be good
-      if @token == nil or ((@now + TOKEN_REPLACEMENT_IN_SECONDS) > @expireIn)
-        if @token == nil
-          puts "\nJWT: Starting up: fetching token"
-        else
-          puts "\nJWT: Token is about to expire: fetching token"
-        end
+      if expired?
         update_token
       end
     end
 
     private
+
+    def expired?
+      @now = Time.now.to_f # seconds since epoch
+      # Check that the token should be good
+      is_expired = @token == nil or ((@now + TOKEN_REPLACEMENT_IN_SECONDS) > @expireIn)
+      if is_expired
+        if @token == nil
+          puts "\nJWT: Starting up: fetching token"
+        else
+          puts "\nJWT: Token is about to expire: fetching token"
+        end
+      end
+      is_expired
+    end
 
     def update_token
       resp = Hash.new
