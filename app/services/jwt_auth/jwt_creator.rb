@@ -22,7 +22,6 @@ module JwtAuth
 
     @token = nil
     @expires_at = 0
-    @private_key = nil
 
     def initialize(session, client)
       @session = session
