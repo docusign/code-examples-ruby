@@ -34,7 +34,12 @@ class DsCommonController < ApplicationController
       configuration = DocuSign_eSign::Configuration.new
       # configuration.debugging = true
       api_client = DocuSign_eSign::ApiClient.new(configuration)
-      url = JwtAuth::JwtCreator.new(session, api_client).check_jwt_token
+      token_is_updated = JwtAuth::JwtCreator.new(session, api_client).check_jwt_token
+      if token_is_updated
+        url = root_path
+      else
+        url = JwtAuth::JwtCreator.consent_url
+      end
       redirect_to url
     end
   end

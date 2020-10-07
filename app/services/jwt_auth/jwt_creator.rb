@@ -9,7 +9,7 @@ module JwtAuth
     # DocuSign authorization URI to obtain individual consent
     # https://developers.docusign.com/platform/auth/consent/obtaining-individual-consent/
     # https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
-    def consent_url
+    def self.consent_url
       base_uri = "#{Rails.configuration.authorization_server}/oauth/auth"
       response_type = "code"
       scopes = ERB::Util.url_encode("signature impersonation") # https://developers.docusign.com/platform/auth/reference/scopes/
@@ -29,11 +29,12 @@ module JwtAuth
       @api_client = client
     end
 
+    # @return [Boolean] `true` if the token is valid or was updated, `false` if consent still needs to be grant'ed
     def check_jwt_token
       if expired?
         update_token
       else
-        Rails.configuration.app_url
+        true
       end
     end
 
@@ -53,6 +54,7 @@ module JwtAuth
       is_expired
     end
 
+    # @return [Boolean] if the token was updated
     def update_token
       begin
         rsa_pk = File.join(Rails.root, 'config', 'docusign_private_key.txt')
@@ -70,7 +72,7 @@ module JwtAuth
         body = JSON.parse(exception.response_body)
 
         if body['error'] == "consent_required"
-          consent_url
+          false
         else
           details = <<~TXT
             See: https://support.docusign.com/articles/DocuSign-Developer-Support-FAQs#Troubleshoot-JWT-invalid_grant
@@ -89,7 +91,7 @@ module JwtAuth
         expires_at = Time.now.to_f + token.expires_in.to_i
         session[:ds_expires_at] = expires_at
         puts "Received token"
-        Rails.configuration.app_url
+        true
       end
     end
 
