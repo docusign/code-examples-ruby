@@ -12,7 +12,7 @@ module JwtAuth
     def consent_url
       base_uri = "#{Rails.configuration.authorization_server}/oauth/auth"
       response_type = "code"
-      scopes = "signature%20impersonation" # https://developers.docusign.com/platform/auth/reference/scopes/
+      scopes = ERB::Util.url_encode("signature impersonation") # https://developers.docusign.com/platform/auth/reference/scopes/
       client_id = Rails.configuration.jwt_integration_key
       redirect_uri = "#{Rails.configuration.app_url}/auth/docusign/callback"
       consent_url = "#{base_uri}?response_type=#{response_type}&scope=#{scopes}&client_id=#{client_id}&redirect_uri=#{redirect_uri}"
