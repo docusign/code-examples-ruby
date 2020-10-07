@@ -91,15 +91,15 @@ module JwtAuth
       response = @api_client.get_user_info(access_token)
       accounts = response.accounts
       session[:ds_user_name] = response.name
-      target = Rails.configuration.target_account_id
+      target_account_id = Rails.configuration.target_account_id
 
-      if target.present?
+      if target_account_id.present?
         accounts.each do |acct|
-          if acct.account_id == target
+          if acct.account_id == target_account_id
             return acct
           end
         end
-        raise "The user does not have access to account #{target}"
+        raise "The user does not have access to account #{target_account_id}"
       end
 
       accounts.each do |acct|
