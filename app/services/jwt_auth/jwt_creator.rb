@@ -6,6 +6,14 @@ module JwtAuth
 
     TOKEN_REPLACEMENT_IN_SECONDS = 10 * 60 # 10 minutes Application
 
+    def consent_url
+      consent_scopes = "signature%20impersonation"
+      consent_url = "#{Rails.configuration.authorization_server}/oauth/auth?response_type=code&scope=#{consent_scopes}&client_id=#{Rails.configuration.jwt_integration_key}&redirect_uri=#{Rails.configuration.app_url}/auth/docusign/callback"
+      # https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
+      Rails.logger.info "Obtain Consent: #{consent_url}"
+      consent_url
+    end
+
     @token = nil
     @expires_at = 0
     @private_key = nil
@@ -54,10 +62,6 @@ module JwtAuth
         body = JSON.parse(exception.response_body)
 
         if body['error'] == "consent_required"
-          consent_scopes = "signature%20impersonation"
-          consent_url = "#{Rails.configuration.authorization_server}/oauth/auth?response_type=code&scope=#{consent_scopes}&client_id=#{Rails.configuration.jwt_integration_key}&redirect_uri=#{Rails.configuration.app_url}/auth/docusign/callback"
-          # https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
-          Rails.logger.info "Obtain Consent: #{consent_url}"
           consent_url
         else
           details = <<~TXT
