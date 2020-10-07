@@ -6,10 +6,16 @@ module JwtAuth
 
     TOKEN_REPLACEMENT_IN_SECONDS = 10 * 60 # 10 minutes Application
 
+    # DocuSign authorization URI to obtain individual consent
+    # https://developers.docusign.com/platform/auth/consent/obtaining-individual-consent/
+    # https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
     def consent_url
-      consent_scopes = "signature%20impersonation"
-      consent_url = "#{Rails.configuration.authorization_server}/oauth/auth?response_type=code&scope=#{consent_scopes}&client_id=#{Rails.configuration.jwt_integration_key}&redirect_uri=#{Rails.configuration.app_url}/auth/docusign/callback"
-      # https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
+      base_uri = "#{Rails.configuration.authorization_server}/oauth/auth"
+      response_type = "code"
+      scopes = "signature%20impersonation" # https://developers.docusign.com/platform/auth/reference/scopes/
+      client_id = Rails.configuration.jwt_integration_key
+      redirect_uri = "#{Rails.configuration.app_url}/auth/docusign/callback"
+      consent_url = "#{base_uri}?response_type=#{response_type}&scope=#{scopes}&client_id=#{client_id}&redirect_uri=#{redirect_uri}"
       Rails.logger.info "Obtain Consent: #{consent_url}"
       consent_url
     end
