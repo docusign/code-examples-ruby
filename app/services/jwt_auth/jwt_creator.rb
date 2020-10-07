@@ -32,6 +32,8 @@ module JwtAuth
     def check_jwt_token
       if expired?
         update_token
+      else
+        Rails.configuration.app_url
       end
     end
 
