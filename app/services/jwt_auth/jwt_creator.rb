@@ -85,9 +85,9 @@ module JwtAuth
     end
 
     def get_account_info(access_token)
-      response = @api_client.get_user_info(access_token)
-      accounts = response.accounts
-      session[:ds_user_name] = response.name
+      user_info_response = @api_client.get_user_info(access_token)
+      accounts = user_info_response.accounts
+      session[:ds_user_name] = user_info_response.name
       target_account_id = Rails.configuration.target_account_id
 
       if target_account_id.present?
