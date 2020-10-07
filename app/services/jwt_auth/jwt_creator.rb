@@ -38,7 +38,6 @@ module JwtAuth
     end
 
     def update_token
-      resp = Hash.new
       begin
         rsa_pk = File.join(Rails.root, 'config', 'docusign_private_key.txt')
         @api_client.set_oauth_base_path(Rails.configuration.aud)
@@ -59,8 +58,7 @@ module JwtAuth
           consent_url = "#{Rails.configuration.authorization_server}/oauth/auth?response_type=code&scope=#{consent_scopes}&client_id=#{Rails.configuration.jwt_integration_key}&redirect_uri=#{Rails.configuration.app_url}/auth/docusign/callback"
           # https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
           Rails.logger.info "Obtain Consent: #{consent_url}"
-          resp["url"] = consent_url;
-          return resp["url"]
+          consent_url
         else
           details = <<~TXT
             See: https://support.docusign.com/articles/DocuSign-Developer-Support-FAQs#Troubleshoot-JWT-invalid_grant
@@ -79,8 +77,7 @@ module JwtAuth
         expires_at = Time.now.to_f + token.expires_in.to_i
         session[:ds_expires_at] = expires_at
         puts "Received token"
-        resp["url"] = "#{Rails.configuration.app_url}";
-        return resp["url"]
+        Rails.configuration.app_url
       end
     end
 
