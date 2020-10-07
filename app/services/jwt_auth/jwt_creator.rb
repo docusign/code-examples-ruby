@@ -2,7 +2,7 @@ require 'yaml'
 
 module JwtAuth
   class JwtCreator
-    attr_reader :session, :api_client, :token, :expires_at
+    attr_reader :session, :api_client
 
     TOKEN_REPLACEMENT_IN_SECONDS = 10 * 60 # 10 minutes Application
 
@@ -19,9 +19,6 @@ module JwtAuth
       Rails.logger.info "Obtain Consent: #{consent_url}"
       consent_url
     end
-
-    @token = nil
-    @expires_at = 0
 
     def initialize(session, client)
       @session = session
@@ -40,6 +37,8 @@ module JwtAuth
     private
 
     def expired?
+      token = nil
+      expires_at = 0
       @now = Time.now.to_f # seconds since epoch
       # Check that the token should be good
       is_expired = token.nil? or ((@now + TOKEN_REPLACEMENT_IN_SECONDS) > expires_at)
