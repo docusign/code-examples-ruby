@@ -56,7 +56,7 @@ module JwtAuth
     # @return [Boolean] if the token was updated
     def update_token
       begin
-        rsa_pk = File.join(Rails.root, 'config', 'docusign_private_key.txt')
+        rsa_pk = docusign_rsa_private_key_file
         @api_client.set_oauth_base_path(Rails.configuration.aud)
         token = @api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk)
       rescue OpenSSL::PKey::RSAError => exception
@@ -114,6 +114,10 @@ module JwtAuth
           return acct
         end
       end
+    end
+
+    def docusign_rsa_private_key_file
+      File.join(Rails.root, 'config', 'docusign_private_key.txt')
     end
   end
 end
