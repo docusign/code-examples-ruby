@@ -56,9 +56,9 @@ module JwtAuth
     # @return [Boolean] if the token was updated
     def update_token
       rsa_pk = docusign_rsa_private_key_file
-      @api_client.set_oauth_base_path(Rails.configuration.aud)
+      api_client.set_oauth_base_path(Rails.configuration.aud)
       begin
-        token = @api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk)
+        token = api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk)
       rescue OpenSSL::PKey::RSAError => exception
         Rails.logger.error exception.inspect
         if File.read(rsa_pk).starts_with? '{RSA_PRIVATE_KEY}'
@@ -82,7 +82,7 @@ module JwtAuth
         end
       else
         account = get_account_info(token.access_token)
-        @api_client.config.host = account.base_uri
+        api_client.config.host = account.base_uri
         session[:ds_access_token] = token.access_token
         session[:ds_account_id] = account.account_id
         session[:ds_base_path] = account.base_uri
@@ -95,7 +95,7 @@ module JwtAuth
     end
 
     def get_account_info(access_token)
-      user_info_response = @api_client.get_user_info(access_token)
+      user_info_response = api_client.get_user_info(access_token)
       accounts = user_info_response.accounts
       session[:ds_user_name] = user_info_response.name
       target_account_id = Rails.configuration.target_account_id
