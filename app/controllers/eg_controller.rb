@@ -46,9 +46,14 @@ class EgController < ApplicationController
     expires_at = session[:ds_expires_at]
     now = Time.now.to_f # seconds since epoch
     if expires_at.nil?
+      Rails.logger.info "==> Token expiration is no available"
       false
     else
-      now + buffer < expires_at
+      is_ok = now + buffer < expires_at
+      unless is_ok
+        Rails.logger.info "==> Token is about to expire"
+      end
+      is_ok
     end
   end
 

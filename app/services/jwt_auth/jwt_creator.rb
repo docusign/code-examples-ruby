@@ -43,9 +43,9 @@ module JwtAuth
       is_expired = token.nil? or ((now + buffer) > expires_at)
       if is_expired
         if token.nil?
-          puts "\nJWT: Starting up: fetching token"
+          Rails.logger.info "==> JWT: Starting up: fetching token"
         else
-          puts "\nJWT: Token is about to expire: fetching token"
+          Rails.logger.info "==> JWT: Token is about to expire: fetching token"
         end
       end
       is_expired
@@ -87,7 +87,7 @@ module JwtAuth
         session[:ds_account_name] = account.account_name
         expires_at = Time.now.to_f + token.expires_in.to_i
         session[:ds_expires_at] = expires_at
-        puts "Received token"
+        Rails.logger.info "==> JWT: Received token"
         true
       end
     end
