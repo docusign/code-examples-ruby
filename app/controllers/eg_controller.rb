@@ -38,15 +38,17 @@ class EgController < ApplicationController
       redirect_to '/ds/mustAuthenticate'
     end
   end
-  
+
   private
 
-  def check_token(minBuffer = 10)
+  def check_token(buffer_in_min = 10)
+    buffer = buffer_in_min * 60
     expires_at = session[:ds_expires_at]
+    now = Time.now.to_f # seconds since epoch
     if expires_at.nil?
       false
     else
-      (DateTime.now.to_i + minBuffer * 60 < expires_at)
+      now + buffer < expires_at
     end
   end
 

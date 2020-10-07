@@ -36,12 +36,11 @@ module JwtAuth
 
     private
 
-    def expired?
+    def expired?(buffer = TOKEN_REPLACEMENT_IN_SECONDS)
       token = session[:ds_access_token]
       expires_at = session[:ds_expires_at].to_i
-      @now = Time.now.to_f # seconds since epoch
-      # Check that the token should be good
-      is_expired = token.nil? or ((@now + TOKEN_REPLACEMENT_IN_SECONDS) > expires_at)
+      now = Time.now.to_f # seconds since epoch
+      is_expired = token.nil? or ((now + buffer) > expires_at)
       if is_expired
         if token.nil?
           puts "\nJWT: Starting up: fetching token"
