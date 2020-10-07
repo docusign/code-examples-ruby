@@ -6,7 +6,6 @@ module JwtAuth
 
     TOKEN_REPLACEMENT_IN_SECONDS = 10 * 60 # 10 minutes Application
 
-    @account = nil
     @token = nil
     @expires_at = 0
     @private_key = nil
@@ -71,12 +70,12 @@ module JwtAuth
           fail "JWT response error: `#{body}`. #{details}"
         end
       else
-        @account= get_account_info(token.access_token)
-        @api_client.config.host = @account.base_uri
+        account = get_account_info(token.access_token)
+        @api_client.config.host = account.base_uri
         session[:ds_access_token] = token.access_token
-        session[:ds_account_id] = @account.account_id
-        session[:ds_base_path] = @account.base_uri
-        session[:ds_account_name] = @account.account_name
+        session[:ds_account_id] = account.account_id
+        session[:ds_base_path] = account.base_uri
+        session[:ds_account_name] = account.account_name
         expires_at = Time.now.to_f + token.expires_in.to_i
         session[:ds_expires_at] = expires_at
         puts "Received token"
