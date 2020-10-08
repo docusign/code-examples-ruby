@@ -37,7 +37,7 @@ module OmniAuth
           sub: raw_info['sub'],
           account_id: @account['account_id'],
           account_name: @account['account_name'],
-          base_uri: "#{@account['base_uri']}/restapi"
+          base_uri: @account['base_uri']
         }
       end
 
