@@ -45,16 +45,19 @@ class EgController < ApplicationController
     buffer = buffer_in_min * 60
     expires_at = session[:ds_expires_at]
     now = Time.now.to_f # seconds since epoch
+    remaining_duration = expires_at.nil? ? 0 : (expires_at - (now + buffer))
     if expires_at.nil?
-      Rails.logger.info "==> Token expiration is no available"
-      false
+      Rails.logger.info "==> Token expiration is not available: fetching token"
+    elsif remaining_duration.negative?
+      Rails.logger.debug "==> Token is about to expire in #{time_in_words(remaining_duration)} at: #{Time.at(expires_at)}: fetching token"
     else
-      is_ok = now + buffer < expires_at
-      unless is_ok
-        Rails.logger.info "==> Token is about to expire"
-      end
-      is_ok
+      Rails.logger.debug "==> Token is OK for #{time_in_words(remaining_duration)} at: #{Time.at(expires_at)}"
     end
+    remaining_duration > 0
+  end
+
+  def time_in_words(duration)
+    "#{Object.new.extend(ActionView::Helpers::DateHelper).distance_of_time_in_words(duration)}#{duration.negative? ? ' ago' : ''}"
   end
 
   def create_source_path

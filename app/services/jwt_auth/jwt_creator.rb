@@ -40,15 +40,19 @@ module JwtAuth
       token = session[:ds_access_token]
       expires_at = session[:ds_expires_at].to_i
       now = Time.now.to_f # seconds since epoch
-      is_expired = token.nil? or ((now + buffer) > expires_at)
-      if is_expired
-        if token.nil?
-          Rails.logger.info "==> JWT: Starting up: fetching token"
-        else
-          Rails.logger.info "==> JWT: Token is about to expire: fetching token"
-        end
+      remaining_duration = token.nil? ? 0 : (expires_at - (now + buffer))
+      if token.nil?
+        Rails.logger.info "==> JWT: Starting up: fetching token"
+      elsif remaining_duration.negative?
+        Rails.logger.debug "==> JWT: Token is about to expire in #{time_in_words(remaining_duration)} at: #{Time.at(expires_at)}: fetching token"
+      else
+        Rails.logger.debug "==> JWT: Token is OK for #{time_in_words(remaining_duration)}"
       end
-      is_expired
+      remaining_duration <= 0
+    end
+
+    def time_in_words(duration)
+      "#{Object.new.extend(ActionView::Helpers::DateHelper).distance_of_time_in_words(duration)}#{duration.negative? ? ' ago' : ''}"
     end
 
     # @return [Boolean] if the token was updated
