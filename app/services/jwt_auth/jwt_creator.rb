@@ -39,8 +39,7 @@ module JwtAuth
     def expired?(buffer = TOKEN_REPLACEMENT_IN_SECONDS)
       token = session[:ds_access_token]
       expires_at = session[:ds_expires_at].to_i
-      now = Time.now.to_f # seconds since epoch
-      remaining_duration = token.nil? ? 0 : (expires_at - (now + buffer))
+      remaining_duration = token.nil? ? 0 : expires_at - buffer.seconds.from_now.to_i
       if token.nil?
         Rails.logger.info "==> JWT: Starting up: fetching token"
       elsif remaining_duration.negative?
@@ -89,8 +88,7 @@ module JwtAuth
         session[:ds_account_id] = account.account_id
         session[:ds_base_path] = account.base_uri
         session[:ds_account_name] = account.account_name
-        expires_at = Time.now.to_f + token.expires_in.to_i
-        session[:ds_expires_at] = expires_at
+        session[:ds_expires_at] = token.expires_in.to_i.seconds.from_now.to_i
         Rails.logger.info "==> JWT: Received token"
         true
       end

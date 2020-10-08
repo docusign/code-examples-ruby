@@ -44,8 +44,7 @@ class EgController < ApplicationController
   def check_token(buffer_in_min = 10)
     buffer = buffer_in_min * 60
     expires_at = session[:ds_expires_at]
-    now = Time.now.to_f # seconds since epoch
-    remaining_duration = expires_at.nil? ? 0 : (expires_at - (now + buffer))
+    remaining_duration = expires_at.nil? ? 0 : expires_at - buffer.seconds.from_now.to_i
     if expires_at.nil?
       Rails.logger.info "==> Token expiration is not available: fetching token"
     elsif remaining_duration.negative?
