@@ -23,7 +23,7 @@ class ESign::Eg015Service
   def worker
     # Step 3. Call the eSignature REST API
     # The Envelopes::getEnvelopeFormData method has many options
-    # See https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeFormData/get
+    # See https://developers.docusign.com/docs/esign-rest-api/reference/Envelopes/EnvelopeFormData/get/
     # The get form data call requires an account ID and an envelope ID
 
     # Exceptions will be caught by the calling function
