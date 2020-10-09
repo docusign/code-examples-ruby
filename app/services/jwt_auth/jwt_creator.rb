@@ -71,20 +71,15 @@ module JwtAuth
       accounts = user_info_response.accounts
       session[:ds_user_name] = user_info_response.name
       target_account_id = Rails.configuration.target_account_id
+      get_account(accounts, target_account_id)
+    end
 
+    def get_account(accounts, target_account_id)
       if target_account_id.present?
-        accounts.each do |acct|
-          if acct.account_id == target_account_id
-            return acct
-          end
-        end
+        return accounts.find { |acct| acct.account_id == target_account_id }
         raise "The user does not have access to account #{target_account_id}"
-      end
-
-      accounts.each do |acct|
-        if acct.is_default
-          return acct
-        end
+      else
+        accounts.find(&:is_default)
       end
     end
 
