@@ -4,8 +4,6 @@ module JwtAuth
   class JwtCreator
     attr_reader :session, :api_client
 
-    TOKEN_REPLACEMENT_IN_SECONDS = 10 * 60 # 10 minutes Application
-
     # DocuSign authorization URI to obtain individual consent
     # https://developers.docusign.com/platform/auth/consent/obtaining-individual-consent/
     # https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
@@ -25,37 +23,8 @@ module JwtAuth
       @api_client = client
     end
 
-    # @return [Boolean] `true` if the token is valid or was updated, `false` if consent still needs to be grant'ed
+    # @return [Boolean] `true` if the token was successfully updated, `false` if consent still needs to be grant'ed
     def check_jwt_token
-      if expired?
-        update_token
-      else
-        true
-      end
-    end
-
-    private
-
-    def expired?(buffer = TOKEN_REPLACEMENT_IN_SECONDS)
-      token = session[:ds_access_token]
-      expires_at = session[:ds_expires_at].to_i
-      remaining_duration = token.nil? ? 0 : expires_at - buffer.seconds.from_now.to_i
-      if token.nil?
-        Rails.logger.info "==> JWT: Starting up: fetching token"
-      elsif remaining_duration.negative?
-        Rails.logger.debug "==> JWT: Token is about to expire in #{time_in_words(remaining_duration)} at: #{Time.at(expires_at)}: fetching token"
-      else
-        Rails.logger.debug "==> JWT: Token is OK for #{time_in_words(remaining_duration)}"
-      end
-      remaining_duration <= 0
-    end
-
-    def time_in_words(duration)
-      "#{Object.new.extend(ActionView::Helpers::DateHelper).distance_of_time_in_words(duration)}#{duration.negative? ? ' ago' : ''}"
-    end
-
-    # @return [Boolean] if the token was updated
-    def update_token
       rsa_pk = docusign_rsa_private_key_file
       api_client.set_oauth_base_path(Rails.configuration.aud)
       begin
@@ -93,6 +62,8 @@ module JwtAuth
         true
       end
     end
+
+    private
 
     def get_account_info(access_token)
       user_info_response = api_client.get_user_info(access_token)
