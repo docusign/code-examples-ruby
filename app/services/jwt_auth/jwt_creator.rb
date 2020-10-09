@@ -58,7 +58,7 @@ module JwtAuth
         session[:ds_base_path] = account.base_uri
         session[:ds_account_name] = account.account_name
         session[:ds_expires_at] = token.expires_in.to_i.seconds.from_now.to_i
-        Rails.logger.info "==> JWT: Received token"
+        Rails.logger.info "==> JWT: Received token for impersonated user which will expire in: #{token.expires_in.to_i.seconds / 1.hour} hour at: #{Time.at(token.expires_in.to_i.seconds.from_now)}"
         true
       end
     end

@@ -6,6 +6,7 @@ class SessionController < ApplicationController
     internal_destroy
 
     Rails.logger.debug "\n==> DocuSign callback Authentication response:\n#{auth_hash.to_yaml}\n"
+    Rails.logger.info "==> Login: New token for admin user which will expire at: #{Time.at(auth_hash.credentials['expires_at'])}"
     # populate the session
     session[:ds_expires_at]   = auth_hash.credentials['expires_at']
     session[:ds_user_name]    = auth_hash.info.name
