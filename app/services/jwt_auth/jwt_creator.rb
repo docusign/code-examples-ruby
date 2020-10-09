@@ -5,6 +5,7 @@ module JwtAuth
     attr_reader :session, :api_client
 
     # DocuSign authorization URI to obtain individual consent
+    # https://developers.docusign.com/platform/auth/jwt/jwt-get-token
     # https://developers.docusign.com/platform/auth/consent/obtaining-individual-consent/
     # https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
     def self.consent_url
