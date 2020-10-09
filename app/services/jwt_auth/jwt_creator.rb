@@ -29,6 +29,7 @@ module JwtAuth
       rsa_pk = docusign_rsa_private_key_file
       api_client.set_oauth_base_path(Rails.configuration.aud)
       begin
+        # docusign_esign: POST /oauth/token
         token = api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk)
       rescue OpenSSL::PKey::RSAError => exception
         Rails.logger.error exception.inspect
@@ -60,6 +61,7 @@ module JwtAuth
     private
 
     def update_account_info(token)
+      # docusign_esign: GET /oauth/userinfo
       user_info_response = api_client.get_user_info(token.access_token)
       accounts = user_info_response.accounts
       target_account_id = Rails.configuration.target_account_id
