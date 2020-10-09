@@ -14,7 +14,7 @@ module JwtAuth
       client_id = Rails.configuration.jwt_integration_key
       redirect_uri = "#{Rails.configuration.app_url}/auth/docusign/callback"
       consent_url = "#{base_uri}?response_type=#{response_type}&scope=#{scopes}&client_id=#{client_id}&redirect_uri=#{redirect_uri}"
-      Rails.logger.info "Obtain Consent: #{consent_url}"
+      Rails.logger.info "==> Obtain Consent Grant required: #{consent_url}"
       consent_url
     end
 
