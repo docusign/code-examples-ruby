@@ -60,7 +60,7 @@ module JwtAuth
     private
 
     def update_account_info(token)
-      account = get_account_info(token.access_token)
+      account = get_account_info(token)
       api_client.config.host = account.base_uri
       session[:ds_access_token] = token.access_token
       session[:ds_account_id] = account.account_id
@@ -70,12 +70,12 @@ module JwtAuth
       Rails.logger.info "==> JWT: Received token for impersonated user which will expire in: #{token.expires_in.to_i.seconds / 1.hour} hour at: #{Time.at(token.expires_in.to_i.seconds.from_now)}"
     end
 
-    def get_account_info(access_token)
-      user_info_response = api_client.get_user_info(access_token)
+    def get_account_info(token)
+      user_info_response = api_client.get_user_info(token.access_token)
       accounts = user_info_response.accounts
       session[:ds_user_name] = user_info_response.name
       target_account_id = Rails.configuration.target_account_id
-      get_account(accounts, target_account_id)
+      account = get_account(accounts, target_account_id)
     end
 
     def get_account(accounts, target_account_id)
