@@ -52,19 +52,23 @@ module JwtAuth
           fail "JWT response error: `#{body}`. #{details}"
         end
       else
-        account = get_account_info(token.access_token)
-        api_client.config.host = account.base_uri
-        session[:ds_access_token] = token.access_token
-        session[:ds_account_id] = account.account_id
-        session[:ds_base_path] = account.base_uri
-        session[:ds_account_name] = account.account_name
-        session[:ds_expires_at] = token.expires_in.to_i.seconds.from_now.to_i
-        Rails.logger.info "==> JWT: Received token for impersonated user which will expire in: #{token.expires_in.to_i.seconds / 1.hour} hour at: #{Time.at(token.expires_in.to_i.seconds.from_now)}"
+        update_account_info(token)
         true
       end
     end
 
     private
+
+    def update_account_info(token)
+      account = get_account_info(token.access_token)
+      api_client.config.host = account.base_uri
+      session[:ds_access_token] = token.access_token
+      session[:ds_account_id] = account.account_id
+      session[:ds_base_path] = account.base_uri
+      session[:ds_account_name] = account.account_name
+      session[:ds_expires_at] = token.expires_in.to_i.seconds.from_now.to_i
+      Rails.logger.info "==> JWT: Received token for impersonated user which will expire in: #{token.expires_in.to_i.seconds / 1.hour} hour at: #{Time.at(token.expires_in.to_i.seconds.from_now)}"
+    end
 
     def get_account_info(access_token)
       user_info_response = api_client.get_user_info(access_token)
