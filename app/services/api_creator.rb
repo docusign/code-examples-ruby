@@ -24,7 +24,7 @@ module ApiCreator
     # Step 3: Construct your request body
     accounts_api = DocuSign_eSign::AccountsApi.new api_client
   end
-  
+
   def create_template_api(args)
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:base_path]
