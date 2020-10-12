@@ -2,6 +2,8 @@ require 'yaml'
 
 module JwtAuth
   class JwtCreator
+    include ApiCreator
+
     attr_reader :session, :api_client
 
     # DocuSign authorization URI to obtain individual consent
@@ -19,9 +21,9 @@ module JwtAuth
       consent_url
     end
 
-    def initialize(session, client)
+    def initialize(session)
       @session = session
-      @api_client = client
+      @api_client = create_initial_api_client(debugging: false)
     end
 
     # @return [Boolean] `true` if the token was successfully updated, `false` if consent still needs to be grant'ed
@@ -48,7 +50,7 @@ module JwtAuth
           details = <<~TXT
             See: https://support.docusign.com/articles/DocuSign-Developer-Support-FAQs#Troubleshoot-JWT-invalid_grant
             or https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant#troubleshooting-errors
-            or try enabling `configuration.debugging = true` in DsCommonController#ds_must_authenticate for more logging output
+            or try enabling `configuration.debugging = true` in the initialize method above for more logging output
           TXT
           fail "JWT response error: `#{body}`. #{details}"
         end

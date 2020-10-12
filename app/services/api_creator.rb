@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
 module ApiCreator
+  def create_initial_api_client(debugging: false)
+    configuration = DocuSign_eSign::Configuration.new
+
+    # https://github.com/docusign/docusign-ruby-client/blob/master/lib/docusign_esign/configuration.rb#L55-L60
+    configuration.debugging = debugging
+
+    api_client = DocuSign_eSign::ApiClient.new(configuration)
+  end
+
   def create_account_api(args)
     # Step 1. Obtain your OAuth token
     configuration = DocuSign_eSign::Configuration.new
