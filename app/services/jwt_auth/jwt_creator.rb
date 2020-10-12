@@ -23,13 +23,12 @@ module JwtAuth
 
     def initialize(session)
       @session = session
-      @api_client = create_initial_api_client(debugging: false)
+      @api_client = create_initial_api_client(host: Rails.configuration.aud, debugging: false)
     end
 
     # @return [Boolean] `true` if the token was successfully updated, `false` if consent still needs to be grant'ed
     def check_jwt_token
       rsa_pk = docusign_rsa_private_key_file
-      api_client.set_oauth_base_path(Rails.configuration.aud)
       begin
         # docusign_esign: POST /oauth/token
         token = api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk)
