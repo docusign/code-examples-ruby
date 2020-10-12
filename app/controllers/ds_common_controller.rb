@@ -30,7 +30,6 @@ class DsCommonController < ApplicationController
     if params[:auth] == 'grand-auth'
       redirect_to('/auth/docusign')
     elsif params[:auth] == 'jwt-auth'
-      redirect_to root_path if session[:token].present?
       configuration = DocuSign_eSign::Configuration.new
       # configuration.debugging = true
       api_client = DocuSign_eSign::ApiClient.new(configuration)
