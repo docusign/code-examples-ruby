@@ -48,7 +48,7 @@ module OmniAuth
         end
 
         if @account.empty?
-          raise 'Could not find account information for the user'
+          raise %'Could not find account information for the user in the "accounts" of raw_info: #{@raw_info}'
         end
       end
     end
