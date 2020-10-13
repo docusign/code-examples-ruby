@@ -2,6 +2,13 @@
 
 require 'docusign'
 
+# Defaults to STDOUT: https://github.com/omniauth/omniauth#logging
+# Logs entries like:
+# (docusign) Setup endpoint detected, running now.
+# (docusign) Request phase initiated.
+# (docusign) Callback phase initiated.
+OmniAuth.config.logger = Rails.logger
+
 config = Rails.application.config
 config.middleware.use OmniAuth::Builder do
   # OAuth login request configuration
