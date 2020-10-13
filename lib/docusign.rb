@@ -9,6 +9,7 @@ module OmniAuth
       # The name of the strategy
       option :name, 'docusign'
 
+      # These are called after authentication has succeeded and are part of the DocuSign callback response message
       uid { raw_info['sub'] }
 
       info do
