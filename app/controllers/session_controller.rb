@@ -22,6 +22,14 @@ class SessionController < ApplicationController
     redirect_to root_path
   end
 
+  # GET /auth/failure
+  def omniauth_failure
+    error_msg = "OmniAuth authentication failure message: #{params[:message]} for strategy: #{params[:strategy]} and HTTP_REFERER: #{params[:origin]}"
+    Rails.logger.warn "\n==> #{error_msg}"
+    flash[:notice] = error_msg
+    redirect_to root_path
+  end
+
   protected
 
   def internal_destroy
