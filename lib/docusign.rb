@@ -6,10 +6,10 @@ require 'omniauth-oauth2'
 module OmniAuth
   module Strategies
     class Docusign < OmniAuth::Strategies::OAuth2
-      # The name of the strategy
+      # The name of the strategy, used in config/initializer/omniauth.rb
       option :name, 'docusign'
 
-      # These are called after authentication has succeeded and are part of the DocuSign callback response message
+      # These are called after the OAuth login authentication has succeeded and are part of the DocuSign callback response message
       uid { raw_info['sub'] }
 
       info do
