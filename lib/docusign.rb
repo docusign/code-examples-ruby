@@ -36,7 +36,7 @@ module OmniAuth
         return @raw_info if @raw_info
 
         @raw_info = access_token.get(options.client_options.user_info_url.to_s).parsed || {}
-        fetch_account @raw_info['accounts'] unless @raw_info.nil?
+        fetch_account(@raw_info['accounts']) if @raw_info.present?
         @raw_info
       end
 
