@@ -107,7 +107,6 @@ Rails.application.routes.draw do
 
   # Handle OmniAuth OAuth2 login callback result that includes the AuthHash
   get '/auth/:provider/callback', to: 'session#create'
-  get '/ds/callback' => redirect('/auth/docusign/callback')
 
   # Handle OmniAuth OAuth2 login exceptions in non development environments:
   get '/auth/failure', to: 'session#omniauth_failure'
