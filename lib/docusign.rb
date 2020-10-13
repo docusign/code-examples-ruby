@@ -40,8 +40,6 @@ module OmniAuth
         @raw_info
       end
 
-      private
-
       def fetch_account(items)
         if options.target_account_id
           @account = items.select { |item| item[:account_id] == options.target_account_id }.first
