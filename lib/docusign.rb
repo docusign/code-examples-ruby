@@ -42,9 +42,9 @@ module OmniAuth
 
       def fetch_account(items)
         if options.target_account_id
-          @account = items.select { |item| item[:account_id] == options.target_account_id }.first
+          @account = items.find { |item| item[:account_id] == options.target_account_id }
         else
-          @account = items.select { |item| item['is_default'] == true }.first
+          @account = items.find { |item| item['is_default'] }
         end
 
         if @account.empty?
