@@ -1,25 +1,13 @@
 # frozen_string_literal: true
 
+# https://github.com/omniauth/omniauth-oauth2
 require 'omniauth-oauth2'
 
 module OmniAuth
   module Strategies
     class Docusign < OmniAuth::Strategies::OAuth2
+      # The name of the strategy
       option :name, 'docusign'
-
-      def client
-        options.client_options.authorize_url = "#{options.oauth_base_uri}/oauth/auth"
-        if Rails.configuration.examples_API == 'roomsAPI'
-          options.authorize_params.scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
-        end
-        options.client_options.user_info_url = "#{options.oauth_base_uri}/oauth/userinfo"
-        options.client_options.token_url = "#{options.oauth_base_uri}/oauth/token"
-        unless options.allow_silent_authentication
-          options.authorize_params.prompt = options.prompt
-        end
-
-        super
-      end
 
       uid { raw_info['sub'] }
 

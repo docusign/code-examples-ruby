@@ -11,5 +11,14 @@ config.middleware.use OmniAuth::Builder do
     strategy.options[:oauth_base_uri] = config.authorization_server
     strategy.options[:target_account_id] = config.target_account_id
     strategy.options[:allow_silent_authentication] = config.allow_silent_authentication
+    strategy.options[:client_options].authorize_url = "#{strategy.options[:oauth_base_uri]}/oauth/auth"
+    strategy.options[:client_options].user_info_url = "#{strategy.options[:oauth_base_uri]}/oauth/userinfo"
+    strategy.options[:client_options].token_url = "#{strategy.options[:oauth_base_uri]}/oauth/token"
+    unless strategy.options[:allow_silent_authentication]
+      strategy.options[:authorize_params].prompt = strategy.options.prompt
+    end
+    if Rails.configuration.examples_API == 'roomsAPI'
+      strategy.options[:authorize_params].scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
+    end
   }
 end
