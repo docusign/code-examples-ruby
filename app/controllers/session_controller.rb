@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class SessionController < ApplicationController
+  # GET /auth/:provider/callback
   def create
     # reset the session
     internal_destroy
@@ -17,6 +18,7 @@ class SessionController < ApplicationController
     redirect_to root_path
   end
 
+  # GET /ds/logout
   def destroy
     internal_destroy
     redirect_to root_path
@@ -44,6 +46,12 @@ class SessionController < ApplicationController
     session.delete :template_id
   end
 
+  # returns hash with key structure of:
+  # - provider
+  # - uid
+  # - info: [name, email, first_name, last_name]
+  # - credentials: [token, refresh_token, expires_at, expires]
+  # - extra: [sub, account_id, account_name, base_uri]
   def auth_hash
     @auth_hash ||= request.env['omniauth.auth']
   end

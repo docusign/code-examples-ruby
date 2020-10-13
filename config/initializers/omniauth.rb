@@ -19,8 +19,8 @@ OmniAuth.config.logger = Rails.logger
 
 config = Rails.application.config
 config.middleware.use OmniAuth::Builder do
-  # OAuth login request configuration
-  # response message configuration is in OmniAuth::Strategies::Docusign in lib/docusign.rb
+  # OAuth2 login request configuration
+  # OAuth2 login response callback message configuration is in OmniAuth::Strategies::Docusign in lib/docusign.rb
   provider :docusign, config.integration_key, config.integration_secret, setup: lambda { |env|
     strategy = env['omniauth.strategy']
     strategy.options[:client_options].site = config.app_url

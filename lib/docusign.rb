@@ -9,7 +9,10 @@ module OmniAuth
       # The name of the strategy, used in config/initializer/omniauth.rb
       option :name, 'docusign'
 
-      # These are called after the OAuth login authentication has succeeded and are part of the DocuSign callback response message
+      # These are called after the OAuth2 login authentication has succeeded and are part of the DocuSign callback response message:
+      # transforms the DocuSign login response from the raw_info https://github.com/omniauth/omniauth/wiki/Strategy-Contribution-Guide#defining-the-callback-phase
+      # into the standardized schema required by OmniAuth https://github.com/omniauth/omniauth/wiki/Auth-Hash-Schema
+      # and gets exposed through the "request.env[omniauth.auth]" to the SessionController#create
       uid { raw_info['sub'] }
 
       info do
@@ -32,6 +35,8 @@ module OmniAuth
 
       private
 
+      # @returns a Hash with the keys:
+      # sub, name, given_name, family_name, created, email, accounts: [account_id, is_default, account_name, base_uri]
       def raw_info
         return @raw_info if @raw_info
 
@@ -40,6 +45,7 @@ module OmniAuth
         @raw_info
       end
 
+      # @param items is an array of Hash'es that has the keys: account_id, is_default, account_name, base_uri
       def fetch_account(items)
         if options.target_account_id
           @account = items.find { |item| item[:account_id] == options.target_account_id }
