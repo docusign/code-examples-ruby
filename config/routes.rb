@@ -101,15 +101,15 @@ Rails.application.routes.draw do
 
   root 'ds_common#index'
 
-  # login starts with /ds/login
-  # /auth/docusign is an internal route created by omniauth and the docusign strategy.
-  # The docusign strategy file is /lib/docusign
+  # Login starts with /ds/login
+  # /auth/docusign is an internal route created by OmniAuth and the docusign strategy from: /lib/docusign.rb
   get '/ds/login' => redirect('/auth/docusign')
-  # Next, the oauth callback is handled by session#create in /app/controllers/session_controller
+
+  # Handle OmniAuth OAuth2 login callback result that includes the AuthHash
   get '/auth/:provider/callback', to: 'session#create'
   get '/ds/callback' => redirect('/auth/docusign/callback')
 
-  # Handle OmniAuth login exceptions in non development environments:
+  # Handle OmniAuth OAuth2 login exceptions in non development environments:
   get '/auth/failure', to: 'session#omniauth_failure'
 
   # Logout
@@ -118,8 +118,10 @@ Rails.application.routes.draw do
   get '/ds_common-return' => 'ds_common#ds_return'
   get '/ds/mustAuthenticate' => 'ds_common#ds_must_authenticate'
   # default root
+
   get 'ds_common/index'
   get 'example_done' => 'ds_common#example_done'
   get 'error' => 'ds_common#error'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
