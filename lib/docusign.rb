@@ -33,6 +33,8 @@ module OmniAuth
       private
 
       def raw_info
+        return @raw_info if @raw_info
+
         @raw_info = access_token.get(options.client_options.user_info_url.to_s).parsed || {}
         fetch_account @raw_info['accounts'] unless @raw_info.nil?
         @raw_info
