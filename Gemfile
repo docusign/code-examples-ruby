@@ -63,7 +63,7 @@ group :test do
 end
 
 gem 'docusign_esign', '~> 3.4.0'
-gem 'omniauth-oauth2', '~> 1.6.0'
+gem 'omniauth-oauth2', '~> 1.6'
 gem 'omniauth-rails_csrf_protection'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
