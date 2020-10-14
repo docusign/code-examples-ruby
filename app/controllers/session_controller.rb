@@ -8,13 +8,7 @@ class SessionController < ApplicationController
 
     Rails.logger.debug "\n==> DocuSign callback Authentication response:\n#{auth_hash.to_yaml}\n"
     Rails.logger.info "==> Login: New token for admin user which will expire at: #{Time.at(auth_hash.credentials['expires_at'])}"
-    # populate the session
-    session[:ds_expires_at]   = auth_hash.credentials['expires_at']
-    session[:ds_user_name]    = auth_hash.info.name
-    session[:ds_access_token] = auth_hash.credentials.token
-    session[:ds_account_id]   = auth_hash.extra.account_id
-    session[:ds_account_name] = auth_hash.extra.account_name
-    session[:ds_base_path]    = auth_hash.extra.base_uri
+    store_auth_hash_from_docusign_callback
     redirect_to root_path
   end
 
@@ -44,6 +38,15 @@ class SessionController < ApplicationController
     session.delete :envelope_id
     session.delete :envelope_documents
     session.delete :template_id
+  end
+
+  def store_auth_hash_from_docusign_callback
+    session[:ds_expires_at]   = auth_hash.credentials['expires_at']
+    session[:ds_user_name]    = auth_hash.info.name
+    session[:ds_access_token] = auth_hash.credentials.token
+    session[:ds_account_id]   = auth_hash.extra.account_id
+    session[:ds_account_name] = auth_hash.extra.account_name
+    session[:ds_base_path]    = auth_hash.extra.base_uri
   end
 
   # returns hash with key structure of:
