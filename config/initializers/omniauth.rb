@@ -13,9 +13,7 @@ OmniAuth.config.logger = Rails.logger
 # otherwise a callback exception like the following will not get caught:
 # OmniAuth::Strategies::OAuth2::CallbackError (access_denied)
 # GET "/auth/docusign/callback?error=access_denied&error_message=The%20user%20did%20not%20consent%20to%20connecting%20the%20application.&state=
-# OmniAuth.config.on_failure = Proc.new { |env|
-#   OmniAuth::FailureEndpoint.new(env).redirect_to_failure
-# }
+# OmniAuth.config.failure_raise_out_environments = [] # defaults to: ['development']
 
 config = Rails.application.config
 config.middleware.use OmniAuth::Builder do
