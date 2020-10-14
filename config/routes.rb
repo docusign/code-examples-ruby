@@ -101,10 +101,10 @@ Rails.application.routes.draw do
 
   root 'ds_common#index'
 
-  # Login starts with /ds/login
+  # Login starts with POST'ing to: /auth/docusign
   # /auth/docusign is an internal route created by OmniAuth and the docusign strategy from: /lib/docusign.rb
   # Should be POST, see: https://nvd.nist.gov/vuln/detail/CVE-2015-9284
-  get '/ds/login' => redirect('/auth/docusign')
+  # get '/ds/login' => redirect('/auth/docusign')
 
   # Handle OmniAuth OAuth2 login callback result that includes the AuthHash
   get '/auth/:provider/callback', to: 'session#create'
