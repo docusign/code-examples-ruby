@@ -40,6 +40,9 @@ class SessionController < ApplicationController
     session.delete :ds_account_id
     session.delete :ds_account_name
     session.delete :ds_base_path
+    session.delete 'omniauth.state'
+    session.delete 'omniauth.params'
+    session.delete 'omniauth.origin'
     session.delete :envelope_id
     session.delete :envelope_documents
     session.delete :template_id
