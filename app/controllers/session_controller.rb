@@ -26,6 +26,11 @@ class SessionController < ApplicationController
     redirect_to root_path
   end
 
+  def show
+    Rails.logger.debug "==> Session:\n#{session.to_h.to_yaml}"
+    render json: session.to_json
+  end
+
   protected
 
   def internal_destroy

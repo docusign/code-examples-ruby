@@ -117,6 +117,7 @@ Rails.application.routes.draw do
 
   get '/ds_common-return' => 'ds_common#ds_return'
   get '/ds/mustAuthenticate' => 'ds_common#ds_must_authenticate'
+  get '/ds/session' => 'session#show'
   # default root
 
   get 'ds_common/index'
