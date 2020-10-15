@@ -55,7 +55,7 @@
 
     <% if session["ds_user_name"] %>
       <span class="navbar-text">
-        Welcome <%= session["ds_user_name"] %>
+        Welcome <%= link_to session["ds_user_name"], ds_session_path %>
       </span>
     <% end %>
 
