@@ -9,7 +9,6 @@ module JwtAuth
     # DocuSign authorization URI to obtain individual consent
     # https://developers.docusign.com/platform/auth/jwt/jwt-get-token
     # https://developers.docusign.com/platform/auth/consent/obtaining-individual-consent/
-    # https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
     def self.consent_url
       # GET /oauth/auth
       # This endpoint is used to obtain consent and is the first step in several authentication flows.
