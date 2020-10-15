@@ -11,6 +11,9 @@ module JwtAuth
     # https://developers.docusign.com/platform/auth/consent/obtaining-individual-consent/
     # https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
     def self.consent_url
+      # GET /oauth/auth
+      # This endpoint is used to obtain consent and is the first step in several authentication flows.
+      # https://developers.docusign.com/platform/auth/reference/obtain-consent
       base_uri = "#{Rails.configuration.authorization_server}/oauth/auth"
       response_type = "code"
       scopes = ERB::Util.url_encode("signature impersonation") # https://developers.docusign.com/platform/auth/reference/scopes/
@@ -31,6 +34,8 @@ module JwtAuth
       rsa_pk = docusign_rsa_private_key_file
       begin
         # docusign_esign: POST /oauth/token
+        # This endpoint enables you to exchange an authorization code or JWT token for an access token.
+        # https://developers.docusign.com/platform/auth/reference/obtain-access-token
         token = api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk)
       rescue OpenSSL::PKey::RSAError => exception
         Rails.logger.error exception.inspect
@@ -63,6 +68,9 @@ module JwtAuth
 
     def update_account_info(token)
       # docusign_esign: GET /oauth/userinfo
+      # This endpoint returns information on the caller, including their name, email, account, and organizational information.
+      # The response includes the base_uri needed to interact with the DocuSign APIs.
+      # https://developers.docusign.com/platform/auth/reference/user-info
       user_info_response = api_client.get_user_info(token.access_token)
       accounts = user_info_response.accounts
       target_account_id = Rails.configuration.target_account_id
