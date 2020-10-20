@@ -2,42 +2,40 @@ require 'yaml'
 
 module JwtAuth
   class JwtCreator
-    attr_reader :args, :session, :api_client
+    include ApiCreator
 
-    TOKEN_REPLACEMENT_IN_SECONDS = 10 * 60 # 10 minutes Application
+    attr_reader :session, :api_client
 
-    @account = nil
-    @account_id = nil
-    @token = nil
-    @expireIn = 0
-    @private_key = nil
+    # DocuSign authorization URI to obtain individual consent
+    # https://developers.docusign.com/platform/auth/jwt/jwt-get-token
+    # https://developers.docusign.com/platform/auth/consent/obtaining-individual-consent/
+    def self.consent_url
+      # GET /oauth/auth
+      # This endpoint is used to obtain consent and is the first step in several authentication flows.
+      # https://developers.docusign.com/platform/auth/reference/obtain-consent
+      base_uri = "#{Rails.configuration.authorization_server}/oauth/auth"
+      response_type = "code"
+      scopes = ERB::Util.url_encode("signature impersonation") # https://developers.docusign.com/platform/auth/reference/scopes/
+      client_id = Rails.configuration.jwt_integration_key
+      redirect_uri = "#{Rails.configuration.app_url}/auth/docusign/callback"
+      consent_url = "#{base_uri}?response_type=#{response_type}&scope=#{scopes}&client_id=#{client_id}&redirect_uri=#{redirect_uri}"
+      Rails.logger.info "==> Obtain Consent Grant required: #{consent_url}"
+      consent_url
+    end
 
-    def initialize(session, client)
+    def initialize(session)
       @session = session
-      @api_client = client
+      @api_client = create_initial_api_client(host: Rails.configuration.aud, debugging: false)
     end
 
+    # @return [Boolean] `true` if the token was successfully updated, `false` if consent still needs to be grant'ed
     def check_jwt_token
-      @now = Time.now.to_f # seconds since epoch
-      # Check that the token should be good
-      if @token == nil or ((@now + TOKEN_REPLACEMENT_IN_SECONDS) > @expireIn)
-        if @token == nil
-          puts "\nJWT: Starting up: fetching token"
-        else
-          puts "\nJWT: Token is about to expire: fetching token"
-        end
-        self.update_token
-      end
-    end
-
-    protected
-
-    def update_token
-      resp = Hash.new
+      rsa_pk = docusign_rsa_private_key_file
       begin
-        rsa_pk = File.join(Rails.root, 'config', 'docusign_private_key.txt')
-        @api_client.set_oauth_base_path(Rails.configuration.aud)
-        token = @api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk)
+        # docusign_esign: POST /oauth/token
+        # This endpoint enables you to exchange an authorization code or JWT token for an access token.
+        # https://developers.docusign.com/platform/auth/reference/obtain-access-token
+        token = api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk)
       rescue OpenSSL::PKey::RSAError => exception
         Rails.logger.error exception.inspect
         if File.read(rsa_pk).starts_with? '{RSA_PRIVATE_KEY}'
@@ -50,59 +48,58 @@ module JwtAuth
         body = JSON.parse(exception.response_body)
 
         if body['error'] == "consent_required"
-          consent_scopes = "signature%20impersonation"
-          consent_url = "#{Rails.configuration.authorization_server}/oauth/auth?response_type=code&scope=#{consent_scopes}&client_id=#{Rails.configuration.jwt_integration_key}&redirect_uri=#{Rails.configuration.app_url}/auth/docusign/callback"
-          # https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
-          Rails.logger.info "Obtain Consent: #{consent_url}"
-          resp["url"] = consent_url;
-          return resp["url"]
+          false
         else
           details = <<~TXT
             See: https://support.docusign.com/articles/DocuSign-Developer-Support-FAQs#Troubleshoot-JWT-invalid_grant
             or https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant#troubleshooting-errors
-            or try enabling `configuration.debugging = true` in DsCommonController#ds_must_authenticate for more logging output
+            or try enabling `configuration.debugging = true` in the initialize method above for more logging output
           TXT
           fail "JWT response error: `#{body}`. #{details}"
         end
       else
-        @account= get_account_info(token.access_token)
-        @api_client.config.host = @account.base_uri
-        @account_id = @account.account_id
-        session[:ds_access_token] = token.access_token
-        session[:ds_account_id] = @account_id
-        session[:ds_base_path] = @account.base_uri
-        session[:ds_account_name] = @account.account_name
-        @expireIn = Time.now.to_f + token.expires_in.to_i
-        session[:ds_expires_at] = @expireIn
-        puts "Received token"  
-        resp["url"] = "#{Rails.configuration.app_url}";
-        return resp["url"]
+        update_account_info(token)
+        true
       end
-      end
-    end 
     end
 
     private
 
-    def get_account_info(access_token)
-      response = @api_client.get_user_info(access_token)
-      accounts = response.accounts
-      session[:ds_user_name] = response.name
-      target = Rails.configuration.target_account_id 
+    def update_account_info(token)
+      # docusign_esign: GET /oauth/userinfo
+      # This endpoint returns information on the caller, including their name, email, account, and organizational information.
+      # The response includes the base_uri needed to interact with the DocuSign APIs.
+      # https://developers.docusign.com/platform/auth/reference/user-info
+      user_info_response = api_client.get_user_info(token.access_token)
+      accounts = user_info_response.accounts
+      target_account_id = Rails.configuration.target_account_id
+      account = get_account(accounts, target_account_id)
+      store_data(token, user_info_response, account)
 
-      if target != nil and target != false
-        accounts.each do |acct|
-          if acct.account_id == target
-            return acct
-          end
-        end
-        raise "The user does not have access to account #{target}"
-      end
+      api_client.config.host = account.base_uri
+      Rails.logger.info "==> JWT: Received token for impersonated user which will expire in: #{token.expires_in.to_i.seconds / 1.hour} hour at: #{Time.at(token.expires_in.to_i.seconds.from_now)}"
+    end
 
-      accounts.each do |acct|
-        if acct.is_default
-          return acct
-        end
+    def store_data(token, user_info, account)
+      session[:ds_access_token] = token.access_token
+      session[:ds_expires_at] = token.expires_in.to_i.seconds.from_now.to_i
+      session[:ds_user_name] = user_info.name
+      session[:ds_account_id] = account.account_id
+      session[:ds_base_path] = account.base_uri
+      session[:ds_account_name] = account.account_name
+    end
+
+    def get_account(accounts, target_account_id)
+      if target_account_id.present?
+        return accounts.find { |acct| acct.account_id == target_account_id }
+        raise "The user does not have access to account #{target_account_id}"
+      else
+        accounts.find(&:is_default)
       end
     end
 
+    def docusign_rsa_private_key_file
+      File.join(Rails.root, 'config', 'docusign_private_key.txt')
+    end
+  end
+end

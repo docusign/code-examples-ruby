@@ -1,26 +1,18 @@
 # frozen_string_literal: true
 
+# https://github.com/omniauth/omniauth-oauth2
 require 'omniauth-oauth2'
 
 module OmniAuth
   module Strategies
     class Docusign < OmniAuth::Strategies::OAuth2
+      # The name of the strategy, used in config/initializer/omniauth.rb
       option :name, 'docusign'
 
-      def client
-        options.client_options.authorize_url = "#{options.oauth_base_uri}/oauth/auth"
-        if Rails.configuration.examples_API == 'roomsAPI'
-          options.authorize_params.scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
-        end
-        options.client_options.user_info_url = "#{options.oauth_base_uri}/oauth/userinfo"
-        options.client_options.token_url = "#{options.oauth_base_uri}/oauth/token"
-        unless options.allow_silent_authentication
-          options.authorize_params.prompt = options.prompt
-        end
-
-        super
-      end
-
+      # These are called after the OAuth2 login authentication has succeeded and are part of the DocuSign callback response message:
+      # transforms the DocuSign login response from the raw_info https://github.com/omniauth/omniauth/wiki/Strategy-Contribution-Guide#defining-the-callback-phase
+      # into the standardized schema required by OmniAuth https://github.com/omniauth/omniauth/wiki/Auth-Hash-Schema
+      # and gets exposed through the "request.env[omniauth.auth]" to the SessionController#create
       uid { raw_info['sub'] }
 
       info do
@@ -37,29 +29,32 @@ module OmniAuth
           sub: raw_info['sub'],
           account_id: @account['account_id'],
           account_name: @account['account_name'],
-          base_uri: "#{@account['base_uri']}/restapi"
+          base_uri: @account['base_uri']
         }
       end
 
       private
 
+      # @returns a Hash with the keys:
+      # sub, name, given_name, family_name, created, email, accounts: [account_id, is_default, account_name, base_uri]
       def raw_info
+        return @raw_info if @raw_info
+
         @raw_info = access_token.get(options.client_options.user_info_url.to_s).parsed || {}
-        fetch_account @raw_info['accounts'] unless @raw_info.nil?
+        fetch_account(@raw_info['accounts']) if @raw_info.present?
         @raw_info
       end
 
-      private
-
+      # @param items is an array of Hash'es that has the keys: account_id, is_default, account_name, base_uri
       def fetch_account(items)
         if options.target_account_id
-          @account = items.select { |item| item[:account_id] == options.target_account_id }.first
+          @account = items.find { |item| item[:account_id] == options.target_account_id }
         else
-          @account = items.select { |item| item['is_default'] == true }.first
+          @account = items.find { |item| item['is_default'] }
         end
 
         if @account.empty?
-          raise 'Could not find account information for the user'
+          raise %'Could not find account information for the user in the "accounts" of raw_info: #{@raw_info}'
         end
       end
     end

@@ -7,7 +7,9 @@ default: &default
   # It will select part off project 'roomsAPI' or 'signature'
   examples_API: 'signature'
   # NOTE: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing.
+  # The integration_key value is the same between development sandbox and production account
   integration_key: {INTEGRATION_KEY_AUTH_CODE}
+  # integration secret key https://developers.docusign.com/platform/configuring-app/
   integration_secret: {SECRET_KEY}
   # NOTE: this jwt_integration_key can have the same value as the above integration_key
   jwt_integration_key: {INTEGRATION_KEY_JWT}
@@ -16,6 +18,8 @@ default: &default
   impersonated_user_guid: {IMPERSONATED_USER_ID}
   signer_email:  {SIGNER_EMAIL}
   signer_name: {SIGNER_NAME}
+  # Authentication service endpoint is different between production and development
+  # https://developers.docusign.com/docs/esign-rest-api/go-live/after-go-live/
   authorization_server: https://account-d.docusign.com
   aud: account-d.docusign.com
   allow_silent_authentication: true # a user can be silently authenticated if they have an

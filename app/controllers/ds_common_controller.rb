@@ -11,15 +11,6 @@ class DsCommonController < ApplicationController
     end
   end
 
-  def login
-    redirect_to('/oauth/docusign')
-  end
-
-  def callback
-    auth = request.env['omniauth.auth']
-    render json: auth.to_json
-  end
-
   def ds_return
     # To break out of the Quickstart loop an example has been completed
     session[:been_here] = true
@@ -30,32 +21,26 @@ class DsCommonController < ApplicationController
   end
 
   def ds_must_authenticate
-    
     if Rails.configuration.quickstart == "true"
       redirect_to('auth/docusign')
     end
     @title = 'Authenticate with DocuSign'
-    configuration = DocuSign_eSign::Configuration.new
-    api_client = DocuSign_eSign::ApiClient.new(configuration)
     @show_doc = Rails.application.config.documentation
 
     if params[:auth] == 'grand-auth'
       redirect_to('/auth/docusign')
     elsif params[:auth] == 'jwt-auth'
-      redirect_to root_path if session[:token].present?
-      configuration = DocuSign_eSign::Configuration.new
-      # configuration.debugging = true
-      api_client = DocuSign_eSign::ApiClient.new(configuration)
-      resp = ::JwtAuth::JwtCreator.new(session, api_client).check_jwt_token
-      if resp.is_a? String
-        redirect_to resp
+      if JwtAuth::JwtCreator.new(session).check_jwt_token
+        url = root_path
+      else
+        url = JwtAuth::JwtCreator.consent_url
       end
-    end
+      redirect_to url
     end
   end
-
 
   def example_done; end
 
   def error; end
 
+end

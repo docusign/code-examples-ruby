@@ -42,15 +42,20 @@
       </li>
       <% else  %>
       <li>
-        <a class="nav-link" href="/ds/login" id="login"
-           data-busy="href">Login <span class="sr-only">(current)</span></a>
+        <form id="login_form" action="/auth/docusign" method="POST" style="display:inline">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <a class="nav-link" id="login"
+            href="#"
+            onclick="document.getElementById('login_form').submit();"
+            data-busy="href">Login <span class="sr-only">(current)</span></a>
+        </form>
       </li>
       <% end  %>
     </ul>
 
     <% if session["ds_user_name"] %>
       <span class="navbar-text">
-        Welcome <%= session["ds_user_name"] %>
+        Welcome <%= link_to session["ds_user_name"], ds_session_path %>
       </span>
     <% end %>
 
