@@ -22,7 +22,8 @@ Rails.application.routes.draw do
     get 'eg005Rooms' => 'eg005_get_rooms_with_filters#get'
     post 'eg005Rooms' => 'eg005_get_rooms_with_filters#create'
 
-    get 'eg006Rooms' => 'eg006_create_an_external_form_fill_session#get'
+    get 'eg006Rooms' => 'eg006_create_an_external_form_fill_session#get_rooms'
+    get 'eg006Rooms' => 'eg006_create_an_external_form_fill_session#get_forms'
     post 'eg006Rooms' => 'eg006_create_an_external_form_fill_session#create'
   end
 
