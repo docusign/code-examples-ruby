@@ -183,6 +183,10 @@ When the token expires, it updates automatically.
    - *Place curllib.dll into Ruby `C:\\<Ruby installation>\bin`*
 1. Open a browser to the example's base url to view the index page.
 
+### Before running an application!
+Current we have 2 diff launchers of application: eSign and roomAPI. By default we are running eSign. In order ti run rooms launcher you have to change `config/appseting.yml` 
+1.   *To run roomsAPI set `examples_API = roomsAPI` in `config/appsetings.yml`*
+1.   *To run eSign set `examples_API = signature` in `config/appsetings.yml`*
 
 ### Configuring JWT
 

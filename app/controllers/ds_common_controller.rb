@@ -9,6 +9,14 @@ class DsCommonController < ApplicationController
     if Rails.configuration.quickstart == true && session[:been_here].nil?
       redirect_to '/eg001'
     end
+    if Rails.configuration.examples_API == 'roomsAPI'
+      render 'room_api/index'
+    elsif Rails.configuration.examples_API == 'signature'
+      @show_doc = Rails.application.config.documentation
+      if Rails.configuration.quickstart == true && session[:been_here].nil?
+        redirect_to '/eg001'
+      end
+    end
   end
 
   def ds_return
@@ -34,6 +42,18 @@ class DsCommonController < ApplicationController
         url = root_path
       else
         url = JwtAuth::JwtCreator.consent_url
+      redirect_to root_path if session[:token].present?
+      end
+      if Rails.configuration.examples_API == 'roomsAPI'
+        configuration = DocuSign_Rooms::Configuration.new
+        api_client = DocuSign_Rooms::ApiClient.new(configuration)
+      elsif Rails.configuration.examples_API == 'signature'
+        configuration = DocuSign_eSign::Configuration.new
+        api_client = DocuSign_eSign::ApiClient.new(configuration)
+      end
+      resp = ::JwtAuth::JwtCreator.new(session, api_client).check_jwt_token
+      if resp.is_a? String
+        redirect_to resp
       end
       redirect_to url
     end

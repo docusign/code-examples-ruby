@@ -5,6 +5,27 @@ Rails.application.routes.draw do
   get 'eg001' => 'eg001_embedded_signing#get'
   post 'eg001' => 'eg001_embedded_signing#create'
 
+  scope module: 'room_api' do
+
+    get 'eg001Rooms' => 'eg001_create_room_with_data#get'
+    post 'eg001Rooms' => 'eg001_create_room_with_data#create'
+
+    get 'eg002Rooms' => 'eg002_create_room_with_template#get'
+    post 'eg002Rooms' => 'eg002_create_room_with_template#create'
+
+    get 'eg003Rooms' => 'eg003_export_data_from_room#get'
+    post 'eg003Rooms' => 'eg003_export_data_from_room#create'
+
+    get 'eg004Rooms' => 'eg004_add_forms_to_room#get'
+    post 'eg004Rooms' => 'eg004_add_forms_to_room#create'
+
+    get 'eg005Rooms' => 'eg005_get_rooms_with_filters#get'
+    post 'eg005Rooms' => 'eg005_get_rooms_with_filters#create'
+
+    get 'eg006Rooms' => 'eg006_create_an_external_form_fill_session#get'
+    post 'eg006Rooms' => 'eg006_create_an_external_form_fill_session#create'
+  end
+
   scope module: 'e_sign' do
     # Example controllers...
 
