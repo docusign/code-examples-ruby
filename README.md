@@ -195,12 +195,13 @@ When the token expires, it updates automatically.
 #### Run the application
 1. To start the development web server and application:
 
-   Run **rails s** 
+   Run **rails s**  
+
    *Note that on Windows additional actions might be necessary:*
    - *Install sqlite3: **gem install sqlite3 --platform=ruby***
    - *Download curllib.dll (https://curl.haxx.se/windows/)*
    - *libcurl-x64.dll should be copied as libcurl.dll*
-   - *Place curllib.dll into Ruby `C:\\<Ruby installation>\bin`*
+   - *Place libcurl.dll into Ruby `C:\\<Ruby installation>\bin`*
 1. Open a browser to the example's base url to view the index page.
 
 ### Before running an application!
