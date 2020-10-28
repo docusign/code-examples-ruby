@@ -1,5 +1,7 @@
 <%=render 'room_api/eg004_add_forms_to_room/information' %>
 
+<% unless @form_libraries.blank? %>
+
 <% if @form_libraries.count.positive? && @rooms.count.positive? %>
 
   <form class="eg" id="data_form" action="" method="post" data-busy="form">
@@ -13,19 +15,7 @@
     <button type="submit" class="btn btn-docu">Submit</button>
   </form>
 
-<% elsif @form_libraries.count.zero? %>
-
-  <div class="form-group">
-    <p>
-      Problem: DocuSign Forms is not enabled for this company. Please contact
-      <a target ='_blank' href="https://support.docusign.com/">DocuSign Rooms Support</a>
-      to enable Forms.
-      <br>
-      Thank you.
-    </p>
-  </div>
-
-<% else %>
+<% elsif @rooms.count.zero? %>
 
   <div class="form-group">
     <p>
@@ -37,5 +27,21 @@
       Thank you.
     </p>
   </div>
+
+<% end %>
+
+<% else %>
+
+
+    <div class="form-group">
+    <p>
+      Problem: DocuSign Forms is not enabled for this company. Please contact
+      <a target ='_blank' href="https://support.docusign.com/">DocuSign Rooms Support</a>
+      to enable Forms.
+      <br>
+      Thank you.
+    </p>
+  </div>
+
 
 <% end %>
