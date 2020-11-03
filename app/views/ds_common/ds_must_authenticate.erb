@@ -1,7 +1,8 @@
 <div style="margin:1% 5%;">
   <h1 class="display-4">Please Authenticate with DocuSign</h1>
   <p class="lead">
-    <form class="eg" action="" method="get" data-busy="form">
+    <form class="eg" action="" action="/auth/docusign" method="POST"  data-busy="form">
+     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
       <div class="form-group">
         <select id="auth" name="auth" class="form-control">
           <option value="grand-auth" selected>Authorization Code grant</option>
