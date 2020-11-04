@@ -21,7 +21,7 @@ class RoomApi::Eg004AddFormsToRoomService
 
   def worker
     configuration = DocuSign_Rooms::Configuration.new
-    configuration.host = "https://demo.rooms.docusign.com/restapi"
+    configuration.host = Rails.configuration.host
 
     api_client = DocuSign_Rooms::ApiClient.new(configuration)
     api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
