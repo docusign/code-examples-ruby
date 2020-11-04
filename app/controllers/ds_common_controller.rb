@@ -8,7 +8,7 @@ class DsCommonController < ApplicationController
     @show_doc = Rails.application.config.documentation
     if Rails.configuration.examples_API == 'roomsAPI'
       render 'room_api/index'
-    elsif Rails.configuration.examples_API == 'signature'
+    else
       @show_doc = Rails.application.config.documentation
       if Rails.configuration.quickstart == true && session[:been_here].nil?
         redirect_to '/eg001'
