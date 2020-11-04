@@ -7,7 +7,7 @@ default: &default
   # It will select part off project 'roomsAPI' or 'signature'
   examples_API: 'signature'
   # NOTE: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing.
-  # The integration_key value is the same between development sandbox and production account
+  # The integration_key value is the same between the development and production accounts.
   integration_key: {INTEGRATION_KEY_AUTH_CODE}
   # integration secret key https://developers.docusign.com/platform/configuring-app/
   integration_secret: {SECRET_KEY}
