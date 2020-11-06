@@ -156,7 +156,7 @@ When the token expires, it updates automatically.
 ### Prerequisites
 **Note: If you downloaded this code using Quickstart from the DocuSign Developer Center, skip steps 1 and 2 below as they're automatically performed for you.**
 
-1. A DocuSign Developer Sandbox account (email and password) on [demo.docusign.net](https://demo.docusign.net).
+1. A DocuSign Developer account (email and password) on [demo.docusign.net](https://demo.docusign.net).
    Create a [free account](https://go.docusign.com/sandbox/productshot/?elqCampaignId=16536).
 1. A DocuSign Integration Key and secret key (a client ID). To use JSON Web token, you will need the Integration Key itself, the RSA Secret Key and an API user ID for the user you are impersonating.
    
