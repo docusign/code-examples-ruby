@@ -23,7 +23,7 @@ class RoomApi::Eg002CreateRoomWithTemplateService
 
   def worker
     configuration = DocuSign_Rooms::Configuration.new
-    configuration.host = Rails.configuration.host
+    configuration.host = Rails.configuration.rooms_host
 
     api_client = DocuSign_Rooms::ApiClient.new(configuration)
     api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
