@@ -22,6 +22,7 @@ default: &default
   # https://developers.docusign.com/docs/esign-rest-api/go-live/after-go-live/
   authorization_server: https://account-d.docusign.com
   aud: account-d.docusign.com
+  host: "https://demo.rooms.docusign.com/restapi"
   allow_silent_authentication: true # A user can be silently authenticated if they have an
                                     # Active login session on another tab of the same browser
                                     # Set if you want a specific DocuSign AccountId, If false, the users default account will be used.
