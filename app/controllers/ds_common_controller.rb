@@ -6,7 +6,7 @@ class DsCommonController < ApplicationController
 
   def index
     @show_doc = Rails.application.config.documentation
-    if Rails.configuration.examples_API == 'roomsAPI'
+    if Rails.configuration.examples_API == 'Rooms'
       render 'room_api/index'
     else
       @show_doc = Rails.application.config.documentation
@@ -41,10 +41,10 @@ class DsCommonController < ApplicationController
         url = JwtAuth::JwtCreator.consent_url
       redirect_to root_path if session[:token].present?
       end
-      if Rails.configuration.examples_API == 'roomsAPI'
+      if Rails.configuration.examples_API == 'Rooms'
         configuration = DocuSign_Rooms::Configuration.new
         api_client = DocuSign_Rooms::ApiClient.new(configuration)
-      elsif Rails.configuration.examples_API == 'signature'
+      elsif Rails.configuration.examples_API == 'eSignature'
         configuration = DocuSign_eSign::Configuration.new
         api_client = DocuSign_eSign::ApiClient.new(configuration)
       end

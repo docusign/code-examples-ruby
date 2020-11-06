@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  if Rails.configuration.examples_API == 'roomsAPI'
+  if Rails.configuration.examples_API == 'Rooms'
     scope module: 'room_api' do
       get 'eg001' => 'eg001_create_room_with_data#get'
       post 'eg001' => 'eg001_create_room_with_data#create'
