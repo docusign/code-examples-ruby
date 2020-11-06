@@ -31,7 +31,7 @@ class EgController < ApplicationController
       @show_doc = @config.documentation
     elsif @config.quickstart == true
 
-      redirect_to '/ds/login'
+      redirect_to '/ds/mustAuthenticate'
 
     else
       # RequestItemsService.EgName = EgName

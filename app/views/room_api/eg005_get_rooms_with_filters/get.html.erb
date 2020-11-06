@@ -1,0 +1,29 @@
+<%=render 'room_api/eg005_get_rooms_with_filters/information' %>
+
+<% if @rooms.count.positive? %>
+
+  <form class="eg" id="data_form" action="" method="post" data-busy="form">
+    <div class="form-group">
+      <label>Date from</label>
+      <input id="date_from" name="date_from" type="date" class="form-control" value=<%= Time.now - 10.days %> max=<%= Time.now %>>
+      <br>
+      <label>Data to</label>
+      <input id="date_to" name="date_to"  type="date" class="form-control" value=<%= Time.now %> max=<%= Time.now %>>
+    </div>
+    <button type="submit" class="btn btn-docu">Submit</button>
+  </form>
+
+<% else %>
+
+  <div class="form-group">
+    <p>
+      Problem: you don't have any rooms. Please first create a room using
+      <a target ='_blank'  href="eg001">Create a new room</a>
+      or
+      <a target ='_blank'  href="eg002">Create room with a template</a>.
+      <br>
+      Thank you.
+    </p>
+  </div>
+
+<% end %>

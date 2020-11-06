@@ -5,7 +5,7 @@
 This repo is a Ruby on Rails application that demonstrates:
 
 
-### Example Workflows
+## eSignature API
 This launcher includes code examples for the following workflows:
 
 1. **Embedded Signing Ceremony.**
@@ -120,6 +120,26 @@ This launcher includes code examples for the following workflows:
    [Source.](./app/services/e_sign/eg031_service.rb)
    This example creates and sends a bulk envelope by generating a bulk recipient list and initiating a bulk send.
 
+## Rooms API
+
+1. **Create a room with data.**
+[Source.](./app/services/room_api/eg001_create_room_with_data_service.rb)
+This example creates a new room in your DocuSign Rooms account to be used for a transaction.
+1. **Create a room from a template.**
+[Source.](./app/services/room_api/eg002_create_room_with_template_service.rb)
+This example creates a new room using a template.
+1. **Export data from a room.**
+[Source.](./app/services/room_api/eg003_export_data_from_room_service.rb)
+This example exports all the available data from a specific room in your DocuSign Rooms account.
+1. **Add forms to a room.**
+[Source.](./app/services/room_api/eg004_add_forms_to_room_service.rb)
+This example adds a standard real estate related form to a specific room in your DocuSign Rooms account.
+1. **Search for rooms with filters.**
+[Source.](./app/services/room_api/eg005_get_rooms_with_filters_service.rb)
+This example searches for rooms in your DocuSign Rooms account using a specific filter.
+1. **Get an external form fillable session.**
+[Source.](./app/services/room_api/eg006_create_an_external_form_fill_session_service.rb)
+This example creates an external form that can be filled using DocuSign for a specific room in your DocuSign Rooms account.
 
 ## Included OAuth grant types:
 
@@ -175,14 +195,19 @@ When the token expires, it updates automatically.
 #### Run the application
 1. To start the development web server and application:
 
-   Run **rails s** 
+   Run **rails s**  
+
    *Note that on Windows additional actions might be necessary:*
    - *Install sqlite3: **gem install sqlite3 --platform=ruby***
    - *Download curllib.dll (https://curl.haxx.se/windows/)*
    - *libcurl-x64.dll should be copied as libcurl.dll*
-   - *Place curllib.dll into Ruby `C:\\<Ruby installation>\bin`*
+   - *Place libcurl.dll into Ruby `C:\\<Ruby installation>\bin`*
 1. Open a browser to the example's base url to view the index page.
 
+### Before running an application!
+Currently we suppport two different APIs in the launcher: eSignature and Rooms. By default we are running eSignature. In order to run the Rooms launcher you have to change the examples_API value in `config/appsettings.yml` 
+1.   *To run roomsAPI set `examples_API = Rooms` in `config/appsetings.yml`*
+1.   *To run eSign set `examples_API = eSignature` in `config/appsetings.yml`*
 
 ### Configuring JWT
 
