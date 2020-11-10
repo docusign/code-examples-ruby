@@ -209,11 +209,6 @@ When the token expires, it updates automatically.
    - *Place libcurl.dll into Ruby `C:\\<Ruby installation>\bin`*
 1. Open a browser to the example's base url to view the index page.
 
-### Before running an application!
-Currently we suppport two different APIs in the launcher: eSignature and Rooms. By default we are running eSignature. In order to run the Rooms launcher you have to change the examples_API value in `config/appsettings.yml` 
-1.   *To run roomsAPI set `examples_API = Rooms` in `config/appsetings.yml`*
-1.   *To run eSign set `examples_API = eSignature` in `config/appsetings.yml`*
-
 ### Configuring JWT
 
 1. Create a developer sandbox account on developers.docusign.com if you don't already have one.
