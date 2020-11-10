@@ -1,6 +1,11 @@
 # Ruby Launcher Code Examples
 
 ### Github repo: code-examples-ruby
+
+This GitHub repo includes code examples for both the DocuSign eSignature REST API as well as the DocuSign Rooms API. To use the Rooms API code example, modify the examples_API setting at the end of the appsettings.yml file from 'eSignature' to 'Rooms'.
+
+**Note:** to use the Rooms API you must also [create your DocuSign Developer Account for Rooms](https://developers.docusign.com/docs/rooms-api/rooms101/create-account).
+
 ## Introduction
 This repo is a Ruby on Rails application that demonstrates:
 
