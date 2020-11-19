@@ -110,9 +110,6 @@ class ESign::Eg010Service
     }
     # Change your API version in the URL below to v2 for API version 2
     uri = URI.parse("#{args[:base_path]}/restapi/v2.1/accounts/#{args[:account_id]}/envelopes")
-    puts "HERE"
-    puts uri
-    puts "HERE"
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = (uri.scheme == 'https')
     req = Net::HTTP::Post.new(uri, header)
