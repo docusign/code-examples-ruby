@@ -39,7 +39,7 @@ This launcher includes code examples for the following workflows:
 1. **Send an envelope and upload its documents with multpart binary transfer.**
    [Source.](./app/services/e_sign/eg010_service.rb)
    Binary transfer is 33% more efficient than using Base64 encoding.
-1. **use embedded sending.**
+1. **Use embedded sending.**
    [Source.](./app/services/e_sign/eg011_service.rb)
    Embeds the DocuSign web tool (NDSE) in your web app to finalize or update
    the envelope and documents before they are sent.
