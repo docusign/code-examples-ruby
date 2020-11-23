@@ -13,7 +13,7 @@ class ESign::Eg013AddDocToTemplateController < EgController
       begin
         results = ESign::Eg013Service.new(request, session, template_id).call
         # which need an envelopeId
-        # Redirect the user to the signing ceremony
+        # Redirect the user to the embedded signing
         # Don't use an iFrame!
         # State can be stored/recovered using the framework's session or a
         # query parameter on the returnUrl
@@ -33,7 +33,7 @@ class ESign::Eg013AddDocToTemplateController < EgController
       # authentication.
       redirect_to '/ds/mustAuthenticate'
     elsif !template_id
-      @title = 'Embedded Signing Ceremony from template and extra doc',
+      @title = 'Use embedded signing from template and extra doc',
                @template_ok = false
     end
   end

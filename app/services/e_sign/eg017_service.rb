@@ -48,7 +48,7 @@ def worker
   # Call the CreateRecipientView API
   results = create_envelope_api(args).create_recipient_view args[:account_id], envelope_id, view_request
 
-  # Redirect the user to the signing ceremony
+  # Redirect the user to the embedded signing
   # Don't use an iframe!
   # State can be stored/recovered using the framework's session or a
   # query parameter on the return URL (see the makeRecipientViewRequest method)
@@ -142,7 +142,7 @@ def make_recipient_view_request(signer_email, signer_name, signer_client_id, ds_
   # Set the URL where you want the recipient to go once they are done signing; this
   # should typically be a callback route somewhere in your app. The query parameter
   # is included as an example of how to save/recover state information during the redirect
-  # to the DocuSign signing ceremony. It's usually better to use the session mechanism
+  # to the DocuSign signing. It's usually better to use the session mechanism
   # of your web framework. Query parameters can be changed/spoofed very easily
   view_request.return_url = ds_return_url + '?state=123'
 
@@ -155,9 +155,9 @@ def make_recipient_view_request(signer_email, signer_name, signer_client_id, ds_
   view_request.user_name = signer_name
   view_request.client_user_id = signer_client_id
 
-  # DocuSign recommends that you redirect to DocuSign for the signing ceremony. There are
+  # DocuSign recommends that you redirect to DocuSign for the embedded signing. There are
   # multiple ways to save state. To maintain your application's session, use the pingUrl
-  # parameter. It causes the DocuSign Signing Ceremony web page (not the DocuSign server)
+  # parameter. It causes the DocuSign signing web page (not the DocuSign server)
   # to send pings via AJAX to your app
   view_request.ping_frequency = '600' # seconds
   # NOTE: The pings will only be sent if the pingUrl is an HTTPS address

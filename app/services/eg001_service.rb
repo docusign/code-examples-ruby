@@ -38,14 +38,14 @@ class Eg001Service
     # Save for future use within the example launcher
     # session[:envelope_id] = envelope_id
 
-    # Step 3. Create the recipient view for the signing ceremony
+    # Step 3. Create the recipient view for the embedded signing
     view_request = make_recipient_view_request(signer_client_id, ds_return_url, ds_ping_url
     )
 
     # Call the CreateRecipientView API
     results = envelope_api.create_recipient_view args[:account_id], envelope_id, view_request
 
-    # Step 4. Redirect the user to the signing ceremony
+    # Step 4. Redirect the user to the embedded signing
     # Don't use an iframe!
     # State can be stored/recovered using the framework's session or a
     # query parameter on the returnUrl (see the makeRecipientViewRequest method)
@@ -59,7 +59,7 @@ class Eg001Service
     # should typically be a callback route somewhere in your app.
     # The query parameter is included as an example of how
     # to save/recover state information during the redirect to
-    # the DocuSign signing ceremony. It's usually better to use
+    # the DocuSign signing. It's usually better to use
     # the session mechanism of your web framework. Query parameters
     # can be changed/spoofed very easily.
     view_request.return_url = ds_return_url + '?state=123'
@@ -75,9 +75,9 @@ class Eg001Service
     view_request.user_name = signer_name
     view_request.client_user_id = signer_client_id
 
-    # DocuSign recommends that you redirect to DocuSign for the signing ceremony. There are
+    # DocuSign recommends that you redirect to DocuSign for the embedded signing. There are
     # multiple ways to save state. To maintain your application's session, use the pingUrl
-    # parameter. It causes the DocuSign Signing Ceremony web page (not the DocuSign server)
+    # parameter. It causes the DocuSign signing web page (not the DocuSign server)
     # to send pings via AJAX to your app
     view_request.ping_frequency = '600' # seconds
     # NOTE: The pings will only be sent if the pingUrl is an HTTPS address
