@@ -55,7 +55,7 @@ class ESign::Eg013Service
       email: envelope_args[:signer_email],
       clientUserId: envelope_args[:signer_client_id]
     )
-    # 4. Obtain the recipient_view_url for the signing ceremony
+    # 4. Obtain the recipient_view_url for the embedded signing
     # Exceptions will be caught by the calling function
     results = envelope_api.create_recipient_view(args[:account_id],
                                                  envelope_id, recipient_view_request)
