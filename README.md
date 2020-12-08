@@ -13,6 +13,8 @@ This repo is a Ruby on Rails application that demonstrates:
 ## eSignature API
 This launcher includes code examples for the following workflows:
 
+For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth).
+
 1. **Use embedded signing.**
    [Source.](./app/services/eg001_service.rb)
    This example sends an envelope, and then uses embedded signing for the first signer.
@@ -127,6 +129,8 @@ This launcher includes code examples for the following workflows:
 
 ## Rooms API
 
+For more information about the scopes used for obtaining authorization to use the Rooms API, see the [Required Scopes section](https://developers.docusign.com/docs/rooms-api/rooms101/auth/).
+
 1. **Create a room with data.**
 [Source.](./app/services/room_api/eg001_create_room_with_data_service.rb)
 This example creates a new room in your DocuSign Rooms account to be used for a transaction.
@@ -210,6 +214,8 @@ When the token expires, it updates automatically.
 1. Open a browser to the example's base url to view the index page.
 
 ### Configuring JWT
+
+**Note:** Before you can make any API calls using JWT Grant, you must get your user’s consent for your app to impersonate them. To do this, the `impersonation` scope is added when requesting a JSON Web Token.
 
 1. Create a developer sandbox account on developers.docusign.com if you don't already have one.
 2. Create a new API key in the Admin panel: https://admindemo.docusign.com/api-integrator-key
