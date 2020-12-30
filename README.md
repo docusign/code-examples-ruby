@@ -62,7 +62,6 @@ For more information about the scopes used for obtaining authorization to use th
 1. **Payments example: an order form, with online payment by credit card.**
    [Source.](./app/services/e_sign/eg014_service.rb)
 
-
 1. **Get the envelope tab data.**
    Retrieve the tab (field) values for all of the envelope's recipients.
    [Source.](./app/services/e_sign/eg015_service.rb)
@@ -126,6 +125,18 @@ For more information about the scopes used for obtaining authorization to use th
 1. **Bulk sending envelopes to multiple recipients**
    [Source.](./app/services/e_sign/eg031_service.rb)
    This example creates and sends a bulk envelope by generating a bulk recipient list and initiating a bulk send.
+   
+1. **Pausing a signature workflow**
+   [Source.](./app/services/e_sign/eg032_service.rb)
+   This example demonstrates how to create an envelope where the workflow is paused before the envelope is sent to a second recipient.
+  
+1. **Unpausing a signature workflow**
+   [Source.](./app/services/e_sign/eg033_service.rb)
+   This example demonstrates how to resume an envelope workflow that has been paused.
+     
+1. **Using conditional recipients**
+   [Source.](./app/services/e_sign/eg034_service.rb)
+   This example demonstrates how to create an envelope where the workflow is routed to different recipients based on the value of a transaction.
 
 ## Rooms API
 

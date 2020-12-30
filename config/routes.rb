@@ -118,8 +118,17 @@ Rails.application.routes.draw do
 
       get 'eg031' => 'eg031_bulk_sending_envelopes#get'
       post 'eg031' => 'eg031_bulk_sending_envelopes#create'
+
+      get 'eg032' => 'eg032_pauses_signature_workflow#get'
+      post 'eg032' => 'eg032_pauses_signature_workflow#create'
+
+      get 'eg033' => 'eg033_unpauses_signature_workflow#get'
+      put 'eg033' => 'eg033_unpauses_signature_workflow#update'
+
+      get 'eg034' => 'eg034_use_conditional_recipients#get'
+      post 'eg034' => 'eg034_use_conditional_recipients#create'
     end
-    end
+  end
 
   root 'ds_common#index'
 
