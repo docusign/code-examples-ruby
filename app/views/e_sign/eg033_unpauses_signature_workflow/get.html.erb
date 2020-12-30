@@ -1,0 +1,24 @@
+<h4>33. Unpausing a signature workflow</h4>
+
+<p>
+  This example demonstrates how to resume an envelope workflow that has been paused.
+</p>
+
+<p>API method used:
+  <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/update/">Envelopes::update</a>,
+</p>
+
+<p>
+  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
+</p>
+<% if session[:envelope_id] %>
+  <%= form_tag eg033_path, method: :put do -%>
+    <%= submit_tag 'Submit', class: 'btn btn-docu'%>
+  <%- end -%>
+<% else %>
+  <p>
+    Problem: please first create an envelope using <a href="eg032">example 32.</a>
+    <br>
+    Thank you.
+  </p>
+<% end %>

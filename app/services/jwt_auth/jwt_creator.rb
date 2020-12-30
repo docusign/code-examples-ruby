@@ -13,9 +13,13 @@ module JwtAuth
       # GET /oauth/auth
       # This endpoint is used to obtain consent and is the first step in several authentication flows.
       # https://developers.docusign.com/platform/auth/reference/obtain-consent
+      scope = "signature impersonation"
+      if Rails.configuration.examples_API == 'Rooms'
+        scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms impersonation"
+      end
       base_uri = "#{Rails.configuration.authorization_server}/oauth/auth"
       response_type = "code"
-      scopes = ERB::Util.url_encode("signature impersonation") # https://developers.docusign.com/platform/auth/reference/scopes/
+      scopes = ERB::Util.url_encode(scope) # https://developers.docusign.com/platform/auth/reference/scopes/
       client_id = Rails.configuration.jwt_integration_key
       redirect_uri = "#{Rails.configuration.app_url}/auth/docusign/callback"
       consent_url = "#{base_uri}?response_type=#{response_type}&scope=#{scopes}&client_id=#{client_id}&redirect_uri=#{redirect_uri}"

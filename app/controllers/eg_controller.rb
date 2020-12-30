@@ -2,7 +2,7 @@
 
 class EgController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :file_name, :eg_name
+  before_action :file_name, :eg_name, :set_eg
 
   def file_name
     File.basename __FILE__
@@ -10,6 +10,10 @@ class EgController < ApplicationController
 
   def eg_name
     controller_name.to(4)
+  end
+
+  def set_eg
+    session[:eg] = controller_name.to(4)
   end
 
   def get
@@ -35,6 +39,7 @@ class EgController < ApplicationController
 
     else
       # RequestItemsService.EgName = EgName
+      # session[:eg] = eg_name
       redirect_to '/ds/mustAuthenticate'
     end
   end

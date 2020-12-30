@@ -3,13 +3,19 @@
 class SessionController < ApplicationController
   # GET /auth/:provider/callback
   def create
+    if session[:eg]
+      redirect_url = "/" + session[:eg]
+    else
+      redirect_url = root_path
+    end
+
     # reset the session
     internal_destroy
 
     Rails.logger.debug "\n==> DocuSign callback Authentication response:\n#{auth_hash.to_yaml}\n"
     Rails.logger.info "==> Login: New token for admin user which will expire at: #{Time.at(auth_hash.credentials['expires_at'])}"
     store_auth_hash_from_docusign_callback
-    redirect_to root_path
+    redirect_to redirect_url
   end
 
   # GET /ds/logout
@@ -46,6 +52,7 @@ class SessionController < ApplicationController
     session.delete :envelope_id
     session.delete :envelope_documents
     session.delete :template_id
+    session.delete :eg
   end
 
   def store_auth_hash_from_docusign_callback

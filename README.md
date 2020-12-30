@@ -13,6 +13,8 @@ This repo is a Ruby on Rails application that demonstrates:
 ## eSignature API
 This launcher includes code examples for the following workflows:
 
+For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth).
+
 1. **Use embedded signing.**
    [Source.](./app/services/eg001_service.rb)
    This example sends an envelope, and then uses embedded signing for the first signer.
@@ -59,7 +61,6 @@ This launcher includes code examples for the following workflows:
    feature.
 1. **Payments example: an order form, with online payment by credit card.**
    [Source.](./app/services/e_sign/eg014_service.rb)
-
 
 1. **Get the envelope tab data.**
    Retrieve the tab (field) values for all of the envelope's recipients.
@@ -124,8 +125,22 @@ This launcher includes code examples for the following workflows:
 1. **Bulk sending envelopes to multiple recipients**
    [Source.](./app/services/e_sign/eg031_service.rb)
    This example creates and sends a bulk envelope by generating a bulk recipient list and initiating a bulk send.
+   
+1. **Pausing a signature workflow**
+   [Source.](./app/services/e_sign/eg032_service.rb)
+   This example demonstrates how to create an envelope where the workflow is paused before the envelope is sent to a second recipient.
+  
+1. **Unpausing a signature workflow**
+   [Source.](./app/services/e_sign/eg033_service.rb)
+   This example demonstrates how to resume an envelope workflow that has been paused.
+     
+1. **Using conditional recipients**
+   [Source.](./app/services/e_sign/eg034_service.rb)
+   This example demonstrates how to create an envelope where the workflow is routed to different recipients based on the value of a transaction.
 
 ## Rooms API
+
+For more information about the scopes used for obtaining authorization to use the Rooms API, see the [Required Scopes section](https://developers.docusign.com/docs/rooms-api/rooms101/auth/).
 
 1. **Create a room with data.**
 [Source.](./app/services/room_api/eg001_create_room_with_data_service.rb)
@@ -210,6 +225,8 @@ When the token expires, it updates automatically.
 1. Open a browser to the example's base url to view the index page.
 
 ### Configuring JWT
+
+**Note:** Before you can make any API calls using JWT Grant, you must get your user’s consent for your app to impersonate them. To do this, the `impersonation` scope is added when requesting a JSON Web Token.
 
 1. Create a developer sandbox account on developers.docusign.com if you don't already have one.
 2. Create a new API key in the Admin panel: https://admindemo.docusign.com/api-integrator-key
