@@ -19,7 +19,7 @@ For more information about the scopes used for obtaining authorization to use th
    [Source.](./app/services/eg001_service.rb)
    This example sends an envelope, and then uses embedded signing for the first signer.
    With embedded signing, the DocuSign signing is initiated from your website.
-1. **Send an envelope with a remote (email) signer and cc recipient.**
+1. **How to request a signature by email (Remote Signing).**
    [Source.](./app/services/e_sign/eg002_service.rb)
    The envelope includes a pdf, Word, and HTML document.
    Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
