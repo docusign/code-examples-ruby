@@ -1,0 +1,41 @@
+<h4>5. Getting clickwrap responses</h4>
+<p>
+  This example demonstrates how to use the DocuSign Click API to get a list of
+  clickwrap responses associated with a specific DocuSign user.
+</p>
+
+<p>API method used:
+  <a target='_blank' href="https://developers.docusign.com/docs/click-api/reference/accounts/clickwraps/getclickwrapagreements">ClickWraps::getClickwrapAgreements</a>
+</p>
+
+<p>
+  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
+</p>
+
+<% if session[:clickwrap_id] %>
+  <p>
+    The clickwrap you created via example 1 will be queried.
+    <br/>
+    Please enter a value that uniquely identifies a user, such as an email
+    address or employee ID
+  </p>
+
+  <form class="eg" action="" method="post" data-busy="form">
+    <div class="form-group">
+      <label for="client_user_id">User identifier</label>
+      <input type="text" class="form-control" id="client_user_id"
+             name="client_user_id" required>
+    </div>
+    <button type="submit" class="btn btn-docu">Continue</button>
+  </form>
+
+<% else %>
+
+  <p>
+    Problem: please first create a clickwrap using
+    <a href="eg001">example 1.</a>
+    <br/>
+    Thank you.
+  </p>
+
+<% end %>

@@ -1,0 +1,37 @@
+<h4>2. Activating a clickwrap</h4>
+<p>
+  This example demonstrates how to use the DocuSign Click API to activate a new
+  clickwrap that you have already created.
+  <br/>
+  By default, new clickwraps are inactive. You must activate your clickwrap before
+  you can use it.
+</p>
+
+<p>API method used:
+  <a target='_blank' href="https://developers.docusign.com/docs/click-api/reference/accounts/clickwraps/updateclickwrapversion">ClickWraps::updateClickwrapVersion</a>
+</p>
+
+<p>
+  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
+</p>
+
+<% if session[:clickwrap_id] %>
+
+  <p>
+    The clickwrap you created via example 1 will be queried.
+  </p>
+
+  <form class="eg" action="" method="post" data-busy="form">
+    <button type="submit" class="btn btn-docu">Continue</button>
+  </form>
+
+<% else %>
+
+  <p>
+    Problem: please first create a clickwrap using
+    <a href="eg001">example 1.</a>
+    <br/>
+    Thank you.
+  </p>
+
+<% end %>

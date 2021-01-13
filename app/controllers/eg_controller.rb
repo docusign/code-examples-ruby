@@ -2,10 +2,16 @@
 
 class EgController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :file_name, :eg_name, :set_eg
+  before_action :eg_name, :set_eg
 
-  def file_name
-    File.basename __FILE__
+  def folder_name
+    folder_name = "e_sign/"
+    if @config.examples_API["Rooms"] == true
+      folder_name = "room_api/"
+    elsif @config.examples_API["Click"] == true
+      folder_name = "clickwrap/"
+    end
+    return folder_name
   end
 
   def eg_name
@@ -29,8 +35,12 @@ class EgController < ApplicationController
       @document_options = session.fetch(:envelope_documents, {})['documents']
       @gateway_ok = @config.gateway_account_id.try(:length) > 25
       @template_ok = session[:template_id].present?
-      @source_file = file_name.to_s
-      @source_url = "#{@config.github_example_url}#{@source_file}"
+      if folder_name == "e_sign/"
+        @source_file = eg_name + "_service.rb"
+      else
+        @source_file = controller_name + "_service.rb"
+      end
+      @source_url = "#{@config.github_example_url}#{folder_name}#{@source_file}"
       @documentation = "#{@config.documentation}#{eg_name}" #= Config.documentation + EgName
       @show_doc = @config.documentation
     elsif @config.quickstart == true

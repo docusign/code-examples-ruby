@@ -6,8 +6,10 @@ class DsCommonController < ApplicationController
 
   def index
     @show_doc = Rails.application.config.documentation
-    if Rails.configuration.examples_API == 'Rooms'
+    if Rails.configuration.examples_API['Rooms'] == true
       render 'room_api/index'
+    elsif Rails.configuration.examples_API['Click'] == true
+      render 'clickwrap/index'
     else
       @show_doc = Rails.application.config.documentation
       if Rails.configuration.quickstart == true && session[:been_here].nil?
@@ -41,12 +43,15 @@ class DsCommonController < ApplicationController
         url = JwtAuth::JwtCreator.consent_url
       redirect_to root_path if session[:token].present?
       end
-      if Rails.configuration.examples_API == 'Rooms'
+      if Rails.configuration.examples_API['Rooms'] == true
         configuration = DocuSign_Rooms::Configuration.new
         api_client = DocuSign_Rooms::ApiClient.new(configuration)
-      elsif Rails.configuration.examples_API == 'eSignature'
+      # elsif Rails.configuration.examples_API['Click'] == true
+      #   configuration = DocuSign_Click::Configuration.new
+      #   api_client = DocuSign_Click::ApiClient.new(configuration)
+      elsif Rails.configuration.examles_API['eSignature'] == true
         configuration = DocuSign_eSign::Configuration.new
-        api_client = DocuSign_eSign::ApiClient.new(configuration)
+        api_client = DocuSign_eSign::ApiClient.new(configuration)        
       end
       resp = ::JwtAuth::JwtCreator.new(session, api_client).check_jwt_token
       if resp.is_a? String

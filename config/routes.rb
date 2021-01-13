@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  if Rails.configuration.examples_API == 'Rooms'
+  if Rails.configuration.examples_API['Rooms'] == true
     scope module: 'room_api' do
       get 'eg001' => 'eg001_create_room_with_data#get'
       post 'eg001' => 'eg001_create_room_with_data#create'
@@ -21,6 +21,23 @@ Rails.application.routes.draw do
       get 'eg006' => 'eg006_create_an_external_form_fill_session#get_rooms'
       get 'eg006_forms' => 'eg006_create_an_external_form_fill_session#get_forms'
       post 'eg006' => 'eg006_create_an_external_form_fill_session#create'
+    end
+  elsif Rails.configuration.examples_API['Click'] == true
+    scope module: 'clickwrap' do
+      get 'eg001' => 'eg001_create_clickwrap#get'
+      post 'eg001' => 'eg001_create_clickwrap#create'
+
+      get 'eg002' => 'eg002_activate_clickwrap#get'
+      post 'eg002' => 'eg002_activate_clickwrap#create'
+
+      get 'eg003' => 'eg003_create_new_clickwrap_version#get'
+      post 'eg003' => 'eg003_create_new_clickwrap_version#create'
+
+      get 'eg004' => 'eg004_list_clickwraps#get'
+      post 'eg004' => 'eg004_list_clickwraps#create'
+
+      get 'eg005' => 'eg005_clickwrap_responses#get'
+      post 'eg005' => 'eg005_clickwrap_responses#create'
     end
   else
     get 'eg001' => 'eg001_embedded_signing#get'

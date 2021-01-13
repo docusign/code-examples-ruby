@@ -64,6 +64,7 @@ end
 
 gem 'docusign_esign', '~> 3.6'
 gem 'docusign_rooms', '~> 1.0'
+gem 'docusign_click'
 gem 'omniauth-oauth2', '~> 1.6'
 gem 'omniauth-rails_csrf_protection'
 
