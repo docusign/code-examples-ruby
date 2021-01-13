@@ -32,8 +32,10 @@ config.middleware.use OmniAuth::Builder do
     unless strategy.options[:allow_silent_authentication]
       strategy.options[:authorize_params].prompt = strategy.options.prompt
     end
-    if Rails.configuration.examples_API == 'Rooms'
+    if Rails.configuration.examples_API['Rooms'] == true
       strategy.options[:authorize_params].scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
+    elsif Rails.configuration.examples_API['Click'] == true
+      strategy.options[:authorize_params].scope = "signature click.manage click.send"
     end
   }
 end

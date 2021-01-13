@@ -2,16 +2,18 @@
 
 ### Github repo: code-examples-ruby
 
-This GitHub repo includes code examples for both the DocuSign eSignature REST API as well as the DocuSign Rooms API. To use the Rooms API code example, modify the examples_API setting at the end of the appsettings.yml file from 'eSignature' to 'Rooms'.
+This GitHub repo includes code examples for DocuSign APIs.
+
+To switch between API code examples, modify the `examples_API` setting at the end of the configuration file. Set only one API type to true and set the remaining to false.
+
+If none of the API types are set to true, the DocuSign eSignature REST API code examples will be shown. If multiple API types are set to true, only the first will be shown.
 
 **Note:** to use the Rooms API you must also [create your DocuSign Developer Account for Rooms](https://developers.docusign.com/docs/rooms-api/rooms101/create-account).
 
 ## Introduction
 This repo is a Ruby on Rails application that demonstrates:
 
-
 ## eSignature API
-This launcher includes code examples for the following workflows:
 
 For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth).
 
@@ -160,6 +162,26 @@ This example searches for rooms in your DocuSign Rooms account using a specific 
 1. **Get an external form fillable session.**
 [Source.](./app/services/room_api/eg006_create_an_external_form_fill_session_service.rb)
 This example creates an external form that can be filled using DocuSign for a specific room in your DocuSign Rooms account.
+
+## Clickwrap
+
+For more information about the scopes used for obtaining authorization to use the Clickwrap API, see the [Required Scopes section](https://developers.docusign.com/docs/click-api/click101/auth).
+
+1. **Creating a clickwrap.**
+[Source.](./app/services/clickwrap/eg001_create_clickwrap_service.rb)
+This example demonstrates how to use the Click API to create a clickwrap that you can embed in your website or app.
+1. **Activate a clickwrap.**
+[Source.](./app/services/clickwrap/eg002_activate_clickwrap_service.rb)
+This example demonstrates how to use the Click API to activate a new clickwrap that you have already created.
+1. **Creating a new clickwrap version.**
+[Source.](./app/services/clickwrap/eg003_create_new_clickwrap_version_service.rb)
+This example demonstrates how to use the Click API to create a new version of a clickwrap.
+1. **Getting a list of clickwraps.**
+[Source.](./app/services/clickwrap/eg004_list_clickwraps_service.rb)
+This example demonstrates how to use the Click API to get a list of clickwraps associated with a specific DocuSign user.
+1. **Getting clickwrap responses.**
+[Source.](./app/services/clickwrap/eg005_clickwrap_responses_service.rb)
+This example demonstrates how to use the Click API to get a list of clickwraps associated with a specific DocuSign user.
 
 ## Included OAuth grant types:
 
