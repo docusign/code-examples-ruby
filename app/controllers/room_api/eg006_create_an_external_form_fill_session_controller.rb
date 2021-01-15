@@ -4,11 +4,12 @@ class RoomApi::Eg006CreateAnExternalFormFillSessionController < EgController
   def create
     results = RoomApi::Eg006CreateAnExternalFormFillSessionService.new(session, request).call
 
-    @scenarios_name = "eg006_create_an_external_form_fill_session"
-    @result = results.to_json.to_json
-    @link = results.as_json['url']
+    @title = "External form fill session was successfully created"
+    @h1 = "External form fill session was successfully created"
+    @message = "To fill the form navigate the following URL: <a href='${externalForm.url}'>Fill the form</a>"
+    @json = results.to_json.to_json
 
-    render 'room_api/return'
+    render 'ds_common/example_done'
   end
 
   def get_rooms

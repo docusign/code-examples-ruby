@@ -3,7 +3,7 @@ class ESign::Eg010SendBinaryDocsController < EgController
     minimum_buffer_min = 3
     if check_token minimum_buffer_min
       begin
-        results = ESign::Eg010Service.new(request, session).call
+        results = ESign::Eg010SendBinaryDocsService.new(request, session).call
         @title = 'Envelope sent'
         @h1 = 'Envelope sent'
         @message = "The envelope has been created and sent!<br/>Envelope ID #{results['envelope_id']}."

@@ -20,7 +20,7 @@ class ESign::Eg026PermissionsChangeSingleSettingController < EgController
     minimum_buffer_min = 3
     if check_token(minimum_buffer_min)
     begin  
-        results  = ESign::Eg026Service.new(session, request).call
+        results  = ESign::Eg026PermissionsChangeSingleSettingService.new(session, request).call
         # Step 4. a) Call the eSignature API
         #         b) Display the JSON response  
         @title = 'Updating individual permission settings'

@@ -3,7 +3,7 @@ class ESign::Eg028BrandsCreatingController < EgController
     minimum_buffer_min = 3
     if check_token(minimum_buffer_min)
     begin  
-        results  = ESign::Eg028Service.new(session, request).call
+        results  = ESign::Eg028BrandsCreatingService.new(session, request).call
         # Step 4. a) Call the eSignature API
         #         b) Display the JSON response  
         brand_id = results.brands[0].brand_id

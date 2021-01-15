@@ -4,7 +4,7 @@ class ESign::Eg033UnpausesSignatureWorkflowController < EgController
   before_action :check_auth
 
   def update
-    results = ESign::Eg033Service.new(session).call
+    results = ESign::Eg033UnpausesSignatureWorkflowService.new(session).call
 
     @envelop_id = results.to_hash[:envelopeId].to_s
     render 'e_sign/eg033_unpauses_signature_workflow/return'

@@ -23,7 +23,7 @@ class ESign::Eg025PermissionsSetUserGroupController < EgController
     minimum_buffer_min = 3
     if check_token(minimum_buffer_min)
     begin  
-        results  = ESign::Eg025Service.new(session, request).call
+        results  = ESign::Eg025PermissionsSetUserGroupService.new(session, request).call
         # Step 4. a) Call the eSignature API
         #         b) Display the JSON response  
         @title = 'Setting a permission profile'

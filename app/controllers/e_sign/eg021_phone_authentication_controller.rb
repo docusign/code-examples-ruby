@@ -5,7 +5,7 @@ class ESign::Eg021PhoneAuthenticationController < EgController
     minimum_buffer_min = 3
     if check_token(minimum_buffer_min)
       begin
-        results = ESign::Eg021Service.new(request, session).call
+        results = ESign::Eg021PhoneAuthenticationService.new(request, session).call
         session[:envelope_id] = results.envelope_id
         @title = 'Envelope sent'
         @h1 = 'Envelope sent'

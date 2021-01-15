@@ -11,7 +11,7 @@ class ESign::Eg016SetEnvelopeTabDataController < EgController
       # we'll make the user re-enter the form data after authentication
       redirect_to '/ds/mustAuthenticate'
     end
-    redirect_url = ESign::Eg016Service.new(request, session).call
+    redirect_url = ESign::Eg016SetEnvelopeTabDataService.new(request, session).call
     redirect_to redirect_url
   end
 end

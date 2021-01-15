@@ -2,6 +2,7 @@
 
 class ESign::Eg005EnvelopeRecipientsController < EgController
   include ApiCreator
+  skip_before_action :set_meta
   
   def create
     minimum_buffer_min = 3

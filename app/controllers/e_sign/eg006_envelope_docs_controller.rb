@@ -8,7 +8,7 @@ class ESign::Eg006EnvelopeDocsController < EgController
 
     if token_ok && envelope_id
       begin
-        results = ESign::Eg006Service.new(request, session, envelope_id).call
+        results = ESign::Eg006EnvelopeDocsService.new(request, session, envelope_id).call
 
         @title = 'Envelope documents list'
         @h1 = 'List the envelope\'s documents'

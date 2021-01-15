@@ -6,7 +6,7 @@ class ESign::Eg018GetEnvelopeCustomFieldDataController < EgController
     envelope_id = session[:envelope_id]
     token_ok = check_token(minimum_buffer_min)
     if token_ok
-      results = ESign::Eg018Service.new(session, envelope_id).call
+      results = ESign::Eg018GetEnvelopeCustomFieldDataService.new(session, envelope_id).call
       @h1 = 'List envelopes results'
       @message = 'Results from the Envelopes::listStatusChanges method:'
       @json =  results.to_json.to_json

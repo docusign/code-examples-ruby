@@ -5,7 +5,7 @@ class ESign::Eg024PermissionCreateController < EgController
     minimum_buffer_min = 3
     if check_token(minimum_buffer_min)
     begin  
-        results  = ESign::Eg024Service.new(session, request).call
+        results  = ESign::Eg024PermissionCreateService.new(session, request).call
         # Step 4. a) Call the eSignature API
         #         b) Display the JSON response  
         @title = 'Creating a permission profile'

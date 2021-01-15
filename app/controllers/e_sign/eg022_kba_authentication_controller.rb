@@ -5,7 +5,7 @@ class ESign::Eg022KbaAuthenticationController < EgController
     minimum_buffer_min = 3
     if check_token(minimum_buffer_min)
       begin
-        results = ESign::Eg022Service.new(request, session).call
+        results = ESign::Eg022KbaAuthenticationService.new(request, session).call
         @title = 'Envelope sent'
         @h1 = 'Envelope sent'
         @message = "The envelope has been created and sent!<br/>Envelope ID #{results.envelope_id}."

@@ -6,7 +6,7 @@ class ESign::Eg017SetTemplateTabValuesController < EgController
     template_id = session[:template_id]
     token_ok = check_token(minimum_buffer_min)
     if token_ok && template_id
-        redirect_url = ESign::Eg017Service.new(request, session, template_id).call
+        redirect_url = ESign::Eg017SetTemplateTabValuesService.new(request, session, template_id).call
         redirect_to redirect_url
     elsif !token_ok
       flash[:messages] = 'Sorry, you need to re-authenticate.'

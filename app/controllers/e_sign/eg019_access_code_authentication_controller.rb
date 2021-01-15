@@ -6,7 +6,7 @@ class ESign::Eg019AccessCodeAuthenticationController < EgController
     if check_token(minimum_buffer_min)
       begin
         # ***DS.snippet.0.start
-        results = ESign::Eg019Service.new(request, session).call
+        results = ESign::Eg019AccessCodeAuthenticationService.new(request, session).call
         @title = 'Envelope sent'
         @h1 = 'Envelope sent'
         @message = "The envelope has been created and sent!<br/>Envelope ID #{results.envelope_id}."

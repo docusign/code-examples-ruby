@@ -6,7 +6,7 @@ class ESign::Eg015GetEnvelopeTabDataController < EgController
     envelope_id = session[:envelope_id]
     token_ok = check_token(minimum_buffer_min)
     if token_ok
-      results = ESign::Eg015Service.new(envelope_id, session).call
+      results = ESign::Eg015GetEnvelopeTabDataService.new(envelope_id, session).call
       @h1 = 'List envelopes results'
       @message = 'Results from the Envelopes::listStatusChanges method:'
       @json =  results.to_json.to_json

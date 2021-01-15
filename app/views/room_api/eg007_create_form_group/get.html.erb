@@ -1,0 +1,9 @@
+<%=render 'room_api/eg007_create_form_group/information' %>
+
+<form class="eg" id="data_form" action="" method="post" data-busy="form">
+  <div class="form-group">
+    <label for="group_name">Group name</label>
+    <input type="text" class="form-control" id="group_name" name="group_name" value=<%="RubyFormGroup##{rand(100)}"%>>
+  </div>
+  <button type="submit" class="btn btn-docu">Submit</button>
+</form>

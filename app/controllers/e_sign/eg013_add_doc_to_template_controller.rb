@@ -11,7 +11,7 @@ class ESign::Eg013AddDocToTemplateController < EgController
       # More data validation would be a good idea here
       # Strip anything other than characters listed
       begin
-        results = ESign::Eg013Service.new(request, session, template_id).call
+        results = ESign::Eg013AddDocToTemplateService.new(request, session, template_id).call
         # which need an envelopeId
         # Redirect the user to the embedded signing
         # Don't use an iFrame!
