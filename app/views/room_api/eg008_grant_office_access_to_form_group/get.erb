@@ -1,0 +1,24 @@
+<%= render 'room_api/eg008_grant_office_access_to_form_group/information' %>
+
+<% if @form_groups.present? %>
+  <form class="eg" id="data_form" action="" method="post" data-busy="form">
+    <div class="form-group">
+      <label for="starting_view">Form Groups</label>
+      <%= select_tag "form_group_id", options_for_select(@form_groups.map { |obj| [obj['name'], obj['formGroupId']] }), { :class => 'form-control' } %>
+    </div>
+    <div class="form-group">
+      <label for="starting_view">Offices</label>
+      <%= select_tag "office_id", options_for_select(@offices.map { |obj| [obj['name'], obj['officeId']] }), { :class => 'form-control' } %>
+    </div>
+    <button type="submit" class="btn btn-docu">Submit</button>
+  </form>
+<% else %>
+  <div class="form-group">
+    <p>
+      Problem: you don't have any form groups. Please first create a them using
+      <a target='_blank' href="eg007">Create form group</a>
+      <br>
+      Thank you.
+    </p>
+  </div>
+<% end %>

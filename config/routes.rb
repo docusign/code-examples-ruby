@@ -21,6 +21,15 @@ Rails.application.routes.draw do
       get 'eg006' => 'eg006_create_an_external_form_fill_session#get_rooms'
       get 'eg006_forms' => 'eg006_create_an_external_form_fill_session#get_forms'
       post 'eg006' => 'eg006_create_an_external_form_fill_session#create'
+
+      get 'eg007' => 'eg007_create_form_group#get'
+      post 'eg007' => 'eg007_create_form_group#create'
+
+      get 'eg008' => 'eg008_grant_office_access_to_form_group#get'
+      post 'eg008' => 'eg008_grant_office_access_to_form_group#create'
+
+      get 'eg009' => 'eg009_assign_form_to_form_group#get'
+      post 'eg009' => 'eg009_assign_form_to_form_group#create'
     end
   elsif Rails.configuration.examples_API['Click'] == true
     scope module: 'clickwrap' do
@@ -40,11 +49,10 @@ Rails.application.routes.draw do
       post 'eg005' => 'eg005_clickwrap_responses#create'
     end
   else
-    get 'eg001' => 'eg001_embedded_signing#get'
-    post 'eg001' => 'eg001_embedded_signing#create'
-
     scope module: 'e_sign' do
       # Example controllers...
+      get 'eg001' => 'eg001_embedded_signing#get'
+      post 'eg001' => 'eg001_embedded_signing#create'
 
       get 'eg002' => 'eg002_signing_via_email#get'
       post 'eg002' => 'eg002_signing_via_email#create'
@@ -165,6 +173,8 @@ Rails.application.routes.draw do
 
   get '/ds_common-return' => 'ds_common#ds_return'
   get '/ds/mustAuthenticate' => 'ds_common#ds_must_authenticate'
+  post '/ds/mustAuthenticate' => 'ds_common#ds_must_authenticate'
+ 
   get '/ds/session' => 'session#show'
   # default root
 

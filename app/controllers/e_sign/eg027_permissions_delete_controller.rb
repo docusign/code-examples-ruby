@@ -19,7 +19,7 @@ class ESign::Eg027PermissionsDeleteController < EgController
     minimum_buffer_min = 3
     if check_token(minimum_buffer_min)
     begin  
-        results  = ESign::Eg027Service.new(session, request).call
+        results  = ESign::Eg027PermissionsDeleteService.new(session, request).call
         # Step 4. a) Call the eSignature API
         #         b) Display the JSON response  
         @title = 'Permission profile from an account was deleted'

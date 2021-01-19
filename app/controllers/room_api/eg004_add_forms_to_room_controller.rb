@@ -4,10 +4,12 @@ class RoomApi::Eg004AddFormsToRoomController < EgController
   def create
     results = RoomApi::Eg004AddFormsToRoomService.new(session, request).call
 
-    @scenarios_name = "eg004_add_forms_to_room"
-    @result = results.to_json.to_json
+    @title = "The form was successfully added to a room"
+    @h1 = "The form was successfully added to a room"
+    @message = "Results from the Rooms: AddFormToRoom method:"
+    @json = results.to_json.to_json
 
-    render 'room_api/return'
+    render 'ds_common/example_done'
   end
 
   def get

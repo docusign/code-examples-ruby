@@ -8,7 +8,7 @@ class ESign::Eg007EnvelopeGetDocController < EgController
     token_ok = check_token(minimum_buffer_min)
     if token_ok && envelope_id && envelope_documents
       begin
-        results = ESign::Eg007Service.new(request, session, envelope_id, envelope_documents).call
+        results = ESign::Eg007EnvelopeGetDocService.new(request, session, envelope_id, envelope_documents).call
         send_data results['data'], filename: results['doc_name'],
                                    content_type: results['mime_type'],
                                    disposition: "attachment; filename=\"#{results['doc_name']}\""

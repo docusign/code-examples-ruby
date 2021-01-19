@@ -6,7 +6,7 @@ class ESign::Eg031BulkSendingEnvelopesController < EgController
     minimum_buffer_min = 3
     if check_token(minimum_buffer_min)
       begin  
-        results  = ESign::Eg031Service.new(request,session).call
+        results  = ESign::Eg031BulkSendingEnvelopesService.new(request, session).call
         # Step 4. a) Call the eSignature API
         #         b) Display the JSON response  
         @title = 'Bulk sending envelopes'

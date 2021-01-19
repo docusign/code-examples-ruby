@@ -8,7 +8,7 @@ class ESign::Eg009UseTemplateController < EgController
 
     if token_ok && template_id
       begin
-        results = ESign::Eg009Service.new(request, session, template_id).call
+        results = ESign::Eg009UseTemplateService.new(request, session, template_id).call
         # results is an object that implements ArrayAccess. Convert to a regular array:
         @title = 'Envelope sent'
         @h1 = 'Envelope sent'

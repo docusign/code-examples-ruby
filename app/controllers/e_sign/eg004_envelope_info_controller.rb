@@ -8,7 +8,7 @@ class ESign::Eg004EnvelopeInfoController < EgController
 
     if token_ok && envelope_id
       begin
-        results = ESign::Eg004Service.new(session, envelope_id).call
+        results = ESign::Eg004EnvelopeInfoService.new(session, envelope_id).call
         # results is an object that implements ArrayAccess. Convert to a regular array:
         @title = 'Envelope status results'
         @h1 = 'Envelope status results'

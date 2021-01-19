@@ -5,7 +5,7 @@ class ESign::Eg023IdvAuthenticationController < EgController
     minimum_buffer_min = 3
     if check_token(minimum_buffer_min)
       begin
-        results = ESign::Eg023Service.new(request, session).call
+        results = ESign::Eg023IdvAuthenticationService.new(request, session).call
         if results.to_s == 'needs_idv_activated'
           @title = 'Error'
           @h1 = 'Error'

@@ -38,7 +38,11 @@ class DsCommonController < ApplicationController
       redirect_to('/auth/docusign')
     elsif params[:auth] == 'jwt-auth'
       if JwtAuth::JwtCreator.new(session).check_jwt_token
-        url = root_path
+        if session[:eg]
+          url = "/" + session[:eg]
+        else
+          url = root_path
+        end
       else
         url = JwtAuth::JwtCreator.consent_url
       redirect_to root_path if session[:token].present?
@@ -46,14 +50,11 @@ class DsCommonController < ApplicationController
       if Rails.configuration.examples_API['Rooms'] == true
         configuration = DocuSign_Rooms::Configuration.new
         api_client = DocuSign_Rooms::ApiClient.new(configuration)
-      # elsif Rails.configuration.examples_API['Click'] == true
-      #   configuration = DocuSign_Click::Configuration.new
-      #   api_client = DocuSign_Click::ApiClient.new(configuration)
-      elsif Rails.configuration.examles_API['eSignature'] == true
-        configuration = DocuSign_eSign::Configuration.new
-        api_client = DocuSign_eSign::ApiClient.new(configuration)        
+      elsif Rails.configuration.examples_API['Click'] == true
+        configuration = DocuSign_Click::Configuration.new
+        api_client = DocuSign_Click::ApiClient.new configuration
       end
-      resp = ::JwtAuth::JwtCreator.new(session, api_client).check_jwt_token
+      resp = ::JwtAuth::JwtCreator.new(session).check_jwt_token
       if resp.is_a? String
         redirect_to resp
       end

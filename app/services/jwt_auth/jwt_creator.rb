@@ -13,17 +13,18 @@ module JwtAuth
       # GET /oauth/auth
       # This endpoint is used to obtain consent and is the first step in several authentication flows.
       # https://developers.docusign.com/platform/auth/reference/obtain-consent
-      scope = "signature impersonation"
+      scope = "signature"
       if Rails.configuration.examples_API['Rooms'] == true
-        scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms impersonation"
+        scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
       elsif Rails.configuration.examples_API['Click'] == true
         scope = "signature click.manage click.send"
       end
+      scope = "#{scope} impersonation"
       base_uri = "#{Rails.configuration.authorization_server}/oauth/auth"
       response_type = "code"
       scopes = ERB::Util.url_encode(scope) # https://developers.docusign.com/platform/auth/reference/scopes/
       client_id = Rails.configuration.jwt_integration_key
-      redirect_uri = "#{Rails.configuration.app_url}/auth/docusign/callback"
+      redirect_uri = Rails.configuration.app_url
       consent_url = "#{base_uri}?response_type=#{response_type}&scope=#{scopes}&client_id=#{client_id}&redirect_uri=#{redirect_uri}"
       Rails.logger.info "==> Obtain Consent Grant required: #{consent_url}"
       consent_url
@@ -32,6 +33,13 @@ module JwtAuth
     def initialize(session)
       @session = session
       @api_client = create_initial_api_client(host: Rails.configuration.aud, debugging: false)
+      @scope = "signature"
+      if Rails.configuration.examples_API['Rooms'] == true
+        scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
+      elsif Rails.configuration.examples_API['Click'] == true
+        scope = "signature click.manage click.send"
+      end
+      @scope = "#{scope} impersonation"
     end
 
     # @return [Boolean] `true` if the token was successfully updated, `false` if consent still needs to be grant'ed
@@ -41,7 +49,7 @@ module JwtAuth
         # docusign_esign: POST /oauth/token
         # This endpoint enables you to exchange an authorization code or JWT token for an access token.
         # https://developers.docusign.com/platform/auth/reference/obtain-access-token
-        token = api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk)
+        token = api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk, expires_in=3600, @scope)
       rescue OpenSSL::PKey::RSAError => exception
         Rails.logger.error exception.inspect
         if File.read(rsa_pk).starts_with? '{RSA_PRIVATE_KEY}'

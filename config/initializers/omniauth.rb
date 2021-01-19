@@ -15,6 +15,8 @@ OmniAuth.config.logger = Rails.logger
 # GET "/auth/docusign/callback?error=access_denied&error_message=The%20user%20did%20not%20consent%20to%20connecting%20the%20application.&state=
 # OmniAuth.config.failure_raise_out_environments = [] # defaults to: ['development']
 
+OmniAuth.config.allowed_request_methods = [:post, :get]
+
 config = Rails.application.config
 config.middleware.use OmniAuth::Builder do
   # OAuth2 login request configuration

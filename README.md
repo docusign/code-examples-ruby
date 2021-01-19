@@ -20,126 +20,126 @@ For more information about the scopes used for obtaining authorization to use th
 For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth).
 
 1. **Use embedded signing.**
-   [Source.](./app/services/eg001_service.rb)
+   [Source.](app/services/e_sign/eg001_embedded_signing_service.rb)
    This example sends an envelope, and then uses embedded signing for the first signer.
    With embedded signing, the DocuSign signing is initiated from your website.
 1. **Request a signature by email (Remote Signing).**
-   [Source.](./app/services/e_sign/eg002_service.rb)
+   [Source.](app/services/e_sign/eg002_signing_via_email_service.rb)
    The envelope includes a pdf, Word, and HTML document.
    Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
 1. **List envelopes in the user's account.**
-   [Source.](./app/services/e_sign/eg003_service.rb)
+   [Source.](app/services/e_sign/eg003_list_envelopes_service.rb)
    The envelopes' current status is included.
 1. **Get an envelope's basic information.**
-   [Source.](./app/services/e_sign/eg004_service.rb)
+   [Source.](app/services/e_sign/eg004_envelope_info_service.rb)
    The example lists the basic information about an envelope, including its overall status.
 1. **List an envelope's recipients**
    [Source.](./app/controllers/e_sign/eg005_envelope_recipients_controller.rb)
    Includes current recipient status.
 1. **List an envelope's documents.**
-   [Source.](./app/services/e_sign/eg006_service.rb)
+   [Source.](app/services/e_sign/eg006_envelope_docs_service.rb)
 1. **Download an envelope's documents.**
-   [Source.](./app/services/e_sign/eg007_service.rb)
+   [Source.](app/services/e_sign/eg007_envelope_get_doc_service.rb)
    The example can download individual
    documents, the documents concatenated together, or a zip file of the documents.
 1. **Programmatically create a template.**
-   [Source.](./app/services/e_sign/eg008_service.rb)
+   [Source.](app/services/e_sign/eg008_create_template_service.rb)
 1. **Request a signature by email using a template.**
    The example creates an envelope using a template and sets the initial values for some of its tabs (fields).
-   [Source.](./app/services/e_sign/eg009_service.rb)
+   [Source.](app/services/e_sign/eg009_use_template_service.rb)
 1. **Send an envelope and upload its documents with multpart binary transfer.**
-   [Source.](./app/services/e_sign/eg010_service.rb)
+   [Source.](app/services/e_sign/eg010_send_binary_docs_service.rb)
    Binary transfer is 33% more efficient than using Base64 encoding.
 1. **Use embedded sending.**
-   [Source.](./app/services/e_sign/eg011_service.rb)
+   [Source.](app/services/e_sign/eg011_embedded_sending_service.rb)
    Embeds the DocuSign web tool (NDSE) in your web app to finalize or update
    the envelope and documents before they are sent.
 1. **Embedded DocuSign web tool (NDSE).**
-   [Source.](./app/services/e_sign/eg012_service.rb)
+   [Source.](app/services/e_sign/eg012_embedded_console_service.rb)
 1. **Use embedded signing from a template with an added document.**
-   [Source.](./app/services/e_sign/eg013_service.rb)
+   [Source.](app/services/e_sign/eg013_add_doc_to_template_service.rb)
    This example sends an envelope based on a template.
    In addition to the template's document(s), the example adds an
    additional document to the envelope by using the
    [Composite Templates](https://developers.docusign.com/esign-rest-api/guides/features/templates#composite-templates)
    feature.
 1. **Payments example: an order form, with online payment by credit card.**
-   [Source.](./app/services/e_sign/eg014_service.rb)
+   [Source.](app/services/e_sign/eg014_collect_payment_service.rb)
 
 1. **Get the envelope tab data.**
    Retrieve the tab (field) values for all of the envelope's recipients.
-   [Source.](./app/services/e_sign/eg015_service.rb)
+   [Source.](app/services/e_sign/eg015_get_envelope_tab_data_service.rb)
 1. **Set envelope tab values.**
    The example creates an envelope and sets the initial values for its tabs (fields). Some of the tabs
    are set to be read-only, others can be updated by the recipient. The example also stores
    metadata with the envelope.
-   [Source.](./app/services/e_sign/eg016_service.rb)
+   [Source.](app/services/e_sign/eg016_set_envelope_tab_data_service.rb)
 1. **Set template tab values.**
    The example creates an envelope using a template and sets the initial values for its tabs (fields).
    The example also stores metadata with the envelope.
-   [Source.](./app/services/e_sign/eg017_service.rb)
+   [Source.](app/services/e_sign/eg017_set_template_tab_values_service.rb)
 1. **Get the envelope custom field data (metadata).**
    The example retrieves the custom metadata (custom data fields) stored with the envelope.
-   [Source.](./app/services/e_sign/eg018_service.rb)
+   [Source.](app/services/e_sign/eg018_get_envelope_custom_field_data_service.rb)
 1. **Requiring an Access Code for a Recipient**
-   [Source.](./app/services/e_sign/eg019_service.rb)
+   [Source.](app/services/e_sign/eg019_access_code_authentication_service.rb)
    This example sends an envelope that requires an access-code for the purpose of multi-factor authentication.
 1. **Requiring SMS authentication for a recipient**
-   [Source.](./app/services/e_sign/eg020_service.rb)
+   [Source.](app/services/e_sign/eg020_sms_authentication_service.rb)
    This example sends an envelope that requires entering in a six digit code from an text message for the purpose of multi-factor authentication.
 1. **Requiring Phone authentication for a recipient**
-   [Source.](./app/services/e_sign/eg021_service.rb)
+   [Source.](app/services/e_sign/eg021_phone_authentication_service.rb)
    This example sends an envelope that requires entering in a voice-based response code for the purpose of multi-factor authentication.
 1. **Requiring Knowledge-Based Authentication (KBA) for a Recipient**
-   [Source.](./app/services/e_sign/eg022_service.rb)
+   [Source.](app/services/e_sign/eg022_kba_authentication_service.rb)
    This example sends an envelope that requires passing a Public records check to validate identity for the purpose of multi-factor authentication.
 1. **Requiring ID Verification (IDV) for a recipient**
-   [Source.](./app/services/e_sign/eg023_service.rb)
+   [Source.](app/services/e_sign/eg023_idv_authentication_service.rb)
    This example sends an envelope that requires the recipient to upload a government issued id. 
 
 1. **Creating a permission profile**
-   [Source.](./app/services/e_sign/eg024_service.rb)
+   [Source.](app/services/e_sign/eg024_permission_create_service.rb)
    This code example demonstrates how to create a user group's permission profile using the [Create Profile](https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/create) method. 
 1. **Setting a permission profile**
-   [Source.](./app/services/e_sign/eg025_service.rb)
+   [Source.](app/services/e_sign/eg025_permissions_set_user_group_service.rb)
    This code example demonstrates how to set a user group's permission profile using the [Update Group](https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/update) method. 
    You must have already created permissions profile and group of users.
 1. **Updating individual permission settings** 
-   [Source.](./app/services/e_sign/eg026_service.rb)
+   [Source.](app/services/e_sign/eg026_permissions_change_single_setting_service.rb)
    This code example demonstrates how to update individual settings for a specific permission profile using the [Update Permission Profile](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/update) method.
    You must have already created permissions profile and group of users.
 1. **Deleting a permission profile**
-   [Source.](./app/services/e_sign/eg027_service.rb)
+   [Source.](app/services/e_sign/eg027_permissions_delete_service.rb)
    This code example demonstrates how to an account's permission profile using the [Delete AccountPermissionProfiles](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/delete) method. 
    You cannot delete the Everyone nor the Administrator profile types as those are defaults.
 
 1. **Creating a brand**
-   [Source.](./app/services/e_sign/eg028_service.rb)
+   [Source.](app/services/e_sign/eg028_brands_creating_service.rb)
    This example creates brand profile for an account using the [Create Brand](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/create) method.
 1. **Applying a brand to an envelope**
-   [Source.](./app/services/e_sign/eg029_service.rb)
+   [Source.](app/services/e_sign/eg029_brands_apply_to_envelope_service.rb)
    This code example demonstrates how to apply a brand you've created to an envelope using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method. 
    First, creates the envelope and then applies brand to it.
    
 1. **Applying a brand to a template**
-   [Source.](./app/services/e_sign/eg030_service.rb)
+   [Source.](app/services/e_sign/eg030_brands_apply_to_template_service.rb)
    This code example demonstrates how to apply a brand you've created to a template using using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method. 
    You must have at least one created template and brand.
    
 1. **Bulk sending envelopes to multiple recipients**
-   [Source.](./app/services/e_sign/eg031_service.rb)
+   [Source.](app/services/e_sign/eg031_bulk_sending_envelopes_service.rb)
    This example creates and sends a bulk envelope by generating a bulk recipient list and initiating a bulk send.
    
 1. **Pausing a signature workflow**
-   [Source.](./app/services/e_sign/eg032_service.rb)
+   [Source.](app/services/e_sign/eg032_pauses_signature_workflow_service.rb)
    This example demonstrates how to create an envelope where the workflow is paused before the envelope is sent to a second recipient.
   
 1. **Unpausing a signature workflow**
-   [Source.](./app/services/e_sign/eg033_service.rb)
+   [Source.](app/services/e_sign/eg033_unpauses_signature_workflow_service.rb)
    This example demonstrates how to resume an envelope workflow that has been paused.
      
 1. **Using conditional recipients**
-   [Source.](./app/services/e_sign/eg034_service.rb)
+   [Source.](app/services/e_sign/eg034_use_conditional_recipients_service.rb)
    This example demonstrates how to create an envelope where the workflow is routed to different recipients based on the value of a transaction.
 
 ## Rooms API
@@ -147,23 +147,36 @@ For more information about the scopes used for obtaining authorization to use th
 For more information about the scopes used for obtaining authorization to use the Rooms API, see the [Required Scopes section](https://developers.docusign.com/docs/rooms-api/rooms101/auth/).
 
 1. **Create a room with data.**
-[Source.](./app/services/room_api/eg001_create_room_with_data_service.rb)
-This example creates a new room in your DocuSign Rooms account to be used for a transaction.
+   [Source.](./app/services/room_api/eg001_create_room_with_data_service.rb)
+   This example creates a new room in your DocuSign Rooms account to be used for a transaction.
 1. **Create a room from a template.**
-[Source.](./app/services/room_api/eg002_create_room_with_template_service.rb)
-This example creates a new room using a template.
+   [Source.](./app/services/room_api/eg002_create_room_with_template_service.rb)
+   This example creates a new room using a template.
 1. **Export data from a room.**
-[Source.](./app/services/room_api/eg003_export_data_from_room_service.rb)
-This example exports all the available data from a specific room in your DocuSign Rooms account.
+   [Source.](./app/services/room_api/eg003_export_data_from_room_service.rb)
+   This example exports all the available data from a specific room in your DocuSign Rooms account.
 1. **Add forms to a room.**
-[Source.](./app/services/room_api/eg004_add_forms_to_room_service.rb)
-This example adds a standard real estate related form to a specific room in your DocuSign Rooms account.
+   [Source.](./app/services/room_api/eg004_add_forms_to_room_service.rb)
+   This example adds a standard real estate related form to a specific room in your DocuSign Rooms account.
 1. **Search for rooms with filters.**
-[Source.](./app/services/room_api/eg005_get_rooms_with_filters_service.rb)
-This example searches for rooms in your DocuSign Rooms account using a specific filter.
+   [Source.](./app/services/room_api/eg005_get_rooms_with_filters_service.rb)
+   This example searches for rooms in your DocuSign Rooms account using a specific filter.
 1. **Get an external form fillable session.**
-[Source.](./app/services/room_api/eg006_create_an_external_form_fill_session_service.rb)
-This example creates an external form that can be filled using DocuSign for a specific room in your DocuSign Rooms account.
+   [Source.](./app/services/room_api/eg006_create_an_external_form_fill_session_service.rb)
+   This example creates an external form that can be filled using DocuSign for a specific room in your DocuSign Rooms account.
+1. **Creating a form group.**
+   [Source.](./app/services/room_api/eg007_create_form_group_service.rb)
+   This example creates a new form group with the name given in the name property of the request body.
+1. **Grant office access to a form group.**
+   [Source.](./app/services/room_api/eg008_grant_office_access_to_form_group_service.rb)
+   This example assigns an office to a form group for your DocuSign Rooms.
+1. **Assign a form to a form group.**
+   [Source.](./app/services/room_api/eg009_assign_form_to_form_group_service.rb)
+   This example assigns a form to a form group for your DocuSign Rooms.
+
+
+
+
 
 ## Clickwrap
 

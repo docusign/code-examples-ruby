@@ -20,7 +20,7 @@ class ESign::Eg029BrandsApplyToEnvelopeController < EgController
     minimum_buffer_min = 3
     if check_token(minimum_buffer_min)
     begin  
-        results  = ESign::Eg029Service.new(session, request).call
+        results  = ESign::Eg029BrandsApplyToEnvelopeService.new(session, request).call
         # Step 4. a) Call the eSignature API
         #         b) Display the JSON response  
         @title = 'Applying a Brand to an envelope'
