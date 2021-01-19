@@ -5,7 +5,7 @@ class ESign::Eg034UseConditionalRecipientsController < EgController
 
   def create
     begin
-      results = ESign::Eg034Service.new(session, request).call
+      results = ESign::Eg034UseConditionalRecipientsService.new(session, request).call
       @envelop_id = results.to_hash[:envelopeId].to_s
       render 'e_sign/eg034_use_conditional_recipients/return'
     rescue DocuSign_eSign::ApiError => e

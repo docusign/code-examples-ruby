@@ -4,7 +4,7 @@ class ESign::Eg032PausesSignatureWorkflowController < EgController
   before_action :check_auth
 
   def create
-    results = ESign::Eg032Service.new(session, request).call
+    results = ESign::Eg032PausesSignatureWorkflowService.new(session, request).call
 
     @envelop_id = results.to_hash[:envelopeId].to_s
     session[:envelope_id] = @envelop_id

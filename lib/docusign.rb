@@ -48,12 +48,12 @@ module OmniAuth
       # @param items is an array of Hash'es that has the keys: account_id, is_default, account_name, base_uri
       def fetch_account(items)
         if options.target_account_id
-          @account = items.find { |item| item[:account_id] == options.target_account_id }
+          @account = items.find { |item| item['account_id'] == options.target_account_id }
         else
           @account = items.find { |item| item['is_default'] }
         end
 
-        if @account.empty?
+        if @account.blank?
           raise %'Could not find account information for the user in the "accounts" of raw_info: #{@raw_info}'
         end
       end

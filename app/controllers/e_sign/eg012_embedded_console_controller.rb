@@ -8,7 +8,7 @@ class ESign::Eg012EmbeddedConsoleController < EgController
 
     if token_ok
       begin
-        results = ESign::Eg012Service.new(session, envelope_id, request).call
+        results = ESign::Eg012EmbeddedConsoleService.new(session, envelope_id, request).call
         redirect_to results['redirect_url']
       rescue DocuSign_eSign::ApiError => e
         error = JSON.parse e.response_body

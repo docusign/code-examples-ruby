@@ -7,7 +7,7 @@ class ESign::Eg014CollectPaymentController < EgController
 
     if token_ok
       begin
-        results = ESign::Eg014Service.new(request, session).call
+        results = ESign::Eg014CollectPaymentService.new(request, session).call
         @title = 'Envelope sent'
         @h1 = 'Envelope sent'
         @message = "The order form envelope has been created and sent!<br/>

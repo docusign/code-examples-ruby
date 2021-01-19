@@ -69,6 +69,14 @@ class RoomApi::GetDataService
     forms.as_json['documents']
   end
 
+  def get_form_groups
+    worker
+
+    form_groups_api = DocuSign_Rooms::FormGroupsApi.new(@api_client)
+    form_groups = form_groups_api.get_form_groups(args[:account_id])
+    form_groups.as_json['formGroups']
+  end
+
   private
 
   def worker

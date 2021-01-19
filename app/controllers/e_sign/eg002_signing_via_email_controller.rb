@@ -5,7 +5,7 @@ class ESign::Eg002SigningViaEmailController < EgController
     minimum_buffer_min = 3
     if check_token(minimum_buffer_min)
       begin
-        results = ESign::Eg002Service.new(session, request, 'sent').call
+        results = ESign::Eg002SigningViaEmailService.new(session, request, 'sent').call
         session[:envelope_id] = results['envelope_id']
         @title = 'Envelope sent'
         @h1 = 'Envelope sent'

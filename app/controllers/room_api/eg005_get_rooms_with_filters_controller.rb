@@ -4,10 +4,12 @@ class RoomApi::Eg005GetRoomsWithFiltersController < EgController
   def create
     results = RoomApi::Eg005GetRoomsWithFiltersService.new(session, request).call
 
-    @scenarios_name = "eg005_get_rooms_with_filters"
-    @result = results.to_json.to_json
+    @title = "The rooms with filters were loaded"
+    @h1 = "The rooms with filters were loaded"
+    @message = "Results from the Rooms: GetRooms method:"
+    @json = results.to_json.to_json
 
-    render 'room_api/return'
+    render 'ds_common/example_done'
   end
 
   def get

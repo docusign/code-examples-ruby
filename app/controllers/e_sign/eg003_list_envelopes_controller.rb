@@ -5,7 +5,7 @@ class ESign::Eg003ListEnvelopesController < EgController
     minimum_buffer_min = 3
     token_ok = check_token(minimum_buffer_min)
     if token_ok
-      results = ESign::Eg003Service.new(session).call
+      results = ESign::Eg003ListEnvelopesService.new(session).call
       @h1 = 'List envelopes results'
       @message = 'Results from the Envelopes::listStatusChanges method:'
       @json =  results.to_json.to_json

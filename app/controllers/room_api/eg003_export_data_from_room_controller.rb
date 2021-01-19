@@ -4,10 +4,12 @@ class RoomApi::Eg003ExportDataFromRoomController < EgController
   def create
     results = RoomApi::Eg003ExportDataFromRoomService.new(session, request).call
 
-    @scenarios_name = "eg003_export_data_from_room"
-    @result = results.to_json.to_json
+    @title = "The room data was successfully exported"
+    @h1 = "The room data was successfully exported"
+    @message = "Results from the Rooms::GetRoomFieldData method:"
+    @json = results.to_json.to_json
 
-    render 'room_api/return'
+    render 'ds_common/example_done'
   end
 
   def get

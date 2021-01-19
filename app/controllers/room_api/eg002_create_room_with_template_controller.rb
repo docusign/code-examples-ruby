@@ -4,10 +4,12 @@ class RoomApi::Eg002CreateRoomWithTemplateController < EgController
   def create
     results = RoomApi::Eg002CreateRoomWithTemplateService.new(session, request).call
 
-    @scenarios_name = "eg002_create_room_with_template"
-    @result = results.to_json.to_json
+    @title = "The room was successfully created"
+    @h1 = "The room was successfully created"
+    @message = "The room was created! Room ID: #{results.room_id}, Name: #{results.name}"
+    @json = results.to_json.to_json
 
-    render 'room_api/return'
+    render 'ds_common/example_done'
   end
 
   def get
