@@ -142,6 +142,10 @@ For more information about the scopes used for obtaining authorization to use th
    [Source.](app/services/e_sign/eg034_use_conditional_recipients_service.rb)
    This example demonstrates how to create an envelope where the workflow is routed to different recipients based on the value of a transaction.
 
+1. **Request a signature by SMS**
+   [Source.](app/services/e_sign/eg035_sms_delivery_service.rb)
+   This code example demonstrates how to send a signature request for a signer to read and sign via an SMS message.
+
 ## Rooms API
 
 For more information about the scopes used for obtaining authorization to use the Rooms API, see the [Required Scopes section](https://developers.docusign.com/docs/rooms-api/rooms101/auth/).
