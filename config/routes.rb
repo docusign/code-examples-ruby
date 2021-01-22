@@ -152,6 +152,9 @@ Rails.application.routes.draw do
 
       get 'eg034' => 'eg034_use_conditional_recipients#get'
       post 'eg034' => 'eg034_use_conditional_recipients#create'
+
+      get 'eg035' => 'eg035_sms_delivery#get'
+      post 'eg035' => 'eg035_sms_delivery#create'
     end
   end
 
