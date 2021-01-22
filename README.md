@@ -176,11 +176,7 @@ For more information about the scopes used for obtaining authorization to use th
    [Source.](./app/services/room_api/eg009_assign_form_to_form_group_service.rb)
    This example assigns a form to a form group for your DocuSign Rooms.
 
-
-
-
-
-## Clickwrap
+## Click API
 
 For more information about the scopes used for obtaining authorization to use the Clickwrap API, see the [Required Scopes section](https://developers.docusign.com/docs/click-api/click101/auth).
 
