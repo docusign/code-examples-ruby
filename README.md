@@ -178,31 +178,7 @@ For more information about the scopes used for obtaining authorization to use th
    [Source.](./app/services/room_api/eg009_assign_form_to_form_group_service.rb)
    This example assigns a form to a form group for your DocuSign Rooms.
 
-
-
-
-
-## Clickwrap
-
-For more information about the scopes used for obtaining authorization to use the Clickwrap API, see the [Required Scopes section](https://developers.docusign.com/docs/click-api/click101/auth).
-
-1. **Creating a clickwrap.**
-[Source.](./app/services/clickwrap/eg001_create_clickwrap_service.rb)
-This example demonstrates how to use the Click API to create a clickwrap that you can embed in your website or app.
-1. **Activate a clickwrap.**
-[Source.](./app/services/clickwrap/eg002_activate_clickwrap_service.rb)
-This example demonstrates how to use the Click API to activate a new clickwrap that you have already created.
-1. **Creating a new clickwrap version.**
-[Source.](./app/services/clickwrap/eg003_create_new_clickwrap_version_service.rb)
-This example demonstrates how to use the Click API to create a new version of a clickwrap.
-1. **Getting a list of clickwraps.**
-[Source.](./app/services/clickwrap/eg004_list_clickwraps_service.rb)
-This example demonstrates how to use the Click API to get a list of clickwraps associated with a specific DocuSign user.
-1. **Getting clickwrap responses.**
-[Source.](./app/services/clickwrap/eg005_clickwrap_responses_service.rb)
-This example demonstrates how to use the Click API to get a list of clickwraps associated with a specific DocuSign user.
-
-## Clickwrap
+## Click API
 
 For more information about the scopes used for obtaining authorization to use the Clickwrap API, see the [Required Scopes section](https://developers.docusign.com/docs/click-api/click101/auth).
 
