@@ -107,14 +107,14 @@ class ESign::Eg001EmbeddedSigningService
     # The DocuSign platform searches throughout your envelope's documents for matching
     # anchor strings. So the sign_here_2 tab will be used in both document 2 and 3
     # since they use the same anchor string for their "signer 1" tabs.
-    sign_here1 = DocuSign_eSign::SignHere.new
-    sign_here1.anchor_string = '/sn1/'
-    sign_here1.anchor_units = 'pixels'
-    sign_here1.anchor_x_offset = '20'
-    sign_here1.anchor_y_offset = '10'
+    sign_here = DocuSign_eSign::SignHere.new
+    sign_here.anchor_string = '/sn1/'
+    sign_here.anchor_units = 'pixels'
+    sign_here.anchor_x_offset = '20'
+    sign_here.anchor_y_offset = '10'
     # Tabs are set per recipient/signer
     tabs = DocuSign_eSign::Tabs.new
-    tabs.sign_here_tabs = [sign_here1]
+    tabs.sign_here_tabs = [sign_here]
     signer1.tabs = tabs
     # Add the recipients to the envelope object
     recipients = DocuSign_eSign::Recipients.new
