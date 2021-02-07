@@ -91,7 +91,7 @@ GEM
       json (~> 2.1, >= 2.1.0)
       jwt (~> 2.2, >= 2.2.1)
       typhoeus (~> 1.0, >= 1.0.1)
-    docusign_esign (3.6.0)
+    docusign_esign (3.8.0.rc1)
       json (~> 2.1, >= 2.1.0)
       jwt (~> 2.2, >= 2.2.1)
       typhoeus (~> 1.0, >= 1.0.1)
@@ -259,7 +259,7 @@ DEPENDENCIES
   chromedriver-helper (~> 2.1.1)
   coffee-rails (~> 5.0.0)
   docusign_click
-  docusign_esign (~> 3.6)
+  docusign_esign (~> 3.8.0.rc1)
   docusign_rooms (~> 1.1.0.rc1)
   jbuilder (~> 2.10.0)
   listen (~> 3.2.1)
