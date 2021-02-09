@@ -11,7 +11,9 @@ class ESign::Eg031BulkSendingEnvelopesController < EgController
         #         b) Display the JSON response  
         @title = 'Bulk sending envelopes'
         @h1 = 'Bulk sending envelopes'
-        @message = "Confirming Bulk Send has initiated #{results}"
+        @message = 'Bulk send envelope was successfully performed!'
+        @json = results.to_json.to_json
+
         render 'ds_common/example_done'
 
       rescue DocuSign_eSign::ApiError => e
