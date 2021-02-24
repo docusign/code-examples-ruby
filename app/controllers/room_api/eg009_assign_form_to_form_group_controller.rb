@@ -19,9 +19,13 @@ class RoomApi::Eg009AssignFormToFormGroupController < EgController
 
   def get
     super
-    # Step 3. Obtain the desired form ID
+    # Step 3 start
     @forms = RoomApi::GetDataService.new(session).get_form_libraries
+    # Step 3 end
+
+    # Step 4 start
     @form_groups = RoomApi::GetDataService.new(session).get_form_groups
+    # Step 4 end
   end
 
   private

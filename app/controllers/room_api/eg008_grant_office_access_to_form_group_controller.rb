@@ -19,9 +19,13 @@ class RoomApi::Eg008GrantOfficeAccessToFormGroupController < EgController
 
   def get
     super
-    # Step 3. Get an office ID
+    # Step 3 start
     @offices = RoomApi::GetDataService.new(session).get_offices
+    # Step 3 end
+
+    # Step 4 start
     @form_groups = RoomApi::GetDataService.new(session).get_form_groups
+    # Step 4 end
   end
 
   private
