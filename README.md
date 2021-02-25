@@ -17,8 +17,6 @@ This repo is a Ruby on Rails application that demonstrates:
 
 For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth).
 
-For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth).
-
 1. **Use embedded signing.**
    [Source.](app/services/e_sign/eg001_embedded_signing_service.rb)
    This example sends an envelope, and then uses embedded signing for the first signer.
