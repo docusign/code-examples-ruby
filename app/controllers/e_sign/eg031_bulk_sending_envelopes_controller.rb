@@ -9,9 +9,11 @@ class ESign::Eg031BulkSendingEnvelopesController < EgController
         results  = ESign::Eg031BulkSendingEnvelopesService.new(request, session).call
         # Step 4. a) Call the eSignature API
         #         b) Display the JSON response  
-        @title = 'Bulk sending envelopes'
-        @h1 = 'Bulk sending envelopes'
-        @message = "Confirming Bulk Send has initiated #{results}"
+        @title = 'Bulk sent'
+        @h1 = 'Bulk send envelope was successfully performed!'
+        @message = "Bulk request queued to #{results.queued} user lists."
+        @json = results.to_json.to_json
+
         render 'ds_common/example_done'
 
       rescue DocuSign_eSign::ApiError => e
