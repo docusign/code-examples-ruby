@@ -62,7 +62,7 @@ group :test do
   gem 'chromedriver-helper', '~> 2.1.1'
 end
 
-gem 'docusign_esign', '~> 3.6'
+gem 'docusign_esign', '~> 3.8.0.rc1'
 gem 'docusign_rooms', '~> 1.1.0.rc1'
 gem 'docusign_click'
 gem 'omniauth-oauth2', '~> 1.6'

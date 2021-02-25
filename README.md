@@ -17,8 +17,6 @@ This repo is a Ruby on Rails application that demonstrates:
 
 For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth).
 
-For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth).
-
 1. **Use embedded signing.**
    [Source.](app/services/e_sign/eg001_embedded_signing_service.rb)
    This example sends an envelope, and then uses embedded signing for the first signer.
@@ -142,9 +140,9 @@ For more information about the scopes used for obtaining authorization to use th
    [Source.](app/services/e_sign/eg034_use_conditional_recipients_service.rb)
    This example demonstrates how to create an envelope where the workflow is routed to different recipients based on the value of a transaction.
 
-1. **Request a signature by SMS**
+1. **Request a signature by SMS delivery**
    [Source.](app/services/e_sign/eg035_sms_delivery_service.rb)
-   This code example demonstrates how to send a signature request for a signer to read and sign via an SMS message.
+   This code example demonstrates how to send a signature request via an SMS message using the [Envelopes: create](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method.
 
 ## Rooms API
 

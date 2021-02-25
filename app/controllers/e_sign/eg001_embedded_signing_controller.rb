@@ -16,4 +16,9 @@ class ESign::Eg001EmbeddedSigningController < EgController
     redirect_url = ESign::Eg001EmbeddedSigningService.new(session, request).call
     redirect_to redirect_url
   end
+
+  def get
+    session[:been_here] = true
+    super
+  end
 end

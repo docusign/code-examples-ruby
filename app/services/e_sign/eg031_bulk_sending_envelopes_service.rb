@@ -56,6 +56,9 @@ class ESign::Eg031BulkSendingEnvelopesService
     bulk_send_request = DocuSign_eSign::BulkSendRequest.new(envelopeOrTemplateId: envelope_id)
     batch = bulk_envelopes_api.create_bulk_send_request(args[:account_id], bulk_list_id, bulk_send_request)
     batch_id = batch.batch_id
+
+    # Step 8. Confirm successful batch send
+    bulk_envelopes_api.get_bulk_send_batch_status(args[:account_id], batch_id)
   end
 
   private
