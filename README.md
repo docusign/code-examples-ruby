@@ -283,7 +283,7 @@ When using the Ruby launcher on a Windows machine you may get the following erro
 This error occurs because you’re attempting to use the Ruby launcher with a self-signed certificate or without SSL/HTTP security. The API calls from Ruby SDKs are using a built-in Curl tool that is enforcing the SSL requirement. You can disable this security check to run the launcher in an insecure manner on your developer machine. 
 
 ```diff
-- It is highly recommended that you don’t disable this security check 
+It is highly recommended that you don’t disable this security check 
 - in a production environment or in your integration. 
 - This method is offered here solely as a means to enable you to 
 - develop quickly by lowering the security bar on your local machine.
@@ -297,7 +297,7 @@ Find the relevant DocuSign Ruby SDK you are using. The name always starts with �
 C:\Ruby27-x64\lib\ruby\gems\2.7.0\gems\docusign_click-1.0.0\lib\docusign_click
 
 Find the **configuration.rb** file in that folder.
-Modify the following two lines in the **configuration.rb** file, replacing “true” with “false”:
+Modify the following two lines in the **configuration.rb** file, replacing `“true”` with `“false”`:
 
       @verify_ssl = true
       @verify_ssl_host = true
