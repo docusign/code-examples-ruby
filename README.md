@@ -297,7 +297,7 @@ Find the relevant DocuSign Ruby SDK you are using. The name always starts with �
 C:\Ruby27-x64\lib\ruby\gems\2.7.0\gems\docusign_click-1.0.0\lib\docusign_click
 
 Find the **configuration.rb** file in that folder.
-Modify the following two lines in the **configuration.rb** file, replacing `“true”` with `“false”`:
+Modify the following two lines in the **configuration.rb** file, replacing `true` with `false`:
 
       @verify_ssl = true
       @verify_ssl_host = true
