@@ -282,8 +282,9 @@ When using the Ruby launcher on a Windows machine you may get the following erro
 
 This error occurs because you’re attempting to use the Ruby launcher with a self-signed certificate or without SSL/HTTP security. The API calls from Ruby SDKs are using a built-in Curl tool that is enforcing the SSL requirement. You can disable this security check to run the launcher in an insecure manner on your developer machine. 
 
-<font color="red">**It is highly recommended that you don’t disable this security check in a production environment or in your integration. This method is offered here solely as a means to enable you to develop quickly by lowering the security bar on your local machine.**</font>
-
+```diff
+- It is highly recommended that you don’t disable this security check in a production environment or in your integration. This method is offered here solely as a means to enable you to develop quickly by lowering the security bar on your local machine.
+```
 Find the root folder for your Ruby gems (in this case, a 64-bit version of Ruby 2.7.0):
 
 C:\Ruby27-x64\lib\ruby\gems\2.7.0\gems\
