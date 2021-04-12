@@ -243,7 +243,7 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
 **Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip step 4 as it was automatically performed for you.
 
 1. Extract the Quickstart ZIP file or download or clone the code-examples-ruby repository.
-1. In your command-line environment, switch the the folder:  
+1. In your command-line environment, switch to the folder:  
    `cd <Quickstart folder name>` or `cd code-examples-ruby`
 1. Install the dependencies: `bundle install`
 1. To configure the launcher for [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) authentication, create a copy of the file config/appsettings.example.yml and save the copy as config/appsettings.yml.
@@ -261,7 +261,7 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
 Also, in order to select JSON Web Token authentication in the launcher, in config/appsettings.yml, change `quickstart` to `false`.
 
 1. Extract the Quickstart ZIP file or download or clone the code-examples-ruby repository.
-1. In your command-line environment, switch the the folder:  
+1. In your command-line environment, switch to the folder:  
    `cd <Quickstart folder name>` or `cd code-examples-ruby`
 1. Install the dependencies: `bundle install`
 1. To configure the launcher for [JWT Grant](https://developers.docusign.com/platform/auth/jwt/) authentication, create a copy of the file config/appsettings.example.yml and save the copy as config/appsettings.yml.
