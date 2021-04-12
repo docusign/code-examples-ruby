@@ -9,7 +9,7 @@ To switch between API code examples, modify the `examples_API` setting at the en
 
 If none of the API types are set to `true`, the DocuSign eSignature REST API code examples will be shown. If multiple API types are set to `true`, only the first will be shown.
 
-Before you can make any API calls using JWT Grant, you must get your user’s consent for your app to impersonate them. To do this, the `impersonation` scope is added when requesting a JSON Web Token.
+Before you can make any API calls using [JWT Grant](https://developers.docusign.com/platform/auth/jwt/), you must get your user’s consent for your app to impersonate them. To do this, the `impersonation` scope is added when requesting a JSON Web Token.
 
 
 ## Introduction
