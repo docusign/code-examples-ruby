@@ -204,13 +204,6 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
 This example demonstrates how to use the Click API to get a list of clickwraps associated with a specific DocuSign user.
 
 
-## Included OAuth grant types
-
-* Authentication with Docusign via [Authorization Code Grant](https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant). When the token expires, the user is asked to re-authenticate. The [refresh token](https://developers.docusign.com/platform/auth/authcode/authcode-get-token#using-refresh-tokens) is not used in this example.
-
-* Authentication with DocuSign via [JSON Web Token (JWT) Grant](https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-jsonwebtoken). When the token expires, it updates automatically.
-
-
 ## Installation
 
 ### Prerequisites
