@@ -1,6 +1,7 @@
 # Ruby Launcher Code Examples
 
-### Github repo: code-examples-ruby
+### Github repo: https://github.com/docusign/code-examples-ruby
+
 
 This GitHub repo includes code examples for DocuSign APIs.
 
@@ -8,10 +9,12 @@ To switch between API code examples, modify the `examples_API` setting at the en
 
 If none of the API types are set to true, the DocuSign eSignature REST API code examples will be shown. If multiple API types are set to true, only the first will be shown.
 
-**Note:** to use the Rooms API you must also [create your DocuSign Developer Account for Rooms](https://developers.docusign.com/docs/rooms-api/rooms101/create-account).
+**Note:** To use the Rooms API you must also [create your Rooms developer account](https://developers.docusign.com/docs/rooms-api/rooms101/create-account).
+
 
 ## Introduction
 This repo is a Ruby on Rails application that demonstrates:
+
 
 ## eSignature API
 
@@ -144,6 +147,7 @@ For more information about the scopes used for obtaining authorization to use th
    [Source.](app/services/e_sign/eg035_sms_delivery_service.rb)
    This code example demonstrates how to send a signature request via an SMS message using the [Envelopes: create](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method.
 
+
 ## Rooms API
 
 For more information about the scopes used for obtaining authorization to use the Rooms API, see the [Required Scopes section](https://developers.docusign.com/docs/rooms-api/rooms101/auth/).
@@ -176,6 +180,7 @@ For more information about the scopes used for obtaining authorization to use th
    [Source.](./app/services/room_api/eg009_assign_form_to_form_group_service.rb)
    This example assigns a form to a form group for your DocuSign Rooms.
 
+
 ## Click API
 
 For more information about the scopes used for obtaining authorization to use the Clickwrap API, see the [Required Scopes section](https://developers.docusign.com/docs/click-api/click101/auth).
@@ -196,20 +201,18 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
 [Source.](./app/services/clickwrap/eg005_clickwrap_responses_service.rb)
 This example demonstrates how to use the Click API to get a list of clickwraps associated with a specific DocuSign user.
 
-## Included OAuth grant types:
 
-* Authentication with Docusign via [Authorization Code Grant flow](https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant) .
-When the token expires, the user is asked to re-authenticate.
-The **refresh token** is not used in this example.
+## Included OAuth grant types
 
-* Authentication with DocuSign via the [JSON Web Token (JWT) Grant](https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-jsonwebtoken).
-When the token expires, it updates automatically.
+* Authentication with Docusign via [Authorization Code Grant](https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant). When the token expires, the user is asked to re-authenticate. The [refresh token](https://developers.docusign.com/platform/auth/authcode/authcode-get-token#using-refresh-tokens) is not used in this example.
+
+* Authentication with DocuSign via [JSON Web Token (JWT) Grant](https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-jsonwebtoken). When the token expires, it updates automatically.
 
 
 ## Installation
 
 ### Prerequisites
-**Note: If you downloaded this code using Quickstart from the DocuSign Developer Center, skip steps 1 and 2 below as they're automatically performed for you.**
+**Note:** If you downloaded this code using Quickstart from the DocuSign Developer Center, skip items 1 and 2 below as they were automatically performed for you.
 
 1. A DocuSign Developer account (email and password) on [demo.docusign.net](https://demo.docusign.net).
    Create a [free account](https://go.docusign.com/sandbox/productshot/?elqCampaignId=16536).
@@ -232,6 +235,7 @@ When the token expires, it updates automatically.
 1. Ruby version 2.7.1 or later. Or you can update the Gemfile to use other versions of Ruby.
 1. A name and email for a signer, and a name and email for a cc recipient.
 
+
 ### Installation steps
 **Note: If you downloaded this code using Quickstart from the DocuSign Developer Center, skip steps 4, 5, and 6 below as they're automatically performed for you.**
 
@@ -247,6 +251,7 @@ When the token expires, it updates automatically.
 1. Update your Integration Key's settings to include a **Redirect URI** for
    your installation of the example. See Prerequisites item #2, above for more information.
 
+
 #### Run the application
 1. To start the development web server and application:
 
@@ -258,6 +263,7 @@ When the token expires, it updates automatically.
    - *libcurl-x64.dll should be copied as libcurl.dll*
    - *Place libcurl.dll into Ruby `C:\\<Ruby installation>\bin`*
 1. Open a browser to the example's base url to view the index page.
+
 
 ### Configuring JWT
 
@@ -274,6 +280,7 @@ When the token expires, it updates automatically.
 [Obtaining consent](https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent) does not need to be configured, as it is already being done in the code at [JwtAuth::JwtCreator#update_token](./app/services/jwt_auth/jwt_creator.rb#L35)
 
 From there you should be able to run the launcher using `bundle exec rails server` then selecting **JSON Web Token** when authenticaing your account.
+
 
 ### Troubleshooting Windows SSL issue
 When using the Ruby launcher on a Windows machine you may get the following error:
@@ -306,7 +313,7 @@ Modify the following two lines in the **configuration.rb** file, replacing `true
 Once this is complete, you can run your Ruby on Rails application again and you should be able to make API calls on your localhost.
 
 
-### Payments code example
+## Payments code example
 To use the payments example, create a
 test payments gateway for your developer sandbox account.
 
@@ -316,6 +323,7 @@ file for instructions.
 
 Then add the payment gateway account id to the **config/application.rb** file.
 
+
 ### Using the examples with other authentication flows
 
 The examples in this repository can also be used with the
@@ -323,17 +331,14 @@ Implicit grant OAuth flow.
 See the [Authentication guide](https://developers.docusign.com/esign-rest-api/guides/authentication)
 for information on choosing the right authentication flow for your application.
 
+
 ## License and additional information
+
 
 ### License
 This repository uses the MIT License. See the LICENSE file for more information.
 
+
 ### Pull Requests
 Pull requests are welcomed. Pull requests will only be considered if their content
 uses the MIT License.
-
-### Additional Resources
-* [DocuSign Developer Center](https://developers.docusign.com)
-* [DocuSign API on Twitter](https://twitter.com/docusignapi)
-* [DocuSign For Developers on LinkedIn](https://www.linkedin.com/showcase/docusign-for-developers/)
-* [DocuSign For Developers on YouTube](https://www.youtube.com/channel/UCJSJ2kMs_qeQotmw4-lX2NQ)
