@@ -236,7 +236,7 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
       1. Ensure that your Ruby folder is appended with -x64, e.g. **Ruby27-x64**  
       2. Install Curl for Ruby: [Download libcurl.dll](https://curl.haxx.se/windows/)   
          Save **libcurl-x64.dll** as **libcurl.dll**  
-         Place **libcurl.dll** in your Ruby folder: **C:\<Ruby installation>-x64\bin**  
+         Place **libcurl.dll** in your Ruby folder, e.g. **Ruby27-x64**
 
 
 ### Installation steps
