@@ -9,7 +9,7 @@ To switch between API code examples, modify the `examples_API` setting at the en
 
 If none of the API types are set to true, the DocuSign eSignature REST API code examples will be shown. If multiple API types are set to true, only the first will be shown.
 
-**Note:** To use the Rooms API you must also [create your Rooms developer account](https://developers.docusign.com/docs/rooms-api/rooms101/create-account).
+**Note:** Before you can make any API calls using JWT Grant, you must get your user’s consent for your app to impersonate them. To do this, the `impersonation` scope is added when requesting a JSON Web Token.
 
 
 ## Introduction
@@ -150,6 +150,8 @@ For more information about the scopes used for obtaining authorization to use th
 
 ## Rooms API
 
+**Note:** To use the Rooms API you must also [create your Rooms developer account](https://developers.docusign.com/docs/rooms-api/rooms101/create-account).
+
 For more information about the scopes used for obtaining authorization to use the Rooms API, see the [Required Scopes section](https://developers.docusign.com/docs/rooms-api/rooms101/auth/).
 
 1. **Create a room with data.**
@@ -212,7 +214,7 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
 ## Installation
 
 ### Prerequisites
-**Note:** If you downloaded this code using Quickstart from the DocuSign Developer Center, skip items 1 and 2 below as they were automatically performed for you.
+**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip items 1 and 2 below as they were automatically performed for you.
 
 1. A free [DocuSign developer account](https://go.docusign.com/o/sandbox/); create one if you don't already have one.
 1. A DocuSign app and integration key that is configured for authentication to use either [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) or [JWT Grant](https://developers.docusign.com/platform/auth/jwt/).
@@ -239,55 +241,50 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
    1. Update the Gemfile to use later versions of Ruby.
    1. Windows x64 only:
       1. Ensure that your Ruby folder is appended with -x64, e.g. Ruby27-x64.
-      2. Install Curl for Ruby: Download libcurl.dll  
+      2. Install Curl for Ruby: [Download libcurl.dll](https://curl.haxx.se/windows/)  
          Save libcurl-x64.dll as libcurl.dll  
          Place libcurl.dll in your Ruby folder: C:\<Ruby installation>-x64\bin  
 
 
 ### Installation steps
-**Note: If you downloaded this code using Quickstart from the DocuSign Developer Center, skip steps 4, 5, and 6 below as they're automatically performed for you.**
+**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip steps 4 as it was automatically performed for you.
 
-1. Download or clone this repository to your workstation to directory **code-examples-ruby**
-1. **cd code-examples-ruby**
-1. Install the needed gems listed in the Gemfile:
-
-   Run **bundler install**
-1. Copy the file **config/appsettings.example.yml** into a new file named **config/appsettings.yml**
-1. Update the file **config/appsettings.yml** with the Integration Key and other settings.
-     Note: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing.
-
-1. Update your Integration Key's settings to include a **Redirect URI** for
-   your installation of the example. See Prerequisites item #2, above for more information.
-
-
-#### Run the application
-1. To start the development web server and application:
-
-   Run **rails s**  
-
-   *Note that on Windows additional actions might be necessary:*
-   - *Install sqlite3: **gem install sqlite3 --platform=ruby***
-   - *Download curllib.dll (https://curl.haxx.se/windows/)*
-   - *libcurl-x64.dll should be copied as libcurl.dll*
-   - *Place libcurl.dll into Ruby `C:\\<Ruby installation>\bin`*
-1. Open a browser to the example's base url to view the index page.
+1. Extract the Quickstart ZIP file or download or clone the code-examples-ruby repository.
+1. In your command-line environment, switch the the folder:  
+   `cd <Quickstart folder name>` or `cd code-examples-ruby`
+1. Install the dependencies: `bundle install`
+1. To configure the launcher for [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) authentication, create a copy of the file config/appsettings.example.yml and save the copy as config/appsettings.yml.
+   1. Add your integration key. On the [Apps and Keys](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey) page, under **Apps and Integration Keys**, choose the app to use, then select **Actions** > **Edit**. Under **General Info**, copy the **Integration Key** GUID and save it in appsettings.yml as your `integration_key`.
+   1. Generate a secret key, if you don’t already have one. Under **Authentication**, select **+ ADD SECRET KEY**. Copy the secret key and save it in appsettings.yml as your `integration_secret`.
+   1. Add the launcher’s redirect URI. Under **Additional settings**, select **+ ADD URI**, and set a redirect URI of http://localhost:3000/auth/docusign/callback. Select **SAVE**.   
+   1. Set a name and email address for the signer. In appsettings.yml, save an email address as `signer_email` and a name as `signer_name`.  
+**Note:** Protect your personal information. Please make sure that appsettings.yml will not be stored in your source code repository.
+1. Run the launcher: `rails s`
+1. Open a browser to http://localhost:3000/auth/docusign
 
 
-### Configuring JWT
+### Installation steps for JWT Grant authentication
+**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip step 4 as it was automatically performed for you.  
+Also, in order to select JSON Web Token authentication in the launcher, in config/appsettings.yml, change `quickstart` to `false`.
 
-**Note:** Before you can make any API calls using JWT Grant, you must get your user’s consent for your app to impersonate them. To do this, the `impersonation` scope is added when requesting a JSON Web Token.
+1. Extract the Quickstart ZIP file or download or clone the code-examples-ruby repository.
+1. In your command-line environment, switch the the folder:  
+   `cd <Quickstart folder name>` or `cd code-examples-ruby`
+1. Install the dependencies: `bundle install`
+1. To configure the launcher for [JWT Grant](https://developers.docusign.com/platform/auth/jwt/) authentication, create a copy of the file config/appsettings.example.yml and save the copy as config/appsettings.yml.
+   1. Add your API Username. On the [Apps and Keys](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey) page, under **My Account Information**, copy the **API Username** GUID and save it in appsettings.yml as your `impersonated_user_guid`.
+   1. Add your integration key. On the [Apps and Keys](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey) page, under **Apps and Integration Keys**, choose the app to use, then select **Actions** > **Edit**. Under **General Info**, copy the **Integration Key** GUID and save it in appsettings.yml as your `jwt_integration_key`.
+   1. Generate an RSA key pair, if you don’t already have one. Under **Authentication**, select **+ GENERATE RSA**. Copy the private key and save it in a new file named config/docusign_private_key.txt.
+   1. Add the launcher’s redirect URI. Under **Additional settings**, select **+ ADD URI**, and set a redirect URI of http://localhost:3000/auth/docusign/callback. Select **SAVE**.   
+   1. Set a name and email address for the signer. In appsettings.yml, save an email address as `signer_email` and a name as `signer_name`.  
+**Note:** Protect your personal information. Please make sure that appsettings.yml will not be stored in your source code repository.
+1. Run the launcher: `rails s`
+1. Open a browser to http://localhost:3000/auth/docusign  
+**Note:** This step is currently broken in Windows. We will remove this note when it has been fixed.
 
-1. Create a developer sandbox account on developers.docusign.com if you don't already have one.
-2. Create a new API key in the Admin panel: https://admindemo.docusign.com/api-integrator-key
-  - Take note of the _Integration Key_.
-  - Generate a _RSA Keypair_ and copy the private key to a secure location.
-  - Set a _Redirect URI_ of `http://localhost:3000/auth/docusign/callback` as mentioned in the installation steps above.
-3. Create a new file in the config folder named **docusign_private_key.txt**, and paste in that copied RSA private key, then save it.
-4. Update the file **config/appsettings.yml** and include the settings from step 2.
-
-[Obtaining consent](https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent) does not need to be configured, as it is already being done in the code at [JwtAuth::JwtCreator#update_token](./app/services/jwt_auth/jwt_creator.rb#L35)
-
-From there you should be able to run the launcher using `bundle exec rails server` then selecting **JSON Web Token** when authenticaing your account.
+1. If it is your first time using the app, grant consent by selecting **Accept**. On the black navigation bar, select **Logout**, then **Login**.
+1. From the picklist, select **JSON Web Token (JWT) grant** > **Authenticate with DocuSign**.
+1. Select your desired code example.
 
 
 ### Troubleshooting Windows SSL issue
@@ -322,29 +319,15 @@ Once this is complete, you can run your Ruby on Rails application again and you 
 
 
 ## Payments code example
-To use the payments example, create a
-test payments gateway for your developer sandbox account.
+To use the payments code example, create a test payment gateway on the [**Payments**](https://admindemo.docusign.com/authenticate?goTo=payments) page in your developer account. See [Configure a payment gateway](./PAYMENTS_INSTALLATION.md) for details.
 
-See the
-[PAYMENTS_INSTALLATION.md](./PAYMENTS_INSTALLATION.md)
-file for instructions.
-
-Then add the payment gateway account id to the **config/application.rb** file.
-
-
-### Using the examples with other authentication flows
-
-The examples in this repository can also be used with the
-Implicit grant OAuth flow.
-See the [Authentication guide](https://developers.docusign.com/esign-rest-api/guides/authentication)
-for information on choosing the right authentication flow for your application.
+Once you've created a payment gateway, save the **Gateway Account ID** GUID to appsettings.yml.
 
 
 ## License and additional information
 
-
 ### License
-This repository uses the MIT License. See the LICENSE file for more information.
+This repository uses the MIT License. See [LICENSE](./LICENSE) for details.
 
 
 ### Pull Requests
