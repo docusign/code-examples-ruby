@@ -240,7 +240,7 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
 
 
 ### Installation steps
-**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip steps 4 as it was automatically performed for you.
+**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip step 4 as it was automatically performed for you.
 
 1. Extract the Quickstart ZIP file or download or clone the code-examples-ruby repository.
 1. In your command-line environment, switch the the folder:  
