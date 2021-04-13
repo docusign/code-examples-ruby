@@ -2,9 +2,6 @@
 
 ### Github repo: https://github.com/docusign/code-examples-ruby
 
-
-This GitHub repo includes code examples for DocuSign APIs.
-
 To switch between API code examples, modify the `examples_API` setting at the end of the configuration file. Set only one API type to `true` and set the remaining to `false`.
 
 If none of the API types are set to `true`, the DocuSign eSignature REST API code examples will be shown. If multiple API types are set to `true`, only the first will be shown.
