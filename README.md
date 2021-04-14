@@ -269,8 +269,6 @@ Also, in order to select JSON Web Token authentication in the launcher, in confi
 **Note:** Protect your personal information. Please make sure that appsettings.yml will not be stored in your source code repository.
 1. Run the launcher: `rails s`
 1. Open a browser to http://localhost:3000/auth/docusign  
-**Note:** This step is currently broken in Windows. We will remove this note when it has been fixed.
-
 1. If it is your first time using the app, grant consent by selecting **Accept**. On the black navigation bar, select **Logout**, then **Login**.
 1. From the picklist, select **JSON Web Token (JWT) grant** > **Authenticate with DocuSign**.
 1. Select your desired code example.
