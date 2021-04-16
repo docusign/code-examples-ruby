@@ -310,7 +310,7 @@ When using the Ruby launcher on OSX you may get the following error:
 ```
 Faraday::SSLError (SSL_connect returned=1 errno=0 state=error: certificate verify failed (self signed certificate in certificate chain))
 ```
-Please update SSL certificates if brew is your package manager. Or check [other steps for other package manager](https://gemfury.com/help/could-not-verify-ssl-certificate/#updating-ssl-certificates)
+Please update SSL certificates if rvm is your version manager. Or check [other steps for different scenarios](https://gemfury.com/help/could-not-verify-ssl-certificate/#updating-ssl-certificates).
 ```
 $ rvm osx-ssl-certs status all
 $ rvm osx-ssl-certs update all
