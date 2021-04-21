@@ -33,7 +33,7 @@ module JwtAuth
     def initialize(session)
       @session = session
       @api_client = create_initial_api_client(host: Rails.configuration.aud, debugging: false)
-      @scope = "signature"
+      scope = "signature"
       if Rails.configuration.examples_API['Rooms'] == true
         scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
       elsif Rails.configuration.examples_API['Click'] == true
