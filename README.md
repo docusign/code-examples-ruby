@@ -206,7 +206,7 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
 **Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip items 1 and 2 below as they were automatically performed for you.
 
 1. A free [DocuSign developer account](https://go.docusign.com/o/sandbox/); create one if you don't already have one.
-1. A DocuSign app and integration key that is configured for authentication to use either [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) or [JWT Grant](https://developers.docusign.com/platform/auth/jwt/).
+1. A DocuSign app and integration key that is configured to use either [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) or [JWT Grant](https://developers.docusign.com/platform/auth/jwt/) authentication.
 
    This [video](https://www.youtube.com/watch?v=eiRI4fe5HgM) demonstrates how to obtain an integration key.  
 
@@ -229,7 +229,7 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
 1. [Ruby version 2.7.2](https://www.ruby-lang.org/en/downloads/) or later
    1. Update the Gemfile to use later versions of Ruby.
    1. Windows x64 only:
-      1. Ensure that your Ruby folder is appended with -x64, e.g. **Ruby27-x64**  
+      1. Ensure that your Ruby folder is appended with **-x64**, e.g. **Ruby27-x64**  
       2. Install Curl for Ruby: [Download libcurl.dll](https://curl.haxx.se/windows/)   
          Save **libcurl-x64.dll** as **libcurl.dll**  
          Place **libcurl.dll** in your Ruby folder, e.g. **C:&#92;Ruby27-x64&#92;bin**
@@ -269,8 +269,6 @@ Also, in order to select JSON Web Token authentication in the launcher, in confi
 **Note:** Protect your personal information. Please make sure that appsettings.yml will not be stored in your source code repository.
 1. Run the launcher: `rails s`
 1. Open a browser to http://localhost:3000/auth/docusign  
-**Note:** This step is currently broken in Windows. We will remove this note when it has been fixed.
-
 1. If it is your first time using the app, grant consent by selecting **Accept**. On the black navigation bar, select **Logout**, then **Login**.
 1. From the picklist, select **JSON Web Token (JWT) grant** > **Authenticate with DocuSign**.
 1. Select your desired code example.
