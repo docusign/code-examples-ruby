@@ -310,7 +310,6 @@ To use the payments code example, create a test payment gateway on the [**Paymen
 
 Once you've created a payment gateway, save the **Gateway Account ID** GUID to appsettings.yml.
 
-
 ## License and additional information
 
 ### License
