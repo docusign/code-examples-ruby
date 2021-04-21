@@ -3,10 +3,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.1'
+ruby '2.7.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.3.3'
+gem 'rails', '~> 6.0.3.5'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '~> 1.4.2'
 # Use Puma as the app server
@@ -36,7 +36,7 @@ gem 'jbuilder', '~> 2.10.0'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '~> 1.4.5', require: false
+gem 'bootsnap', '~> 1.7.3', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -64,8 +64,8 @@ end
 
 gem 'docusign_esign', '~> 3.8.0.rc1'
 gem 'docusign_rooms', '~> 1.1.0.rc1'
-gem 'docusign_click'
-gem 'omniauth-oauth2', '~> 1.6'
+gem 'docusign_click', '~> 1.0.0'
+gem 'omniauth-oauth2', '~> 1.7.1'
 gem 'omniauth-rails_csrf_protection'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
