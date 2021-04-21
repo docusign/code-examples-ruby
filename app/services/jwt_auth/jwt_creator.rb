@@ -4,12 +4,12 @@ module JwtAuth
   class JwtCreator
     include ApiCreator
 
-    attr_reader :session, :api_client
+    attr_reader :session, :api_client, :state
 
     # DocuSign authorization URI to obtain individual consent
     # https://developers.docusign.com/platform/auth/jwt/jwt-get-token
     # https://developers.docusign.com/platform/auth/consent/obtaining-individual-consent/
-    def self.consent_url
+    def self.consent_url(state)
       # GET /oauth/auth
       # This endpoint is used to obtain consent and is the first step in several authentication flows.
       # https://developers.docusign.com/platform/auth/reference/obtain-consent
@@ -24,8 +24,8 @@ module JwtAuth
       response_type = "code"
       scopes = ERB::Util.url_encode(scope) # https://developers.docusign.com/platform/auth/reference/scopes/
       client_id = Rails.configuration.jwt_integration_key
-      redirect_uri = Rails.configuration.app_url
-      consent_url = "#{base_uri}?response_type=#{response_type}&scope=#{scopes}&client_id=#{client_id}&redirect_uri=#{redirect_uri}"
+      redirect_uri = "#{Rails.configuration.app_url}/auth/docusign/callback"
+      consent_url = "#{base_uri}?response_type=#{response_type}&scope=#{scopes}&client_id=#{client_id}&state=#{state}&redirect_uri=#{redirect_uri}"
       Rails.logger.info "==> Obtain Consent Grant required: #{consent_url}"
       consent_url
     end
@@ -33,7 +33,7 @@ module JwtAuth
     def initialize(session)
       @session = session
       @api_client = create_initial_api_client(host: Rails.configuration.aud, debugging: false)
-      @scope = "signature"
+      scope = "signature"
       if Rails.configuration.examples_API['Rooms'] == true
         scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
       elsif Rails.configuration.examples_API['Click'] == true

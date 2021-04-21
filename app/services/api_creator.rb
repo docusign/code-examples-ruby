@@ -13,15 +13,15 @@ module ApiCreator
   end
 
   def create_account_api(args)
-    # Step 1. Obtain your OAuth token
+    # Obtain your OAuth token
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:base_path]
     api_client = DocuSign_eSign::ApiClient.new configuration
 
-    # Step 2. Construct your API headers
+    # Construct your API headers
     api_client.default_headers['Authorization'] = "Bearer #{args[:access_token]}"
 
-    # Step 3: Construct your request body
+    # Construct your request body
     accounts_api = DocuSign_eSign::AccountsApi.new api_client
   end
 
@@ -34,13 +34,14 @@ module ApiCreator
   end
 
   def create_envelope_api(args)
-    # Step 1. Obtain your OAuth token
+    # Obtain your OAuth token
+    # Step 2 start
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:base_path]
     api_client = DocuSign_eSign::ApiClient.new configuration
 
-    # Step 2. Construct your API headers
     api_client.default_headers['Authorization'] = "Bearer #{args[:access_token]}"
+    # Step 2 end
     DocuSign_eSign::EnvelopesApi.new api_client
   end
 

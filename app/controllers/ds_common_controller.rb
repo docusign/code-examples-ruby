@@ -44,7 +44,8 @@ class DsCommonController < ApplicationController
           url = root_path
         end
       else
-        url = JwtAuth::JwtCreator.consent_url
+        session['omniauth.state'] = SecureRandom.hex
+        url = JwtAuth::JwtCreator.consent_url(session['omniauth.state'])
       redirect_to root_path if session[:token].present?
       end
       if Rails.configuration.examples_API['Rooms'] == true

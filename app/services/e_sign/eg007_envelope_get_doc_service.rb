@@ -22,13 +22,14 @@ class ESign::Eg007EnvelopeGetDocService
 
   private
 
-  # ***DS.snippet.0.start
   def worker
+    # Step 3 start
     envelope_api = create_envelope_api(args)
 
     document_id = args['document_id']
 
     temp_file = envelope_api.get_document args[:account_id], document_id, args[:envelope_id]
+    # Step 3 end
     # Find the matching document information item
     doc_item = args['envelope_documents']['documents'].find { |item| item['document_id'] == document_id }
 
