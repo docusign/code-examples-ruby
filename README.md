@@ -203,7 +203,7 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
 ## Installation
 
 ### Prerequisites
-**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip items 1 and 2 below as they were automatically performed for you.
+**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip items 1 and 2 as they were automatically performed for you.
 
 1. A free [DocuSign developer account](https://go.docusign.com/o/sandbox/); create one if you don't already have one.
 1. A DocuSign app and integration key that is configured to use either [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) or [JWT Grant](https://developers.docusign.com/platform/auth/jwt/) authentication.
@@ -241,7 +241,7 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
 1. Extract the Quickstart ZIP file or download or clone the code-examples-ruby repository.
 1. In your command-line environment, switch to the folder:  
    `cd <Quickstart folder name>` or `cd code-examples-ruby`
-1. Install the dependencies: `bundle install`
+1. Install the dependencies: `bundler install`
 1. To configure the launcher for [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) authentication, create a copy of the file config/appsettings.example.yml and save the copy as config/appsettings.yml.
    1. Add your integration key. On the [Apps and Keys](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey) page, under **Apps and Integration Keys**, choose the app to use, then select **Actions** > **Edit**. Under **General Info**, copy the **Integration Key** GUID and save it in appsettings.yml as your `integration_key`.
    1. Generate a secret key, if you don’t already have one. Under **Authentication**, select **+ ADD SECRET KEY**. Copy the secret key and save it in appsettings.yml as your `integration_secret`.
@@ -249,7 +249,7 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
    1. Set a name and email address for the signer. In appsettings.yml, save an email address as `signer_email` and a name as `signer_name`.  
 **Note:** Protect your personal information. Please make sure that appsettings.yml will not be stored in your source code repository.
 1. Run the launcher: `rails s`
-1. Open a browser to http://localhost:3000/auth/docusign
+1. Open a browser to http://localhost:3000
 
 
 ### Installation steps for JWT Grant authentication
@@ -259,7 +259,7 @@ Also, in order to select JSON Web Token authentication in the launcher, in confi
 1. Extract the Quickstart ZIP file or download or clone the code-examples-ruby repository.
 1. In your command-line environment, switch to the folder:  
    `cd <Quickstart folder name>` or `cd code-examples-ruby`
-1. Install the dependencies: `bundle install`
+1. Install the dependencies: `bundler install`
 1. To configure the launcher for [JWT Grant](https://developers.docusign.com/platform/auth/jwt/) authentication, create a copy of the file config/appsettings.example.yml and save the copy as config/appsettings.yml.
    1. Add your API Username. On the [Apps and Keys](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey) page, under **My Account Information**, copy the **API Username** GUID and save it in appsettings.yml as your `impersonated_user_guid`.
    1. Add your integration key. On the [Apps and Keys](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey) page, under **Apps and Integration Keys**, choose the app to use, then select **Actions** > **Edit**. Under **General Info**, copy the **Integration Key** GUID and save it in appsettings.yml as your `jwt_integration_key`.
@@ -268,7 +268,7 @@ Also, in order to select JSON Web Token authentication in the launcher, in confi
    1. Set a name and email address for the signer. In appsettings.yml, save an email address as `signer_email` and a name as `signer_name`.  
 **Note:** Protect your personal information. Please make sure that appsettings.yml will not be stored in your source code repository.
 1. Run the launcher: `rails s`
-1. Open a browser to http://localhost:3000/auth/docusign  
+1. Open a browser to http://localhost:3000
 1. If it is your first time using the app, grant consent by selecting **Accept**. On the black navigation bar, select **Logout**, then **Login**.
 1. From the picklist, select **JSON Web Token (JWT) grant** > **Authenticate with DocuSign**.
 1. Select your desired code example.
