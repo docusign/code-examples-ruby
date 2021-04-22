@@ -29,7 +29,7 @@ class DsCommonController < ApplicationController
 
   def ds_must_authenticate
     if Rails.configuration.quickstart == true
-      redirect_to('auth/docusign')
+      redirect_to('/auth/docusign')
     end
     @title = 'Authenticate with DocuSign'
     @show_doc = Rails.application.config.documentation
