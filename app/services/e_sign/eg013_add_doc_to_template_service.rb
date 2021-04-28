@@ -91,7 +91,7 @@ class ESign::Eg013AddDocToTemplateService
       # Add the roles via an inlineTemplate
       inlineTemplates: [
         DocuSign_eSign::InlineTemplate.new(
-          'sequence' => '1',
+          'sequence' => '2',
           'recipients' => recipients_server_template
         )
       ]
@@ -136,7 +136,7 @@ class ESign::Eg013AddDocToTemplateService
       # Add the recipients via an inlineTemplate
       inlineTemplates: [
         DocuSign_eSign::InlineTemplate.new(
-          sequence: '2', recipients: recipients_added_doc
+          sequence: '1', recipients: recipients_added_doc
         )
       ],
       document: doc1

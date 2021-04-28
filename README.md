@@ -2,9 +2,6 @@
 
 ### Github repo: https://github.com/docusign/code-examples-ruby
 
-
-This GitHub repo includes code examples for DocuSign APIs.
-
 To switch between API code examples, modify the `examples_API` setting at the end of the configuration file. Set only one API type to `true` and set the remaining to `false`.
 
 If none of the API types are set to `true`, the DocuSign eSignature REST API code examples will be shown. If multiple API types are set to `true`, only the first will be shown.
@@ -206,10 +203,10 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
 ## Installation
 
 ### Prerequisites
-**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip items 1 and 2 below as they were automatically performed for you.
+**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip items 1 and 2 as they were automatically performed for you.
 
 1. A free [DocuSign developer account](https://go.docusign.com/o/sandbox/); create one if you don't already have one.
-1. A DocuSign app and integration key that is configured to use either [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) or [JWT Grant](https://developers.docusign.com/platform/auth/jwt/) authentication.
+1. A DocuSign app and integration key that is configured for authentication to use either [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) or [JWT Grant](https://developers.docusign.com/platform/auth/jwt/).
 
    This [video](https://www.youtube.com/watch?v=eiRI4fe5HgM) demonstrates how to obtain an integration key.  
 
@@ -312,7 +309,6 @@ Once this is complete, you can run your Ruby on Rails application again and you 
 To use the payments code example, create a test payment gateway on the [**Payments**](https://admindemo.docusign.com/authenticate?goTo=payments) page in your developer account. See [Configure a payment gateway](./PAYMENTS_INSTALLATION.md) for details.
 
 Once you've created a payment gateway, save the **Gateway Account ID** GUID to appsettings.yml.
-
 
 ## License and additional information
 
