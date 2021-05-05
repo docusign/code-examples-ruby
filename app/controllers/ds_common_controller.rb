@@ -10,6 +10,8 @@ class DsCommonController < ApplicationController
       render 'room_api/index'
     elsif Rails.configuration.examples_API['Click'] == true
       render 'clickwrap/index'
+    elsif Rails.configuration.examples_API['Monitor'] == true
+      render 'monitor_api/index'
     else
       @show_doc = Rails.application.config.documentation
       if Rails.configuration.quickstart == true && session[:been_here].nil?

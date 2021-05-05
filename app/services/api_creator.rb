@@ -2,14 +2,23 @@
 
 module ApiCreator
   def create_initial_api_client(host: nil, debugging: false)
-    configuration = DocuSign_eSign::Configuration.new
-
-    # https://github.com/docusign/docusign-ruby-client/blob/master/lib/docusign_esign/configuration.rb#L55-L60
-    configuration.debugging = debugging
-
-    api_client = DocuSign_eSign::ApiClient.new(configuration)
+    if Rails.configuration.examples_API['Rooms'] == true
+      api_client = new_client(DocuSign_Rooms, debugging)
+    elsif Rails.configuration.examples_API['Click'] == true
+      api_client = new_client(DocuSign_Click, debugging)
+    elsif Rails.configuration.examples_API['Monitor'] == true
+      api_client = new_client(DocuSign_Monitor, debugging)
+    else
+      api_client = new_client(DocuSign_eSign, debugging)
+    end
     api_client.set_oauth_base_path(host)
     api_client
+  end
+
+  def new_client(client_module, debugging)
+    configuration = client_module::Configuration.new
+    configuration.debugging = debugging
+    client_module::ApiClient.new(configuration)
   end
 
   def create_account_api(args)
