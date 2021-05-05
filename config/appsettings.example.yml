@@ -9,6 +9,7 @@ default: &default
     eSignature: true
     Rooms: false
     Click: false
+    Monitor: false
   # NOTE: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing
   # The integration_key value is the same between the development account and production account
   integration_key: {INTEGRATION_KEY_AUTH_CODE}
@@ -26,6 +27,7 @@ default: &default
   authorization_server: https://account-d.docusign.com
   aud: account-d.docusign.com
   rooms_host: "https://demo.rooms.docusign.com/restapi"
+  monitor_host: "https://lens-d.docusign.net"
   allow_silent_authentication: true # A user can be silently authenticated if they have an
                                     # Active login session on another tab of the same browser
                                     # Set if you want a specific DocuSign AccountId, If false, the users default account will be used.

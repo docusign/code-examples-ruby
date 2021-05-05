@@ -36,7 +36,11 @@ gem 'jbuilder', '~> 2.10.0'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', '< 1.4.2', require: false
+if RUBY_PLATFORM =~ /mswin/
+  gem 'bootsnap', '>= 1.1.0', '< 1.4.2', require: false
+else
+  gem 'bootsnap', '~> 1.7.3', require: false
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -63,6 +67,7 @@ group :test do
 end
 
 gem 'docusign_esign', '~> 3.8.0.rc1'
+gem 'docusign_monitor', '~> 1.0.1.pre.alpha' 
 gem 'docusign_rooms', '~> 1.1.0.rc1'
 gem 'docusign_click', '~> 1.0.0'
 gem 'omniauth-oauth2', '~> 1.7.1'
