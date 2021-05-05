@@ -48,6 +48,11 @@ Rails.application.routes.draw do
       get 'eg005' => 'eg005_clickwrap_responses#get'
       post 'eg005' => 'eg005_clickwrap_responses#create'
     end
+  elsif Rails.configuration.examples_API['Monitor'] == true
+    scope module: 'monitor_api' do
+      get 'eg001' => 'eg001_get_monitoring_dataset#get'
+      post 'eg001' => 'eg001_get_monitoring_dataset#create'
+    end
   else
     scope module: 'e_sign' do
       # Example controllers...
@@ -177,6 +182,8 @@ Rails.application.routes.draw do
   get '/ds_common-return' => 'ds_common#ds_return'
   get '/ds/mustAuthenticate' => 'ds_common#ds_must_authenticate'
   post '/ds/mustAuthenticate' => 'ds_common#ds_must_authenticate'
+  get '/ds/mustAuthenticateJwt' => 'ds_common#ds_must_authenticate_jwt'
+  post '/ds/mustAuthenticateJwt' => 'ds_common#ds_must_authenticate'
  
   get '/ds/session' => 'session#show'
   # default root

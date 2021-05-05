@@ -199,6 +199,12 @@ This example demonstrates how to use the Click API to get a list of clickwraps a
 [Source.](./app/services/clickwrap/eg005_clickwrap_responses_service.rb)
 This example demonstrates how to use the Click API to get a list of clickwraps associated with a specific DocuSign user.
 
+## Monitor API
+**Note:** To use the Monitor API, you must also [enable DocuSign Monitor for your organization](https://developers.docusign.com/docs/monitor-api/how-to/enable-monitor/).  
+For information about the scopes used for obtaining authorization to use the Monitor API, see the [scopes section](https://developers.docusign.com/docs/monitor-api/monitor101/auth/).
+
+1. **Get monitoring data.** [Source](app/services/monitor_api/eg001_get_monitoring_dataset_service.rb)   
+   Demonstrates how to get and display all of your organization’s monitoring data.
 
 ## Installation
 
