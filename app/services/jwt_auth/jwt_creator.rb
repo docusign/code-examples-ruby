@@ -32,14 +32,19 @@ module JwtAuth
 
     def initialize(session)
       @session = session
-      @api_client = create_initial_api_client(host: Rails.configuration.aud, debugging: false)
       scope = "signature"
+      @client_module = DocuSign_eSign
       if Rails.configuration.examples_API['Rooms'] == true
         scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
+        @client_module = DocuSign_Rooms
       elsif Rails.configuration.examples_API['Click'] == true
         scope = "signature click.manage click.send"
+        @client_module = DocuSign_Click
+      elsif Rails.configuration.examples_API['Monitor'] == true
+        @client_module = DocuSign_Monitor
       end
       @scope = "#{scope} impersonation"
+      @api_client = create_initial_api_client(host: Rails.configuration.aud, client_module: @client_module, debugging: false)
     end
 
     # @return [Boolean] `true` if the token was successfully updated, `false` if consent still needs to be grant'ed
@@ -57,7 +62,7 @@ module JwtAuth
         else
           raise
         end
-      rescue DocuSign_eSign::ApiError => exception
+      rescue @client_module::ApiError => exception
         Rails.logger.warn exception.inspect
         body = JSON.parse(exception.response_body)
 

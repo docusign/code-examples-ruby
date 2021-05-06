@@ -30,6 +30,9 @@ class DsCommonController < ApplicationController
   end
 
   def ds_must_authenticate
+    if Rails.configuration.examples_API['Monitor'] == true
+      jwt_auth
+    end
     if Rails.configuration.quickstart == true
       redirect_to('/auth/docusign')
     end
@@ -39,30 +42,34 @@ class DsCommonController < ApplicationController
     if params[:auth] == 'grand-auth'
       redirect_to('/auth/docusign')
     elsif params[:auth] == 'jwt-auth'
-      if JwtAuth::JwtCreator.new(session).check_jwt_token
-        if session[:eg]
-          url = "/" + session[:eg]
-        else
-          url = root_path
-        end
-      else
-        session['omniauth.state'] = SecureRandom.hex
-        url = JwtAuth::JwtCreator.consent_url(session['omniauth.state'])
-      redirect_to root_path if session[:token].present?
-      end
-      if Rails.configuration.examples_API['Rooms'] == true
-        configuration = DocuSign_Rooms::Configuration.new
-        api_client = DocuSign_Rooms::ApiClient.new(configuration)
-      elsif Rails.configuration.examples_API['Click'] == true
-        configuration = DocuSign_Click::Configuration.new
-        api_client = DocuSign_Click::ApiClient.new configuration
-      end
-      resp = ::JwtAuth::JwtCreator.new(session).check_jwt_token
-      if resp.is_a? String
-        redirect_to resp
-      end
-      redirect_to url
+      jwt_auth
     end
+  end
+
+  def jwt_auth
+    if JwtAuth::JwtCreator.new(session).check_jwt_token
+      if session[:eg]
+        url = "/" + session[:eg]
+      else
+        url = root_path
+      end
+    else
+      session['omniauth.state'] = SecureRandom.hex
+      url = JwtAuth::JwtCreator.consent_url(session['omniauth.state'])
+    redirect_to root_path if session[:token].present?
+    end
+    if Rails.configuration.examples_API['Rooms'] == true
+      configuration = DocuSign_Rooms::Configuration.new
+      api_client = DocuSign_Rooms::ApiClient.new(configuration)
+    elsif Rails.configuration.examples_API['Click'] == true
+      configuration = DocuSign_Click::Configuration.new
+      api_client = DocuSign_Click::ApiClient.new configuration
+    end
+    resp = ::JwtAuth::JwtCreator.new(session).check_jwt_token
+    if resp.is_a? String
+      redirect_to resp
+    end
+    redirect_to url
   end
 
   def example_done; end
