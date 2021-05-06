@@ -14,9 +14,9 @@ module JwtAuth
       # This endpoint is used to obtain consent and is the first step in several authentication flows.
       # https://developers.docusign.com/platform/auth/reference/obtain-consent
       scope = "signature"
-      if Rails.configuration.examples_API['Rooms'] == true
+      if Rails.configuration.examples_API['Rooms']
         scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
-      elsif Rails.configuration.examples_API['Click'] == true
+      elsif Rails.configuration.examples_API['Click']
         scope = "signature click.manage click.send"
       end
       scope = "#{scope} impersonation"
@@ -34,13 +34,13 @@ module JwtAuth
       @session = session
       scope = "signature"
       @client_module = DocuSign_eSign
-      if Rails.configuration.examples_API['Rooms'] == true
+      if Rails.configuration.examples_API['Rooms']
         scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
         @client_module = DocuSign_Rooms
-      elsif Rails.configuration.examples_API['Click'] == true
+      elsif Rails.configuration.examples_API['Click']
         scope = "signature click.manage click.send"
         @client_module = DocuSign_Click
-      elsif Rails.configuration.examples_API['Monitor'] == true
+      elsif Rails.configuration.examples_API['Monitor']
         @client_module = DocuSign_Monitor
       end
       @scope = "#{scope} impersonation"
