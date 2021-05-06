@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  if Rails.configuration.examples_API['Rooms'] == true
+  if Rails.configuration.examples_API['Rooms']
     scope module: 'room_api' do
       get 'eg001' => 'eg001_create_room_with_data#get'
       post 'eg001' => 'eg001_create_room_with_data#create'
@@ -31,7 +31,7 @@ Rails.application.routes.draw do
       get 'eg009' => 'eg009_assign_form_to_form_group#get'
       post 'eg009' => 'eg009_assign_form_to_form_group#create'
     end
-  elsif Rails.configuration.examples_API['Click'] == true
+  elsif Rails.configuration.examples_API['Click']
     scope module: 'clickwrap' do
       get 'eg001' => 'eg001_create_clickwrap#get'
       post 'eg001' => 'eg001_create_clickwrap#create'
@@ -48,7 +48,7 @@ Rails.application.routes.draw do
       get 'eg005' => 'eg005_clickwrap_responses#get'
       post 'eg005' => 'eg005_clickwrap_responses#create'
     end
-  elsif Rails.configuration.examples_API['Monitor'] == true
+  elsif Rails.configuration.examples_API['Monitor']
     scope module: 'monitor_api' do
       get 'eg001' => 'eg001_get_monitoring_dataset#get'
       post 'eg001' => 'eg001_get_monitoring_dataset#create'
