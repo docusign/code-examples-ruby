@@ -10,7 +10,6 @@ class MonitorApi::Eg001GetMonitoringDatasetService
     }
     @cursor = ''
     @results_memo = []
-    @last_result = ''
   end
 
   def call
@@ -23,9 +22,10 @@ class MonitorApi::Eg001GetMonitoringDatasetService
     # step 2 end
 
     # step 3 start
+    monitor_api = DocuSign_Monitor::DataSetApi.new(api_client)
+    options = DocuSign_Monitor::GetStreamForDatasetOptions.default
+    
     while true do
-      monitor_api = DocuSign_Monitor::DataSetApi.new(api_client)
-      options = DocuSign_Monitor::GetStreamForDatasetOptions.default
       options.cursor = @cursor
       response = monitor_api.get_stream_for_dataset('monitor', '2.0', options).first
 
@@ -33,8 +33,7 @@ class MonitorApi::Eg001GetMonitoringDatasetService
       # it means that you have reached the end of the records
       break if response[:endCursor] == @cursor
 
-      @results_memo.push(response[:data])
-      @last_result = response[:data]
+      @results_memo.push(response)
       @cursor = response[:endCursor]
     end
     # step 3 end 
@@ -42,6 +41,6 @@ class MonitorApi::Eg001GetMonitoringDatasetService
     Rails.logger.info "Responses for loops are displayed here. Only the final loop is displayed on the response page"
     Rails.logger.info @results_memo.inspect
 
-    return @last_result
+    return @results_memo
   end
 end
