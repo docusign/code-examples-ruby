@@ -151,6 +151,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.11.3-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.11.3-x86_64-linux)
+      racc (~> 1.4)
     oauth2 (1.4.7)
       faraday (>= 0.8, < 2.0)
       jwt (>= 1.0, < 3.0)
@@ -175,7 +177,7 @@ GEM
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     public_suffix (4.0.6)
-    puma (4.3.7)
+    puma (4.3.8)
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
@@ -218,6 +220,8 @@ GEM
     rubyzip (2.3.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
+    sassc (2.4.0)
+      ffi (~> 1.9)
     sassc (2.4.0-x64-mingw32)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -271,6 +275,7 @@ GEM
 PLATFORMS
   x64-mingw32
   x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   bootsnap (~> 1.7.3)
@@ -288,7 +293,7 @@ DEPENDENCIES
   omniauth-rails_csrf_protection
   pry-nav (~> 0.3.0)
   pry-rails (~> 0.3.9)
-  puma (~> 4.3.3)
+  puma (~> 4.3.8)
   rails (~> 6.0.3.5)
   sass-rails (~> 6.0.0)
   selenium-webdriver (~> 3.142.7)
