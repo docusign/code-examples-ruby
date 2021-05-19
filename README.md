@@ -310,6 +310,17 @@ Modify the following two lines in the **configuration.rb** file, replacing `true
 
 Once this is complete, you can run your Ruby on Rails application again and you should be able to make API calls on your localhost.
 
+### Troubleshooting macOS SSL issue
+When using the Ruby launcher on OSX you may get the following error:
+
+```
+Faraday::SSLError (SSL_connect returned=1 errno=0 state=error: certificate verify failed (self signed certificate in certificate chain))
+```
+Please update SSL certificates if rvm is your version manager. Or check [other steps for different scenarios](https://gemfury.com/help/could-not-verify-ssl-certificate/#updating-ssl-certificates).
+```
+$ rvm osx-ssl-certs status all
+$ rvm osx-ssl-certs update all
+```
 
 ## Payments code example
 To use the payments code example, create a test payment gateway on the [**Payments**](https://admindemo.docusign.com/authenticate?goTo=payments) page in your developer account. See [Configure a payment gateway](./PAYMENTS_INSTALLATION.md) for details.
