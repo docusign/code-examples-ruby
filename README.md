@@ -1,8 +1,8 @@
 # Ruby Launcher Code Examples
 
-### Github repo: https://github.com/docusign/code-examples-ruby
+### Github repo: [code-examples-ruby](./)
 
-This GitHub repo includes code examples for the DocuSign eSignature REST API, Rooms API, Click API, and Monitor API. To switch between API code examples, modify the `examples_API` setting at the end of the configuration file. Set only one API type to `true` and set the remaining to `false`.
+This GitHub repo includes code examples for the DocuSign eSignature REST API, Rooms API, Click API, and Monitor API. To switch between API code examples, modify the `examples_API` setting in the appsettings.yml file. Set only one API type to `true` and set the remaining to `false`.
 
 If none of the API types are set to `true`, the DocuSign eSignature REST API code examples will be shown. If multiple API types are set to `true`, only the first will be shown.
 
@@ -79,7 +79,7 @@ For a list of code examples that use the Monitor API, select the Ruby tab under 
 ### Installation steps
 **Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip step 4 as it was automatically performed for you.
 
-1. Extract the Quickstart ZIP file or download or clone the code-examples-ruby repository.
+1. Extract the Quickstart ZIP file, or download or clone the code-examples-ruby repository.
 1. In your command-line environment, switch to the folder:  
    `cd <Quickstart folder>` or `cd code-examples-ruby`
 1. To install dependencies, run: `bundler install`
