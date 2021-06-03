@@ -1,6 +1,6 @@
 # Ruby Launcher Code Examples
 
-### Github repo: [code-examples-ruby](./)
+### GitHub repo: [code-examples-ruby](./README.md)
 
 This GitHub repo includes code examples for the DocuSign eSignature REST API, Rooms API, Click API, and Monitor API. To switch between API code examples, modify the `examples_API` setting in the appsettings.yml file. Set only one API type to `true` and set the remaining to `false`.
 
