@@ -23,24 +23,14 @@ class MonitorApi::Eg001GetMonitoringDatasetService
 
     # step 3 start
     monitor_api = DocuSign_Monitor::DataSetApi.new(api_client)
-    options = DocuSign_Monitor::GetStreamForDatasetOptions.default
+    options = DocuSign_Monitor::GetStreamOptions.default
+    @response = monitor_api.get_stream('monitor', '2.0').data
     
-    while true do
-      options.cursor = @cursor
-      response = monitor_api.get_stream_for_dataset('monitor', '2.0', options).first
-
-      # If the endCursor from the response is the same as the one that you already have,
-      # it means that you have reached the end of the records
-      break if response[:endCursor] == @cursor
-
-      @results_memo.push(response)
-      @cursor = response[:endCursor]
-    end
-    # step 3 end 
+    # step 3 end
     
     Rails.logger.info "Responses for loops are displayed here. Only the final loop is displayed on the response page"
-    Rails.logger.info @results_memo.inspect
+    Rails.logger.info @response.inspect
 
-    return @results_memo
+    return @response
   end
 end

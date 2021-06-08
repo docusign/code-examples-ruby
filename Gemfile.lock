@@ -96,7 +96,7 @@ GEM
       json (~> 2.1, >= 2.1.0)
       jwt (~> 2.2, >= 2.2.1)
       typhoeus (~> 1.0, >= 1.0.1)
-    docusign_monitor (1.0.1.pre.alpha)
+    docusign_monitor (1.0.0.beta1)
       addressable (~> 2.7, >= 2.7.0)
       json (~> 2.1, >= 2.1.0)
       jwt (~> 2.2, >= 2.2.1)
@@ -150,6 +150,8 @@ GEM
     nokogiri (1.11.3-x64-mingw32)
       racc (~> 1.4)
     nokogiri (1.11.3-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.11.3-x86_64-linux)
       racc (~> 1.4)
     oauth2 (1.4.7)
       faraday (>= 0.8, < 2.0)
@@ -251,11 +253,8 @@ GEM
       ethon (>= 0.9.0)
     tzinfo (1.2.9)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2019.3)
-      tzinfo (>= 1.0.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
-    wdm (0.1.1)
     web-console (4.0.4)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -270,7 +269,9 @@ GEM
 
 PLATFORMS
   x64-mingw32
+  x86_64-darwin-19
   x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   bootsnap (~> 1.7.3)
@@ -280,7 +281,7 @@ DEPENDENCIES
   coffee-rails (~> 5.0.0)
   docusign_click (~> 1.0.0)
   docusign_esign (~> 3.8.0.rc1)
-  docusign_monitor (~> 1.0.1.pre.alpha)
+  docusign_monitor (~> 1.0.0.beta1)
   docusign_rooms (~> 1.1.0.rc1)
   jbuilder (~> 2.10.0)
   listen (~> 3.2.1)
