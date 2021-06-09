@@ -134,7 +134,8 @@ class ESign::Eg034UseConditionalRecipientsService
       tabId: 'ApprovalTab',
       operator: 'equals',
       value: false,
-      tabLabel: 'ApproveWhenChecked'
+      tabLabel: 'ApproveWhenChecked',
+      tabType: 'checkbox'
     )
     filter2 = DocuSign_eSign::ConditionalRecipientRuleFilter.new(
       scope: 'tabs',
@@ -142,7 +143,8 @@ class ESign::Eg034UseConditionalRecipientsService
       tabId: 'ApprovalTab',
       operator: 'equals',
       value: true,
-      tabLabel: 'ApproveWhenChecked'
+      tabLabel: 'ApproveWhenChecked',
+      tabType: 'checkbox'
     )
 
     # Create conditionalRecipientRuleCondition models
