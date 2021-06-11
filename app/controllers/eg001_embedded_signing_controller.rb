@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ESign::Eg001EmbeddedSigningController < EgController
+class Eg001EmbeddedSigningController < EgController
   def create
     minimum_buffer_min = 10
     token_ok = check_token(minimum_buffer_min)
@@ -13,7 +13,7 @@ class ESign::Eg001EmbeddedSigningController < EgController
       # authentication.
       redirect_to '/ds/mustAuthenticate'
     end
-    redirect_url = ESign::Eg001EmbeddedSigningService.new(session, request).call
+    redirect_url = Eg001EmbeddedSigningService.new(session, request).call
     redirect_to redirect_url
   end
 

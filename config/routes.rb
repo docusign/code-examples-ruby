@@ -54,11 +54,11 @@ Rails.application.routes.draw do
       post 'eg001' => 'eg001_get_monitoring_dataset#create'
     end
   else
+    get '/eg001' => 'eg001_embedded_signing#get'
+    post '/eg001' => 'eg001_embedded_signing#create'
+
     scope module: 'e_sign' do
       # Example controllers...
-      get 'eg001' => 'eg001_embedded_signing#get'
-      post 'eg001' => 'eg001_embedded_signing#create'
-
       get 'eg002' => 'eg002_signing_via_email#get'
       post 'eg002' => 'eg002_signing_via_email#create'
 
