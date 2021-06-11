@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ESign::Eg001EmbeddedSigningService
+class Eg001EmbeddedSigningService
   include ApiCreator
   attr_reader :signer_email, :signer_name, :args
 
