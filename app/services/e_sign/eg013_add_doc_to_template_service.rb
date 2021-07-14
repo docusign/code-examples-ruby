@@ -47,7 +47,7 @@ class ESign::Eg013AddDocToTemplateService
     # 3. Create the Recipient View request object
     authentication_method = 'None' # How is this application authenticating
     # the signer? See the `authenticationMethod' definition
-    # https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeViews/createRecipient
+    # https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopeviews/createrecipient/
     recipient_view_request = DocuSign_eSign::RecipientViewRequest.new(
       authenticationMethod: authentication_method,
       returnUrl: envelope_args[:ds_return_url],
