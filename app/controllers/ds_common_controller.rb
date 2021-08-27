@@ -12,6 +12,8 @@ class DsCommonController < ApplicationController
       render 'clickwrap/index'
     elsif Rails.configuration.examples_API['Monitor']
       render 'monitor_api/index'
+    elsif Rails.configuration.examples_API['Admin']
+      render 'admin_api/index'
     else
       @show_doc = Rails.application.config.documentation
       if Rails.configuration.quickstart && session[:been_here].nil?
@@ -64,6 +66,9 @@ class DsCommonController < ApplicationController
     elsif Rails.configuration.examples_API['Click']
       configuration = DocuSign_Click::Configuration.new
       api_client = DocuSign_Click::ApiClient.new configuration
+    elsif Rails.configuration.examples_API['Admin']
+      configuration = DocuSign_Admin::Configuration.new
+      api_client = DocuSign_Admin::ApiClient.new configuration
     end
     resp = ::JwtAuth::JwtCreator.new(session).check_jwt_token
     if resp.is_a? String

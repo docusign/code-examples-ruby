@@ -1,0 +1,57 @@
+<h4>1. Create a new eSignature user with active status</h4>
+<p>Demonstrates how to create a new eSignature user and activate their account automatically.</p>
+
+<p>
+    API methods used:
+    <a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/list/">Accounts::listPermissions</a>,
+    <a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/usergroups/groups/list/">UserGroups::listGroups</a>, and
+    <a target ='_blank' href="https://developers.docusign.com/docs/admin-api/reference/users/users/addusers/">Users::addUsers</a>.
+</p>
+
+<p>
+  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
+</p>
+
+<form class="eg" action="" method="post" data-busy="form">
+    <div class="form-group">
+        <label for="user_name">User Name</label>
+        <input type="text" class="form-control" id="user_name" name="user_name" required>
+    </div>
+    <div class="form-group">
+        <label for="first_name">First Name</label>
+        <input type="text" class="form-control" id="first_name" name="first_name" required>
+    </div>
+    <div class="form-group">
+        <label for="last_name">Last Name</label>
+        <input type="text" class="form-control" id="last_name" name="last_name" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email"
+            aria-describedby="emailHelp" required>
+        <small id="emailHelp" class="form-text text-muted">We will never share your email with anyone else.</small>
+    </div>
+    <% if @permission_profiles.present? %>
+        <div class="form-group">
+            <label for="starting_view">DocuSign permission profile</label>
+            <%= select_tag "permission_profile_id", options_for_select(@permission_profiles.map { |obj| [obj.permission_profile_name, obj.permission_profile_id] }), { :class => 'form-control' } %>
+        </div>
+    <% else %>
+        <div class="form-group">
+            <p>Problem: Please first create a DocuSign permission profile.</a>
+            <br>Thank you.</p>
+        </div>
+    <% end %>
+    <% if @groups.present? %>
+        <div class="form-group">
+            <label for="starting_view">DocuSign Group</label>
+            <%= select_tag "group_id", options_for_select(@groups.map { |obj| [obj.group_name, obj.group_id] }), { :class => 'form-control' } %>
+        </div>
+    <% else %>
+        <div class="form-group">
+            <p>Problem: Please first create a DocuSign group.</a>
+            <br>Thank you.</p>
+        </div>
+    <% end %>
+    <button type="submit" class="btn btn-docu">Submit</button>
+</form>

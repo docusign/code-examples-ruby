@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '~>2.7.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.3.5'
+gem 'rails', '~> 6.0.4.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '~> 1.4.2'
 # Use Puma as the app server
@@ -70,6 +70,7 @@ gem 'docusign_esign', '~> 3.10.0.rc1'
 gem 'docusign_monitor', '~> 1.0.0'
 gem 'docusign_rooms', '~> 1.1.0.rc1'
 gem 'docusign_click', '~> 1.0.0'
+gem 'docusign_admin', '~> 1.0.0.beta'
 gem 'omniauth-oauth2', '~> 1.7.1'
 gem 'omniauth-rails_csrf_protection'
 

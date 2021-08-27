@@ -38,6 +38,8 @@ config.middleware.use OmniAuth::Builder do
       strategy.options[:authorize_params].scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
     elsif Rails.configuration.examples_API['Click']
       strategy.options[:authorize_params].scope = "signature click.manage click.send"
+    elsif Rails.configuration.examples_API['Admin']
+      strategy.options[:authorize_params].scope = "signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read"
     end
   }
 end

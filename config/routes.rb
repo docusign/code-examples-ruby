@@ -53,6 +53,23 @@ Rails.application.routes.draw do
       get 'eg001' => 'eg001_get_monitoring_dataset#get'
       post 'eg001' => 'eg001_get_monitoring_dataset#create'
     end
+  elsif Rails.configuration.examples_API['Admin']
+    scope module: 'admin_api' do
+      get 'eg001' => 'eg001_create_user#get'
+      post 'eg001' => 'eg001_create_user#create'
+
+      get 'eg002' => 'eg002_create_active_clm_esign_user#get'
+      post 'eg002' => 'eg002_create_active_clm_esign_user#create'
+
+      get 'eg003' => 'eg003_bulk_export_user_data#get'
+      post 'eg003' => 'eg003_bulk_export_user_data#create'
+
+      get 'eg004' => 'eg004_import_user#get'
+      post 'eg004' => 'eg004_import_user#create'
+
+      get 'eg005' => 'eg005_audit_users#get'
+      post 'eg005' => 'eg005_audit_users#create'
+    end
   else
     get '/eg001' => 'eg001_embedded_signing#get'
     post '/eg001' => 'eg001_embedded_signing#create'

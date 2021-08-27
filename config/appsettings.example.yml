@@ -10,6 +10,7 @@ default: &default
     Rooms: false
     Click: false
     Monitor: false
+    Admin: false
   # NOTE: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing
   # The integration_key value is the same between the development account and production account
   integration_key: {INTEGRATION_KEY_AUTH_CODE}
@@ -22,12 +23,14 @@ default: &default
   impersonated_user_guid: {IMPERSONATED_USER_ID}
   signer_email:  {SIGNER_EMAIL}
   signer_name: {SIGNER_NAME}
+  organization_id: {ORGANIZATION_ID}
   # Authentication service endpoint is different between production and development
   # https://developers.docusign.com/docs/esign-rest-api/go-live/after-go-live/
   authorization_server: https://account-d.docusign.com
   aud: account-d.docusign.com
   rooms_host: "https://demo.rooms.docusign.com/restapi"
   monitor_host: "https://lens-d.docusign.net"
+  admin_host: "https://api-d.docusign.net/management"
   allow_silent_authentication: true # A user can be silently authenticated if they have an
                                     # Active login session on another tab of the same browser
                                     # Set if you want a specific DocuSign AccountId, If false, the users default account will be used.
