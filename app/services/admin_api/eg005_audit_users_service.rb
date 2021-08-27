@@ -6,7 +6,7 @@ class AdminApi::Eg005AuditUsersService
     def initialize(session, request)
       @args = {
         account_id: session[:ds_account_id],
-        organization_id: Rails.configuration.organization_id,
+        organization_id: session['organization_id'],
         base_path: session[:ds_base_path],
         access_token: session[:ds_access_token]
       }

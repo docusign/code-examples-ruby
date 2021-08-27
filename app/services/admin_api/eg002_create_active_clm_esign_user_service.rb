@@ -15,7 +15,7 @@ class AdminApi::Eg002CreateActiveClmEsignUserService
           esign_product_id: request.params[:esign_product_id],
           ds_group_id:  request.params[:ds_group_id],
           account_id: session[:ds_account_id],
-          organization_id: Rails.configuration.organization_id,
+          organization_id: session['organization_id'],
           base_path: session[:ds_base_path],
           access_token: session[:ds_access_token]
       }
