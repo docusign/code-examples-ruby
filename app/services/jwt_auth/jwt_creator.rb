@@ -18,6 +18,8 @@ module JwtAuth
         scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
       elsif Rails.configuration.examples_API['Click']
         scope = "signature click.manage click.send"
+      elsif Rails.configuration.examples_API['Admin']
+        scope = "signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read"
       end
       scope = "#{scope} impersonation"
       base_uri = "#{Rails.configuration.authorization_server}/oauth/auth"
@@ -42,6 +44,9 @@ module JwtAuth
         @client_module = DocuSign_Click
       elsif Rails.configuration.examples_API['Monitor']
         @client_module = DocuSign_Monitor
+      elsif Rails.configuration.examples_API['Admin']
+        scope = "signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read"
+        @client_module = DocuSign_Admin
       end
       @scope = "#{scope} impersonation"
       @api_client = create_initial_api_client(host: Rails.configuration.aud, client_module: @client_module, debugging: false)
