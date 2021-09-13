@@ -66,6 +66,7 @@ Rails.application.routes.draw do
 
       get 'eg004' => 'eg004_import_user#get'
       post 'eg004' => 'eg004_import_user#create'
+      get 'eg004status' => 'eg004_import_user#check_status'
 
       get 'eg005' => 'eg005_audit_users#get'
       post 'eg005' => 'eg005_audit_users#create'
@@ -201,7 +202,7 @@ Rails.application.routes.draw do
   post '/ds/mustAuthenticate' => 'ds_common#ds_must_authenticate'
   get '/ds/mustAuthenticateJwt' => 'ds_common#ds_must_authenticate_jwt'
   post '/ds/mustAuthenticateJwt' => 'ds_common#ds_must_authenticate'
- 
+
   get '/ds/session' => 'session#show'
   # default root
 

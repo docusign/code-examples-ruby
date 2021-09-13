@@ -11,7 +11,7 @@ class AdminApi::Eg005AuditUsersController < EgController
 
         @title = "Audit users"
         @h1 = "Audit users"
-        @message = "Results from Users::getUserProfiles method:"
+        @message = "Results from eSignUserManagement:getUserProfiles method:"
         @json = results.to_json.to_json
 
         render 'ds_common/example_done'

@@ -37,6 +37,15 @@ class AdminApi::GetDataService
       accounts_api.get_organizations().organizations[0].as_json['id']
     end
 
+    def check_import_status(import_id)
+      worker
+      bulk_imports_api = DocuSign_Admin::BulkImportsApi.new(@api_client)
+      # Step 4 start
+      response = bulk_imports_api.get_bulk_user_import_request(args[:organization_id], import_id);
+      # Step 4 end
+      return response
+    end
+
     private
 
     def worker

@@ -2,10 +2,13 @@
 <p>Demonstrates how to create a new eSignature user and activate their account automatically.</p>
 
 <p>
-    API methods used:
-    <a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/list/">Accounts::listPermissions</a>,
-    <a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/usergroups/groups/list/">UserGroups::listGroups</a>, and
-    <a target ='_blank' href="https://developers.docusign.com/docs/admin-api/reference/users/users/addusers/">Users::addUsers</a>.
+  API methods used:
+  <a target='_blank' rel='noopener noreferrer'
+    href='https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/list/'>AccountPermissionProfiles:list</a>,
+  <a target='_blank' rel='noopener noreferrer'
+    href='https://developers.docusign.com/docs/esign-rest-api/reference/usergroups/groups/list/'>Groups:list</a>,
+  <a target='_blank' rel='noopener noreferrer'
+    href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/esignusermanagement/createuser/">eSignUserManagement:createUser</a>.
 </p>
 
 <p>
@@ -33,7 +36,7 @@
     </div>
     <% if @permission_profiles.present? %>
         <div class="form-group">
-            <label for="starting_view">DocuSign permission profile</label>
+            <label for="starting_view">eSignature permission profile</label>
             <%= select_tag "permission_profile_id", options_for_select(@permission_profiles.map { |obj| [obj.permission_profile_name, obj.permission_profile_id] }), { :class => 'form-control' } %>
         </div>
     <% else %>
@@ -44,12 +47,12 @@
     <% end %>
     <% if @groups.present? %>
         <div class="form-group">
-            <label for="starting_view">DocuSign Group</label>
+            <label for="starting_view">eSignature Group</label>
             <%= select_tag "group_id", options_for_select(@groups.map { |obj| [obj.group_name, obj.group_id] }), { :class => 'form-control' } %>
         </div>
     <% else %>
         <div class="form-group">
-            <p>Problem: Please first create a DocuSign group.</a>
+            <p>Problem: Please first create an eSignature group.</a>
             <br>Thank you.</p>
         </div>
     <% end %>
