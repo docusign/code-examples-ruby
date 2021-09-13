@@ -5,7 +5,7 @@ default: &default
   # quickstart is an optional setting and can be enabled by setting it to: true
   quickstart: {QUICKSTART_VALUE}
   # Set only one examples_API type to 'true' and set the remaining to 'false'.
-  examples_API: 
+  examples_API:
     eSignature: true
     Rooms: false
     Click: false
@@ -23,7 +23,6 @@ default: &default
   impersonated_user_guid: {IMPERSONATED_USER_ID}
   signer_email:  {SIGNER_EMAIL}
   signer_name: {SIGNER_NAME}
-  organization_id: {ORGANIZATION_ID}
   # Authentication service endpoint is different between production and development
   # https://developers.docusign.com/docs/esign-rest-api/go-live/after-go-live/
   authorization_server: https://account-d.docusign.com

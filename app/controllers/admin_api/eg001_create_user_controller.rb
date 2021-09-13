@@ -8,7 +8,7 @@ class AdminApi::Eg001CreateUserController < EgController
 
       @title = 'Create a new active eSignature user'
       @h1 = 'Create a new active eSignature user'
-      @message = "Results from Users::addUsers method:"
+      @message = "Results from eSignUserManagement:createUser method:"
       @json = results.to_json.to_json
       render 'ds_common/example_done'
     rescue DocuSign_Admin::ApiError => e

@@ -13,7 +13,7 @@ class AdminApi::Eg003BulkExportUserDataController < EgController
 
       @title = 'Bulk-export user data'
       @h1 = 'Bulk-export user data'
-      @message = "Results from UserExport::getUserListExport method:"
+      @message = "User data exported to #{file_path}. </br> Results from UserExport::getUserListExport method:"
       @json = results.to_json.to_json
       render 'ds_common/example_done'
     rescue DocuSign_Admin::ApiError => e
