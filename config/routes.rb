@@ -131,11 +131,8 @@ Rails.application.routes.draw do
       get 'eg019' => 'eg019_access_code_authentication#get'
       post 'eg019' => 'eg019_access_code_authentication#create'
 
-      get 'eg020' => 'eg020_sms_authentication#get'
-      post 'eg020' => 'eg020_sms_authentication#create'
-
-      get 'eg021' => 'eg021_phone_authentication#get'
-      post 'eg021' => 'eg021_phone_authentication#create'
+      get 'eg020' => 'eg020_phone_authentication#get'
+      post 'eg020' => 'eg020_phone_authentication#create'
 
       get 'eg022' => 'eg022_kba_authentication#get'
       post 'eg022' => 'eg022_kba_authentication#create'
