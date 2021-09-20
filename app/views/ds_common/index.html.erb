@@ -6,7 +6,7 @@
 <tr>
 <td>
   <h1 class="display-4">Ruby Launcher</h1>
-  <p class="Xlead">Welcome to the DocuSign Ruby examples using multiple OAuth flows (JWT and Authorization Code Grant).</p>
+  <p class="Xlead">Run and explore eSignature REST API code examples with Authorization Code Grant or JWT Grant authentication</p>
  </td>
   <td>
       <img src="banner-code.png" />
@@ -24,15 +24,12 @@
   %>
 
   <div class="container" style="margin-top: 40px" id="index-page">
-    <h2>Welcome</h2>
-    <p>This launcher both demonstrates use of JWT and OAuth Authorization Code Grant flow and includes multiple usage examples for the DocuSign eSignature REST API.</p>
 
     <% if @show_doc  %>
-    <p><a target='_blank' href='<%= :documentation %>'>Documentation</a> on using JWT or OAuth Authorization Code Grant from a Node Express application.</p>
+    <p><a target='_blank' href='<%= :documentation %>'>Documentation</a> on using JWT or OAuth Authorization Code Grant from a Ruby on Rails application.</p>
     <% end %>
 
-      <h2>Basic Examples</h2>
-
+      <h2>Basic examples</h2>
       <h4 id="example001">1. <a href="eg001">Use embedded signing</a></h4>
       <p>This example sends an envelope, and then uses embedded signing for the first signer.
         With embedded signing, the DocuSign signing is initiated from your website.
@@ -138,7 +135,8 @@
         <a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a> and
         <a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopeviews/createrecipient/">EnvelopeViews::createRecipient</a>.
       </p>
-
+   
+      <h2>Payments</h2>
       <h4 id="example014">14. <a href="eg014">Send an envelope with an order form and payment field</a></h4>
       <p>Anchor text
         (<a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/esign101/concepts/tabs/auto-place/">AutoPlace</a>)
@@ -148,7 +146,7 @@
         <a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
       </p>
 
-        
+      <h2>Tabs</h2>  
       <h4 id="example015">15. <a href="eg015">Get the tab data from an envelope</a></h4>
       <p>This example retrieves the <strong>tab</strong> (<a target="_blank" href="https://developers.docusign.com/docs/esign-rest-api/esign101/concepts/tabs/">field</a>) values from an envelope.</p>
       <p>
@@ -177,43 +175,38 @@
           <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopecustomfields/list/">EnvelopeCustomFields::list</a>.
       </p>
 
-      <h2>Recipient Authentication</h2>
+      <h2>Recipient authentication</h2>
       <h4 id="example019">19. <a href="eg019">Send an envelope with Access Code Recipient Authentication</a></h4>
       <p>Submit an envelope with an access code for multi-factor authentication.</p>
       <p >API method used:
       <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
       </p>
 
-      <h4 id="example020">20. <a href="eg020">Send an envelope with SMS Recipient Authentication</a></h4>
-      <p>Submit an envelope with a text message for multi-factor authentication.</p>
+      <h4 id="example020">20. <a href="eg020">Require Phone Authentication for a Recipient</a></h4>
+      <p>Sends an envelope that requires entering a six-digit code from a text message or phone call for the purpose of multifactor authentication.</p>
       <p>API method used:
       <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
       </p>
 
-      <h4 id="example021">21. <a href="eg021">Send an envelope with Phone Recipient Authentication</a></h4>
-      <p>Submit an envelope with a voice call to provide multi-factor authentication.</p>
-      <p>API method used:
-      <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
-      </p>
-  
       <h4 id="example022">22. <a href="eg022">Send an envelope with Recipient Knowledged Based Authentication</a></h4>
       <p>Submit an envelope with multiple choice, public records based questions to provide multi-factor authentication.</p>
       <p>API method used:
       <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
       </p>
-      
+
       <h4 id="example023">23. <a href="eg023">IDV Authentication</a></h4>
       <p>This is an example of an envelope utilizing Id verification authentication for a recipient.</p>
       <p>API methods used:
       <a target ='_blank' href="https://developers.docusign.com/esign-rest-api/reference/Accounts/IdentityVerifications/list">Accounts::getAccountIdentityVerificationsList</a>.
       <a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
       </p>
-     
+
+      <h2>Permissions</h2>    
       <h4 id="example024">24.  <a href="eg024">Creating a Permission Profile</a></h4>
       <p>
         This example demonstrates how to create a user group's permission profile.
       </p>
-      <p>API method used: 
+      <p>API method used:
         <a target='_blank' rel="noopener noreferrer" href="https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/create">Groups::create</a>.
       </p>
 
@@ -237,12 +230,13 @@
         <a target='_blank' rel="noopener noreferrer" href="https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/delete/">AccountPermissionProfiles::create</a>.
       </p>
 
+      <h2>Brands</h2>      
       <h4 id="example028">28. <a href="eg028">Create a brand</a></h4>
       <p>This example will create an account brand that can be used to apply customization to your envelopes such as your own logo, colors, and text elements.</p>
       <p>API method used:
         <a target ='_blank' rel="noopener noreferrer" href="https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/create/">AccountBrands::create</a>.
       </p>
-      
+
       <h4 id="example029">29. <a href="eg029">Applying a brand to an envelope</a></h4>
       <p>This example will show you how to create an envelope using any of the created brands on your account.</p>
       <p>API method used:
@@ -255,10 +249,11 @@
         <a target='_blank' rel="noopener noreferrer" href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
       </p>
 
+      <h2>Bulk operations</h2>    
       <h4 id="example031">31. <a href="eg031">Bulk sending envelopes to multiple recipients</a></h4>
       <p>This example will show you how to create and send an envelope to multiple recipients using bulk lists.</p>
       <p>API methods used:
-        <a target='_blank' rel="noopener noreferrer" href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.  
+        <a target='_blank' rel="noopener noreferrer" href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
         <a target='_blank' href="https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkEnvelopes/get">BulkEnvelopes::get</a>,
         <a target='_blank' href="https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeCustomFields/create">EnvelopeCustomFields::create</a>,
         <a target='_blank' href="https://support.docusign.com/en/guides/ndse-user-guide-create-a-bulk-send-recipient-list">BulkSend::createBulkSendList</a>,
@@ -284,7 +279,7 @@
         <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
       </p>
 
-      <h2>Premium Features</h2>
+      <h2>Premium features</h2>
       <h4 id="example035">35. <a href="eg035">Request Signature by SMS</a></h4>
       <p>
         This example demonstrates how to send a signature request for a signer (and CC) to read and sign via an SMS message.
