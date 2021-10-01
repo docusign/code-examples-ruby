@@ -143,7 +143,7 @@ class ESign::Eg031BulkSendingEnvelopesService
       status: "created",
       templateAccessCodeRequired: "null",
       deliveryMethod: "email",
-      recipientId: "10",
+      recipientId: "1",
       recipientType: "signer"
     )
 
@@ -156,9 +156,21 @@ class ESign::Eg031BulkSendingEnvelopesService
       status: "created",
       templateAccessCodeRequired: "null",
       deliveryMethod: "email",
-      recipientId: "11",
+      recipientId: "2",
       recipientType: "signer"
     )
+    # The DocuSign platform searches throughout your envelope's documents for matching
+    # anchor strings. So the sign_here_2 tab will be used in both document 2 and 3
+    # since they use the same anchor string for their "signer 1" tabs.
+    sign_here = DocuSign_eSign::SignHere.new
+    sign_here.anchor_string = '/sn1/'
+    sign_here.anchor_units = 'pixels'
+    sign_here.anchor_x_offset = '20'
+    sign_here.anchor_y_offset = '10'
+    # Tabs are set per recipient/signer
+    tabs = DocuSign_eSign::Tabs.new
+    tabs.sign_here_tabs = [sign_here]
+    signer.tabs = tabs
     [signer, cc]
   end
 
@@ -166,23 +178,61 @@ class ESign::Eg031BulkSendingEnvelopesService
     # Create the envelope definition
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document set'
+    pdf_filename = 'World_Wide_Corp_lorem.pdf'
     # Add the documents
-    doc_b64 = "DQoNCg0KCQkJCXRleHQgZG9jDQoNCg0KDQoNCg0KUk0gIwlSTSAjCVJNICMNCg0KDQoNClxzMVwNCg0KLy9hbmNoMSANCgkvL2FuY2gyDQoJCS8vYW5jaDM="
-   
-    # Create the document models
-    doc = DocuSign_eSign::Document.new(
-      # Create the DocuSign Document object
-      documentBase64: doc_b64,
-      name: 'NDA', # Can be different from the actual file name
-      fileExtension: 'txt', # Many different document types are accepted
-      documentId: '1' # A label used to reference the doc
+    doc = DocuSign_eSign::Document.new
+    doc.document_base64 = Base64.encode64(File.binread(File.join('data', pdf_filename)))
+    doc.name = 'Lorem Ipsum'
+    doc.file_extension = 'pdf'
+    doc.document_id = '2'
+
+    signer = DocuSign_eSign::Signer.new(
+      name: "Multi Bulk Recipient::signer",
+      email: "multiBulkRecipients-signer@docusign.com",
+      roleName: "signer",
+      note: "",
+      routingOrder: 1,
+      status: "created",
+      templateAccessCodeRequired: "null",
+      deliveryMethod: "email",
+      recipientId: "1",
+      recipientType: "signer"
     )
-   
+
+    cc = DocuSign_eSign::Signer.new(
+      name: "Multi Bulk Recipient::cc",
+      email: "multiBulkRecipients-cc@docusign.com",
+      roleName: "cc",
+      note: "",
+      routingOrder: 1,
+      status: "created",
+      templateAccessCodeRequired: "null",
+      deliveryMethod: "email",
+      recipientId: "2",
+      recipientType: "signer"
+    )
+    # The DocuSign platform searches throughout your envelope's documents for matching
+    # anchor strings. So the sign_here_2 tab will be used in both document 2 and 3
+    # since they use the same anchor string for their "signer 1" tabs.
+    sign_here = DocuSign_eSign::SignHere.new
+    sign_here.anchor_string = '/sn1/'
+    sign_here.anchor_units = 'pixels'
+    sign_here.anchor_x_offset = '20'
+    sign_here.anchor_y_offset = '10'
+    # Tabs are set per recipient/signer
+    tabs = DocuSign_eSign::Tabs.new
+    tabs.sign_here_tabs = [sign_here]
+    signer.tabs = tabs
+    # Add the recipients to the envelope object
+    recipients = DocuSign_eSign::Recipients.new
+    recipients.signers = [signer, cc]
+
+    envelope_definition.recipients = recipients
     # The order in the docs array determines the order in the envelope
     envelope_definition.documents = [doc]
     envelope_definition.envelope_id_stamping = "true"
     envelope_definition.status = "created"
     envelope_definition
   end
-  
+
 end
