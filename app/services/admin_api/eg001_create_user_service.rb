@@ -11,7 +11,7 @@ class AdminApi::Eg001CreateUserService
       organization_id: session['organization_id']
     }
 
-    # Step 3 start
+    # Step 5 start
     @user_data = {
       user_name: request.params['user_name'].gsub(/([^\w \-\@\.\,])+/, ''),
       first_name: request.params['first_name'].gsub(/([^\w \-\@\.\,])+/, ''),
@@ -32,7 +32,7 @@ class AdminApi::Eg001CreateUserService
         }
       ]
     }
-    # Step 3 end
+    # Step 5 end
   end
 
   def call
@@ -48,10 +48,10 @@ class AdminApi::Eg001CreateUserService
     api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
     # Step 2 end
 
-    # Step 4 start
+    # Step 6 start
     users_api = DocuSign_Admin::UsersApi.new(api_client)
     response = users_api.create_user(args[:organization_id], user_data)
-    # Step 4 end
+    # Step 6 end
   end
 
   def self.get_permission_profiles_and_groups
@@ -60,13 +60,16 @@ class AdminApi::Eg001CreateUserService
 
     api_client = DocuSign_eSign::ApiClient.new(configuration)
     api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
-
+    
+    # Step 3 start
     accounts_api = DocuSign_eSign::AccountsApi.new(api_client)
     profiles = accounts_api.list_permissions(args[:account_id])
-
+    # Step 3 end
+    
+    # Step 4 start    
     groups_api = DocuSign_eSign::GroupsApi.new(api_client)
     groups = groups_api.list_groups(args[:account_id])
-
+    # Step 4 end
     return profiles, groups
   end
 end
