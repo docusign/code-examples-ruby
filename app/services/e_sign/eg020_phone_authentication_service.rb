@@ -27,7 +27,8 @@ class ESign::Eg020PhoneAuthenticationService
     # ***DS.snippet.0.start
     envelope_api = create_envelope_api(args)
 
-    # Step 3: Construct your envelope JSON body
+    # Construct your envelope JSON body
+    # Step 3 start
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document set'
 
@@ -92,10 +93,12 @@ class ESign::Eg020PhoneAuthenticationService
     # To request that the envelope be created as a draft, set to "created"
     envelope_definition.recipients = recipients
     envelope_definition.status = envelope_args[:status]
-
-    # Step 4. Call the eSignature REST API
+    # Step 3 end
+    
+    # Call the eSignature REST API
+    # Step 4 start
     results = envelope_api.create_envelope args[:account_id], envelope_definition
-    # ***DS.snippet.0.end
+    # Step 4 end
   end
 
   def get_workflow(args)
