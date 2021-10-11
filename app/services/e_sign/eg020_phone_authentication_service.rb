@@ -24,7 +24,6 @@ class ESign::Eg020PhoneAuthenticationService
   end
 
   def call
-    # ***DS.snippet.0.start
     envelope_api = create_envelope_api(args)
 
     # Construct your envelope JSON body
