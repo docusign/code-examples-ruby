@@ -1,13 +1,13 @@
 <h4>31. Bulk sending envelopes to multiple recipients</h4>
 
 <p>
-  Method BulkSend:createBulkSendList creates a bulk list that you can to use an envelope to up 
+  Method BulkSend:createBulkSendList creates a bulk list that you can to use an envelope to up
   to 1,000 recipients at once.
 </p>
 
 <p>API method used:
   <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/enveloperecipients/create/">EnvelopeRecipients::create</a>,
-  <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>,  
+  <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>,
   <a target='_blank' href="https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkEnvelopes/get">BulkEnvelopes::get</a>,
   <a target='_blank' href="https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeCustomFields/create">EnvelopeCustomFields::create</a>,
   <a target='_blank' href="https://support.docusign.com/en/guides/ndse-user-guide-create-a-bulk-send-recipient-list">BulkSend::createBulkSendList</a>,
@@ -24,13 +24,12 @@
     <div class="form-group">
       <label for="signerEmail">Signer Email</label>
       <input type="email" class="form-control" id="signerEmail" name="signerEmail"
-             aria-describedby="emailHelp" placeholder="pat@example.com" required
-             value="<%= @config.signer_email %>">
+             aria-describedby="emailHelp" placeholder="pat@example.com" required>
     </div>
     <div class="form-group">
       <label for="signerName">Signer Name</label>
       <input type="text" class="form-control" id="signerName" placeholder="Pat Johnson" name="signerName"
-             value="<%= @config.signer_name %>" required>
+             required>
     </div>
   </div>
   <div class="your-class">
@@ -51,13 +50,12 @@
     <div class="form-group">
       <label for="signerEmail1">Signer Email</label>
       <input type="email" class="form-control" id="signerEmail1" name="signerEmail1"
-             aria-describedby="emailHelp" placeholder="pat@example.com" required
-             value="<%= @config.signer_email %>">
+             aria-describedby="emailHelp" placeholder="pat@example.com" required>
     </div>
     <div class="form-group">
       <label for="signerName1">Signer Name</label>
       <input type="text" class="form-control" id="signerName1" placeholder="Pat Johnson" name="signerName1"
-             value="<%= @config.signer_name %>" required>
+             required>
     </div>
   </div>
   <div class="your-class">
@@ -73,4 +71,4 @@
     </div>
   </div>
   <button type="submit" class="btn btn-docu">Submit</button>
-</form> 
+</form>

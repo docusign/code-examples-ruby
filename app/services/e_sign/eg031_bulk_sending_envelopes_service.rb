@@ -25,40 +25,53 @@ class ESign::Eg031BulkSendingEnvelopesService
   end
 
   def call
-    # Step 1. Obtain your OAuth token
+    # Construct your API headers
+    # Step 2 start
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:base_path]
     api_client = DocuSign_eSign::ApiClient.new configuration
-
-    # Step 2. Construct your API headers
     construct_api_headers(api_client)
+    # Step end
 
-    #  Step 3. Create and submit the bulk sending list
+    # Create and submit the bulk sending list
+    # Step 3-1 start
     bulk_envelopes_api = DocuSign_eSign::BulkEnvelopesApi.new api_client
     bulk_sending_list = create_bulk_sending_list
     bulk_list = bulk_envelopes_api.create_bulk_send_list(args[:account_id], bulk_sending_list)
     bulk_list_id  = bulk_list.list_id
+    # Step 3-1 end
 
-    # Step 4. Create the draft envelope
+    # Create the draft envelope
+    # Step 4-1 start
     envelope_api = create_envelope_api(args)
     envelope_definition = make_envelope
     envelope = envelope_api.create_envelope(args[:account_id], envelope_definition, options = DocuSign_eSign::CreateEnvelopeOptions.default)
     envelope_id = envelope.envelope_id
+    # Step 4-1 end
 
-    # Step 5. Attach your bulk list ID to the envelope
+    # Attach your bulk list ID to the envelope
+    # Step 5-1 start
     envelope_api.create_custom_fields(args[:account_id], envelope_id, custom_fields(bulk_list_id))
+    # Step 5-1 end
 
-    # Step 6. Add placeholder recipients
-    recipients = DocuSign_eSign::Recipients.new(signers: recipients_data)
+    # Add placeholder recipients
+    # Step 6-1 start
+    recipients = recipients_data
+    recipients = DocuSign_eSign::Recipients.new(signers: [recipients[0]], cc: [recipients[1]])
     envelope_api.create_recipient(args[:account_id], envelope_id, recipients, options = DocuSign_eSign::CreateRecipientOptions.default)
+    # Step 6-1 end
 
-     # Step 7. Initiate bulk send
+    # Initiate bulk send
+    # Step 7 start
     bulk_send_request = DocuSign_eSign::BulkSendRequest.new(envelopeOrTemplateId: envelope_id)
     batch = bulk_envelopes_api.create_bulk_send_request(args[:account_id], bulk_list_id, bulk_send_request)
     batch_id = batch.batch_id
+    # Step 7 end
 
-    # Step 8. Confirm successful batch send
+    # Confirm successful batch send
+    # Step 8 start
     bulk_envelopes_api.get_bulk_send_batch_status(args[:account_id], batch_id)
+    # Step 8 end
   end
 
   private
@@ -71,6 +84,7 @@ class ESign::Eg031BulkSendingEnvelopesService
     api_client.default_headers['Accept-Language'] = "en-US,en;q=0.9"
   end
 
+  # Step 3-2 start
   def create_bulk_sending_list
     bulk_copies = []
     recipient1 = DocuSign_eSign::BulkSendingCopyRecipient.new(
@@ -119,7 +133,9 @@ class ESign::Eg031BulkSendingEnvelopesService
     )
     bulk_sending_list
   end
+  # Step 3-2 end
 
+  # Step 5-2 start
   def custom_fields(bulk_list_id)
     text_custom_fields = DocuSign_eSign::TextCustomField.new(
       name:'mailingListId',
@@ -132,7 +148,9 @@ class ESign::Eg031BulkSendingEnvelopesService
       textCustomFields: [text_custom_fields]
     )
   end
+  # Step 5-2 end
 
+  # Step 6-2 start
   def recipients_data
     signer = DocuSign_eSign::Signer.new(
       name: "Multi Bulk Recipient::signer",
@@ -147,33 +165,23 @@ class ESign::Eg031BulkSendingEnvelopesService
       recipientType: "signer"
     )
 
-    cc = DocuSign_eSign::Signer.new(
+    cc = DocuSign_eSign::CarbonCopy.new(
       name: "Multi Bulk Recipient::cc",
       email: "multiBulkRecipients-cc@docusign.com",
       roleName: "cc",
       note: "",
       routingOrder: 1,
       status: "created",
-      templateAccessCodeRequired: "null",
       deliveryMethod: "email",
       recipientId: "2",
-      recipientType: "signer"
+      recipientType: "cc"
     )
-    # The DocuSign platform searches throughout your envelope's documents for matching
-    # anchor strings. So the sign_here_2 tab will be used in both document 2 and 3
-    # since they use the same anchor string for their "signer 1" tabs.
-    sign_here = DocuSign_eSign::SignHere.new
-    sign_here.anchor_string = '/sn1/'
-    sign_here.anchor_units = 'pixels'
-    sign_here.anchor_x_offset = '20'
-    sign_here.anchor_y_offset = '10'
-    # Tabs are set per recipient/signer
-    tabs = DocuSign_eSign::Tabs.new
-    tabs.sign_here_tabs = [sign_here]
-    signer.tabs = tabs
+
     [signer, cc]
   end
+  # Step 6-2 end
 
+  # Step 4-2 start
   def make_envelope
     # Create the envelope definition
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
@@ -199,18 +207,18 @@ class ESign::Eg031BulkSendingEnvelopesService
       recipientType: "signer"
     )
 
-    cc = DocuSign_eSign::Signer.new(
+    cc = DocuSign_eSign::CarbonCopy.new(
       name: "Multi Bulk Recipient::cc",
       email: "multiBulkRecipients-cc@docusign.com",
       roleName: "cc",
       note: "",
       routingOrder: 1,
       status: "created",
-      templateAccessCodeRequired: "null",
       deliveryMethod: "email",
       recipientId: "2",
-      recipientType: "signer"
+      recipientType: "cc"
     )
+
     # The DocuSign platform searches throughout your envelope's documents for matching
     # anchor strings. So the sign_here_2 tab will be used in both document 2 and 3
     # since they use the same anchor string for their "signer 1" tabs.
@@ -223,9 +231,12 @@ class ESign::Eg031BulkSendingEnvelopesService
     tabs = DocuSign_eSign::Tabs.new
     tabs.sign_here_tabs = [sign_here]
     signer.tabs = tabs
+
     # Add the recipients to the envelope object
-    recipients = DocuSign_eSign::Recipients.new
-    recipients.signers = [signer, cc]
+    recipients = DocuSign_eSign::Recipients.new(
+      signers: [signer],
+      carbonCopies: [cc]
+    )
 
     envelope_definition.recipients = recipients
     # The order in the docs array determines the order in the envelope
@@ -234,5 +245,6 @@ class ESign::Eg031BulkSendingEnvelopesService
     envelope_definition.status = "created"
     envelope_definition
   end
+  # Step 4-2 end
 
 end
