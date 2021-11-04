@@ -5,8 +5,8 @@
 <tbody>
 <tr>
 <td>
-  <h1 class="display-4">DocuSign Code Launcher: Ruby</h1>
-  <p class="Xlead">This launcher both demonstrates use of Authorization Code Grant and JWT OAuth flows and includes multiple usage examples for the DocuSign eSignature REST API.</p>
+  <h1 class="display-4">Ruby Launcher</h1>
+  <p class="Xlead">Run and explore eSignature REST API code examples with Authorization Code Grant or JWT Grant authentication</p>
  </td>
   <td>
       <img src="banner-code.png" />
@@ -26,9 +26,8 @@
   <div class="container" style="margin-top: 40px" id="index-page">
 
     <% if @show_doc  %>
-    <p><a target='_blank' href='<%= :documentation %>'>Documentation</a> on using JWT or OAuth Authorization Code Grant from a Node Express application.</p>
+    <p><a target='_blank' href='<%= :documentation %>'>Documentation</a> on using JWT or OAuth Authorization Code Grant from a Ruby on Rails application.</p>
     <% end %>
-
 
 
       <h2>Basic examples</h2>
@@ -133,9 +132,8 @@
         <a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopeviews/createrecipient/">EnvelopeViews::createRecipient</a>.
       </p>
 
-
-
-      <h2>Payments Example</h2>
+      <h2>Payments</h2>
+    
       <h4 id="example014">14. <a href="eg014">Send an envelope with an order form and payment field</a></h4>
       <p>Anchor text
         (<a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/esign101/concepts/tabs/auto-place/">AutoPlace</a>)
@@ -145,9 +143,7 @@
         <a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
       </p>
 
-
-
-      <h2>Tabs examples</h2>
+      <h2>Tabs</h2>
       <h4 id="example015">15. <a href="eg015">Get the tab data from an envelope</a></h4>
       <p>This example retrieves the <a target="_blank" href="https://developers.docusign.com/docs/esign-rest-api/esign101/concepts/tabs/">tab</a> (field) values from an envelope for all of the envelope’s recipients.</p>
       <p>
@@ -179,34 +175,35 @@
           <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopecustomfields/list/">EnvelopeCustomFields::list</a>.
       </p>
 
-      <h2>Recipient Authentication</h2>
-      <h4 id="example019">19. <a href="eg019">Send an envelope with access code authentication</a></h4>
+      <h2>Recipient authentication</h2>
+    
+      <h4 id="example019">19. <a href="eg019">Require access code authentication for a recipient</a></h4>
       <p>This example sends an envelope requiring the recipient to enter an access code for multifactor authentication.</p>
       <p >API method used:
       <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
       </p>
 
-      <h4 id="example020">20. <a href="eg020">Require Phone Authentication for a Recipient</a></h4>
+      <h4 id="example020">20. <a href="eg020">Require phone authentication for a recipient</a></h4>
       <p>Sends an envelope that requires entering a six-digit code from a text message or phone call for the purpose of multifactor authentication.</p>
       <p>API method used:
       <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
       </p>
 
-      <h4 id="example022">22. <a href="eg022">Send an envelope with Recipient Knowledged Based Authentication</a></h4>
+      <h4 id="example022">22. <a href="eg022">Require knowledge based authentication (KBA) for a recipient</a></h4>
       <p>Submit an envelope with multiple choice, public records based questions to provide multi-factor authentication.</p>
       <p>API method used:
       <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
       </p>
 
-      <h4 id="example023">23. <a href="eg023">IDV Authentication</a></h4>
-      <p>This is an example of an envelope utilizing Id verification authentication for a recipient.</p>
+      <h4 id="example023">23. <a href="eg023">Require ID verification (IDV) for a recipient</a></h4>
+      <p>This is an example of an envelope utilizing ID verification authentication for a recipient.</p>
       <p>API methods used:
       <a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/accounts/identityverifications/list/">Accounts::getAccountIdentityVerificationsList</a> and <a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
       </p>
 
-
       <h2>Permissions</h2>
-      <h4 id="example024">24.  <a href="eg024">Create a permission profile</a></h4>
+    
+      <h4 id="example024">24. <a href="eg024">Create a permission profile</a></h4>
       <p>
         This example creates a user group’s permission profile.
       </p>
@@ -234,8 +231,8 @@
         <a target='_blank' rel="noopener noreferrer" href="https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/delete/">AccountPermissionProfiles::delete</a>.
       </p>
 
-
       <h2>Brands</h2>
+    
       <h4 id="example028">28. <a href="eg028">Create a brand</a></h4>
       <p>This example creates an account brand that can be used to apply customization to your envelopes, including your own logo, colors, and text elements.</p>
       <p>API method used:
@@ -255,6 +252,7 @@
       </p>
 
       <h2>Bulk operations</h2>
+    
       <h4 id="example031">31. <a href="eg031">Bulk send envelopes</a></h4>
       <p>This example creates and sends an envelope to multiple recipients using bulk lists.</p>
       <p>API methods used:
@@ -273,6 +271,7 @@
       </p>
 
       <h2>Advanced recipient routing</h2>
+    
       <h4 id="example032">32. <a href="eg032">Pause a signature workflow</a></h4>
       <p>This example creates an envelope where the workflow is paused before the envelope is sent to a second recipient.</p>
       <p >API method used:
@@ -291,7 +290,8 @@
         <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
       </p>
 
-      <h2>Premium Features</h2>
+      <h2>Premium features</h2>
+    
       <h4 id="example035">35. <a href="eg035">Send an envelope by SMS delivery</a></h4>
       <p>
         This example demonstrates how to send an envelope via an SMS message for a signer (and CC) to read and sign.
