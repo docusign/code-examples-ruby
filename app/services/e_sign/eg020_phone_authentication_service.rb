@@ -24,6 +24,10 @@ class ESign::Eg020PhoneAuthenticationService
   end
 
   def call
+    if session[:workflow_id].blank?
+      return "phone_auth_not_enabled"
+    end
+
     # Construct your envelope JSON body
     # Step 4 start
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
@@ -114,10 +118,10 @@ class ESign::Eg020PhoneAuthenticationService
           session[:workflow_id] = phone_auth_workflow.workflow_id
           return session[:workflow_id]
         else
-          return None
+          return ""
         end
       else
-          return None
+          return ""
       end
       # Step 3 end
 
