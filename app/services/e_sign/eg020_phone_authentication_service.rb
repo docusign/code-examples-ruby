@@ -94,14 +94,6 @@ class ESign::Eg020PhoneAuthenticationService
     # To request that the envelope be created as a draft, set to "created"
     envelope_definition.recipients = recipients
     envelope_definition.status = envelope_args[:status]
-<<<<<<< HEAD
-    # Step 3 end
-
-    # Call the eSignature REST API
-    # Step 4 start
-    results = envelope_api.create_envelope args[:account_id], envelope_definition
-    # Step 4 end
-=======
     # Step 4 end
 
     # Call the eSignature REST API
@@ -109,7 +101,6 @@ class ESign::Eg020PhoneAuthenticationService
     envelope_api = create_envelope_api(args)
     results = envelope_api.create_envelope args[:account_id], envelope_definition
     # Step 5 end
->>>>>>> 05e033800b84776cb28f1e661209b778096626a5
   end
 
   def get_workflow(args)
