@@ -6,11 +6,18 @@ class ESign::Eg020PhoneAuthenticationController < EgController
     if check_token(minimum_buffer_min)
       begin
         results = ESign::Eg020PhoneAuthenticationService.new(request, session).call
-        session[:envelope_id] = results.envelope_id
-        @title = 'Require Phone Authentication for a Recipient'
-        @h1 = 'Require Phone Authentication for a Recipient'
-        @message = "The envelope has been created and sent!<br/>Envelope ID #{results.envelope_id}."
-        render 'ds_common/example_done'
+        if results.to_s == "phone_auth_not_enabled"
+          @error_code = "IDENTITY_WORKFLOW_INVALID_ID"
+          @error_message = "The identity workflow ID specified is not valid."
+          @error_information = "Please contact <a target='_blank' rel='noopener noreferrer' href='https://support.docusign.com/'>Support</a> to enable ID verification in your account."
+          render 'ds_common/error'
+        else
+          session[:envelope_id] = results.envelope_id
+          @title = 'Require Phone Authentication for a Recipient'
+          @h1 = 'Require Phone Authentication for a Recipient'
+          @message = "The envelope has been created and sent!<br/>Envelope ID #{results.envelope_id}."
+          render 'ds_common/example_done'
+        end
       rescue DocuSign_eSign::ApiError => e
         error = JSON.parse e.response_body
         @error_code = error['errorCode']

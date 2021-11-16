@@ -32,7 +32,6 @@ class AdminApi::GetDataService
 
     def get_organization_id
       worker
-      puts "\n\n getting org_id \n\n"
       accounts_api = DocuSign_Admin::AccountsApi.new(@api_client)
       accounts_api.get_organizations().organizations[0].as_json['id']
     end

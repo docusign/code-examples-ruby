@@ -6,12 +6,12 @@ class ESign::Eg023IdvAuthenticationController < EgController
     if check_token(minimum_buffer_min)
       begin
         results = ESign::Eg023IdvAuthenticationService.new(request, session).call
-        if results.to_s == 'needs_idv_activated'
-          @title = 'Error'
-          @h1 = 'Error'
-          @message = 'Please activate IDV on your account to use this example.'
-          render 'ds_common/example_done'
-          
+        if results.to_s == "idv_not_enabled"
+          @error_code = "IDENTITY_WORKFLOW_INVALID_ID"
+          @error_message = "The identity workflow ID specified is not valid."
+          @error_information = "Please contact <a target='_blank' rel='noopener noreferrer' href='https://support.docusign.com/'>Support</a> to enable ID verification in your account."
+          render 'ds_common/error'
+
         else
           @title = 'Envelope sent'
           @h1 = 'Envelope sent'

@@ -4,13 +4,6 @@ default: &default
   app_url: http://localhost:3000
   # quickstart is an optional setting and can be enabled by setting it to: true
   quickstart: {QUICKSTART_VALUE}
-  # Set only one examples_API type to 'true' and set the remaining to 'false'.
-  examples_API:
-    eSignature: true
-    Rooms: false
-    Click: false
-    Monitor: false
-    Admin: false
   # NOTE: The terms "client_id" and "Integration key" are synonyms. They refer to the same thing
   # The integration_key value is the same between the development account and production account
   integration_key: {INTEGRATION_KEY_AUTH_CODE}

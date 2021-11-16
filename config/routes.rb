@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  if Rails.configuration.examples_API['Rooms']
+  constraints lambda { |req| req.session[:examples_API] == "Rooms" } do
     scope module: 'room_api' do
       get 'eg001' => 'eg001_create_room_with_data#get'
       post 'eg001' => 'eg001_create_room_with_data#create'
@@ -31,7 +31,8 @@ Rails.application.routes.draw do
       get 'eg009' => 'eg009_assign_form_to_form_group#get'
       post 'eg009' => 'eg009_assign_form_to_form_group#create'
     end
-  elsif Rails.configuration.examples_API['Click']
+  end
+  constraints lambda { |req| req.session[:examples_API] == "Click" } do
     scope module: 'clickwrap' do
       get 'eg001' => 'eg001_create_clickwrap#get'
       post 'eg001' => 'eg001_create_clickwrap#create'
@@ -48,12 +49,14 @@ Rails.application.routes.draw do
       get 'eg005' => 'eg005_clickwrap_responses#get'
       post 'eg005' => 'eg005_clickwrap_responses#create'
     end
-  elsif Rails.configuration.examples_API['Monitor']
+  end
+  constraints lambda { |req| req.session[:examples_API] == "Monitor" } do
     scope module: 'monitor_api' do
       get 'eg001' => 'eg001_get_monitoring_dataset#get'
       post 'eg001' => 'eg001_get_monitoring_dataset#create'
     end
-  elsif Rails.configuration.examples_API['Admin']
+  end
+  constraints lambda { |req| req.session[:examples_API] == "Admin" } do
     scope module: 'admin_api' do
       get 'eg001' => 'eg001_create_user#get'
       post 'eg001' => 'eg001_create_user#create'
@@ -71,7 +74,8 @@ Rails.application.routes.draw do
       get 'eg005' => 'eg005_audit_users#get'
       post 'eg005' => 'eg005_audit_users#create'
     end
-  else
+  end
+  constraints lambda { |req| req.session[:examples_API] == "eSignature" } do
     get '/eg001' => 'eg001_embedded_signing#get'
     post '/eg001' => 'eg001_embedded_signing#create'
 
@@ -199,6 +203,10 @@ Rails.application.routes.draw do
   post '/ds/mustAuthenticate' => 'ds_common#ds_must_authenticate'
   get '/ds/mustAuthenticateJwt' => 'ds_common#ds_must_authenticate_jwt'
   post '/ds/mustAuthenticateJwt' => 'ds_common#ds_must_authenticate'
+
+  get '/ds/chooseApi' => 'ds_common#choose_api'
+
+  post '/ds/apiSelected' => 'ds_common#api_selected'
 
   get '/ds/session' => 'session#show'
   # default root

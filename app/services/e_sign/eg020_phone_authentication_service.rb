@@ -24,10 +24,12 @@ class ESign::Eg020PhoneAuthenticationService
   end
 
   def call
-    envelope_api = create_envelope_api(args)
+    if session[:workflow_id].blank?
+      return "phone_auth_not_enabled"
+    end
 
     # Construct your envelope JSON body
-    # Step 3 start
+    # Step 4 start
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document set'
 
@@ -64,8 +66,8 @@ class ESign::Eg020PhoneAuthenticationService
     input_option.phone_number_list = [phone_number]
 
     identity_verification = DocuSign_eSign::RecipientIdentityVerification.new
-
     identity_verification.workflow_id = session[:workflow_id]
+
     identity_verification.input_options = [input_option]
 
     signer1.identity_verification = identity_verification
@@ -92,30 +94,47 @@ class ESign::Eg020PhoneAuthenticationService
     # To request that the envelope be created as a draft, set to "created"
     envelope_definition.recipients = recipients
     envelope_definition.status = envelope_args[:status]
+<<<<<<< HEAD
     # Step 3 end
-    
+
     # Call the eSignature REST API
     # Step 4 start
     results = envelope_api.create_envelope args[:account_id], envelope_definition
     # Step 4 end
+=======
+    # Step 4 end
+
+    # Call the eSignature REST API
+    # Step 5 start
+    envelope_api = create_envelope_api(args)
+    results = envelope_api.create_envelope args[:account_id], envelope_definition
+    # Step 5 end
+>>>>>>> 05e033800b84776cb28f1e661209b778096626a5
   end
 
   def get_workflow(args)
     #Retrieve the workflow id
+
     begin
+      # Step 3 start
       workflow_details = create_account_api(args)
       workflow_response = workflow_details.get_account_identity_verification(args[:account_id])
 
       # Check that idv authentication is enabled
-      # The workflow ID is a hard-coded value which is unique to this phone authentication workflow
       if workflow_response.identity_verification
-          session[:workflow_id] = "c368e411-1592-4001-a3df-dca94ac539ae"
+        phone_auth_workflow = workflow_response.identity_verification.find{ |item| item.default_name == "Phone Authentication" }
+        if phone_auth_workflow
+          session[:workflow_id] = phone_auth_workflow.workflow_id
           return session[:workflow_id]
+        else
+          return ""
+        end
       else
-          return None
+          return ""
       end
+      # Step 3 end
 
-    rescue DocuSign_Admin::ApiError => e
+    rescue DocuSign_eSign::ApiError => e
       error = JSON.parse e.response_body
       @error_code = e.code
       @error_message = error['error_description']

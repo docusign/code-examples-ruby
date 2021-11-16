@@ -23,6 +23,11 @@ config.middleware.use OmniAuth::Builder do
   # OAuth2 login response callback message configuration is in OmniAuth::Strategies::Docusign in lib/docusign.rb
   provider :docusign, config.integration_key, config.integration_secret, setup: lambda { |env|
     strategy = env['omniauth.strategy']
+
+    # params = strategy.request.params
+    # examples_API = params['examples_API']
+    # strategy.request.params.delete('examples_API')
+
     strategy.options[:client_options].site = config.app_url
     strategy.options[:prompt] = 'login'
     strategy.options[:oauth_base_uri] = config.authorization_server
@@ -34,11 +39,13 @@ config.middleware.use OmniAuth::Builder do
     unless strategy.options[:allow_silent_authentication]
       strategy.options[:authorize_params].prompt = strategy.options.prompt
     end
-    if Rails.configuration.examples_API['Rooms']
+    session = strategy.session
+
+    if session[:examples_API] == "Rooms"
       strategy.options[:authorize_params].scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
-    elsif Rails.configuration.examples_API['Click']
+    elsif session[:examples_API] == "Click"
       strategy.options[:authorize_params].scope = "signature click.manage click.send"
-    elsif Rails.configuration.examples_API['Admin']
+    elsif session[:examples_API] == "Admin"
       strategy.options[:authorize_params].scope = "signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read"
     end
   }
