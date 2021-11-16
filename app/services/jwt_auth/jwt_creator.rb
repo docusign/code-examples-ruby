@@ -9,16 +9,16 @@ module JwtAuth
     # DocuSign authorization URI to obtain individual consent
     # https://developers.docusign.com/platform/auth/jwt/jwt-get-token
     # https://developers.docusign.com/platform/auth/consent/obtaining-individual-consent/
-    def self.consent_url(state)
+    def self.consent_url(state, examples_API)
       # GET /oauth/auth
       # This endpoint is used to obtain consent and is the first step in several authentication flows.
       # https://developers.docusign.com/platform/auth/reference/obtain-consent
       scope = "signature"
-      if Rails.configuration.examples_API['Rooms']
+      if examples_API == 'Rooms'
         scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
-      elsif Rails.configuration.examples_API['Click']
+      elsif examples_API == 'Click'
         scope = "signature click.manage click.send"
-      elsif Rails.configuration.examples_API['Admin']
+      elsif examples_API == 'Admin'
         scope = "signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read"
       end
       scope = "#{scope} impersonation"
@@ -36,15 +36,15 @@ module JwtAuth
       @session = session
       scope = "signature"
       @client_module = DocuSign_eSign
-      if Rails.configuration.examples_API['Rooms']
+      if session[:examples_API] == 'Rooms'
         scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
         @client_module = DocuSign_Rooms
-      elsif Rails.configuration.examples_API['Click']
+      elsif session[:examples_API] == 'Click'
         scope = "signature click.manage click.send"
         @client_module = DocuSign_Click
-      elsif Rails.configuration.examples_API['Monitor']
+      elsif session[:examples_API] == 'Monitor'
         @client_module = DocuSign_Monitor
-      elsif Rails.configuration.examples_API['Admin']
+      elsif session[:examples_API] == 'Admin'
         scope = "signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read"
         @client_module = DocuSign_Admin
       end
@@ -69,6 +69,11 @@ module JwtAuth
         end
       rescue @client_module::ApiError => exception
         Rails.logger.warn exception.inspect
+
+        if exception.response_body == nil
+          return false
+        end
+
         body = JSON.parse(exception.response_body)
 
         if body['error'] == "consent_required"

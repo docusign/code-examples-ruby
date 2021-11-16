@@ -6,20 +6,31 @@ class DsCommonController < ApplicationController
 
   def index
     @show_doc = Rails.application.config.documentation
-    if Rails.configuration.examples_API['Rooms']
+    if session[:examples_API] == 'Rooms'
       render 'room_api/index'
-    elsif Rails.configuration.examples_API['Click']
+    elsif session[:examples_API] == 'Click'
       render 'clickwrap/index'
-    elsif Rails.configuration.examples_API['Monitor']
+    elsif session[:examples_API] == 'Monitor'
       render 'monitor_api/index'
-    elsif Rails.configuration.examples_API['Admin']
+    elsif session[:examples_API] == 'Admin'
       render 'admin_api/index'
     else
+      session[:examples_API] = 'eSignature'
       @show_doc = Rails.application.config.documentation
       if Rails.configuration.quickstart && session[:been_here].nil?
         redirect_to '/eg001'
       end
     end
+  end
+
+  def choose_api
+    render 'ds_common/choose_api'
+  end
+
+  def api_selected
+    session.delete :eg
+    session[:examples_API] = params[:chosen_api]
+    redirect_to '/ds/mustAuthenticate'
   end
 
   def ds_return
@@ -32,17 +43,17 @@ class DsCommonController < ApplicationController
   end
 
   def ds_must_authenticate
-    if Rails.configuration.examples_API['Monitor']
+    if session[:examples_API] == 'Monitor'
       jwt_auth
     end
-    if Rails.configuration.quickstart
-      redirect_to('/auth/docusign')
+    if Rails.configuration.quickstart and session[:been_here].nil? and session[:examples_API] == 'eSignature'
+      redirect_to "/auth/docusign"
     end
     @title = 'Authenticate with DocuSign'
     @show_doc = Rails.application.config.documentation
 
     if params[:auth] == 'grand-auth'
-      redirect_to('/auth/docusign')
+      redirect_to "/auth/docusign"
     elsif params[:auth] == 'jwt-auth'
       jwt_auth
     end
@@ -57,16 +68,16 @@ class DsCommonController < ApplicationController
       end
     else
       session['omniauth.state'] = SecureRandom.hex
-      url = JwtAuth::JwtCreator.consent_url(session['omniauth.state'])
+      url = JwtAuth::JwtCreator.consent_url(session['omniauth.state'], session['examples_API'])
     redirect_to root_path if session[:token].present?
     end
-    if Rails.configuration.examples_API['Rooms']
+    if session[:examples_API] == 'Rooms'
       configuration = DocuSign_Rooms::Configuration.new
       api_client = DocuSign_Rooms::ApiClient.new(configuration)
-    elsif Rails.configuration.examples_API['Click']
+    elsif session[:examples_API] == 'Click'
       configuration = DocuSign_Click::Configuration.new
       api_client = DocuSign_Click::ApiClient.new configuration
-    elsif Rails.configuration.examples_API['Admin']
+    elsif session[:examples_API] == 'Admin'
       configuration = DocuSign_Admin::Configuration.new
       api_client = DocuSign_Admin::ApiClient.new configuration
     end

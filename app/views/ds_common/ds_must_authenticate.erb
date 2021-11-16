@@ -5,7 +5,7 @@
      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
       <div class="form-group">
         <select id="auth" name="auth" class="form-control">
-          <% unless Rails.configuration.examples_API['Monitor'] %>
+          <% unless session[:examples_API] == 'Monitor' %>
           <option value="grand-auth" selected>Authorization Code grant</option>
           <% end %>
           <option value="jwt-auth">JSON Web Token (JWT) grant</option>
