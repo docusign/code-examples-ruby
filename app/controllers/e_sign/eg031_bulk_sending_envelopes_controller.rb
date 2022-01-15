@@ -5,13 +5,13 @@ class ESign::Eg031BulkSendingEnvelopesController < EgController
   def create
     minimum_buffer_min = 3
     if check_token(minimum_buffer_min)
-      begin  
+      begin
         results  = ESign::Eg031BulkSendingEnvelopesService.new(request, session).call
         # Step 4. a) Call the eSignature API
-        #         b) Display the JSON response  
-        @title = 'Bulk sent'
-        @h1 = 'Bulk send envelope was successfully performed!'
-        @message = "Bulk request queued to #{results.queued} user lists."
+        #         b) Display the JSON response
+        @title = 'Bulk send envelopes'
+        @h1 = 'Bulk send envelopes'
+        @message = 'Results from BulkSend:getBulkSendBatchStatus method:'
         @json = results.to_json.to_json
 
         render 'ds_common/example_done'
