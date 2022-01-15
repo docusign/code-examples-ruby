@@ -6,16 +6,16 @@ class ESign::Eg031BulkSendingEnvelopesService
 
   def initialize(request, session)
     @signers = {
-      signer_email: request.params['signerEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name: request.params['signerName'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_email: request.params['ccEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_name: request.params['ccName'].gsub(/([^\w \-\@\.\,])+/, ''),
+      signer_email: request.params['signerEmail1'].gsub(/([^\w \-\@\.\,])+/, ''),
+      signer_name: request.params['signerName1'].gsub(/([^\w \-\@\.\,])+/, ''),
+      cc_email: request.params['ccEmail1'].gsub(/([^\w \-\@\.\,])+/, ''),
+      cc_name: request.params['ccName1'].gsub(/([^\w \-\@\.\,])+/, ''),
       status: 'created',
 
-      signer_email1: request.params['signerEmail1'].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name1: request.params['signerName1'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_email1: request.params['ccEmail1'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_name1: request.params['ccName1'].gsub(/([^\w \-\@\.\,])+/, '')
+      signer_email1: request.params['signerEmail2'].gsub(/([^\w \-\@\.\,])+/, ''),
+      signer_name1: request.params['signerName2'].gsub(/([^\w \-\@\.\,])+/, ''),
+      cc_email1: request.params['ccEmail2'].gsub(/([^\w \-\@\.\,])+/, ''),
+      cc_name1: request.params['ccName2'].gsub(/([^\w \-\@\.\,])+/, '')
     }
     @args = {
       account_id: session['ds_account_id'],
@@ -54,24 +54,17 @@ class ESign::Eg031BulkSendingEnvelopesService
     envelope_api.create_custom_fields(args[:account_id], envelope_id, custom_fields(bulk_list_id))
     # Step 5-1 end
 
-    # Add placeholder recipients
-    # Step 6-1 start
-    recipients = recipients_data
-    recipients = DocuSign_eSign::Recipients.new(signers: [recipients[0]], cc: [recipients[1]])
-    envelope_api.create_recipient(args[:account_id], envelope_id, recipients, options = DocuSign_eSign::CreateRecipientOptions.default)
-    # Step 6-1 end
-
     # Initiate bulk send
-    # Step 7 start
+    # Step 6 start
     bulk_send_request = DocuSign_eSign::BulkSendRequest.new(envelopeOrTemplateId: envelope_id)
     batch = bulk_envelopes_api.create_bulk_send_request(args[:account_id], bulk_list_id, bulk_send_request)
     batch_id = batch.batch_id
-    # Step 7 end
+    # Step 6 end
 
     # Confirm successful batch send
-    # Step 8 start
+    # Step 7 start
     bulk_envelopes_api.get_bulk_send_batch_status(args[:account_id], batch_id)
-    # Step 8 end
+    # Step 7 end
   end
 
   private
@@ -150,37 +143,6 @@ class ESign::Eg031BulkSendingEnvelopesService
   end
   # Step 5-2 end
 
-  # Step 6-2 start
-  def recipients_data
-    signer = DocuSign_eSign::Signer.new(
-      name: "Multi Bulk Recipient::signer",
-      email: "multiBulkRecipients-signer@docusign.com",
-      roleName: "signer",
-      note: "",
-      routingOrder: 1,
-      status: "created",
-      templateAccessCodeRequired: "null",
-      deliveryMethod: "email",
-      recipientId: "1",
-      recipientType: "signer"
-    )
-
-    cc = DocuSign_eSign::CarbonCopy.new(
-      name: "Multi Bulk Recipient::cc",
-      email: "multiBulkRecipients-cc@docusign.com",
-      roleName: "cc",
-      note: "",
-      routingOrder: 1,
-      status: "created",
-      deliveryMethod: "email",
-      recipientId: "2",
-      recipientType: "cc"
-    )
-
-    [signer, cc]
-  end
-  # Step 6-2 end
-
   # Step 4-2 start
   def make_envelope
     # Create the envelope definition
@@ -212,7 +174,7 @@ class ESign::Eg031BulkSendingEnvelopesService
       email: "multiBulkRecipients-cc@docusign.com",
       roleName: "cc",
       note: "",
-      routingOrder: 1,
+      routingOrder: 2,
       status: "created",
       deliveryMethod: "email",
       recipientId: "2",
