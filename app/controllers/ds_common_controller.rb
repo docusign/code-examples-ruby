@@ -6,7 +6,29 @@ class DsCommonController < ApplicationController
 
   def index
     @show_doc = Rails.application.config.documentation
-    if session[:examples_API] == 'Rooms'
+    handle_redirects
+  end
+
+  def handle_redirects
+    if Rails.configuration.quickstart
+      if session[:quickstarted].nil?
+        session[:examples_API] = 'eSignature'
+        session[:quickstarted] = true
+        redirect_to "/auth/docusign"
+      elsif session[:been_here].nil?
+        redirect_to '/eg001'
+      else
+        render_examples
+      end
+    else
+      render_examples
+    end
+  end
+
+  def render_examples
+    if session[:examples_API].nil?
+      choose_api
+    elsif session[:examples_API] == 'Rooms'
       render 'room_api/index'
     elsif session[:examples_API] == 'Click'
       render 'clickwrap/index'
@@ -16,10 +38,6 @@ class DsCommonController < ApplicationController
       render 'admin_api/index'
     else
       session[:examples_API] = 'eSignature'
-      @show_doc = Rails.application.config.documentation
-      if Rails.configuration.quickstart && session[:been_here].nil?
-        redirect_to '/eg001'
-      end
     end
   end
 
