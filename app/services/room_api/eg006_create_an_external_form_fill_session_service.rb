@@ -3,21 +3,9 @@
 class RoomApi::Eg006CreateAnExternalFormFillSessionService
   attr_reader :args
 
-  def initialize(session, request)
-    @args = {
-        form_id: request.params['formId'],
-        room_id: request.params['roomId'],
-        account_id: session[:ds_account_id],
-        base_path: session[:ds_base_path],
-        access_token: session[:ds_access_token]
-    }
+  def initialize(args)
+    @args = args
   end
-
-  def call
-    worker
-  end
-
-  private
 
   def worker
     configuration = DocuSign_Rooms::Configuration.new
@@ -29,13 +17,15 @@ class RoomApi::Eg006CreateAnExternalFormFillSessionService
     rooms_api = DocuSign_Rooms::ExternalFormFillSessionsApi.new(api_client)
 
     begin
-      rooms_api.create_external_form_fill_session(args[:account_id], body)
+      rooms_api.create_external_form_fill_session(args[:account_id], body(args))
     rescue Exception => e
       return
     end
   end
 
-  def body
+  private
+
+  def body(args)
     DocuSign_Rooms::ExternalFormFillSessionForCreate.new({
        formId: args[:form_id],
        roomId: args[:room_id]

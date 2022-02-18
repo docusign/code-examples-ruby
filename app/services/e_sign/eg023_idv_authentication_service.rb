@@ -1,28 +1,17 @@
 # frozen_string_literal: true
 
 class ESign::Eg023IdvAuthenticationService
+  attr_reader :args
   include ApiCreator
-  attr_reader :args, :envelope_args, :request, :session
 
-  def initialize(request, session)
-    @envelope_args = {
-      signer_email: request.params['signerEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name: request.params['signerName'].gsub(/([^\w \-\@\.\,])+/, ''),
-      status: 'sent'
-    }
-    @args = {
-      account_id: session['ds_account_id'],
-      base_path: session['ds_base_path'],
-      access_token: session['ds_access_token'],
-      envelope_args: @envelope_args
-    }
-    @request = request
-    @session = session
+  def initialize(args)
+    @args = args
   end
 
-  def call
-    # Obtain your workflow ID
-    # Step 3 start
+  def worker
+    # ***DS.snippet.0.start
+
+    # Step 3. Obtain your workflow ID
     accounts_api = create_account_api(args)
     workflow_response = accounts_api.get_account_identity_verification args[:account_id]
     if workflow_response.identity_verification
@@ -39,7 +28,6 @@ class ESign::Eg023IdvAuthenticationService
 
     puts "WORKFLOW ID: "
     puts workflow_id
-
 
     # Construct your envelope JSON body
     # Step 4 start

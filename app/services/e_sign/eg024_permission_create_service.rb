@@ -1,21 +1,16 @@
 # frozen_string_literal: true
 
 class ESign::Eg024PermissionCreateService
+  attr_reader :args
   include ApiCreator
-  attr_reader :args, :request, :permission_profile_name
 
-  def initialize(session, request)
-    @args = {
-      account_id: session[:ds_account_id],
-      base_path: session[:ds_base_path],
-      access_token: session[:ds_access_token]
-    }
-    @request = request
-    @permission_profile_name = request.params[:permission_profile_name]
+  def initialize(args)
+    @args = args
   end
 
-  def call
+  def worker
     accounts_api = create_account_api(args)
+    permission_profile_name = args[:permission_profile_name]
     permission_profile_settings = make_permission_profile_settings
     create_permission_account  = accounts_api.create_permission_profile(args[:account_id], { permissionProfileName: permission_profile_name,
                                                                                settings: permission_profile_settings},

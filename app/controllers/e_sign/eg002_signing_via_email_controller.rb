@@ -1,30 +1,31 @@
 # frozen_string_literal: true
 
 class ESign::Eg002SigningViaEmailController < EgController
+  before_action :check_auth
+
   def create
-    minimum_buffer_min = 3
-    if check_token(minimum_buffer_min)
-      begin
-        results = ESign::Eg002SigningViaEmailService.new(session, request, 'sent').call
-        session[:envelope_id] = results['envelope_id']
-        @title = 'Envelope sent'
-        @h1 = 'Envelope sent'
-        @message = "The envelope has been created and sent!<br/>Envelope ID #{results['envelope_id']}."
-        render 'ds_common/example_done'
-      rescue DocuSign_eSign::ApiError => e
-        error = JSON.parse e.response_body
-        @error_code = error['errorCode']
-        @error_message = error['message']
-        render 'ds_common/error'
-      end
-    else
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation
-      # so it could be restarted automatically.
-      # But since it should be rare to have a token issue here,
-      # we'll make the user re-enter the form data after
-      # authentication.
-      redirect_to '/'
+    begin
+      envelope_args = {
+        signer_email: param_gsub(params['signerEmail']),
+        signer_name: param_gsub(params['signerName']),
+        cc_email: param_gsub(params['ccEmail']),
+        cc_name: param_gsub(params['ccName']),
+        status: 'sent'
+      }
+      args = {
+        account_id: session['ds_account_id'],
+        base_path: session['ds_base_path'],
+        access_token: session['ds_access_token'],
+        envelope_args: envelope_args
+      }
+      results = ESign::Eg002SigningViaEmailService.new(args).worker
+      session[:envelope_id] = results['envelope_id']
+      @title = 'Envelope sent'
+      @h1 = 'Envelope sent'
+      @message = "The envelope has been created and sent!<br/>Envelope ID #{results['envelope_id']}."
+      render 'ds_common/example_done'
+    rescue DocuSign_eSign::ApiError => e
+      handle_error(e)
     end
   end
 end

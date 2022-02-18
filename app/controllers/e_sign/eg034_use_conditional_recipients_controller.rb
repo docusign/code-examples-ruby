@@ -5,7 +5,24 @@ class ESign::Eg034UseConditionalRecipientsController < EgController
 
   def create
     begin
-      results = ESign::Eg034UseConditionalRecipientsService.new(session, request).call
+      signers = {
+        signerEmail1: request['signerEmail1'],
+        signerName1: request['signerName1'],
+  
+        signerEmailNotChecked: request['signerEmailNotChecked'],
+        signerNameNotChecked: request['signerNameNotChecked'],
+  
+        signerEmailChecked: request['signerEmailChecked'],
+        signerNameChecked: request['signerNameChecked']
+      }
+  
+      args = {
+        accountId: session['ds_account_id'],
+        basePath: session['ds_base_path'],
+        accessToken: session['ds_access_token']
+      }
+
+      results = ESign::Eg034UseConditionalRecipientsService.new(args, signers).worker
       @envelop_id = results.to_hash[:envelopeId].to_s
       render 'e_sign/eg034_use_conditional_recipients/return'
     rescue DocuSign_eSign::ApiError => e
@@ -18,19 +35,6 @@ class ESign::Eg034UseConditionalRecipientsController < EgController
         @error_message = error['message']
       end
       render 'ds_common/error'
-    end
-  end
-
-  private
-
-  def check_auth
-    minimum_buffer_min = 10
-    token_ok = check_token(minimum_buffer_min)
-    unless token_ok
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation so it could be restarted automatically
-      # But since it should be rare to have a token issue here, we'll make the user re-enter the form data after authentication
-      redirect_to '/ds/mustAuthenticate'
     end
   end
 end

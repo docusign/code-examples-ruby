@@ -1,29 +1,15 @@
 # frozen_string_literal: true
 
 class ESign::Eg034UseConditionalRecipientsService
-  include ApiCreator
   attr_reader :args, :signers
+  include ApiCreator
 
-  def initialize(session, request)
-    @signers = {
-      signerEmail1: request['signerEmail1'],
-      signerName1: request['signerName1'],
-
-      signerEmailNotChecked: request['signerEmailNotChecked'],
-      signerNameNotChecked: request['signerNameNotChecked'],
-
-      signerEmailChecked: request['signerEmailChecked'],
-      signerNameChecked: request['signerNameChecked']
-    }
-
-    @args = {
-      accountId: session['ds_account_id'],
-      basePath: session['ds_base_path'],
-      accessToken: session['ds_access_token']
-    }
+  def initialize(args, signers)
+    @args = args
+    @signers = signers
   end
 
-  def call
+  def worker
     # Step 2. Construct your API headers
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:basePath]

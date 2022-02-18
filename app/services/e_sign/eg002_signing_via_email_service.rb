@@ -1,34 +1,16 @@
 # frozen_string_literal: true
 
 class ESign::Eg002SigningViaEmailService
+  attr_reader :args
   include ApiCreator
-  attr_reader :args, :envelope_args
 
-  def initialize(session, request, status)
-    @envelope_args = {
-      signer_email: request.params['signerEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name: request.params['signerName'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_email: request.params['ccEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_name: request.params['ccName'].gsub(/([^\w \-\@\.\,])+/, ''),
-      status: status
-    }
-    @args = {
-      account_id: session['ds_account_id'],
-      base_path: session['ds_base_path'],
-      access_token: session['ds_access_token'],
-      envelope_args: @envelope_args
-    }
+  def initialize(args)
+    @args = args
   end
-
-  def call
-    worker
-  end
-
-  private
 
   def worker
     # 1. Create the envelope request object
-    envelope_definition = make_envelope
+    envelope_definition = make_envelope args[:envelope_args]
     # 2. Call Envelopes::create API method
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
@@ -38,7 +20,9 @@ class ESign::Eg002SigningViaEmailService
     { 'envelope_id' => envelope_id }
   end
 
-  def make_envelope
+  private
+
+  def make_envelope(envelope_args)
     # document 1 (HTML) has tag **signature_1**
     # document 2 (DOCX) has tag /sn1/
     # document 3 (PDF) has tag /sn1/
@@ -55,7 +39,7 @@ class ESign::Eg002SigningViaEmailService
     envelope_definition.email_subject = 'Please sign this document set'
 
     # Add the documents
-    doc1_b64 = Base64.encode64(create_document1)
+    doc1_b64 = Base64.encode64(create_document1(envelope_args))
     # Read files 2 and 3 from a local directory
     # The reads could raise an exception if the file is not available!
     doc_docx = Rails.application.config.doc_docx
@@ -127,7 +111,7 @@ class ESign::Eg002SigningViaEmailService
     )
     # Add the tabs model (including the sign_here tabs) to the signer
     # The Tabs object takes arrays of the different field/tab types
-    signer1_tabs = DocuSign_eSign::Tabs.new ({
+    signer1_tabs = DocuSign_eSign::Tabs.new({
       signHereTabs: [sign_here1, sign_here2]
     })
 
@@ -145,7 +129,7 @@ class ESign::Eg002SigningViaEmailService
     envelope_definition
   end
 
-  def create_document1
+  def create_document1(args)
     "
     <!DOCTYPE html>
     <html>

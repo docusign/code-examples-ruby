@@ -3,16 +3,11 @@
 class MonitorApi::Eg001GetMonitoringDatasetService
   attr_reader :args
 
-  def initialize(session, _request)
-    @args = {
-      # account_id: session[:ds_account_id],
-      access_token: session[:ds_access_token]
-    }
-    @cursor = ''
-    @results_memo = []
+  def initialize(args)
+    @args = args
   end
 
-  def call
+  def worker
     # step 2 start
     configuration = DocuSign_Monitor::Configuration.new
     configuration.host = Rails.configuration.monitor_host
@@ -23,8 +18,7 @@ class MonitorApi::Eg001GetMonitoringDatasetService
 
     # step 3 start
     monitor_api = DocuSign_Monitor::DataSetApi.new(api_client)
-    options = DocuSign_Monitor::GetStreamOptions.default
-    @response = monitor_api.get_stream('monitor', '2.0').data
+    @response = monitor_api.get_stream(args[:data_set_name], args[:version]).data
     
     # step 3 end
     

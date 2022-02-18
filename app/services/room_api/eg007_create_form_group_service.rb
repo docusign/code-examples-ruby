@@ -3,19 +3,9 @@
 class RoomApi::Eg007CreateFormGroupService
   attr_reader :args
 
-  def initialize(session, request)
-    @args = {
-        group_name: request.params[:group_name],
-        account_id: session[:ds_account_id],
-        access_token: session[:ds_access_token]
-    }
+  def initialize(args)
+    @args = args
   end
-
-  def call
-    worker
-  end
-
-  private
 
   def worker
     # Step 2 start
@@ -28,11 +18,13 @@ class RoomApi::Eg007CreateFormGroupService
 
     # Step 4 start
     rooms_api = DocuSign_Rooms::FormGroupsApi.new(api_client)
-    rooms_api.create_form_group(args[:account_id], body)
+    rooms_api.create_form_group(args[:account_id], body(args))
     # Step 4 end
   end
 
-  def body
+  private
+
+  def body(args)
     # Step 3 start
     DocuSign_Rooms::RoomForCreate.new(
         {

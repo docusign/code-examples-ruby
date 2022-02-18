@@ -13,7 +13,18 @@ class Eg001EmbeddedSigningController < EgController
       # authentication.
       redirect_to '/ds/mustAuthenticate'
     end
-    redirect_url = Eg001EmbeddedSigningService.new(session, request).call
+    args = {
+      account_id: session[:ds_account_id],
+      base_path: session[:ds_base_path],
+      access_token: session[:ds_access_token],
+      signer_email: param_gsub(params[:signerEmail]),
+      signer_name: param_gsub(params[:signerName]),
+      ds_ping_url: Rails.application.config.app_url,
+      signer_client_id: 1000,
+      pdf_filename: 'data/World_Wide_Corp_lorem.pdf'
+    }
+
+    redirect_url = Eg001EmbeddedSigningService.new(args).worker
     redirect_to redirect_url
   end
 

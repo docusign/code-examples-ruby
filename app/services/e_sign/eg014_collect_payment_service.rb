@@ -1,36 +1,16 @@
 # frozen_string_literal: true
 
 class ESign::Eg014CollectPaymentService
+  attr_reader :args
   include ApiCreator
-  attr_reader :args, :envelope_args
 
-  def initialize(request, session)
-    @envelope_args = {
-      signer_email: request.params['signerEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name: request.params['signerName'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_email: request.params['ccEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_name: request.params['ccName'].gsub(/([^\w \-\@\.\,])+/, ''),
-      gateway_account_id: Rails.application.config.gateway_account_id,
-      gateway_name: Rails.application.config.gateway_name,
-      gateway_display_name: Rails.application.config.gateway_display_name
-    }
-    @args = {
-      account_id: session['ds_account_id'],
-      base_path: session['ds_base_path'],
-      access_token: session['ds_access_token'],
-      envelope_args: @envelope_args
-    }
+  def initialize(args)
+    @args = args
   end
-
-  def call
-    results = worker args
-  end
-
-  private
 
   # ***DS.snippet.0.start
-  def worker(args)
-    envelope_definition = make_envelope(envelope_args)
+  def worker
+    envelope_definition = make_envelope(args[:envelope_args])
     # 2. Create and send the envelope
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
@@ -38,6 +18,8 @@ class ESign::Eg014CollectPaymentService
     envelope_id = results.envelope_id
     { envelope_id: envelope_id }
   end
+
+  private
 
   def make_envelope(args)
     # This function creates the envelope definition for the order form

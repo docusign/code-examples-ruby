@@ -1,31 +1,29 @@
 # frozen_string_literal: true
 
 class ESign::Eg007EnvelopeGetDocController < EgController
+  before_action :check_auth
+
   def create
-    minimum_buffer_min = 3
     envelope_id = session[:envelope_id]
     envelope_documents = session[:envelope_documents]
-    token_ok = check_token(minimum_buffer_min)
-    if token_ok && envelope_id && envelope_documents
+    if envelope_id && envelope_documents
       begin
-        results = ESign::Eg007EnvelopeGetDocService.new(request, session, envelope_id, envelope_documents).call
+        document_id = param_gsub(params['docSelect'])
+        args = {
+          account_id: session['ds_account_id'],
+          base_path: session['ds_base_path'],
+          access_token: session['ds_access_token'],
+          envelope_id: envelope_id,
+          document_id: document_id,
+          envelope_documents: envelope_documents
+        }
+        results = ESign::Eg007EnvelopeGetDocService.new(args).worker
         send_data results['data'], filename: results['doc_name'],
                                    content_type: results['mime_type'],
                                    disposition: "attachment; filename=\"#{results['doc_name']}\""
       rescue DocuSign_eSign::ApiError => e
-        error = JSON.parse e.response_body
-        @error_code = error['errorCode']
-        @error_message = error['message']
-        render 'ds_common/error'
+        handle_error(e)
       end
-    elsif !token_ok
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation
-      # so it could be restarted automatically.
-      # But since it should be rare to have a token issue here,
-      # we'll make the user re-enter the form data after
-      # authentication.
-      redirect_to '/ds/mustAuthenticate'
     elsif !envelope_id || !envelope_documents
       @title = 'Download an envelope\'s document'
       @envelope_ok = false

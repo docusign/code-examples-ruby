@@ -1,14 +1,20 @@
 # frozen_string_literal: true
 
 class ESign::Eg004EnvelopeInfoController < EgController
-  def create
-    minimum_buffer_min = 3
-    envelope_id = session[:envelope_id]
-    token_ok = check_token(minimum_buffer_min)
+  before_action :check_auth
 
-    if token_ok && envelope_id
+  def create
+    envelope_id = session[:envelope_id]
+
+    if envelope_id
       begin
-        results = ESign::Eg004EnvelopeInfoService.new(session, envelope_id).call
+        args = {
+          account_id: session['ds_account_id'],
+          base_path: session['ds_base_path'],
+          access_token: session['ds_access_token'],
+          envelope_id: envelope_id
+        }
+        results = ESign::Eg004EnvelopeInfoService.new(args).worker
         # results is an object that implements ArrayAccess. Convert to a regular array:
         @title = 'Envelope status results'
         @h1 = 'Envelope status results'
@@ -16,19 +22,8 @@ class ESign::Eg004EnvelopeInfoController < EgController
         @json = results.to_json.to_json
         render 'ds_common/example_done'
       rescue  DocuSign_eSign::ApiError => e
-        error = JSON.parse e.response_body
-        @error_code = error['errorCode']
-        @error_message = error['message']
-        render 'ds_common/error'
+        handle_error(e)
       end
-    elsif !token_ok
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation
-      # so it could be restarted automatically.
-      # But since it should be rare to have a token issue here,
-      # we'll make the user re-enter the form data after
-      # authentication.
-      redirect_to '/ds/mustAuthenticate'
     elsif !envelope_id
       @title = 'Envelope information'
       @envelope_ok = false

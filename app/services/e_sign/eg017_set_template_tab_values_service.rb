@@ -1,30 +1,12 @@
 # frozen_string_literal: true
 
 class ESign::Eg017SetTemplateTabValuesService
-include ApiCreator
-attr_reader :args, :envelope_args
+  attr_reader :args
+  include ApiCreator
 
-def initialize(request, session, template_id)
-  @envelope_args = {
-  signer_email: request.params['signerEmail'],
-  signer_name: request.params['signerName'],
-  cc_email: request.params['ccEmail'],
-  cc_name: request.params['ccName'],
-  template_id: template_id
-  }
-  @args = {
-  account_id: session['ds_account_id'],
-  base_path: session['ds_base_path'],
-  access_token: session['ds_access_token'],
-  envelope_args: @envelope_args
-  }
-end
-
-def call
-  results = worker
-end
-
-private
+  def initialize(args)
+    @args = args
+  end
 
 # ***DS.snippet.0.start
 def worker
@@ -41,7 +23,6 @@ def worker
   results = envelope_api.create_envelope args[:account_id], envelope_definition
   envelope_id = results.envelope_id
 
-
   # Step 6. Create the View Request
   view_request = make_recipient_view_request(envelope_args[:signer_email], envelope_args[:signer_name], signer_client_id, ds_return_url, ds_ping_url)
 
@@ -55,6 +36,8 @@ def worker
   # Redirect to results.url
   results.url
 end
+
+private
 
 def make_envelope(args)
   # Create the envelope definition with the template_id

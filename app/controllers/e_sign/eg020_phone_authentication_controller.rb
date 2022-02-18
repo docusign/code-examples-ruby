@@ -1,38 +1,44 @@
 # frozen_string_literal: true
 
 class ESign::Eg020PhoneAuthenticationController < EgController
+  before_action :check_auth
+
   def create
-    minimum_buffer_min = 3
-    if check_token(minimum_buffer_min)
-      begin
-        results = ESign::Eg020PhoneAuthenticationService.new(request, session).call
-        if results.to_s == "phone_auth_not_enabled"
-          @error_code = "IDENTITY_WORKFLOW_INVALID_ID"
-          @error_message = "The identity workflow ID specified is not valid."
-          @error_information = "Please contact <a target='_blank' rel='noopener noreferrer' href='https://support.docusign.com/'>Support</a> to enable ID verification in your account."
-          render 'ds_common/error'
-        else
-          session[:envelope_id] = results.envelope_id
-          @title = 'Require Phone Authentication for a Recipient'
-          @h1 = 'Require Phone Authentication for a Recipient'
-          @message = "The envelope has been created and sent!<br/>Envelope ID #{results.envelope_id}."
-          render 'ds_common/example_done'
-        end
-      rescue DocuSign_eSign::ApiError => e
-        error = JSON.parse e.response_body
-        @error_code = error['errorCode']
-        @error_message = error['message']
-        if error['errorCode']["IDENTITY_WORKFLOW_INVALID_ID"]
-          @error_information = "Please contact <a target='_blank' rel='noopener noreferrer' href='https://support.docusign.com/'>Support</a> to enable recipient phone authentication in your account."
-        end
+    begin
+      envelope_args = {
+        signer_email: param_gsub(params['signer_email']),
+        signer_name: param_gsub(params['signer_name']),
+        country_code: param_gsub(params['country_code']),
+        phone_number: param_gsub(params['phone_number']),
+        status: 'sent'
+      }
+      args = {
+        account_id: session['ds_account_id'],
+        base_path: session['ds_base_path'],
+        access_token: session['ds_access_token'],
+        envelope_args: envelope_args
+      }
+
+      phone_auth_service = ESign::Eg020PhoneAuthenticationService.new(args)
+
+      # Retrieve the workflow id
+      workflow_id = phone_auth_service.get_workflow
+      session[:workflow_id] = workflow_id
+
+      results = phone_auth_service.worker(workflow_id)
+
+      if results.to_s == "phone_auth_not_enabled"
+        @error_code = "IDENTITY_WORKFLOW_INVALID_ID"
+        @error_message = "The identity workflow ID specified is not valid."
+        @error_information = "Please contact <a target='_blank' rel='noopener noreferrer' href='https://support.docusign.com/'>Support</a> to enable ID verification in your account."
         render 'ds_common/error'
+      else
+        session[:envelope_id] = results.envelope_id
+        @title = 'Require Phone Authentication for a Recipient'
+        @h1 = 'Require Phone Authentication for a Recipient'
+        @message = "The envelope has been created and sent!<br/>Envelope ID #{results.envelope_id}."
+        render 'ds_common/example_done'
       end
-    else
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation so it could be restarted
-      # automatically. But since it should be rare to have a token issue here,
-      # we'll make the user re-enter the form data after authentication
-      redirect_to '/'
     end
   end
 

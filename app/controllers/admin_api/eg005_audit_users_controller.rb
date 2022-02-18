@@ -7,7 +7,14 @@ class AdminApi::Eg005AuditUsersController < EgController
       end
 
       begin
-        results = AdminApi::Eg005AuditUsersService.new(session, request).call
+        args = {
+          account_id: session[:ds_account_id],
+          organization_id: session['organization_id'],
+          base_path: session[:ds_base_path],
+          access_token: session[:ds_access_token]
+        }
+
+        results = AdminApi::Eg005AuditUsersService.new(args).worker
 
         @title = "Audit users"
         @h1 = "Audit users"
@@ -16,23 +23,7 @@ class AdminApi::Eg005AuditUsersController < EgController
 
         render 'ds_common/example_done'
       rescue DocuSign_Admin::ApiError => e
-        error = JSON.parse e.response_body
-        @error_code = e.code
-        @error_message = error['error_description']
-        render 'ds_common/error'
-      end
-    end
-
-    private
-
-    def check_auth
-      minimum_buffer_min = 10
-      token_ok = check_token(minimum_buffer_min)
-      unless token_ok
-        flash[:messages] = 'Sorry, you need to re-authenticate.'
-        # We could store the parameters of the requested operation so it could be restarted automatically
-        # But since it should be rare to have a token issue here, we'll make the user re-enter the form data after authentication
-        redirect_to '/ds/mustAuthenticate'
+        handle_error(e)
       end
     end
   end

@@ -1,18 +1,37 @@
 # frozen_string_literal: true
 
 class ESign::Eg013AddDocToTemplateController < EgController
-  def create
-    minimum_buffer_min = 3
-    template_id = session[:template_id]
-    token_ok = check_token(minimum_buffer_min)
+  before_action :check_auth
 
-    if token_ok && template_id
+  def create
+    template_id = session[:template_id]
+
+    if template_id
       # 2. Call the worker method
       # More data validation would be a good idea here
       # Strip anything other than characters listed
       begin
-        results = ESign::Eg013AddDocToTemplateService.new(request, session, template_id).call
+        envelope_args = {
+          signer_email: param_gsub(params['signerEmail']),
+          signer_name: param_gsub(params['signerName']),
+          cc_email: param_gsub(params['ccEmail']),
+          cc_name: param_gsub(params['ccName']),
+          item: param_gsub(params['item']),
+          quantity: param_gsub(params['quantity']).to_i,
+          signer_client_id: 1000,
+          template_id: template_id,
+          ds_return_url: "#{Rails.application.config.app_url}/ds_common-return"
+        }
+        args = {
+          account_id: session['ds_account_id'],
+          base_path: session['ds_base_path'],
+          access_token: session['ds_access_token'],
+          envelope_args: envelope_args
+        }
+        results = ESign::Eg013AddDocToTemplateService.new(args).worker
+        # Save for use by other examples
         # which need an envelopeId
+        session[:envelope_id] = results[:envelope_id] 
         # Redirect the user to the embedded signing
         # Don't use an iFrame!
         # State can be stored/recovered using the framework's session or a
@@ -24,17 +43,9 @@ class ESign::Eg013AddDocToTemplateController < EgController
         @error_message = error['message']
         render 'ds_common/error'
       end
-    elsif !token_ok
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation
-      # so it could be restarted automatically.
-      # But since it should be rare to have a token issue here,
-      # we'll make the user re-enter the form data after
-      # authentication.
-      redirect_to '/ds/mustAuthenticate'
     elsif !template_id
-      @title = 'Use embedded signing from template and extra doc',
-               @template_ok = false
+      @title = 'Use embedded signing from template and extra doc'
+      @template_ok = false
     end
   end
 end

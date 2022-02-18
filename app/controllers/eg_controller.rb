@@ -62,6 +62,28 @@ class EgController < ApplicationController
     "#{Object.new.extend(ActionView::Helpers::DateHelper).distance_of_time_in_words(duration)}#{duration.negative? ? ' ago' : ''}"
   end
 
+  def param_gsub(parameter)
+    parameter.gsub(/([^\w \-\@\.\,])+/, '')
+  end
+
+  def check_auth
+    minimum_buffer_min = 10
+    token_ok = check_token(minimum_buffer_min)
+    unless token_ok
+      flash[:messages] = 'Sorry, you need to re-authenticate.'
+      # We could store the parameters of the requested operation so it could be restarted automatically
+      # But since it should be rare to have a token issue here, we'll make the user re-enter the form data after authentication
+      redirect_to '/ds/mustAuthenticate'
+    end
+  end
+
+  def handle_error(e)
+    error = JSON.parse e.response_body
+    @error_code = e.code || error['errorCode']
+    @error_message = error['error_description'] || error['message']
+    render 'ds_common/error'
+  end
+
   def create_source_path
     # code here
   end

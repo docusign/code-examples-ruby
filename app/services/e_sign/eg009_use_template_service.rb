@@ -1,31 +1,12 @@
 # frozen_string_literal: true
 
 class ESign::Eg009UseTemplateService
-  include ApiCreator
   attr_reader :args
+  include ApiCreator
 
-  def initialize(request, session, template_id)
-    envelope_args = {
-      signer_email: request.params['signerEmail'],
-      signer_name: request.params['signerName'],
-      cc_email: request.params['ccEmail'],
-      cc_name: request.params['ccName'],
-      template_id: template_id
-    }
-
-    @args = {
-      account_id: session['ds_account_id'],
-      base_path: session['ds_base_path'],
-      access_token: session['ds_access_token'],
-      envelope_args: envelope_args
-    }
+  def initialize(args)
+    @args = args
   end
-
-  def call
-    results = worker
-  end
-
-  private
 
   # ***DS.snippet.0.start
   def worker

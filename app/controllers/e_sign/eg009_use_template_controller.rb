@@ -1,33 +1,37 @@
 # frozen_string_literal: true
 
 class ESign::Eg009UseTemplateController < EgController
-  def create
-    minimum_buffer_min = 3
-    template_id = session[:template_id]
-    token_ok = check_token(minimum_buffer_min)
+  before_action :check_auth
 
-    if token_ok && template_id
+  def create
+    template_id = session[:template_id]
+
+    if template_id
       begin
-        results = ESign::Eg009UseTemplateService.new(request, session, template_id).call
+        envelope_args = {
+          signer_email: params['signerEmail'],
+          signer_name: params['signerName'],
+          cc_email: params['ccEmail'],
+          cc_name: params['ccName'],
+          template_id: template_id
+        }
+    
+        args = {
+          account_id: session['ds_account_id'],
+          base_path: session['ds_base_path'],
+          access_token: session['ds_access_token'],
+          envelope_args: envelope_args
+        }
+
+        results = ESign::Eg009UseTemplateService.new(args).worker
         # results is an object that implements ArrayAccess. Convert to a regular array:
         @title = 'Envelope sent'
         @h1 = 'Envelope sent'
         @message = "The envelope has been created and sent!<br/>Envelope ID #{results[:envelope_id]}."
         render 'ds_common/example_done'
       rescue  DocuSign_eSign::ApiError => e
-        error = JSON.parse e.response_body
-        @error_code = error['errorCode']
-        @error_message = error['message']
-        render 'ds_common/error'
+        handle_error(e)
       end
-    elsif !token_ok
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation
-      # so it could be restarted automatically.
-      # But since it should be rare to have a token issue here,
-      # we'll make the user re-enter the form data after
-      # authentication.
-      redirect_to '/ds/mustAuthenticate'
     elsif !template_id
       @title = 'Use a template to send an envelope'
       @template_ok = false

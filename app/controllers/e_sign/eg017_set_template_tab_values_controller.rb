@@ -1,19 +1,28 @@
 # frozen_string_literal: true
 
 class ESign::Eg017SetTemplateTabValuesController < EgController
+  before_action :check_auth
+
   def create
-    minimum_buffer_min = 3
     template_id = session[:template_id]
-    token_ok = check_token(minimum_buffer_min)
-    if token_ok && template_id
-        redirect_url = ESign::Eg017SetTemplateTabValuesService.new(request, session, template_id).call
-        redirect_to redirect_url
-    elsif !token_ok
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation so it could be restarted
-      # automatically. But since it should be rare to have a token issue here,
-      # we'll make the user re-enter the form data after authentication
-      redirect_to '/ds/mustAuthenticate'
+
+    if template_id
+      envelope_args = {
+        signer_email: params['signerEmail'],
+        signer_name: params['signerName'],
+        cc_email: params['ccEmail'],
+        cc_name: params['ccName'],
+        template_id: template_id
+      }
+      args = {
+        account_id: session['ds_account_id'],
+        base_path: session['ds_base_path'],
+        access_token: session['ds_access_token'],
+        envelope_args: envelope_args
+      }
+
+      redirect_url = ESign::Eg017SetTemplateTabValuesService.new(args).worker
+      redirect_to redirect_url
     elsif !template_id
       @title = 'Use a template to send an envelope'
       @template_ok = false

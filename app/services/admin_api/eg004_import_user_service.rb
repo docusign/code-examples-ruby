@@ -1,22 +1,8 @@
-require 'uri'
-require 'net/http'
-
 class AdminApi::Eg004ImportUserService
-  attr_reader :args, :user_data
+  attr_reader :args
 
-  def initialize(session, request, csv_file_path)
-    @args = {
-      account_id: session['ds_account_id'],
-      base_path: session['ds_base_path'],
-      access_token: session['ds_access_token'],
-      organization_id: session['organization_id'],
-      csv_file_path: csv_file_path
-    }
-
-  end
-
-  def call
-    worker
+  def initialize(args)
+    @args = args
   end
 
   def worker

@@ -1,39 +1,13 @@
 # frozen_string_literal: true
 
 class ESign::Eg013AddDocToTemplateService
+  attr_reader :args
   include ApiCreator
-  attr_reader :args, :envelope_args, :session
 
-  def initialize(request, session, template_id)
-    @envelope_args = {
-      signer_email: request.params['signerEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name: request.params['signerName'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_email: request.params['ccEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_name: request.params['ccName'].gsub(/([^\w \-\@\.\,])+/, ''),
-      item: request.params['item'].gsub(/([^\w \-\@\.\,])+/, ''),
-      quantity: request.params['quantity'].gsub(/([^\w \-\@\.\,])+/, '').to_i,
-      signer_client_id: 1000,
-      template_id: template_id,
-      ds_return_url: "#{Rails.application.config.app_url}/ds_common-return"
-    }
-    @args = {
-      account_id: session['ds_account_id'],
-      base_path: session['ds_base_path'],
-      access_token: session['ds_access_token'],
-      envelope_args: envelope_args
-    }
-    @session = session
+  def initialize(args)
+    @args = args
   end
 
-  def call
-    results = worker
-    session[:envelope_id] = results[:envelope_id] # Save for use by other examples
-    results
-  end
-
-  private
-
-  # ***DS.snippet.0.start
   def worker
     envelope_args = args[:envelope_args]
     # 1. Create the envelope request object
@@ -61,6 +35,8 @@ class ESign::Eg013AddDocToTemplateService
                                                  envelope_id, recipient_view_request)
     { envelope_id: envelope_id, redirect_url: results.url }
   end
+
+  private
 
   def make_envelope(args)
     # 1. Create recipients for server template. Note that the Recipients object
@@ -123,7 +99,7 @@ class ESign::Eg013AddDocToTemplateService
     )
 
     # 6. Create the HTML document that will be added to the envelope
-    doc1_b64 = Base64.encode64(create_document1)
+    doc1_b64 = Base64.encode64(create_document1(args))
     doc1 = DocuSign_eSign::Document.new(
       documentBase64: doc1_b64,
       name: 'Appendix 1--Sales order', # Can be different from actual file name
@@ -150,7 +126,7 @@ class ESign::Eg013AddDocToTemplateService
     envelope_definition
   end
 
-  def create_document1
+  def create_document1(args)
     <<~HEREDOC
           <!DOCTYPE html>
           <html>

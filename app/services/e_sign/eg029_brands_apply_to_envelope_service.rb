@@ -1,47 +1,33 @@
 # frozen_string_literal: true
 
 class ESign::Eg029BrandsApplyToEnvelopeService
+  attr_reader :args
   include ApiCreator
-  attr_reader :envelope_args, :args, :session, :request
 
-  def initialize(session, request)
-    @envelope_args = {
-      signer_email: request.params[:signerEmail].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name: request.params[:signerName].gsub(/([^\w \-\@\.\,])+/, ''),
-      status: 'sent'
-
-    }
-    @args = {
-      account_id: session['ds_account_id'],
-      base_path: session['ds_base_path'],
-      access_token: session['ds_access_token']
-    }
-    @session = session
-    @request = request
+  def initialize(args)
+    @args = args
   end
 
-  def call
+  def worker
     # ***DS.snippet.0.start
     # Step 1. Obtain your OAuth token
     # Step 2. Construct your API headers
     envelope_api = create_envelope_api(args)
     # Step 3: Construct your envelope JSON body
-    envelope_definition = make_envelope
+    envelope_definition = make_envelope(args[:envelope_args])
     # Step 4. Call the eSignature REST API
     results = envelope_api.create_envelope args[:account_id], envelope_definition
-    session[:envelope_id] = results.envelope_id
-    results
     # ***DS.snippet.0.end
   end
 
   private
 
-  def make_envelope
+  def make_envelope(envelope_args)
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_blurb = 'Sample text for email body'
     envelope_definition.email_subject = 'Please Sign'
     envelope_definition.envelope_id_stamping = true
-    envelope_definition.brand_id = request.params[:brands]
+    envelope_definition.brand_id = envelope_args[:brands]
 
     # Add the documents and create the document models
     pdf_filename = 'World_Wide_Corp_lorem.pdf'

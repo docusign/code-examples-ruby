@@ -1,38 +1,15 @@
 class ESign::Eg010SendBinaryDocsService
-  attr_reader :args, :envelope_args, :session
+  attr_reader :args
 
-  def initialize(request, session)
-    @envelope_args = {
-      # Validation: Delete any non-usual characters
-      signer_email: request.params['signerEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name: request.params['signerName'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_email: request.params['ccEmail'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_name: request.params['ccName'].gsub(/([^\w \-\@\.\,])+/, '')
-    }
-
-    @args = {
-      account_id: session['ds_account_id'],
-      base_path: session['ds_base_path'],
-      access_token: session['ds_access_token'],
-      envelope_args: @envelope_args
-    }
-
-    @session = session
+  def initialize(args)
+    @args = args
   end
-
-  def call
-    results = worker
-    session[:envelope_id] = results['envelope_id']
-    results
-  end
-
-  private
 
   # ***DS.snippet.0.start
   def worker
     envelope_args = args[:envelope_args]
     # Step 1. Make the envelope JSON request body
-    envelopeJSON = make_envelope_json
+    envelopeJSON = make_envelope_json(envelope_args)
     # Step 2. Gather documents and their headers
     # Read files from a local directory
     # The reads could raise an exception if the file is not available!
@@ -45,7 +22,7 @@ class ESign::Eg010SendBinaryDocsService
         filename: envelopeJSON[:documents][0][:name],
         document_id: envelopeJSON[:documents][0][:documentId],
         # See encoding note below for explanation
-        bytes: create_document1.force_encoding('ASCII-8BIT') },
+        bytes: create_document1(envelope_args).force_encoding('ASCII-8BIT') },
       { mime: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         filename: envelopeJSON[:documents][1][:name],
         document_id: envelopeJSON[:documents][1][:documentId],
@@ -122,7 +99,6 @@ class ESign::Eg010SendBinaryDocsService
 
     if (response.code.to_i >= 200) && (response.code.to_i < 300)
       envelope_id = obj['envelopeId']
-      session[:envelope_id] = envelope_id
       { 'envelope_id' => envelope_id }
     else
       raise Net::HTTPError.new(response.code, response.body)
@@ -130,7 +106,7 @@ class ESign::Eg010SendBinaryDocsService
   end
 
 
-  def make_envelope_json
+  def make_envelope_json(envelope_args)
     # document 1 (HTML) has tag **signature_1**
     # document 2 (DOCX) has tag /sn1/
     # document 3 (PDF) has tag /sn1/
@@ -217,7 +193,7 @@ class ESign::Eg010SendBinaryDocsService
     env_json
   end
 
-  def create_document1
+  def create_document1(args)
     "
     <!DOCTYPE html>
     <html>

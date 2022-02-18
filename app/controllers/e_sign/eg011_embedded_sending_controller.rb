@@ -1,31 +1,31 @@
 # frozen_string_literal: true
 
 class ESign::Eg011EmbeddedSendingController < EgController
-  def create
-    minimum_buffer_min = 10
-    token_ok = check_token(minimum_buffer_min)
+  before_action :check_auth
 
-    if token_ok
-      begin
-        results = ESign::Eg011EmbeddedSendingService.new(request, session).call
-        redirect_to results['redirect_url']
-      rescue  DocuSign_eSign::ApiError => e
-        error = JSON.parse e.response_body
-        @error_code = error['errorCode']
-        @error_message = error['message']
-        render 'ds_common/error'
-      end
-    elsif !token_ok
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation
-      # so it could be restarted automatically.
-      # But since it should be rare to have a token issue here,
-      # we'll make the user re-enter the form data after
-      # authentication.
-      redirect_to '/ds/mustAuthenticate'
-    elsif !template_id
-      @title = 'Use a template to send an envelope'
-      @template_ok = false
+  def create
+    begin
+      envelope_args = {
+        signer_email: param_gsub(params['signerEmail']),
+        signer_name: param_gsub(params['signerName']),
+        cc_email: param_gsub(params['ccEmail']),
+        cc_name: param_gsub(params['ccName']),
+        status: 'created'
+      }
+    
+      args = {
+        account_id: session['ds_account_id'],
+        base_path: session['ds_base_path'],
+        access_token: session['ds_access_token'],
+        starting_view: param_gsub(params['starting_view']),
+        envelope_args: envelope_args,
+        ds_return_url: "#{Rails.application.config.app_url}/ds_common-return"
+      }
+
+      results = ESign::Eg011EmbeddedSendingService.new(args).worker
+      redirect_to results['redirect_url']
+    rescue  DocuSign_eSign::ApiError => e
+      handle_error(e)
     end
   end
 end

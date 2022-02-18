@@ -1,32 +1,38 @@
 class ESign::Eg010SendBinaryDocsController < EgController
+  before_action :check_auth
+
   def create
-    minimum_buffer_min = 3
-    if check_token minimum_buffer_min
-      begin
-        results = ESign::Eg010SendBinaryDocsService.new(request, session).call
-        @title = 'Envelope sent'
-        @h1 = 'Envelope sent'
-        @message = "The envelope has been created and sent!<br/>Envelope ID #{results['envelope_id']}."
-        render 'ds_common/example_done'
-      rescue Net::HTTPError => e
-        if !e.response.nil?
-          json_response = JSON.parse e.response
-          @error_code = json_response['errorCode']
-          @error_message = json_response['message']
-        else
-          @error_code = 'API request problem'
-          @error_message = e.to_s
-        end
+    begin
+      envelope_args = {
+        # Validation: Delete any non-usual characters
+        signer_email: param_gsub(params['signerEmail']),
+        signer_name: param_gsub(params['signerName']),
+        cc_email: param_gsub(params['ccEmail']),
+        cc_name: param_gsub(params['ccName'])
+      }
+    
+      args = {
+        account_id: session['ds_account_id'],
+        base_path: session['ds_base_path'],
+        access_token: session['ds_access_token'],
+        envelope_args: envelope_args
+      }
+
+      results = ESign::Eg010SendBinaryDocsService.new(args).worker
+      session[:envelope_id] = results['envelope_id']
+      @title = 'Envelope sent'
+      @h1 = 'Envelope sent'
+      @message = "The envelope has been created and sent!<br/>Envelope ID #{results['envelope_id']}."
+      render 'ds_common/example_done'
+    rescue Net::HTTPError => e
+      if !e.response.nil?
+        json_response = JSON.parse e.response
+        @error_code = json_response['errorCode']
+        @error_message = json_response['message']
+      else
+        @error_code = 'API request problem'
+        @error_message = e.to_s
       end
-    else
-      flash[:message] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation
-      # so it could be restarted automatically.
-      # But since it should be rare to have a token issue here,
-      # we'll make the user re-enter the form data after
-      # authentication.
-      session['eg'] = eg_name
-      redirect_to '/ds/mustAuthenticate'
     end
   end
 end
