@@ -10,8 +10,8 @@ class Clickwrap::Eg004ListClickwrapsController < EgController
 
     results = Clickwrap::Eg004ListClickwrapsService.new(args).worker
 
-    @title = 'List clickwraps results'
-    @h1 = 'List clickwraps results'
+    @title = 'Get a list of clickwraps'
+    @h1 = 'Get a list of clickwraps'
     @message = "Results from the ClickWraps::getClickwraps method:"
     @json = results.to_json.to_json
     render 'ds_common/example_done'

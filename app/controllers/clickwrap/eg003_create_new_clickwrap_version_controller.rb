@@ -12,9 +12,9 @@ class Clickwrap::Eg003CreateNewClickwrapVersionController < EgController
 
     results = Clickwrap::Eg003CreateNewClickwrapVersionService.new(args).worker
     puts results.to_json.to_json
-    @title = 'Creating a new clickwrap version'
-    @h1 = 'Creating a new clickwrap version'
-    @message = "Version #{results.version_number} of clickwrap #{results.clickwrap_name} has been created"
+    @title = 'Create a new clickwrap version'
+    @h1 = 'Create a new clickwrap version'
+    @message = "Version #{results.version_number} of clickwrap #{results.clickwrap_name} has been created."
     render 'ds_common/example_done'
   end
 end

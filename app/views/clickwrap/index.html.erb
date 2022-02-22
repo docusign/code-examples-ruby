@@ -6,7 +6,7 @@
       <tr>
         <td>
           <h1 class="display-4">Ruby Launcher</h1>
-          <p class="Xlead">Welcome to the DocuSign Ruby examples using multiple OAuth flows (JWT and Authorization Code Grant).</p>
+          <p class="Xlead">Run and explore Click API code examples with Authorization Code Grant or JWT Grant authentication</p>
         </td>
         <td>
           <img src="banner-code.png" />
@@ -19,19 +19,14 @@
 </div>
 
   <div class="container body-div" id="index-page">
-    <h2>Welcome</h2>
-    <p>This launcher both demonstrates the use of JWT and OAuth Authorization Code Grant flow and includes multiple usage examples for the DocuSign Click API.</p>
 
     <% if @show_doc  %>
     <p><a target='_blank' href='<%= :documentation %>'>Documentation</a> on using JWT or OAuth Authorization Code Grant from a Ruby Rails application.</p>
     <% end %>
 
-    <h2>Basic examples</h2>
-
-    <h4 id="create_clickwrap">1. <a href="eg001">Creating a clickwrap</a></h4>
+    <h4 id="create_clickwrap">1. <a href="eg001">Create a clickwrap</a></h4>
     <p>
-      This example demonstrates how to use DocuSign Click to create a
-      clickwrap that you can embed in your website or app.
+      Creates a clickwrap that you can embed in your website or app.
     </p>
     <p>
       API methods used:
@@ -40,45 +35,34 @@
 
     <h4 id="activate_clickwrap">2. <a href="eg002">Activate a clickwrap</a></h4>
     <p>
-      This example demonstrates how to use DocuSign Click to activate a new
-      clickwrap that you have already created.
-      <br/>
-      By default, new clickwraps are inactive. You must activate your clickwrap before
-      you can use it.
+      Activates a new clickwrap that you have already created.
     </p>
     <p>
       API methods used:
       <a target='_blank' href="https://developers.docusign.com/docs/click-api/reference/accounts/clickwraps/updateclickwrapversion">ClickWraps::updateClickwrapVersion</a>
     </p>
 
-    <h4 id="creating_new_clickwrap_version">3. <a href="eg003">Creating a new clickwrap version</a></h4>
+    <h4 id="creating_new_clickwrap_version">3. <a href="eg003">Create a new clickwrap version</a></h4>
     <p>
-      This example demonstrates how to use the Click API to create a new version
-      of a clickwrap.
-      <br/>
-      You can specify whether you require users who have
-      previously accepted the clickwrap to accept the new version when they
-      return to your website.
+      Creates a new version of a clickwrap.
     </p>
     <p>
       API methods used:
       <a target='_blank' href="https://developers.docusign.com/docs/click-api/reference/accounts/clickwraps/createclickwrapversion/">ClickWraps::createClickwrapVersion</a>
     </p>
 
-    <h4 id="getting_list_of_clickwraps">4. <a href="eg004">Getting a list of clickwraps</a></h4>
+    <h4 id="getting_list_of_clickwraps">4. <a href="eg004">Get a list of clickwraps</a></h4>
     <p>
-      This example demonstrates how to use the Click API to get a list of
-      clickwraps associated with a specific DocuSign user.
+      Gets a list of clickwraps associated with a specific DocuSign user.
     </p>
     <p>
       API methods used:
       <a target='_blank' href="https://developers.docusign.com/docs/click-api/reference/accounts/clickwraps/getclickwraps">ClickWraps::getClickwraps</a>
     </p>
 
-    <h4 id="getting_clickwrap_responses">5. <a href="eg005">Getting clickwrap responses</a></h4>
+    <h4 id="getting_clickwrap_responses">5. <a href="eg005">Get clickwrap responses</a></h4>
     <p>
-      This example demonstrates how to use the Click API to get a list of
-      clickwraps associated with a specific DocuSign user.
+      Gets user responses to your clickwrap agreements.
     </p>
     <p>
       API methods used:

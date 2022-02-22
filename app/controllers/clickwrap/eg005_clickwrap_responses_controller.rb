@@ -12,8 +12,8 @@ class Clickwrap::Eg005ClickwrapResponsesController < EgController
 
     results = Clickwrap::Eg005ClickwrapResponsesService.new(args).worker
 
-    @title = 'Getting clickwrap responses'
-    @h1 = 'Getting clickwrap responses'
+    @title = 'Get clickwrap responses'
+    @h1 = 'Get clickwrap responses'
     @message = "Results from the ClickWraps::getClickwrapAgreements method:"
     @json = results.to_json.to_json
     render 'ds_common/example_done'

@@ -14,9 +14,9 @@ class Clickwrap::Eg001CreateClickwrapController < EgController
     session[:clickwrap_id] = results.clickwrap_id
     session[:clickwrap_name] = results.clickwrap_name
 
-    @title = 'Creating a new clickwrap'
-    @h1 = 'Creating a new clickwrap'
-    @message = "The clickwrap #{results.clickwrap_name} has been created!"
+    @title = 'Create a clickwrap'
+    @h1 = 'Create a clickwrap'
+    @message = "The clickwrap #{results.clickwrap_name} has been created."
     @json = results.to_json.to_json
     render 'ds_common/example_done'
   end

@@ -11,9 +11,9 @@ class Clickwrap::Eg002ActivateClickwrapController < EgController
 
     results = Clickwrap::Eg002ActivateClickwrapService.new(args).worker
 
-    @title = 'Activating a new clickwrap'
-    @h1 = 'Activating a new clickwrap'
-    @message = "The clickwrap #{results.clickwrap_name} has been activated"
+    @title = 'Activate a new clickwrap'
+    @h1 = 'Activate a new clickwrap'
+    @message = "The clickwrap #{results.clickwrap_name} has been activated."
     render 'ds_common/example_done'
   end
 end
