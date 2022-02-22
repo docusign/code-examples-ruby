@@ -1,20 +1,14 @@
 # frozen_string_literal: true
 
 class ESign::Eg028BrandsCreatingService
+  attr_reader :args
   include ApiCreator
-  attr_reader :args, :session, :request
 
-  def initialize(session, request)
-    @args = {
-      account_id: session['ds_account_id'],
-      base_path: session['ds_base_path'],
-      access_token: session['ds_access_token']
-    }
-    @session = session
-    @request = request
+  def initialize(args)
+    @args = args
   end
 
-  def call
+  def worker
     # Step 1. Obtain your OAuth token
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:base_path]
@@ -25,9 +19,9 @@ class ESign::Eg028BrandsCreatingService
 
     # Step 3: Construct your request body
     accounts_api = DocuSign_eSign::AccountsApi.new api_client
-    params = { brandName:  request.params[:brandName], defaultBrandLanguage: request.params[:defaultBrandLanguage] }
+    params = { brandName:  args[:brandName], defaultBrandLanguage: args[:defaultBrandLanguage] }
     
     # Step 4: Call the eSignature API
-    results = accounts_api.create_brand(session['ds_account_id'], params)
+    results = accounts_api.create_brand(args[:account_id], params)
   end
 end

@@ -1,22 +1,16 @@
 # frozen_string_literal: true
 
 class ESign::Eg027PermissionsDeleteService
+  attr_reader :args
   include ApiCreator
-  attr_reader :args, :request, :permission_profile_id
 
-  def initialize(session, request)
-    @args = {
-      account_id: session[:ds_account_id],
-      base_path: session[:ds_base_path],
-      access_token: session[:ds_access_token]
-    }
-    @request = request
-    @permission_profile_id = request.params[:lists]
+  def initialize(args)
+    @args = args
   end
 
-  def call
+  def worker
     # Step 3: Call the eSignature REST API
     accounts_api = create_account_api(args)
-    delete_permission_profile  = accounts_api.delete_permission_profile(args[:account_id], permission_profile_id)
+    delete_permission_profile  = accounts_api.delete_permission_profile(args[:account_id], args[:permission_profile_id])
   end
 end

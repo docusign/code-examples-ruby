@@ -3,7 +3,23 @@ class AdminApi::Eg002CreateActiveClmEsignUserController < EgController
 
     def create
       begin
-        results = AdminApi::Eg002CreateActiveClmEsignUserService.new(session, request).call
+        args = {
+          user_name: params[:user_name],
+          first_name: params[:first_name],
+          last_name: params[:last_name],
+          email: params[:email],
+          clm_permission_profile_id:  params[:clm_permission_profile_id],
+          esign_permission_profile_id:  params[:esign_permission_profile_id],
+          clm_product_id: params[:clm_product_id],
+          esign_product_id: params[:esign_product_id],
+          ds_group_id:  params[:ds_group_id],
+          account_id: session[:ds_account_id],
+          organization_id: session['organization_id'],
+          base_path: session[:ds_base_path],
+          access_token: session[:ds_access_token]
+        }
+
+        results = AdminApi::Eg002CreateActiveClmEsignUserService.new(args).worker
 
         @title = "Create a new active user for CLM and eSignature"
         @h1 = "Create a new active user for CLM and eSignature"
@@ -12,10 +28,7 @@ class AdminApi::Eg002CreateActiveClmEsignUserController < EgController
 
         render 'ds_common/example_done'
       rescue DocuSign_Admin::ApiError => e
-        error = JSON.parse e.response_body
-        @error_code = e.code
-        @error_message = error['error_description']
-        render 'ds_common/error'
+        handle_error(e)
       end
     end
 
@@ -36,18 +49,5 @@ class AdminApi::Eg002CreateActiveClmEsignUserController < EgController
         end
       end
       @ds_groups = AdminApi::GetDataService.new(session).get_ds_groups
-    end
-
-    private
-
-    def check_auth
-      minimum_buffer_min = 10
-      token_ok = check_token(minimum_buffer_min)
-      unless token_ok
-        flash[:messages] = 'Sorry, you need to re-authenticate.'
-        # We could store the parameters of the requested operation so it could be restarted automatically
-        # But since it should be rare to have a token issue here, we'll make the user re-enter the form data after authentication
-        redirect_to '/ds/mustAuthenticate'
-      end
     end
   end

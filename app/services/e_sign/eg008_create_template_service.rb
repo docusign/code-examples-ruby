@@ -1,34 +1,19 @@
 # frozen_string_literal: true
 
 class ESign::Eg008CreateTemplateService
+  attr_reader :args
   include ApiCreator
-  attr_reader :args, :session, :template_name
 
-  def initialize(session)
-    @args = {
-      account_id: session['ds_account_id'],
-      base_path: session['ds_base_path'],
-      access_token: session['ds_access_token']
-    }
-    @session = session
+  def initialize(args)
+    @args = args
   end
-
-  def call
-    session[:template_id] = false # reset
-    @template_name = 'Example Signer and CC template'
-    results = worker
-    session[:template_id] = results[:template_id]
-    results
-  end
-
-  private
 
   # ***DS.snippet.0.start
   def worker
     templates_api = create_template_api(args)
     # Step 1. Does the template exist? Try to look it up by name
     options = DocuSign_eSign::ListTemplatesOptions.new
-    options.search_text = template_name
+    options.search_text = args[:template_name]
     results = templates_api.list_templates(args[:account_id], options)
     created_new_template = false
 

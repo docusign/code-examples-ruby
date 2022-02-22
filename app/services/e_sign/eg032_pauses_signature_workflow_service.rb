@@ -1,27 +1,15 @@
 # frozen_string_literal: true
 
 class ESign::Eg032PausesSignatureWorkflowService
-  include ApiCreator
   attr_reader :args, :signers
+  include ApiCreator
 
-  def initialize(session, request)
-    @signers = {
-      signerEmail1: request['signerEmail1'],
-      signerName1: request['signerName1'],
-
-      signerEmail2: request['signerEmail2'],
-      signerName2: request['signerName2']
-    }
-
-    @args = {
-      accountId: session['ds_account_id'],
-      basePath: session['ds_base_path'],
-      accessToken: session['ds_access_token'],
-      status: 'sent'
-    }
+  def initialize(args, signers)
+    @args = args
+    @signers = signers
   end
 
-  def call
+  def worker
     # Step 2. Construct your API headers
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:basePath]

@@ -2,7 +2,14 @@ class RoomApi::Eg008GrantOfficeAccessToFormGroupController < EgController
   before_action :check_auth
 
   def create
-    results = RoomApi::Eg008GrantOfficeAccessToFormGroupService.new(session, request).call
+    args = {
+      office_id: params[:office_id],
+      form_group_id: params[:form_group_id],
+      account_id: session[:ds_account_id],
+      access_token: session[:ds_access_token]
+    }
+
+    results = RoomApi::Eg008GrantOfficeAccessToFormGroupService.new(args).worker
     result = results.to_json.to_json
     if result['exception']
       @error_code = results[:exception]
@@ -26,18 +33,5 @@ class RoomApi::Eg008GrantOfficeAccessToFormGroupController < EgController
     # Step 4 start
     @form_groups = RoomApi::GetDataService.new(session).get_form_groups
     # Step 4 end
-  end
-
-  private
-
-  def check_auth
-    minimum_buffer_min = 10
-    token_ok = check_token(minimum_buffer_min)
-    unless token_ok
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation so it could be restarted automatically
-      # But since it should be rare to have a token issue here, we'll make the user re-enter the form data after authentication
-      redirect_to '/ds/mustAuthenticate'
-    end
   end
 end

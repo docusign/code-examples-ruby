@@ -1,34 +1,24 @@
 # frozen_string_literal: true
 
 class Eg001EmbeddedSigningService
+  attr_reader :args
   include ApiCreator
-  attr_reader :signer_email, :signer_name, :args
 
-  def initialize(session, request)
-    @signer_email = request.params[:signerEmail].gsub(/([^\w \-\@\.\,])+/, '')
-    @signer_name =  request.params[:signerName].gsub(/([^\w \-\@\.\,])+/, '')
-    @args = {
-      account_id: session[:ds_account_id],
-      base_path: session[:ds_base_path],
-      access_token: session[:ds_access_token]
-    }
+  def initialize(args)
+    @args = args
   end
-
-  def call
-    redirect_url = worker
-  end
-
-  private
 
   # ***DS.snippet.0.start
   def worker
-    ds_ping_url = Rails.application.config.app_url
+    ds_ping_url = args[:ds_ping_url]
     ds_return_url = "#{ds_ping_url}/ds_common-return"
-    signer_client_id = 1000
-    pdf_filename = 'World_Wide_Corp_lorem.pdf'
+    signer_client_id = args[:signer_client_id]
+    pdf_filename = args[:pdf_filename]
+    signer_email = args[:signer_email]
+    signer_name = args[:signer_name]
 
     # Step 1. Create the envelope definition
-    envelope = make_envelope(signer_client_id, pdf_filename)
+    envelope = make_envelope(args[:signer_client_id], pdf_filename, signer_email, signer_name)
 
     # Step 2. Call DocuSign to create the envelope
     envelope_api = create_envelope_api(args)
@@ -39,7 +29,7 @@ class Eg001EmbeddedSigningService
     # session[:envelope_id] = envelope_id
 
     # Step 3. Create the recipient view for the embedded signing
-    view_request = make_recipient_view_request(signer_client_id, ds_return_url, ds_ping_url
+    view_request = make_recipient_view_request(signer_client_id, ds_return_url, ds_ping_url, signer_email, signer_name
     )
 
     # Call the CreateRecipientView API
@@ -53,7 +43,9 @@ class Eg001EmbeddedSigningService
     results.url
   end
 
-  def make_recipient_view_request(signer_client_id, ds_return_url, ds_ping_url)
+  private
+
+  def make_recipient_view_request(signer_client_id, ds_return_url, ds_ping_url, signer_email, signer_name)
     view_request = DocuSign_eSign::RecipientViewRequest.new
     # Set the URL where you want the recipient to go once they are done signing
     # should typically be a callback route somewhere in your app.
@@ -86,12 +78,12 @@ class Eg001EmbeddedSigningService
     view_request
   end
 
-  def make_envelope(signer_client_id, pdf_filename)
+  def make_envelope(signer_client_id, pdf_filename, signer_email, signer_name)
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document sent from Ruby SDK'
 
     doc1 = DocuSign_eSign::Document.new
-    doc1.document_base64 = Base64.encode64(File.binread(File.join('data', pdf_filename)))
+    doc1.document_base64 = Base64.encode64(File.binread(pdf_filename))
     doc1.name = 'Lorem Ipsum'
     doc1.file_extension = 'pdf'
     doc1.document_id = '1'

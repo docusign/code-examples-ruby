@@ -1,26 +1,12 @@
 # frozen_string_literal: true
 
 class ESign::Eg016SetEnvelopeTabDataService
+  attr_reader :args
   include ApiCreator
-  attr_reader :args, :session
 
-  def initialize(request, session)
-    @args = {
-      # Validation: Delete any non-usual characters
-      signer_email: request.params[:signerEmail].gsub(/([^\w\-.+@, ])+/, ''),
-      signer_name: request.params[:signerName].gsub(/([^\w\-., ])+/, ''),
-      access_token: session['ds_access_token'],
-      base_path: session['ds_base_path'],
-      account_id: session['ds_account_id']
-    }
-    @session = session
+  def initialize(args)
+    @args = args
   end
-
-  def call
-    worker
-  end
-
-  private
 
   # ***DS.snippet.0.start
   def worker
@@ -35,8 +21,6 @@ class ESign::Eg016SetEnvelopeTabDataService
     # Step 5. Call the eSignature REST API
     results = create_envelope_api(args).create_envelope args[:account_id], envelope
     envelope_id = results.envelope_id
-    # Save for future use within the example launcher
-    session[:envelope_id] = envelope_id
 
     # Step 6. Create the View Request
     view_request = make_recipient_view_request(args[:signer_email], args[:signer_name], signer_client_id, ds_return_url, ds_ping_url)
@@ -49,10 +33,10 @@ class ESign::Eg016SetEnvelopeTabDataService
     # State can be stored/recovered using the framework's session or a
     # query parameter on the return URL (see the makeRecipientViewRequest method)
     # Redirect to results.url
-    results.url
+    { url: results.url, envelope_id: envelope_id }
   end
 
-  def make_recipient_view_request(_signer_email, _signer_name, signer_client_id, ds_return_url, ds_ping_url)
+  def make_recipient_view_request(signer_email, signer_name, signer_client_id, ds_return_url, ds_ping_url)
     view_request = DocuSign_eSign::RecipientViewRequest.new
     # Set the URL where you want the recipient to go once they are done signing; this
     # should typically be a callback route somewhere in your app. The query parameter
@@ -66,8 +50,8 @@ class ESign::Eg016SetEnvelopeTabDataService
     view_request.authentication_method = 'none'
 
     # Recipient information must match embedded recipient info we used to create the envelope
-    view_request.email = args[:signer_email]
-    view_request.user_name = args[:signer_name]
+    view_request.email = signer_email
+    view_request.user_name = signer_name
     view_request.client_user_id = signer_client_id
 
     # DocuSign recommends that you redirect to DocuSign for the embedded signing. There are
@@ -81,7 +65,7 @@ class ESign::Eg016SetEnvelopeTabDataService
     view_request
   end
 
-  def make_envelope(_signer_email, _signer_name, signer_client_id, pdf_filename)
+  def make_envelope(signer_email, signer_name, signer_client_id, pdf_filename)
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document sent from Ruby SDK'
 
@@ -96,7 +80,7 @@ class ESign::Eg016SetEnvelopeTabDataService
     # Create a signer recipient to sign the document, identified by name and email
     # We're setting the parameters via the object creation
     signer1 = DocuSign_eSign::Signer.new ({
-      email: args[:signer_email], name: args[:signer_name],
+      email: signer_email, name: signer_name,
       clientUserId: signer_client_id, recipientId: 1
     })
 
@@ -117,7 +101,7 @@ class ESign::Eg016SetEnvelopeTabDataService
     text_legal.font = 'Helvetica'
     text_legal.font_size = 'size11'
     text_legal.bold = 'true'
-    text_legal.value = args[:signer_name]
+    text_legal.value = signer_name
     text_legal.locked = 'false'
     text_legal.tab_id = 'legal_name'
     text_legal.tab_label = 'Legal name'
@@ -130,7 +114,7 @@ class ESign::Eg016SetEnvelopeTabDataService
     text_familiar.font = 'Helvetica'
     text_familiar.font_size = 'size11'
     text_familiar.bold = 'true'
-    text_familiar.value = args[:signer_name]
+    text_familiar.value = signer_name
     text_familiar.locked = 'false'
     text_familiar.tab_id = 'familiar_name'
     text_familiar.tab_label = 'Familiar name'

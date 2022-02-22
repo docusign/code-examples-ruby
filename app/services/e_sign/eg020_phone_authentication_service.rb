@@ -1,32 +1,22 @@
 # frozen_string_literal: true
 
 class ESign::Eg020PhoneAuthenticationService
+  attr_reader :args
   include ApiCreator
-  attr_reader :args, :envelope_args, :request, :session
 
-  def initialize(request, session)
-    @request = request
-    @session = session
-    @args = {
-      account_id: session['ds_account_id'],
-      base_path: session['ds_base_path'],
-      access_token: session['ds_access_token'],
-      envelope_args: @envelope_args
-    }
-    @envelope_args = {
-      signer_email: request.params['signer_email'].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name: request.params['signer_name'].gsub(/([^\w \-\@\.\,])+/, ''),
-      country_code: request.params['country_code'].gsub(/([^\w \-\@\.\,])+/, ''),
-      phone_number: request.params['phone_number'].gsub(/([^\w \-\@\.\,])+/, ''),
-      workflow_id: get_workflow(@args),
-      status: 'sent'
-    }
+  def initialize(args)
+    @args = args
   end
 
-  def call
-    if session[:workflow_id].blank?
+  def worker(workflow_id)
+    # ***DS.snippet.0.start
+    envelope_args = args[:envelope_args]
+
+    if workflow_id.blank?
       return "phone_auth_not_enabled"
     end
+
+    envelope_api = create_envelope_api(args)
 
     # Construct your envelope JSON body
     # Step 4 start
@@ -66,8 +56,8 @@ class ESign::Eg020PhoneAuthenticationService
     input_option.phone_number_list = [phone_number]
 
     identity_verification = DocuSign_eSign::RecipientIdentityVerification.new
-    identity_verification.workflow_id = session[:workflow_id]
 
+    identity_verification.workflow_id = workflow_id
     identity_verification.input_options = [input_option]
 
     signer1.identity_verification = identity_verification
@@ -81,7 +71,7 @@ class ESign::Eg020PhoneAuthenticationService
 
     # Add the tabs model (including the sign_here tabs) to the signer
     # The Tabs object wants arrays of the different field/tab types
-    signer1_tabs = DocuSign_eSign::Tabs.new ({
+    signer1_tabs = DocuSign_eSign::Tabs.new({
       signHereTabs: [sign_here1]
     })
     signer1.tabs = signer1_tabs
@@ -99,11 +89,11 @@ class ESign::Eg020PhoneAuthenticationService
     # Call the eSignature REST API
     # Step 5 start
     envelope_api = create_envelope_api(args)
-    results = envelope_api.create_envelope args[:account_id], envelope_definition
+    envelope_api.create_envelope args[:account_id], envelope_definition
     # Step 5 end
   end
 
-  def get_workflow(args)
+  def get_workflow
     #Retrieve the workflow id
 
     begin
@@ -115,13 +105,12 @@ class ESign::Eg020PhoneAuthenticationService
       if workflow_response.identity_verification
         phone_auth_workflow = workflow_response.identity_verification.find{ |item| item.default_name == "Phone Authentication" }
         if phone_auth_workflow
-          session[:workflow_id] = phone_auth_workflow.workflow_id
-          return session[:workflow_id]
+          phone_auth_workflow.workflow_id
         else
           return ""
         end
       else
-          return ""
+        return ""
       end
       # Step 3 end
 

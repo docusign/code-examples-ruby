@@ -1,17 +1,23 @@
 # frozen_string_literal: true
 
 class ESign::Eg016SetEnvelopeTabDataController < EgController
+  before_action :check_auth
+
   def create
-    minimum_buffer_min = 10
-    token_ok = check_token(minimum_buffer_min)
-    unless token_ok
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation so it could be restarted
-      # automatically. But since it should be rare to have a token issue here,
-      # we'll make the user re-enter the form data after authentication
-      redirect_to '/ds/mustAuthenticate'
-    end
-    redirect_url = ESign::Eg016SetEnvelopeTabDataService.new(request, session).call
-    redirect_to redirect_url
+    args = {
+      # Validation: Delete any non-usual characters
+      signer_email: params['signerEmail'].gsub(/([^\w\-.+@, ])+/, ''),
+      signer_name: params['signerName'].gsub(/([^\w\-., ])+/, ''),
+      access_token: session['ds_access_token'],
+      base_path: session['ds_base_path'],
+      account_id: session['ds_account_id']
+    }
+
+    results = ESign::Eg016SetEnvelopeTabDataService.new(args).worker
+
+    # Save for future use within the example launcher
+    session[:envelope_id] = results[:envelope_id]
+
+    redirect_to results[:url]
   end
 end

@@ -1,18 +1,14 @@
 # frozen_string_literal: true
 
 class ESign::Eg003ListEnvelopesService
-  include ApiCreator
   attr_reader :args
+  include ApiCreator
 
-  def initialize(session)
-     @args = {
-      account_id: session[:ds_account_id],
-      base_path: session[:ds_base_path],
-      access_token: session[:ds_access_token]
-    }
+  def initialize(args)
+    @args = args
   end
 
-  def call
+  def worker
     # Step 1. List the envelopes
     # The Envelopes::listStatusChanges method has many options
     # See https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/listStatusChange#

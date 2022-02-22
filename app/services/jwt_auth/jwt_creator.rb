@@ -13,15 +13,17 @@ module JwtAuth
       # GET /oauth/auth
       # This endpoint is used to obtain consent and is the first step in several authentication flows.
       # https://developers.docusign.com/platform/auth/reference/obtain-consent
-      scope = "signature"
+      scope = "signature impersonation"
       if examples_API == 'Rooms'
-        scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
-      elsif examples_API == 'Click'
-        scope = "signature click.manage click.send"
-      elsif examples_API == 'Admin'
-        scope = "signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read"
+        scope = "#{scope} dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
       end
-      scope = "#{scope} impersonation"
+      if examples_API == 'Click'
+        scope = "#{scope} click.manage click.send"
+      end
+      if examples_API == 'Admin'
+        scope = "#{scope} organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read"
+      end
+
       base_uri = "#{Rails.configuration.authorization_server}/oauth/auth"
       response_type = "code"
       scopes = ERB::Util.url_encode(scope) # https://developers.docusign.com/platform/auth/reference/scopes/
@@ -34,21 +36,25 @@ module JwtAuth
 
     def initialize(session)
       @session = session
-      scope = "signature"
+      scope = "signature impersonation"
       @client_module = DocuSign_eSign
       if session[:examples_API] == 'Rooms'
-        scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
+        scope = "#{scope} dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
         @client_module = DocuSign_Rooms
-      elsif session[:examples_API] == 'Click'
-        scope = "signature click.manage click.send"
+      end
+      if session[:examples_API] == 'Click'
+        scope = "#{scope} click.manage click.send"
         @client_module = DocuSign_Click
-      elsif session[:examples_API] == 'Monitor'
+      end
+      if session[:examples_API] == 'Monitor'
         @client_module = DocuSign_Monitor
-      elsif session[:examples_API] == 'Admin'
-        scope = "signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read"
+      end
+      if session[:examples_API] == 'Admin'
+        scope = "#{scope} organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read"
         @client_module = DocuSign_Admin
       end
-      @scope = "#{scope} impersonation"
+
+      @scope = scope
       @api_client = create_initial_api_client(host: Rails.configuration.aud, client_module: @client_module, debugging: false)
     end
 

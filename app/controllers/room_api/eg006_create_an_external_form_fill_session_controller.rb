@@ -2,7 +2,15 @@ class RoomApi::Eg006CreateAnExternalFormFillSessionController < EgController
   before_action :check_auth
 
   def create
-    results = RoomApi::Eg006CreateAnExternalFormFillSessionService.new(session, request).call
+    args = {
+      form_id: params['formId'],
+      room_id: params['roomId'],
+      account_id: session[:ds_account_id],
+      base_path: session[:ds_base_path],
+      access_token: session[:ds_access_token]
+    }
+
+    results = RoomApi::Eg006CreateAnExternalFormFillSessionService.new(args).worker
 
     @title = "External form fill session was successfully created"
     @h1 = "External form fill session was successfully created"
@@ -18,18 +26,5 @@ class RoomApi::Eg006CreateAnExternalFormFillSessionController < EgController
 
   def get_forms
     @form_libraries = RoomApi::GetDataService.new(session, params['roomId']).get_forms_from_room
-  end
-
-  private
-
-  def check_auth
-    minimum_buffer_min = 10
-    token_ok = check_token(minimum_buffer_min)
-    unless token_ok
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation so it could be restarted automatically
-      # But since it should be rare to have a token issue here, we'll make the user re-enter the form data after authentication
-      redirect_to '/ds/mustAuthenticate'
-    end
   end
 end

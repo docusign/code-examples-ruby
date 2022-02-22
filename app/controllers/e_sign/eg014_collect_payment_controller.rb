@@ -1,32 +1,34 @@
 # frozen_string_literal: true
 
 class ESign::Eg014CollectPaymentController < EgController
-  def create
-    minimum_buffer_min = 10
-    token_ok = check_token(minimum_buffer_min)
+  before_action :check_auth
 
-    if token_ok
-      begin
-        results = ESign::Eg014CollectPaymentService.new(request, session).call
-        @title = 'Envelope sent'
-        @h1 = 'Envelope sent'
-        @message = "The order form envelope has been created and sent!<br/>
-           Envelope ID #{results[:envelope_id]}"
-        render 'ds_common/example_done'
-      rescue  DocuSign_eSign::ApiError => e
-        error = JSON.parse e.response_body
-        @error_code = error['errorCode']
-        @error_message = error['message']
-        render 'ds_common/error'
-      end
-    else
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation
-      # so it could be restarted automatically.
-      # But since it should be rare to have a token issue here,
-      # we'll make the user re-enter the form data after
-      # authentication.
-      redirect_to '/ds/mustAuthenticate'
+  def create
+    begin
+      envelope_args = {
+        signer_email: param_gsub(params['signerEmail']),
+        signer_name: param_gsub(params['signerName']),
+        cc_email: param_gsub(params['ccEmail']),
+        cc_name: param_gsub(params['ccName']),
+        gateway_account_id: Rails.application.config.gateway_account_id,
+        gateway_name: Rails.application.config.gateway_name,
+        gateway_display_name: Rails.application.config.gateway_display_name
+      }
+      args = {
+        account_id: session['ds_account_id'],
+        base_path: session['ds_base_path'],
+        access_token: session['ds_access_token'],
+        envelope_args: envelope_args
+      }
+
+      results = ESign::Eg014CollectPaymentService.new(args).worker
+      @title = 'Envelope sent'
+      @h1 = 'Envelope sent'
+      @message = "The order form envelope has been created and sent!<br/>
+         Envelope ID #{results[:envelope_id]}"
+      render 'ds_common/example_done'
+    rescue  DocuSign_eSign::ApiError => e
+      handle_error(e)
     end
   end
 end

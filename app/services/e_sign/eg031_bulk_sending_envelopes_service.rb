@@ -1,42 +1,27 @@
 # frozen_string_literal: true
 
 class ESign::Eg031BulkSendingEnvelopesService
-  include ApiCreator
   attr_reader :args, :signers
+  include ApiCreator
 
-  def initialize(request, session)
-    @signers = {
-      signer_email: request.params['signerEmail1'].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name: request.params['signerName1'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_email: request.params['ccEmail1'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_name: request.params['ccName1'].gsub(/([^\w \-\@\.\,])+/, ''),
-      status: 'created',
-
-      signer_email1: request.params['signerEmail2'].gsub(/([^\w \-\@\.\,])+/, ''),
-      signer_name1: request.params['signerName2'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_email1: request.params['ccEmail2'].gsub(/([^\w \-\@\.\,])+/, ''),
-      cc_name1: request.params['ccName2'].gsub(/([^\w \-\@\.\,])+/, '')
-    }
-    @args = {
-      account_id: session['ds_account_id'],
-      base_path: session['ds_base_path'],
-      access_token: session['ds_access_token']
-    }
+  def initialize(args, signers)
+    @args = args
+    @signers = signers
   end
 
-  def call
+  def worker
     # Construct your API headers
     # Step 2 start
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:base_path]
     api_client = DocuSign_eSign::ApiClient.new configuration
-    construct_api_headers(api_client)
+    construct_api_headers(api_client, args)
     # Step end
 
     # Create and submit the bulk sending list
     # Step 3-1 start
     bulk_envelopes_api = DocuSign_eSign::BulkEnvelopesApi.new api_client
-    bulk_sending_list = create_bulk_sending_list
+    bulk_sending_list = create_bulk_sending_list(signers)
     bulk_list = bulk_envelopes_api.create_bulk_send_list(args[:account_id], bulk_sending_list)
     bulk_list_id  = bulk_list.list_id
     # Step 3-1 end
@@ -69,7 +54,7 @@ class ESign::Eg031BulkSendingEnvelopesService
 
   private
 
-  def construct_api_headers(api_client)
+  def construct_api_headers(api_client, args)
     api_client.default_headers['Authorization'] = "Bearer #{args[:access_token]}"
     api_client.default_headers['Content-Type'] = "application/json;charset=UTF-8"
     api_client.default_headers['Accept'] = "application/json, text/plain, */*"
@@ -78,7 +63,7 @@ class ESign::Eg031BulkSendingEnvelopesService
   end
 
   # Step 3-2 start
-  def create_bulk_sending_list
+  def create_bulk_sending_list(signers)
     bulk_copies = []
     recipient1 = DocuSign_eSign::BulkSendingCopyRecipient.new(
       roleName: 'signer',

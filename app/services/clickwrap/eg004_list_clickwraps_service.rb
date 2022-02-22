@@ -3,15 +3,11 @@
 class Clickwrap::Eg004ListClickwrapsService
   attr_reader :args
 
-  def initialize(session, _request)
-    @args = {
-      account_id: session[:ds_account_id],
-      base_path: session[:ds_base_path],
-      access_token: session[:ds_access_token]
-    }
+  def initialize(args)
+    @args = args
   end
 
-  def call
+  def worker
     # Step 2. Construct your API headers
     configuration = DocuSign_Click::Configuration.new
     configuration.host = args[:base_path]

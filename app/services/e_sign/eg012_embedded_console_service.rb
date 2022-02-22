@@ -1,28 +1,12 @@
 # frozen_string_literal: true
 
 class ESign::Eg012EmbeddedConsoleService
-  include ApiCreator
   attr_reader :args
+  include ApiCreator
 
-  def initialize(session, envelope_id, request)
-    @args = {
-      account_id: session['ds_account_id'],
-      base_path: session['ds_base_path'],
-      access_token: session['ds_access_token'],
-      envelope_id: envelope_id,
-      starting_view: request.params['starting_view'],
-      ds_return_url: "#{Rails.application.config.app_url}/ds_common-return"
-    }
+  def initialize(args)
+    @args = args
   end
-
-  def call
-    # Call the worker method
-    # More data validation would be a good idea here
-    # Strip anything other than characters listed
-    results = worker
-  end
-
-  private
 
   # ***DS.snippet.0.start
   def worker

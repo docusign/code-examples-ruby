@@ -1,22 +1,11 @@
 # frozen_string_literal: true
 
 class RoomApi::Eg003ExportDataFromRoomService
-  attr :args
+  attr_reader :args
 
-  def initialize(session, request)
-    @args = {
-        room_id: request.params['roomId'],
-        account_id: session[:ds_account_id],
-        base_path: session[:ds_base_path],
-        access_token: session[:ds_access_token]
-    }
+  def initialize(args)
+    @args = args
   end
-
-  def call
-    worker
-  end
-
-  private
 
   def worker
     configuration = DocuSign_Rooms::Configuration.new

@@ -2,23 +2,18 @@ class Clickwrap::Eg004ListClickwrapsController < EgController
   before_action :check_auth
 
   def create
-    results = Clickwrap::Eg004ListClickwrapsService.new(session, request).call
+    args = {
+      account_id: session[:ds_account_id],
+      base_path: session[:ds_base_path],
+      access_token: session[:ds_access_token]
+    }
 
-    @title = 'List clickwraps results'
-    @h1 = 'List clickwraps results'
+    results = Clickwrap::Eg004ListClickwrapsService.new(args).worker
+
+    @title = 'Get a list of clickwraps'
+    @h1 = 'Get a list of clickwraps'
     @message = "Results from the ClickWraps::getClickwraps method:"
     @json = results.to_json.to_json
     render 'ds_common/example_done'
-  end
-
-  private
-
-  def check_auth
-    minimum_buffer_min = 10
-    token_ok = check_token(minimum_buffer_min)
-    unless token_ok
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      redirect_to '/ds/mustAuthenticate'
-    end
   end
 end
