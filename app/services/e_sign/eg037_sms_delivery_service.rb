@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ESign::Eg035SmsDeliveryService
+class ESign::Eg037SmsDeliveryService
   attr_reader :args
   include ApiCreator
 
@@ -16,14 +16,14 @@ class ESign::Eg035SmsDeliveryService
     # Call Envelopes::create API method
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
-  
+
     results = envelope_api.create_envelope args[:account_id], envelope_definition
     envelope_id = results.envelope_id
     { 'envelope_id' => envelope_id }
   end
 
   private
-  
+
   def make_envelope(envelope_args)
     # document 1 (HTML) has tag **signature_1**
     # document 2 (DOCX) has tag /sn1/
@@ -34,12 +34,12 @@ class ESign::Eg035SmsDeliveryService
     # recipient 2 - cc
     # The envelope will be sent first to the signer via SMS
     # After it is signed, a copy is sent to the cc person via SMS
-  
+
     # Step 2. Create the envelope definition
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
-  
+
     envelope_definition.email_subject = 'Please sign this document set'
-  
+
     # Add the documents
     doc1_b64 = Base64.encode64(create_document1(envelope_args))
     # Read files 2 and 3 from a local directory
@@ -48,7 +48,7 @@ class ESign::Eg035SmsDeliveryService
     doc2_b64 = Base64.encode64(File.binread(File.join('data', doc_docx)))
     doc_pdf = Rails.application.config.doc_pdf
     doc3_b64 = Base64.encode64(File.binread(File.join('data', doc_pdf)))
-  
+
     # Create the document models
     document1 = DocuSign_eSign::Document.new(
       # Create the DocuSign document object
@@ -71,7 +71,7 @@ class ESign::Eg035SmsDeliveryService
       fileExtension: 'pdf', # Many different document types are accepted
       documentId: '3' # A label used to reference the doc
     )
-  
+
     # The order in the docs array determines the order in the envelope
     envelope_definition.documents = [document1, document2, document3]
 
@@ -82,7 +82,7 @@ class ESign::Eg035SmsDeliveryService
     sms_notification = DocuSign_eSign::RecipientAdditionalNotification.new
     sms_notification.phone_number = phone_number
     sms_notification.secondary_delivery_method = "SMS"
-  
+
     # Create the signer recipient model
     signer1 = DocuSign_eSign::Signer.new
     signer1.additional_notifications=[sms_notification]
@@ -103,7 +103,7 @@ class ESign::Eg035SmsDeliveryService
     cc_sms_notification = DocuSign_eSign::RecipientAdditionalNotification.new
     cc_sms_notification.phone_number=cc_phone_number
     cc_sms_notification.secondary_delivery_method = "SMS"
-  
+
     # Create a cc recipient to receive a copy of the documents
     cc1 = DocuSign_eSign::CarbonCopy.new(
       email: envelope_args[:cc_email],
@@ -124,7 +124,7 @@ class ESign::Eg035SmsDeliveryService
       anchorUnits: 'pixels',
       anchorXOffset: '20'
     )
-  
+
     sign_here2 = DocuSign_eSign::SignHere.new(
       anchorString: '/sn1/',
       anchorYOffset: '10',
@@ -136,9 +136,9 @@ class ESign::Eg035SmsDeliveryService
     signer1_tabs = DocuSign_eSign::Tabs.new({
       signHereTabs: [sign_here1, sign_here2]
     })
-  
+
     signer1.tabs = signer1_tabs
-  
+
     # Add the recipients to the envelope object
     recipients = DocuSign_eSign::Recipients.new(
       signers: [signer1],
@@ -150,7 +150,7 @@ class ESign::Eg035SmsDeliveryService
     envelope_definition.status = envelope_args[:status]
     envelope_definition
   end
-  
+
   def create_document1(args)
     "
     <!DOCTYPE html>

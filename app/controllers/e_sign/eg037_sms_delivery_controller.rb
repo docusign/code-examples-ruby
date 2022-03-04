@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ESign::Eg035SmsDeliveryController < EgController
+class ESign::Eg037SmsDeliveryController < EgController
   before_action :check_auth
 
   def create
@@ -23,7 +23,7 @@ class ESign::Eg035SmsDeliveryController < EgController
         envelope_args: envelope_args
       }
 
-      results = ESign::Eg035SmsDeliveryService.new(args).worker
+      results = ESign::Eg037SmsDeliveryService.new(args).worker
       session[:envelope_id] = results['envelope_id']
       @title = 'Envelope sent'
       @h1 = 'Envelope sent'
@@ -34,4 +34,3 @@ class ESign::Eg035SmsDeliveryController < EgController
     end
   end
 end
-  
