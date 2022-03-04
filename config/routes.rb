@@ -177,8 +177,14 @@ Rails.application.routes.draw do
       get 'eg034' => 'eg034_use_conditional_recipients#get'
       post 'eg034' => 'eg034_use_conditional_recipients#create'
 
-      get 'eg035' => 'eg035_sms_delivery#get'
-      post 'eg035' => 'eg035_sms_delivery#create'
+      get 'eg035' => 'eg035_scheduled_sending#get'
+      post 'eg035' => 'eg035_scheduled_sending#create'
+
+      get 'eg036' => 'eg036_delayed_routing#get'
+      post 'eg036' => 'eg036_delayed_routing#create'
+
+      get 'eg037' => 'eg037_sms_delivery#get'
+      post 'eg037' => 'eg037_sms_delivery#create'
     end
   end
 
