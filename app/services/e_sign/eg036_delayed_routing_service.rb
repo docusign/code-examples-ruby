@@ -114,7 +114,6 @@ class ESign::Eg036DelayedRoutingService
       action: 'pause_before',
       triggerOnItem: 'routing_order',
       itemId: 2,
-      status: 'pending',
       delayedRouting: delayed_routing
     )
     workflow = DocuSign_eSign::Workflow.new(workflowSteps: [workflow_step])
