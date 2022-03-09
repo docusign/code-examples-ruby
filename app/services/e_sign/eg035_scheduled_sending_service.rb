@@ -90,7 +90,6 @@ class ESign::Eg035ScheduledSendingService
     )
 
     scheduled_sending = DocuSign_eSign::ScheduledSendingApiModel.new(
-      status: "pending",
       rules: [rule]
     )
 
