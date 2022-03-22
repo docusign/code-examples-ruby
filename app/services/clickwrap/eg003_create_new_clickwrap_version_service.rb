@@ -23,7 +23,6 @@ class Clickwrap::Eg003CreateNewClickwrapVersionService
       downloadable: false,
       format: 'modal',
       mustRead: true,
-      mustView: false,
       requireAccept: false,
       documentDisplay: 'document',
       sendToEmail: false
