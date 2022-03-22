@@ -6,9 +6,7 @@ class ESign::Eg037SmsDeliveryController < EgController
   def create
     begin
       envelope_args = {
-        signer_email: param_gsub(params['signer_email']),
         signer_name: param_gsub(params['signer_name']),
-        cc_email: param_gsub(params['cc_email']),
         cc_name: param_gsub(params['cc_name']),
         cc_phone_number: param_gsub(params['cc_phone_number']),
         cc_country_code: param_gsub(params['cc_country_code']),
@@ -25,8 +23,8 @@ class ESign::Eg037SmsDeliveryController < EgController
 
       results = ESign::Eg037SmsDeliveryService.new(args).worker
       session[:envelope_id] = results['envelope_id']
-      @title = 'Envelope sent'
-      @h1 = 'Envelope sent'
+      @title = 'Request a signature by SMS delivery'
+      @h1 = 'Request a signature by SMS delivery'
       @message = "The envelope has been created and sent!<br/>Envelope ID #{results['envelope_id']}."
       render 'ds_common/example_done'
     rescue DocuSign_eSign::ApiError => e
