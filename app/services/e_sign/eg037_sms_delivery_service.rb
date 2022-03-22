@@ -12,18 +12,19 @@ class ESign::Eg037SmsDeliveryService
     # Create the envelope request object
     envelope_definition = make_envelope(args[:envelope_args])
 
-    # Step 3. Create and send the envelope
+    # Create and send the envelope
     # Call Envelopes::create API method
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
-
+    # Step 3 start
     results = envelope_api.create_envelope args[:account_id], envelope_definition
+    # Step 3 end
     envelope_id = results.envelope_id
     { 'envelope_id' => envelope_id }
   end
 
   private
-
+  # Step 2 start
   def make_envelope(envelope_args)
     # document 1 (HTML) has tag **signature_1**
     # document 2 (DOCX) has tag /sn1/
@@ -35,7 +36,7 @@ class ESign::Eg037SmsDeliveryService
     # The envelope will be sent first to the signer via SMS
     # After it is signed, a copy is sent to the cc person via SMS
 
-    # Step 2. Create the envelope definition
+    # Create the envelope definition
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
 
     envelope_definition.email_subject = 'Please sign this document set'
@@ -75,18 +76,13 @@ class ESign::Eg037SmsDeliveryService
     # The order in the docs array determines the order in the envelope
     envelope_definition.documents = [document1, document2, document3]
 
-    phone_number = DocuSign_eSign::RecipientPhoneNumber.new
-    phone_number.country_code=envelope_args[:country_code]
-    phone_number.number=envelope_args[:phone_number]
-
-    sms_notification = DocuSign_eSign::RecipientAdditionalNotification.new
-    sms_notification.phone_number = phone_number
-    sms_notification.secondary_delivery_method = "SMS"
+    signer_phone_number = DocuSign_eSign::RecipientPhoneNumber.new
+    signer_phone_number.country_code=envelope_args[:country_code]
+    signer_phone_number.number=envelope_args[:phone_number]
 
     # Create the signer recipient model
     signer1 = DocuSign_eSign::Signer.new
-    signer1.additional_notifications=[sms_notification]
-    signer1.email = envelope_args[:signer_email]
+    signer1.phone_number = signer_phone_number
     signer1.name = envelope_args[:signer_name]
     signer1.recipient_id = '1'
     signer1.routing_order = '1'
@@ -94,24 +90,17 @@ class ESign::Eg037SmsDeliveryService
     # to the recipients. Parallel routing order is supported by using the
     # same integer as the order for two or more recipients
 
-    # Create a RecipientPhoneNumber and add it to the additional SMS notification
     cc_phone_number = DocuSign_eSign::RecipientPhoneNumber.new
     cc_phone_number.country_code=envelope_args[:cc_country_code]
     cc_phone_number.number=envelope_args[:cc_phone_number]
 
-
-    cc_sms_notification = DocuSign_eSign::RecipientAdditionalNotification.new
-    cc_sms_notification.phone_number=cc_phone_number
-    cc_sms_notification.secondary_delivery_method = "SMS"
-
     # Create a cc recipient to receive a copy of the documents
-    cc1 = DocuSign_eSign::CarbonCopy.new(
-      email: envelope_args[:cc_email],
-      name: envelope_args[:cc_name],
-      routingOrder: '2',
-      recipientId: '2',
-      additionalNotifications: [cc_sms_notification]
-    )
+    cc1 = DocuSign_eSign::CarbonCopy.new
+    cc1.name = envelope_args[:cc_name]
+    cc1.routing_order = '2'
+    cc1.recipient_id = '2'
+    cc1.phone_number = cc_phone_number
+
     # Create signHere fields (also known as tabs) on the documents
     # We're using anchor (autoPlace) positioning
     #
@@ -165,8 +154,8 @@ color: darkblue;margin-bottom: 0;\">World Wide Corp</h1>
 margin-top: 0px;margin-bottom: 3.5em;font-size: 1em;
 color: darkblue;\">Order Processing Division</h2>
         <h4>Ordered by #{args[:signer_name]}</h4>
-        <p style=\"margin-top:0em; margin-bottom:0em;\">Email: #{args[:signer_email]}</p>
-        <p style=\"margin-top:0em; margin-bottom:0em;\">Copy to: #{args[:cc_name]}, #{args[:cc_email]}</p>
+        <p style=\"margin-top:0em; margin-bottom:0em;\">Phone number: #{args[:phone_number]}</p>
+        <p style=\"margin-top:0em; margin-bottom:0em;\">Copy to: #{args[:cc_name]}, #{args[:cc_phone_number]}</p>
         <p style=\"margin-top:3em;\">
   Candy bonbon pastry jujubes lollipop wafer biscuit biscuit. Topping brownie sesame snaps sweet roll pie. Croissant danish biscuit soufflé caramels jujubes jelly. Dragée danish caramels lemon drops dragée. Gummi bears cupcake biscuit tiramisu sugar plum pastry. Dragée gummies applicake pudding liquorice. Donut jujubes oat cake jelly-o. Dessert bear claw chocolate cake gummies lollipop sugar plum ice cream gummies cheesecake.
         </p>
@@ -175,4 +164,5 @@ color: darkblue;\">Order Processing Division</h2>
         </body>
     </html>"
   end
+  # Step 2 end
 end
