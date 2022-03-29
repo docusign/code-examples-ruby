@@ -1,0 +1,4 @@
+jwt_integration_key: {INTEGRATION_KEY_JWT}
+impersonated_user_guid: {IMPERSONATED_USER_ID}
+authorization_server: account-d.docusign.com
+pdf_filename: '../data/World_Wide_Corp_lorem.pdf'

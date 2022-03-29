@@ -10,7 +10,9 @@ class ESign::Eg002SigningViaEmailController < EgController
         signer_name: param_gsub(params['signerName']),
         cc_email: param_gsub(params['ccEmail']),
         cc_name: param_gsub(params['ccName']),
-        status: 'sent'
+        status: 'sent',
+        doc_docx: File.join('data', Rails.application.config.doc_docx),
+        doc_pdf: File.join('data', Rails.application.config.doc_pdf)
       }
       args = {
         account_id: session['ds_account_id'],

@@ -42,10 +42,8 @@ class ESign::Eg002SigningViaEmailService
     doc1_b64 = Base64.encode64(create_document1(envelope_args))
     # Read files 2 and 3 from a local directory
     # The reads could raise an exception if the file is not available!
-    doc_docx = Rails.application.config.doc_docx
-    doc2_b64 = Base64.encode64(File.binread(File.join('data', doc_docx)))
-    doc_pdf = Rails.application.config.doc_pdf
-    doc3_b64 = Base64.encode64(File.binread(File.join('data', doc_pdf)))
+    doc2_b64 = Base64.encode64(File.binread(envelope_args[:doc_docx]))
+    doc3_b64 = Base64.encode64(File.binread(envelope_args[:doc_pdf]))
 
     # Create the document models
     document1 = DocuSign_eSign::Document.new(
