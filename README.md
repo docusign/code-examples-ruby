@@ -122,6 +122,9 @@ Also, in order to select JSON Web Token authentication in the launcher, in confi
 1. From the picklist, select **JSON Web Token (JWT) grant** > **Authenticate with DocuSign**.
 1. Select your desired code example.
 
+## JWT grant remote signing project
+See [DocuSign Quickstart overview](https://developers.docusign.com/docs/esign-rest-api/quickstart/overview/) on the DocuSign Developer Center for more information on how to run the JWT grant remote signing project.
+
 
 ### Troubleshooting Windows SSL issue
 When using the Ruby launcher on a Windows machine you may get the following error:
