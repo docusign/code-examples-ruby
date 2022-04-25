@@ -185,6 +185,9 @@ Rails.application.routes.draw do
 
       get 'eg037' => 'eg037_sms_delivery#get'
       post 'eg037' => 'eg037_sms_delivery#create'
+
+      get 'eg038' => 'eg038_responsive_signing#get'
+      post 'eg038' => 'eg038_responsive_signing#create'
     end
   end
 
