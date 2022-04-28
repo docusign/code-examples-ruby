@@ -8,14 +8,14 @@ class ESign::Eg038ResponsiveSigningService
     @args = args
   end
 
-  # ***DS.snippet.0.start
+  # Step 3 start
   def worker
     ds_return_url = "#{args[:ds_ping_url]}/ds_common-return"
 
-    # Step 1. Create the envelope definition
+    # Create the envelope definition
     envelope = make_envelope(args)
 
-    # Step 2. Call DocuSign to create the envelope
+    # Call DocuSign to create the envelope
     envelope_api = create_envelope_api(args)
 
     results = envelope_api.create_envelope args[:account_id], envelope
@@ -23,7 +23,7 @@ class ESign::Eg038ResponsiveSigningService
     # Save for future use within the example launcher
     # session[:envelope_id] = envelope_id
 
-    # Step 3. Create the recipient view for the embedded signing
+    # Create the recipient view for the embedded signing
     view_request = make_recipient_view_request(args, ds_return_url)
 
     # Call the CreateRecipientView API
@@ -71,7 +71,9 @@ class ESign::Eg038ResponsiveSigningService
 
     view_request
   end
+  # Step 3 end
 
+  # Step 2 start
   def make_envelope(args)
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Example Signing Document'
@@ -125,5 +127,5 @@ class ESign::Eg038ResponsiveSigningService
                                .gsub("/l2q/", "<input data-ds-type=\"number\"/>")
 
   end
-  # ***DS.snippet.0.end
+  # Step 2 end
 end
