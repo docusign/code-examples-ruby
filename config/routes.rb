@@ -54,6 +54,8 @@ Rails.application.routes.draw do
     scope module: 'monitor_api' do
       get 'eg001' => 'eg001_get_monitoring_dataset#get'
       post 'eg001' => 'eg001_get_monitoring_dataset#create'
+      get 'eg002' => 'eg002_post_web_query#get'
+      post 'eg002' => 'eg002_post_web_query#create'
     end
   end
   constraints lambda { |req| req.session[:examples_API] == "Admin" } do
