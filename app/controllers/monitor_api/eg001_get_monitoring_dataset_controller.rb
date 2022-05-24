@@ -10,9 +10,9 @@ class MonitorApi::Eg001GetMonitoringDatasetController < EgController
 
     results = MonitorApi::Eg001GetMonitoringDatasetService.new(args).worker
 
-    @title = "Monitoring data result"
-    @h1 = "Monitoring data result"
-    @message = "Results from DataSet:GetStreamForDataset method:"
+    @title = "Get monitoring data"
+    @h1 = "Get monitoring data"
+    @message = "Results from DataSet:getStream method:"
     @json = results.to_json.to_json
 
     render 'ds_common/example_done'
