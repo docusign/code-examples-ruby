@@ -89,11 +89,11 @@ class ESign::Eg035ScheduledSendingService
     envelope_definition.recipients = recipients
 
     # Create recipientRules model
-    rule = DocuSign_eSign::EnvelopeDelayRuleApiModel.new(
+    rule = DocuSign_eSign::EnvelopeDelayRule.new(
       resumeDate: envelope_args[:resume_date].to_s
     )
 
-    scheduled_sending = DocuSign_eSign::ScheduledSendingApiModel.new(
+    scheduled_sending = DocuSign_eSign::ScheduledSending.new(
       rules: [rule]
     )
 
