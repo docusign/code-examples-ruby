@@ -66,7 +66,7 @@ group :test do
   gem 'chromedriver-helper', '~> 2.1.1'
 end
 
-gem 'docusign_esign', '~> 3.15.0'
+gem 'docusign_esign', '~> 3.17.0'
 gem 'docusign_monitor', '~> 1.1.0'
 gem 'docusign_rooms', '~> 1.2.0.rc1'
 gem 'docusign_click', '~> 1.0.0'

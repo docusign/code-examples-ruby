@@ -107,9 +107,9 @@ class ESign::Eg036DelayedRoutingService
 
     # Create recipientRules model
     delay_time = "0." + envelope_args[:delay].to_s + ":00:00";
-    rule = DocuSign_eSign::EnvelopeDelayRuleApiModel.new(delay: delay_time)
+    rule = DocuSign_eSign::EnvelopeDelayRule.new(delay: delay_time)
 
-    delayed_routing = DocuSign_eSign::DelayedRoutingApiModel.new(rules: [rule])
+    delayed_routing = DocuSign_eSign::DelayedRouting.new(rules: [rule])
 
     # Create a workflow model
     workflow_step = DocuSign_eSign::WorkflowStep.new(
