@@ -75,6 +75,12 @@ Rails.application.routes.draw do
 
       get 'eg005' => 'eg005_audit_users#get'
       post 'eg005' => 'eg005_audit_users#create'
+
+      get 'eg006' => 'eg006_get_user_profile_by_email#get'
+      post 'eg006' => 'eg006_get_user_profile_by_email#create'
+
+      get 'eg007' => 'eg007_get_user_profile_by_user_id#get'
+      post 'eg007' => 'eg007_get_user_profile_by_user_id#create'
     end
   end
   constraints lambda { |req| req.session[:examples_API] == "eSignature" } do
