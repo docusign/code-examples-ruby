@@ -21,8 +21,6 @@
     <p><a target='_blank' href='<%= :documentation %>'>Documentation</a> on using JWT Grant or Authorization Code Grant from a Ruby on Rails application.</p>
     <% end %>
 
-    <h2>DocuSign Admin API Code Examples</h2>
-
     <h4 id="create_active_esignature_user">1. <a href="eg001">Create a new active eSignature user</a></h4>
     <p>
     Demonstrates how to create a new eSignature user and activate their account automatically.</p>
@@ -84,6 +82,22 @@
       <a target="_blank" rel="noopener noreferrer"
         href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/esignusermanagement/getuserprofiles/">eSignUserManagement:getUserProfiles</a>
    </p>
+
+    <h4 id="get_user_ds_profiles_by_email">6. <a href="eg006">Retrieve the user's DocuSign profile using an email address</a></h4>
+    <p>Demonstrates how to obtain the user’s DocuSign profile information across all DocuSign accounts by specifying the user’s email address.</p>
+
+    <p>API method used:
+      <a target="_blank" rel='noopener noreferrer'
+        href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getuserdsprofilesbyemail/">MultiProductUserManagement:getUserDSProfilesByEmail</a>
+    </p>
+
+    <h4 id="eg007_get_user_profile_by_user_id">7. <a href="eg007">Retrieve the user's DocuSign profile using a User ID</a></h4>
+    <p>Demonstrates how to obtain the user’s DocuSign profile information across all DocuSign accounts by specifying the user’s User ID.</p>
+
+    <p>API method used:
+      <a target="_blank" rel='noopener noreferrer'
+        href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getuserdsprofile/">MultiProductUserManagement:getUserDSProfile</a>
+    </p>
 
   </div>
   <!-- anchor-js is only for the index page -->
