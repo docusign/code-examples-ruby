@@ -21,7 +21,7 @@ class MonitorApi::Eg002PostWebQueryService
     @response = monitor_api.post_web_query(args[:data_set_name], args[:version], get_query)
 
     # step 3 end
-    
+
     Rails.logger.info "Responses for loops are displayed here. Only the final loop is displayed on the response page"
     Rails.logger.info @response.inspect
 
@@ -45,7 +45,7 @@ class MonitorApi::Eg002PostWebQueryService
       "aggregations": [
         {
           "aggregationName": "Raw",
-          "limit": "1",
+          "limit": "100",
           "orderby": [
             "Timestamp, desc"
           ]
