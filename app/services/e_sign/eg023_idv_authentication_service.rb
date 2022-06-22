@@ -9,7 +9,7 @@ class ESign::Eg023IdvAuthenticationService
   end
 
   def worker
-    # ***DS.snippet.0.start
+    envelope_args = args[:envelope_args]
 
     # Step 3. Obtain your workflow ID
     accounts_api = create_account_api(args)
@@ -88,7 +88,6 @@ class ESign::Eg023IdvAuthenticationService
     results = envelope_api.create_envelope args[:account_id], envelope_definition
     # Step 5 end
 
-    session[:envelope_id] = results.envelope_id
     results
   end
 end
