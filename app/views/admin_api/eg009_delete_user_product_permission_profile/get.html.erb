@@ -1,0 +1,37 @@
+<h4>9. Delete user product permission profiles using an email address</h4>
+<p>Demonstrates how to list and delete DocuSign Admin user product permission profiles.</p>
+
+<p>
+  API methods used:
+  <a target="_blank" href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getuserproductpermissionprofilesbyemail/">MultiProductUserManagement:getUserProductPermissionProfilesByEmail</a>,
+  <a target="_blank" href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/removeuserproductpermission/">MultiProductUserManagement:removeUserProductPermission</a>.
+</p>
+
+<p>
+  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
+</p>
+<% if @email_ok %>
+  <p>Delete user product permission profile for the following email: <b><%= @email %></b></p>
+
+  <form class="eg" action="" method="post" data-busy="form">
+      <% if @permission_profile_list.present? %>
+          <div class="form-group">
+          <label for="starting_view">Choose which product permission profile you would like to delete</label>
+          <%= select_tag "product_id", options_for_select(@permission_profile_list.map { |obj| [obj['permission_name'], obj['product_id']] }), { :class => 'form-control' } %>
+          </div>
+      <% else %>
+          <div class="form-group">
+          <p>Problem: Please first create an eSignature permission profile.</a>
+              </br>Thank you.</p>
+          </div>
+      <% end %>
+      <button type="submit" class="btn btn-docu">Submit</button>
+  </form>
+<% else %>
+  <p>Problem: You do not have the user to change permissions for. Go to <a href="eg002">example 2</a> and create one.
+    </br>Thank you.</p>
+
+  <form class="eg" action="eg002" method="get">
+    <button type="submit" class="btn btn-docu">Continue</button>
+  </form>
+<% end %>
