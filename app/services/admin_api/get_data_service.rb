@@ -45,6 +45,20 @@ class AdminApi::GetDataService
       return response
     end
 
+    def check_user_exists_by_email(email)
+      worker
+      users_api = DocuSign_Admin::UsersApi.new(@api_client)
+      options = DocuSign_Admin::GetUsersOptions.new()
+      options.email = email
+      response = users_api.get_users(args[:organization_id], options)
+
+      if response.users.length == 0 || response.users[0].user_status == "closed"
+        return false
+      end
+
+      return true
+    end
+
     private
 
     def worker

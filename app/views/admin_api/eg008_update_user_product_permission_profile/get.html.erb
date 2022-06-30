@@ -1,0 +1,73 @@
+<h4>8. Update user product permission profiles using an email address</h4>
+<p>Demonstrates how to update user product permission profiles. There may only be one permission profile assigned to a user per product.</p>
+
+<p>
+  API methods used:
+  <a target='_blank' href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getproductpermissionprofiles/">MultiProductUserManagement:getProductPermissionProfiles</a>,
+  <a target="_blank" href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/adduserproductpermissionprofilesbyemail/">MultiProductUserManagement:addUserProductPermissionProfilesByEmail</a>.
+</p>
+
+<p>
+  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
+</p>
+
+<% if @email_ok %>
+  <p>Update user product permission profile for the following email: <b><%= @email %></b></p>
+
+  <form class="eg" action="" method="post" data-busy="form">
+    <div class="form-group">
+    <label for="starting_view">Choose a product for which you want to update the permission profile</label>
+    <%= select_tag "product_id", options_for_select(@product_list.map { |obj| [obj['product_name'], obj['product_id']] }), { :class => 'form-control' } %>
+    </div>
+
+    <% if @clm_permission_profiles.present? %>
+      <div class="form-group" id="clm-profiles">
+      <label for="starting_view">Choose a permission profile</label>
+      <%= select_tag "clm_permission_profile_id", options_for_select(@clm_permission_profiles.map { |obj| [obj['permission_profile_name'], obj['permission_profile_id']] }), { :class => 'form-control' } %>
+      </div>
+    <% else %>
+      <div class="form-group">
+        <p>Problem: Please first create a CLM permission profile.</a>
+          </br>Thank you.</p>
+      </div>
+    <% end %>
+
+    <% if @esign_permission_profiles.present? %>
+      <div class="form-group" id="esign-profiles" style="display: none">
+        <label for="starting_view">Choose a permission profile</label>
+        <%= select_tag "esign_permission_profile_id", options_for_select(@esign_permission_profiles.map { |obj| [obj['permission_profile_name'], obj['permission_profile_id']] }), { :class => 'form-control' } %>
+      </div>
+    <% else %>
+      <div class="form-group">
+        <p>Problem: Please first create an eSignature permission profile.</p>
+          </br>Thank you.</p>
+      </div>
+    <% end %>
+
+      <input type="hidden" name="clm_product_id" value="<%= @clm_product_id %>">
+      <input type="hidden" name="esign_product_id" value="<%= @esign_product_id %>">
+      <button type="submit" class="btn btn-docu">Submit</button>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script type="text/javascript">
+      $(document).ready(function () {
+          $("#product_id").on("change", function () {
+              if($("#product_id option:selected" ).text() === "CLM"){
+                  $("#esign-profiles").css("display", "none")
+                  $("#clm-profiles").css("display", "block")
+              } else {
+                  $("#esign-profiles").css("display", "block")
+                  $("#clm-profiles").css("display", "none")
+              }
+          });
+      });
+  </script>
+<% else %>
+  <p>Problem: You do not have the user to change permissions for. Go to <a href="eg002">example 2</a> and create one.
+    </br>Thank you.</p>
+
+  <form class="eg" action="eg002" method="get">
+    <button type="submit" class="btn btn-docu">Continue</button>
+  </form>
+<% end %>

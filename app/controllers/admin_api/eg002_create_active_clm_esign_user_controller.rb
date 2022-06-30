@@ -21,6 +21,8 @@ class AdminApi::Eg002CreateActiveClmEsignUserController < EgController
 
         results = AdminApi::Eg002CreateActiveClmEsignUserService.new(args).worker
 
+        session[:clm_email] = params[:email]
+
         @title = "Create a new active user for CLM and eSignature"
         @h1 = "Create a new active user for CLM and eSignature"
         @message = "Results from MultiProductUserManagement::addOrUpdateUser method:"
