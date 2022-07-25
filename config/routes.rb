@@ -202,6 +202,9 @@ Rails.application.routes.draw do
 
       get 'eg038' => 'eg038_responsive_signing#get'
       post 'eg038' => 'eg038_responsive_signing#create'
+
+      get 'eg039' => 'eg039_signing_in_person#get'
+      post 'eg039' => 'eg039_signing_in_person#create'
     end
   end
 
