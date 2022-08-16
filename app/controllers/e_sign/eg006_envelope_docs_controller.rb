@@ -17,7 +17,8 @@ class ESign::Eg006EnvelopeDocsController < EgController
 
         standart_doc_items = [
           { name: 'Combined', type: 'content', document_id: 'combined' },
-          { name: 'Zip archive', type: 'zip', document_id: 'archive' }
+          { name: 'Zip archive', type: 'zip', document_id: 'archive' },
+          { name: 'PDF Portfolio', type: 'content', document_id: 'portfolio' }
         ]
 
         results = ESign::Eg006EnvelopeDocsService.new(args).worker

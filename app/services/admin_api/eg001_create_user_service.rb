@@ -17,9 +17,9 @@ class AdminApi::Eg001CreateUserService
     api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
     # Step 2 end
 
-    # Step 6 start
+    # Step 4 start
     users_api = DocuSign_Admin::UsersApi.new(api_client)
     response = users_api.create_user(args[:organization_id], user_data)
-    # Step 6 end
+    # Step 4 end
   end
 end
