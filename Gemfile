@@ -3,14 +3,14 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '~>3.0.2'
+ruby '~>3.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.4.1'
+gem 'rails', '~> 7.0.3'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4.2'
+gem 'sqlite3', '~> 1.4.4'
 # Use Puma as the app server
-gem 'puma', '~> 4.3.12'
+gem 'puma', '~> 5.6.4'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 6.0.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -23,7 +23,7 @@ gem 'coffee-rails', '~> 5.0.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5.2.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.10.0'
+gem 'jbuilder', '~> 2.11.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
@@ -49,8 +49,8 @@ end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'listen', '~> 3.7.0'
-  gem 'web-console', '~> 4.0.1'
+  gem 'listen', '~> 3.7.1'
+  gem 'web-console', '~> 4.2.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'pry-nav', '~> 0.3.0'
   gem 'pry-rails', '~> 0.3.9'
@@ -63,7 +63,7 @@ group :test do
   gem 'capybara', '~> 3.31.0'
   gem 'selenium-webdriver', '~> 3.142.7'
   # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper', '~> 2.1.1'
+  gem 'chromedriver-helper', '~> 1.2.0'
 end
 
 gem 'docusign_esign', '~> 3.17.0'
@@ -75,5 +75,7 @@ gem 'omniauth-oauth2', '~> 1.7.1'
 gem 'omniauth-rails_csrf_protection'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', '~> 1.2019.3', platforms: %i[mingw mswin x64_mingw jruby]
+gem 'tzinfo-data', '~> 1.2022.1', '>= 1.2022.1'
 gem 'wdm', '>= 0.1.0', platforms: %i[mingw mswin x64_mingw]
+
+gem "matrix", "~> 0.4.2"
