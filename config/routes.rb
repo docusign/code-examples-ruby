@@ -205,6 +205,9 @@ Rails.application.routes.draw do
 
       get 'eg039' => 'eg039_signing_in_person#get'
       post 'eg039' => 'eg039_signing_in_person#create'
+
+      get 'eg040' => 'eg040_set_document_visibility#get'
+      post 'eg040' => 'eg040_set_document_visibility#create'
     end
   end
 
