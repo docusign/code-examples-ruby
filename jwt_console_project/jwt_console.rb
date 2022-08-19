@@ -2,7 +2,7 @@ require 'bundler/inline'
 
 gemfile do
   source 'https://rubygems.org'
-  gem 'docusign_esign',' ~> 3.15.0'
+  gem 'docusign_esign',' ~> 3.17.0'
 end
 
 class ESign
@@ -22,10 +22,10 @@ def load_config_data
   begin
     config_file_contents = File.read(config_file_path)
   rescue Errno::ENOENT
-    $stderr.puts "missing config file"
+    $stderr.puts "Missing config file"
     raise
   end
-  YAML.load(config_file_contents)
+  YAML.unsafe_load(config_file_contents)
 end
 
 def get_consent
