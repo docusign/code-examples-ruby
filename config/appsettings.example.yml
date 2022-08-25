@@ -26,7 +26,7 @@ default: &default
   allow_silent_authentication: true # A user can be silently authenticated if they have an
                                     # Active login session on another tab of the same browser
                                     # Set if you want a specific DocuSign AccountId, If false, the users default account will be used.
-  target_account_id: false # Payment gateway information is optional. It is only needed for example 14.
+  target_account_id: false # Payment gateway information is optional. It is only needed for Send a request for Accept Payments.
                            # See the PAYMENTS_INSTALLATION.md file for instructions
   gateway_account_id: {DS_PAYMENT_GATEWAY_ID} # The remainder of this file is already configured.
   demo_doc_path: demo_documents

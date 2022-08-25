@@ -27,8 +27,8 @@
 </p>
 
 <% if !@envelope_ok %>
-  <p>Problem: please first create an envelope using <a href="eg002">example 2.</a> <br/>
-    You will then need to use example 6 to create the list of documents.<br/>
+  <p>Problem: please first create an envelope using <a href="eg002">Request a signature by email (remote signing).</a> <br/>
+    You will then need to use List envelope documents to create the list of documents.<br/>
     Thank you.</p>
 
  <form class="eg" action="eg002" method="get">
@@ -36,7 +36,7 @@
  </form>
 <% elsif !@documents_ok %>
   <p>Problem: please first create a list of the envelope's documents using
-    <a href="eg006">example 6.</a> <br/>
+    <a href="eg006">List envelope documents.</a> <br/>
     Thank you.</p>
 
  <form class="eg" action="eg006" method="get">
@@ -44,7 +44,7 @@
  </form>
 <% else %>
   <p>Please choose a document.<br/>
-     The document list is from your results for example 6.</p>
+     The document list is from your results for List envelope documents.</p>
 
   <form class="eg" action="" method="post" data-busy="form-download">
     <div class="form-group">
