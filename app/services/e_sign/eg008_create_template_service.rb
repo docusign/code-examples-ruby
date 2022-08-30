@@ -48,6 +48,7 @@ class ESign::Eg008CreateTemplateService
     # Read the PDF from the disk
     # Read files 2 and 3 from a local directory
     # The reads could raise an exception if the file is not available!
+    template_name = args[:template_name]
     doc_file = 'World_Wide_Corp_fields.pdf'
     base64_file_content = Base64.encode64(File.binread(File.join('data', doc_file)))
 
