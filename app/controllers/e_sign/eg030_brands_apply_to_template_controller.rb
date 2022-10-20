@@ -3,6 +3,7 @@
 class ESign::Eg030BrandsApplyToTemplateController < EgController
   include ApiCreator
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 30) }
 
   def get
     args = {
@@ -11,7 +12,7 @@ class ESign::Eg030BrandsApplyToTemplateController < EgController
       access_token: session['ds_access_token']
     }
     accounts_api = create_account_api(args)
-    brand_lists = accounts_api.list_brands(args[:account_id], options = DocuSign_eSign::ListBrandsOptions.default)
+    brand_lists = accounts_api.list_brands(args[:account_id], DocuSign_eSign::ListBrandsOptions.default)
     @brand_names = brand_lists.brands
     super
   end
@@ -38,22 +39,21 @@ class ESign::Eg030BrandsApplyToTemplateController < EgController
           envelope_args: envelope_args
         }
 
-        results  = ESign::Eg030BrandsApplyToTemplateService.new(args).worker
+        results = ESign::Eg030BrandsApplyToTemplateService.new(args).worker
         session[:envelope_id] = results.envelope_id
 
         # Step 4. a) Call the eSignature API
         #         b) Display the JSON response
         # brand_id = results.brands[0].brand_id
-        @title = 'Applying a brand to an envelope using a template'
-        @h1 = 'Applying a brand to an envelope using a template'
-        @message = "The envelope has been created and sent!<br/>Envelope ID #{results.envelope_id}."
+        @title = @example['ExampleName']
+        @message = format_string(@example['ResultsPageText'], results.envelope_id)
         @json = results.to_json.to_json
         render 'ds_common/example_done'
-        rescue DocuSign_eSign::ApiError => e
+      rescue DocuSign_eSign::ApiError => e
         handle_error(e)
       end
     elsif !template_id
-      @title = 'Use embedded signing from template and extra doc'
+      @title = @example['ExampleName']
       @template_ok = false
     end
   end

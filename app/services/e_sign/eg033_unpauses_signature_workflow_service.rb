@@ -2,6 +2,7 @@
 
 class ESign::Eg033UnpausesSignatureWorkflowService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -27,7 +28,7 @@ class ESign::Eg033UnpausesSignatureWorkflowService
     update_options = DocuSign_eSign::UpdateOptions.new
     update_options.resend_envelope = true
 
-    result = envelopes_api.update(
+    envelopes_api.update(
       args[:accountId],
       args[:envelopeId],
       envelope_definition,

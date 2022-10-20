@@ -13,7 +13,7 @@ class RoomApi::Eg007CreateFormGroupService
     configuration.host = Rails.configuration.rooms_host
 
     api_client = DocuSign_Rooms::ApiClient.new(configuration)
-    api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
+    api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
     # Step 2 end
 
     # Step 4 start
@@ -27,9 +27,9 @@ class RoomApi::Eg007CreateFormGroupService
   def body(args)
     # Step 3 start
     DocuSign_Rooms::RoomForCreate.new(
-        {
-            name: args[:group_name]
-        }
+      {
+        name: args[:group_name]
+      }
     )
     # Step 3 end
   end

@@ -2,6 +2,7 @@
 
 class ESign::Eg012EmbeddedConsoleService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -15,9 +16,7 @@ class ESign::Eg012EmbeddedConsoleService
     view_request = DocuSign_eSign::ConsoleViewRequest.new({
                                                             returnUrl: args[:ds_return_url]
                                                           })
-    if args[:starting_view] == 'envelope' && args[:envelope_id]
-      view_request.envelope_id = args[:envelope_id]
-    end
+    view_request.envelope_id = args[:envelope_id] if args[:starting_view] == 'envelope' && args[:envelope_id]
     # Step 2. Call the API method
     envelope_api = create_envelope_api(args)
     results = envelope_api.create_console_view args[:account_id], view_request

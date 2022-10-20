@@ -2,6 +2,7 @@
 
 class ESign::Eg040SetDocumentVisibilityService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -124,14 +125,14 @@ class ESign::Eg040SetDocumentVisibilityService
     # Add the tabs model (including the sign_here tabs) to the signer
     # The Tabs object takes arrays of the different field/tab types
     signer1_tabs = DocuSign_eSign::Tabs.new({
-      signHereTabs: [sign_here1]
-    })
+                                              signHereTabs: [sign_here1]
+                                            })
 
     signer1.tabs = signer1_tabs
 
     signer2_tabs = DocuSign_eSign::Tabs.new({
-      signHereTabs: [sign_here2]
-    })
+                                              signHereTabs: [sign_here2]
+                                            })
 
     signer2.tabs = signer2_tabs
 

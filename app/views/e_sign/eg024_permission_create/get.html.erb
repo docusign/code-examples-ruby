@@ -1,20 +1,17 @@
-<h4>Creating a permission profile</a></h4>
+<%= render('partials/example_info') %>
 
-<p>
-  This code example demonstrates how to create a profile permission
-</p>
-
- <p>API method used:
-      <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/create/">AccountPermissionProfiles::create</a>.
-
-<p>
-  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-</p>
+<% form_index = 0 %>
+<% profile_index = 0 %>
 
 <form class="eg" action="" method="post" data-busy="form">
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
   <div class="form-group">
-    <label for="permission_profile_name">Creating a permission profile</label>
-    <input type="text" class="form-control" id="permission_profile_name" name="permission_profile_name" placeholder="Sample profile name" required />
+    <label for="permission_profile_name"><%= @example["Forms"][form_index]["Inputs"][profile_index]["InputName"] %></label>
+    <input type="text" class="form-control" id="permission_profile_name" name="permission_profile_name"
+           placeholder="<%= @example["Forms"][form_index]["Inputs"][profile_index]["InputPlaceholder"] %>" required />
   </div>
-  <button type="submit" class="btn btn-docu">Submit</button>
+  <%= render('partials/submit_button') %>
 </form>

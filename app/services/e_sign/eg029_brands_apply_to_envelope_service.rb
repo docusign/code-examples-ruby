@@ -2,6 +2,7 @@
 
 class ESign::Eg029BrandsApplyToEnvelopeService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -16,7 +17,7 @@ class ESign::Eg029BrandsApplyToEnvelopeService
     # Step 3: Construct your envelope JSON body
     envelope_definition = make_envelope(args[:envelope_args])
     # Step 4. Call the eSignature REST API
-    results = envelope_api.create_envelope args[:account_id], envelope_definition
+    envelope_api.create_envelope args[:account_id], envelope_definition
     # ***DS.snippet.0.end
   end
 
@@ -45,7 +46,7 @@ class ESign::Eg029BrandsApplyToEnvelopeService
     signer1 = DocuSign_eSign::Signer.new
     signer1.name = envelope_args[:signer_name]
     signer1.email = envelope_args[:signer_email]
-    signer1.role_name = 'signer' 
+    signer1.role_name = 'signer'
     signer1.note = ''
     signer1.routing_order = '1'
     signer1.status = envelope_args[:status]
@@ -54,7 +55,7 @@ class ESign::Eg029BrandsApplyToEnvelopeService
 
     sign_here1 = DocuSign_eSign::SignHere.new
     sign_here1.document_id = '1'
-    sign_here1.name ='SignHereTab'
+    sign_here1.name = 'SignHereTab'
     sign_here1.page_number = '1'
     sign_here1.recipient_id = '1'
     sign_here1.tab_label = 'SignHereTab'
@@ -63,9 +64,9 @@ class ESign::Eg029BrandsApplyToEnvelopeService
 
     # Add the tabs model (including the sign_here tabs) to the signer
     # The Tabs object wants arrays of the different field/tab types
-    signer1_tabs = DocuSign_eSign::Tabs.new ({ 
-      signHereTabs: [sign_here1]
-    })
+    signer1_tabs = DocuSign_eSign::Tabs.new({
+                                              signHereTabs: [sign_here1]
+                                            })
     signer1.tabs = signer1_tabs
 
     # Add the recipients to the envelope object

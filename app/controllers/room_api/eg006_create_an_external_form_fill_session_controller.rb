@@ -1,5 +1,6 @@
 class RoomApi::Eg006CreateAnExternalFormFillSessionController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 6) }
 
   def create
     args = {
@@ -12,9 +13,8 @@ class RoomApi::Eg006CreateAnExternalFormFillSessionController < EgController
 
     results = RoomApi::Eg006CreateAnExternalFormFillSessionService.new(args).worker
 
-    @title = "External form fill session was successfully created"
-    @h1 = "External form fill session was successfully created"
-    @message = "To fill the form navigate the following URL: <a href='${externalForm.url}'>Fill the form</a>"
+    @title = @example['ExampleName']
+    @message = @example['ResultsPageText']
     @json = results.to_json.to_json
 
     render 'ds_common/example_done'

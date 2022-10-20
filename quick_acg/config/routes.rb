@@ -4,6 +4,7 @@ require_relative '../../app/controllers/session_controller'
 require_relative '../../app/services/api_creator'
 require_relative '../../app/controllers/eg001_embedded_signing_controller'
 require_relative '../../app/services/eg001_embedded_signing_service'
+require_relative '../../app/services/utils.rb'
 
 Rails.application.routes.draw do
   root 'ds_common#index'

@@ -2,6 +2,7 @@
 
 class ESign::Eg034UseConditionalRecipientsService
   attr_reader :args, :signers
+
   include ApiCreator
 
   def initialize(args, signers)
@@ -177,7 +178,7 @@ class ESign::Eg034UseConditionalRecipientsService
     # Step 4. Call the eSignature API
     envelopes_api = DocuSign_eSign::EnvelopesApi.new(api_client)
 
-    results = envelopes_api.create_envelope(
+    envelopes_api.create_envelope(
       args[:accountId],
       envelope_definition
     )

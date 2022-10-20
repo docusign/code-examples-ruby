@@ -2,6 +2,7 @@
 
 class ESign::Eg012EmbeddedConsoleController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 12) }
 
   def create
     envelope_id = session[:envelope_id]
@@ -15,7 +16,7 @@ class ESign::Eg012EmbeddedConsoleController < EgController
         starting_view: params['starting_view'],
         ds_return_url: "#{Rails.application.config.app_url}/ds_common-return"
       }
-      
+
       results = ESign::Eg012EmbeddedConsoleService.new(args).worker
       redirect_to results['redirect_url']
     rescue DocuSign_eSign::ApiError => e

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ESign::Eg039SigningInPersonController < EgController
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 39) }
+
   def create
     minimum_buffer_min = 10
     token_ok = check_token(minimum_buffer_min)

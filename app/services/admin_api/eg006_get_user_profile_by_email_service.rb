@@ -13,7 +13,7 @@ class AdminApi::Eg006GetUserProfileByEmailService
     configuration.host = Rails.configuration.admin_host
 
     api_client = DocuSign_Admin::ApiClient.new(configuration)
-    api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
+    api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
     # Step 2 end
 
     # Step 3 start
@@ -21,7 +21,7 @@ class AdminApi::Eg006GetUserProfileByEmailService
 
     options = DocuSign_Admin::GetUserDSProfilesByEmailOptions.new
     options.email = args[:email]
-    response = users_api.get_user_ds_profiles_by_email(args[:organization_id], options)
+    users_api.get_user_ds_profiles_by_email(args[:organization_id], options)
     # Step 3 end
   end
 end

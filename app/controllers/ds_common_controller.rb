@@ -11,10 +11,12 @@ class DsCommonController < ApplicationController
 
   def handle_redirects
     if Rails.configuration.quickstart
+      @manifest = Utils::ManifestUtils.new.get_manifest(Rails.configuration.eSignManifestUrl)
+
       if session[:quickstarted].nil?
         session[:examples_API] = 'eSignature'
         session[:quickstarted] = true
-        redirect_to "/auth/docusign"
+        redirect_to '/auth/docusign'
       elsif session[:been_here].nil?
         redirect_to '/eg001'
       else
@@ -26,6 +28,8 @@ class DsCommonController < ApplicationController
   end
 
   def render_examples
+    load_corresponding_manifest
+
     if session[:examples_API].nil?
       choose_api
     elsif session[:examples_API] == 'Rooms'
@@ -42,6 +46,7 @@ class DsCommonController < ApplicationController
   end
 
   def choose_api
+    load_corresponding_manifest
     render 'ds_common/choose_api'
   end
 
@@ -61,48 +66,46 @@ class DsCommonController < ApplicationController
   end
 
   def ds_must_authenticate
-    if session[:examples_API] == 'Monitor'
-      jwt_auth
-    end
-    if Rails.configuration.quickstart and session[:been_here].nil? and session[:examples_API] == 'eSignature'
-      redirect_to "/auth/docusign"
-    end
+    load_corresponding_manifest
+
+    jwt_auth if session[:examples_API] == 'Monitor'
+    redirect_to '/auth/docusign' if Rails.configuration.quickstart && session[:been_here].nil? && (session[:examples_API] == 'eSignature')
     @title = 'Authenticate with DocuSign'
     @show_doc = Rails.application.config.documentation
 
-    if params[:auth] == 'grand-auth'
-      redirect_to "/auth/docusign"
-    elsif params[:auth] == 'jwt-auth'
+    case params[:auth]
+    when 'grand-auth'
+      redirect_to '/auth/docusign'
+    when 'jwt-auth'
       jwt_auth
     end
   end
 
   def jwt_auth
     if JwtAuth::JwtCreator.new(session).check_jwt_token
-      if session[:eg]
-        url = "/" + session[:eg]
-      else
-        url = root_path
-      end
+      url = if session[:eg]
+              "/#{session[:eg]}"
+            else
+              root_path
+            end
     else
       session['omniauth.state'] = SecureRandom.hex
       url = JwtAuth::JwtCreator.consent_url(session['omniauth.state'], session['examples_API'])
-    redirect_to root_path if session[:token].present?
+      redirect_to root_path if session[:token].present?
     end
-    if session[:examples_API] == 'Rooms'
+    case session[:examples_API]
+    when 'Rooms'
       configuration = DocuSign_Rooms::Configuration.new
-      api_client = DocuSign_Rooms::ApiClient.new(configuration)
-    elsif session[:examples_API] == 'Click'
+      DocuSign_Rooms::ApiClient.new(configuration)
+    when 'Click'
       configuration = DocuSign_Click::Configuration.new
-      api_client = DocuSign_Click::ApiClient.new configuration
-    elsif session[:examples_API] == 'Admin'
+      DocuSign_Click::ApiClient.new configuration
+    when 'Admin'
       configuration = DocuSign_Admin::Configuration.new
-      api_client = DocuSign_Admin::ApiClient.new configuration
+      DocuSign_Admin::ApiClient.new configuration
     end
     resp = ::JwtAuth::JwtCreator.new(session).check_jwt_token
-    if resp.is_a? String
-      redirect_to resp
-    end
+    redirect_to resp if resp.is_a? String
     redirect_to url
   end
 
@@ -110,4 +113,23 @@ class DsCommonController < ApplicationController
 
   def error; end
 
+  private
+
+  def load_corresponding_manifest
+    manifest_url = if session[:examples_API].nil?
+                     Rails.configuration.eSignManifestUrl
+                   elsif session[:examples_API] == 'Rooms'
+                     Rails.configuration.roomsManifestUrl
+                   elsif session[:examples_API] == 'Click'
+                     Rails.configuration.clickManifestUrl
+                   elsif session[:examples_API] == 'Monitor'
+                     Rails.configuration.monitorManifestUrl
+                   elsif session[:examples_API] == 'Admin'
+                     Rails.configuration.adminManifestUrl
+                   else
+                     Rails.configuration.eSignManifestUrl
+                   end
+
+    @manifest = Utils::ManifestUtils.new.get_manifest(manifest_url)
+  end
 end

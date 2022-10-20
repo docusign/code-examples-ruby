@@ -2,6 +2,7 @@
 
 class ESign::Eg018GetEnvelopeCustomFieldDataController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 18) }
 
   def create
     envelope_id = session[:envelope_id]
@@ -14,7 +15,7 @@ class ESign::Eg018GetEnvelopeCustomFieldDataController < EgController
     }
 
     results = ESign::Eg018GetEnvelopeCustomFieldDataService.new(args).worker
-    @h1 = 'List envelopes results'
+    @title = @example['ExampleName']
     @message = 'Results from the Envelopes::listStatusChanges method:'
     @json =  results.to_json.to_json
     render 'ds_common/example_done'

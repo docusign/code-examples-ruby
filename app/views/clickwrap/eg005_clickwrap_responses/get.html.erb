@@ -1,54 +1,24 @@
-<h4>5. Get clickwrap responses</h4>
-<p>
-  Gets user responses to your clickwrap agreements.
-</p>
+<%= render('partials/example_info') %>
 
-<p>API method used:
-  <a target='_blank' href="https://developers.docusign.com/docs/click-api/reference/accounts/clickwraps/getclickwrapagreements">ClickWraps::getClickwrapAgreements</a>
-</p>
-
-<p>
-  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-</p>
+<% form_index = 0 %>
+<% click_id_index = 0 %>
+<% redirect_to1_index = 0 %>
 
 <% if session[:clickwrap_id] %>
-
-  <p>
-      First, test your clickwrap:
-  </p>
-
-  <ul>
-      <li>Log in to your developer account and select the <strong>Manage</strong> page.
-      <li>Select the <strong>Clickwraps</strong> tab.
-      <li>
-          In the list of active clickwraps, locate the one you want to test, then click 
-          the dropdown arrow to the right of <strong>COPY CODE</strong> and select <strong>Test Clickwrap</strong>.
-      </li>
-      <li>In the Test Clickwrap dialog box, click <strong>TEST CLICKWRAP</strong>.
-      <li>In the Test Your Clickwrap browser page, in the <stron>Unique ID</strong> field, enter any string, then click <strong>Test Clickwrap</strong>.
-      <li>Review your displayed clickwrap and click <strong>I AGREE</strong> (or the equivalent button you configured) to complete the test.
-  </ul>
-
-  <p>
-      Then enter the same string you used to test your clickwrap in the field below.
-  </p>
-
   <form class="eg" action="" method="post" data-busy="form">
+    <% if @example["Forms"][form_index]["FormName"] %>
+      <%= sanitize @example["Forms"][form_index]["FormName"] %>
+    <% end %>
+
     <div class="form-group">
-      <label for="client_user_id">Unique ID</label>
-      <input type="text" class="form-control" id="client_user_id"
-             name="client_user_id" required>
+      <label for="client_user_id"><%= @example["Forms"][form_index]["Inputs"][click_id_index]["InputName"] %></label>
+      <input type="text" class="form-control" id="client_user_id" name="client_user_id" required
+             placeholder="<%= @example["Forms"][form_index]["Inputs"][click_id_index]["InputPlaceholder"] %>">
     </div>
-    <button type="submit" class="btn btn-docu">Continue</button>
+    <%= render('partials/submit_button') %>
   </form>
 
 <% else %>
-
-  <p>
-    Problem: please first create a clickwrap using
-    <a href="eg001">example 1.</a>
-    <br/>
-    Thank you.
-  </p>
+  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to1_index]["RedirectText"], 'href="eg001"') %>
 
 <% end %>

@@ -1,4 +1,4 @@
-	# frozen_string_literal: true
+# frozen_string_literal: true
 
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
@@ -54,6 +54,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'pry-nav', '~> 0.3.0'
   gem 'pry-rails', '~> 0.3.9'
+  gem 'rubocop', '~> 1.36', require: false
   gem 'spring', '~> 2.1.0'
   gem 'spring-watcher-listen', '~> 2.0.1'
 end
@@ -66,11 +67,11 @@ group :test do
   gem 'chromedriver-helper', '~> 2.1.1'
 end
 
+gem 'docusign_admin', '~> 1.1.0'
+gem 'docusign_click', '~> 1.0.0'
 gem 'docusign_esign', '~> 3.17.0'
 gem 'docusign_monitor', '~> 1.1.0'
 gem 'docusign_rooms', '~> 1.2.0.rc1'
-gem 'docusign_click', '~> 1.0.0'
-gem 'docusign_admin', '~> 1.1.0'
 gem 'omniauth-oauth2', '~> 1.7.1'
 gem 'omniauth-rails_csrf_protection'
 

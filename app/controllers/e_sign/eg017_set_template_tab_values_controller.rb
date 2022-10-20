@@ -2,6 +2,7 @@
 
 class ESign::Eg017SetTemplateTabValuesController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 17) }
 
   def create
     template_id = session[:template_id]
@@ -24,7 +25,7 @@ class ESign::Eg017SetTemplateTabValuesController < EgController
       redirect_url = ESign::Eg017SetTemplateTabValuesService.new(args).worker
       redirect_to redirect_url
     elsif !template_id
-      @title = 'Use a template to send an envelope'
+      @title = @example['ExampleName']
       @template_ok = false
     end
   end

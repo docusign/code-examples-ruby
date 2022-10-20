@@ -2,6 +2,7 @@
 
 class ESign::Eg019AccessCodeAuthenticationService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -45,9 +46,9 @@ class ESign::Eg019AccessCodeAuthenticationService
 
     # Add the tabs model (including the sign_here tabs) to the signer
     # The Tabs object takes arrays of the different field/tab types
-    signer1_tabs = DocuSign_eSign::Tabs.new ({
-      signHereTabs: [sign_here1]
-    })
+    signer1_tabs = DocuSign_eSign::Tabs.new({
+                                              signHereTabs: [sign_here1]
+                                            })
     signer1.tabs = signer1_tabs
 
     # Add the recipients to the Envelope object
@@ -59,7 +60,7 @@ class ESign::Eg019AccessCodeAuthenticationService
     envelope_definition.recipients = recipients
     envelope_definition.status = envelope_args[:status]
     # Step 4. Call the eSignature REST API
-    results = envelope_api.create_envelope(args[:account_id], envelope_definition)
+    envelope_api.create_envelope(args[:account_id], envelope_definition)
     # ***DS.snippet.0.end
   end
 end

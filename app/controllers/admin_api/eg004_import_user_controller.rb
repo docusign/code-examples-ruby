@@ -1,10 +1,9 @@
 class AdminApi::Eg004ImportUserController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 4) }
 
   def create
-    if session[:organization_id].nil?
-      session[:organization_id] = AdminApi::GetDataService.new(session).get_organization_id
-    end
+    session[:organization_id] = AdminApi::GetDataService.new(session).get_organization_id if session[:organization_id].nil?
 
     file_path = File.expand_path(File.join(File.dirname(__FILE__), '../../../data/userData.csv'))
 
@@ -20,10 +19,9 @@ class AdminApi::Eg004ImportUserController < EgController
       results = AdminApi::Eg004ImportUserService.new(args).worker
       session[:import_id] = results.id
 
-      @title = 'Add users via bulk import'
-      @h1 = 'Add users via bulk import'
-      @check_status=true,
-      @message = "Results from UserImport::addBulkUserImport method:"
+      @title = @example['ExampleName']
+      @check_status = true,
+                      @message = @example['ResultsPageText']
       @json = results.to_json.to_json
       render 'ds_common/example_done'
     rescue DocuSign_Admin::ApiError => e
@@ -32,18 +30,15 @@ class AdminApi::Eg004ImportUserController < EgController
   end
 
   def check_status
-    if session[:organization_id].nil?
-      session[:organization_id] = AdminApi::GetDataService.new(session).get_organization_id
-    end
+    session[:organization_id] = AdminApi::GetDataService.new(session).get_organization_id if session[:organization_id].nil?
 
     begin
       import_id = session[:import_id]
       results = AdminApi::GetDataService.new(session).check_import_status(import_id)
 
       @status = results.status
-      @title = 'Add users via bulk import'
-      @h1 = 'Add users via bulk import'
-      @message = "Results from UserImport::getbulkuserimportrequest method:"
+      @title = @example['ExampleName']
+      @message = @example['AdditionalPage'][0]['ResultsPageText']
       @json = results.to_json.to_json
       render 'admin_api/eg004_import_user/get_status.html.erb'
     rescue DocuSign_Admin::ApiError => e

@@ -1,42 +1,43 @@
-<h4>1. Create a new eSignature user with active status</h4>
-<p>Demonstrates how to create a new eSignature user and activate their account automatically.</p>
+<%= render('partials/example_info') %>
 
-<p>
-  API methods used:
-  <a target='_blank' rel='noopener noreferrer'
-    href='https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/list/'>AccountPermissionProfiles:list</a>,
-  <a target='_blank' rel='noopener noreferrer'
-    href='https://developers.docusign.com/docs/esign-rest-api/reference/usergroups/groups/list/'>Groups:list</a>,
-  <a target='_blank' rel='noopener noreferrer'
-    href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/esignusermanagement/createuser/">eSignUserManagement:createUser</a>.
-</p>
-
-<p>
-  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-</p>
+<% form_index = 0 %>
+<% user_name_index = 0 %>
+<% first_name_index = 1 %>
+<% last_name_index = 2 %>
+<% email_index = 3 %>
+<% permission_index = 4 %>
+<% group_index = 5 %>
 
 <form class="eg" action="" method="post" data-busy="form">
-    <div class="form-group">
-        <label for="user_name">User Name</label>
-        <input type="text" class="form-control" id="user_name" name="user_name" required>
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
+  <div class="form-group">
+        <label for="user_name"><%= @example["Forms"][form_index]["Inputs"][user_name_index]["InputName"] %></label>
+        <input type="text" class="form-control" id="user_name" name="user_name" required
+               placeholder="<%= @example["Forms"][form_index]["Inputs"][user_name_index]["InputPlaceholder"] %>">
     </div>
     <div class="form-group">
-        <label for="first_name">First Name</label>
-        <input type="text" class="form-control" id="first_name" name="first_name" required>
+        <label for="first_name"><%= @example["Forms"][form_index]["Inputs"][first_name_index]["InputName"] %></label>
+        <input type="text" class="form-control" id="first_name" name="first_name" required
+               placeholder="<%= @example["Forms"][form_index]["Inputs"][first_name_index]["InputPlaceholder"] %>">
     </div>
     <div class="form-group">
-        <label for="last_name">Last Name</label>
-        <input type="text" class="form-control" id="last_name" name="last_name" required>
+        <label for="last_name"><%= @example["Forms"][form_index]["Inputs"][last_name_index]["InputName"] %></label>
+        <input type="text" class="form-control" id="last_name" name="last_name" required
+               placeholder="<%= @example["Forms"][form_index]["Inputs"][last_name_index]["InputPlaceholder"] %>">
     </div>
     <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email"><%= @example["Forms"][form_index]["Inputs"][email_index]["InputName"] %></label>
         <input type="email" class="form-control" id="email" name="email"
-            aria-describedby="emailHelp" required>
-        <small id="emailHelp" class="form-text text-muted">We will never share your email with anyone else.</small>
+               aria-describedby="emailHelp" required
+               placeholder="<%= @example["Forms"][form_index]["Inputs"][email_index]["InputPlaceholder"] %>">
+        <%= render('partials/email_will_not_be_shared') %>
     </div>
     <% if @permission_profiles.present? %>
         <div class="form-group">
-            <label for="starting_view">eSignature permission profile</label>
+            <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][permission_index]["InputName"] %></label>
             <%= select_tag "permission_profile_id", options_for_select(@permission_profiles.map { |obj| [obj.permission_profile_name, obj.permission_profile_id] }), { :class => 'form-control' } %>
         </div>
     <% else %>
@@ -47,7 +48,7 @@
     <% end %>
     <% if @groups.present? %>
         <div class="form-group">
-            <label for="starting_view">eSignature Group</label>
+            <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][group_index]["InputName"] %></label>
             <%= select_tag "group_id", options_for_select(@groups.map { |obj| [obj.group_name, obj.group_id] }), { :class => 'form-control' } %>
         </div>
     <% else %>
@@ -56,5 +57,5 @@
             <br>Thank you.</p>
         </div>
     <% end %>
-    <button type="submit" class="btn btn-docu">Submit</button>
+    <%= render('partials/submit_button') %>
 </form>

@@ -9,13 +9,13 @@ class DsCommonController < ApplicationController
   def handle_redirects
     if session[:quickstarted].nil?
       session[:quickstarted] = true
-      redirect_to "/auth/docusign"
+      redirect_to '/auth/docusign'
     else
       redirect_to '/eg001'
     end
   end
 
   def ds_must_authenticate
-    redirect_to "/auth/docusign"
+    redirect_to '/auth/docusign'
   end
 end

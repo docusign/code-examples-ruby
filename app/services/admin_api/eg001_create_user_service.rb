@@ -14,12 +14,12 @@ class AdminApi::Eg001CreateUserService
     configuration.host = Rails.configuration.admin_host
 
     api_client = DocuSign_Admin::ApiClient.new(configuration)
-    api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
+    api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
     # Step 2 end
 
     # Step 4 start
     users_api = DocuSign_Admin::UsersApi.new(api_client)
-    response = users_api.create_user(args[:organization_id], user_data)
+    users_api.create_user(args[:organization_id], user_data)
     # Step 4 end
   end
 end

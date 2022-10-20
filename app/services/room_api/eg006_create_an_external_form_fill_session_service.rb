@@ -12,14 +12,14 @@ class RoomApi::Eg006CreateAnExternalFormFillSessionService
     configuration.host = Rails.configuration.rooms_host
 
     api_client = DocuSign_Rooms::ApiClient.new(configuration)
-    api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
+    api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
 
     rooms_api = DocuSign_Rooms::ExternalFormFillSessionsApi.new(api_client)
 
     begin
       rooms_api.create_external_form_fill_session(args[:account_id], body(args))
-    rescue Exception => e
-      return
+    rescue Exception
+      nil
     end
   end
 
@@ -27,8 +27,8 @@ class RoomApi::Eg006CreateAnExternalFormFillSessionService
 
   def body(args)
     DocuSign_Rooms::ExternalFormFillSessionForCreate.new({
-       formId: args[:form_id],
-       roomId: args[:room_id]
-    })
+                                                           formId: args[:form_id],
+                                                           roomId: args[:room_id]
+                                                         })
   end
 end

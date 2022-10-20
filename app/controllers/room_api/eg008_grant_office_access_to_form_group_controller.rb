@@ -1,5 +1,6 @@
 class RoomApi::Eg008GrantOfficeAccessToFormGroupController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 8) }
 
   def create
     args = {
@@ -13,15 +14,13 @@ class RoomApi::Eg008GrantOfficeAccessToFormGroupController < EgController
     result = results.to_json.to_json
     if result['exception']
       @error_code = results[:exception]
-      @error_message = "Office may already have access to form group."
+      @error_message = 'Office may already have access to form group.'
       render 'ds_common/error'
     else
-      @title = "Granted office access to form group"
-      @h1 = "Granted office access to form group"
-      @message = "office access has been granted for the form group."
+      @title = @example['ExampleName']
+      @message = 'office access has been granted for the form group.'
       render 'ds_common/example_done'
     end
-      
   end
 
   def get

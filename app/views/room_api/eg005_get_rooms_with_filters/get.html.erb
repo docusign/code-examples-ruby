@@ -1,16 +1,24 @@
-<%=render 'room_api/eg005_get_rooms_with_filters/information' %>
+<%= render('partials/example_info') %>
+
+<% form_index = 0 %>
+<% start_index = 0 %>
+<% end_index = 1 %>
 
 <% if @rooms.count.positive? %>
 
   <form class="eg" id="data_form" action="" method="post" data-busy="form">
+    <% if @example["Forms"][form_index]["FormName"] %>
+      <%= sanitize @example["Forms"][form_index]["FormName"] %>
+    <% end %>
+
     <div class="form-group">
-      <label>Date from</label>
+      <label><%= @example["Forms"][form_index]["Inputs"][start_index]["InputName"] %></label>
       <input id="date_from" name="date_from" type="date" class="form-control" value=<%= Time.now - 10.days %> max=<%= Time.now %>>
       <br>
-      <label>Data to</label>
+      <label><%= @example["Forms"][form_index]["Inputs"][end_index]["InputName"] %></label>
       <input id="date_to" name="date_to"  type="date" class="form-control" value=<%= Time.now %> max=<%= Time.now %>>
     </div>
-    <button type="submit" class="btn btn-docu">Submit</button>
+    <%= render('partials/submit_button') %>
   </form>
 
 <% else %>

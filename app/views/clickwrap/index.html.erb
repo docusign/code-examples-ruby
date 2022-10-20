@@ -24,50 +24,32 @@
     <p><a target='_blank' href='<%= :documentation %>'>Documentation</a> on using JWT or OAuth Authorization Code Grant from a Ruby Rails application.</p>
     <% end %>
 
-    <h4 id="create_clickwrap">1. <a href="eg001">Create a clickwrap</a></h4>
-    <p>
-      Creates a clickwrap that you can embed in your website or app.
-    </p>
-    <p>
-      API methods used:
-      <a target='_blank' href="https://developers.docusign.com/docs/click-api/reference/accounts/clickwraps/createclickwrap/">ClickWraps::createClickwrap</a>
-    </p>
+    <% @manifest["Groups"].each { |group| %>
+      <h2><%=  group["Name"]  %></h2>
 
-    <h4 id="activate_clickwrap">2. <a href="eg002">Activate a clickwrap</a></h4>
-    <p>
-      Activates a new clickwrap that you have already created.
-    </p>
-    <p>
-      API methods used:
-      <a target='_blank' href="https://developers.docusign.com/docs/click-api/reference/accounts/clickwraps/updateclickwrapversion">ClickWraps::updateClickwrapVersion</a>
-    </p>
+      <% group["Examples"].each { |example| %>
+        <%   if not example["SkipLanguages"] or not example["SkipLanguages"].include? "ruby"   %>
+          <h4 id="<%= "example%03d" % example["ExampleNumber"] %>">
+            <a href="<%= "eg%03d" % example["ExampleNumber"] %>">
+              <%=   example["ExampleName"]   %>
+            </a>
+          </h4>
 
-    <h4 id="creating_new_clickwrap_version">3. <a href="eg003">Create a new clickwrap version</a></h4>
-    <p>
-      Creates a new version of a clickwrap.
-    </p>
-    <p>
-      API methods used:
-      <a target='_blank' href="https://developers.docusign.com/docs/click-api/reference/accounts/clickwraps/createclickwrapversion/">ClickWraps::createClickwrapVersion</a>
-    </p>
+          <p><%= sanitize example["ExampleDescription"] %></p>
 
-    <h4 id="getting_list_of_clickwraps">4. <a href="eg004">Get a list of clickwraps</a></h4>
-    <p>
-      Gets a list of clickwraps associated with a specific DocuSign user.
-    </p>
-    <p>
-      API methods used:
-      <a target='_blank' href="https://developers.docusign.com/docs/click-api/reference/accounts/clickwraps/getclickwraps">ClickWraps::getClickwraps</a>
-    </p>
+          <% if example["LinksToAPIMethod"].length > 1 %>
+            <%= sanitize @manifest["SupportingTexts"]["APIMethodUsedPlural"] %>
+          <% else %>
+            <%= sanitize @manifest["SupportingTexts"]["APIMethodUsed"] %>
+          <% end %>
 
-    <h4 id="getting_clickwrap_responses">5. <a href="eg005">Get clickwrap responses</a></h4>
-    <p>
-      Gets user responses to your clickwrap agreements.
-    </p>
-    <p>
-      API methods used:
-      <a target='_blank' href="https://developers.docusign.com/docs/click-api/reference/accounts/clickwraps/getclickwrapagreements">ClickWraps::getClickwrapAgreements</a>
-    </p>
+          <% example["LinksToAPIMethod"].each do |link| %>
+            <a target='_blank' href="<%= link["Path"] %>"><%= link["PathName"] %></a>
+          <% end %>
+        <%   end   %>
+        <br><br>
+      <%   } %>
+    <%  } %>
 
   </div>
   <!-- anchor-js is only for the index page -->

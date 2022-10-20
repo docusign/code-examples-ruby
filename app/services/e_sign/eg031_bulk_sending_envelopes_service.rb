@@ -2,6 +2,7 @@
 
 class ESign::Eg031BulkSendingEnvelopesService
   attr_reader :args, :signers
+
   include ApiCreator
 
   def initialize(args, signers)
@@ -23,14 +24,14 @@ class ESign::Eg031BulkSendingEnvelopesService
     bulk_envelopes_api = DocuSign_eSign::BulkEnvelopesApi.new api_client
     bulk_sending_list = create_bulk_sending_list(signers)
     bulk_list = bulk_envelopes_api.create_bulk_send_list(args[:account_id], bulk_sending_list)
-    bulk_list_id  = bulk_list.list_id
+    bulk_list_id = bulk_list.list_id
     # Step 3-1 end
 
     # Create the draft envelope
     # Step 4-1 start
     envelope_api = create_envelope_api(args)
     envelope_definition = make_envelope
-    envelope = envelope_api.create_envelope(args[:account_id], envelope_definition, options = DocuSign_eSign::CreateEnvelopeOptions.default)
+    envelope = envelope_api.create_envelope(args[:account_id], envelope_definition, DocuSign_eSign::CreateEnvelopeOptions.default)
     envelope_id = envelope.envelope_id
     # Step 4-1 end
 
@@ -56,10 +57,10 @@ class ESign::Eg031BulkSendingEnvelopesService
 
   def construct_api_headers(api_client, args)
     api_client.default_headers['Authorization'] = "Bearer #{args[:access_token]}"
-    api_client.default_headers['Content-Type'] = "application/json;charset=UTF-8"
-    api_client.default_headers['Accept'] = "application/json, text/plain, */*"
-    api_client.default_headers['Accept-Encoding'] = "gzip, deflate, br"
-    api_client.default_headers['Accept-Language'] = "en-US,en;q=0.9"
+    api_client.default_headers['Content-Type'] = 'application/json;charset=UTF-8'
+    api_client.default_headers['Accept'] = 'application/json, text/plain, */*'
+    api_client.default_headers['Accept-Encoding'] = 'gzip, deflate, br'
+    api_client.default_headers['Accept-Language'] = 'en-US,en;q=0.9'
   end
 
   # Step 3-2 start
@@ -69,7 +70,7 @@ class ESign::Eg031BulkSendingEnvelopesService
       roleName: 'signer',
       tabs: [],
       name: signers[:signer_name],
-      email: signers[:signer_email],
+      email: signers[:signer_email]
     )
 
     # Create a cc recipient to receive a copy of the documents
@@ -77,21 +78,21 @@ class ESign::Eg031BulkSendingEnvelopesService
       roleName: 'cc',
       tabs: [],
       name: signers[:cc_name],
-      email: signers[:cc_email],
+      email: signers[:cc_email]
     )
 
     recipient3 = DocuSign_eSign::BulkSendingCopyRecipient.new(
       roleName: 'signer',
       tabs: [],
       name: signers[:signer_name1],
-      email: signers[:signer_email1],
+      email: signers[:signer_email1]
     )
 
     recipient4 = DocuSign_eSign::BulkSendingCopyRecipient.new(
       roleName: 'cc',
       tabs: [],
       name: signers[:cc_name1],
-      email: signers[:cc_email1],
+      email: signers[:cc_email1]
     )
 
     # Add the recipients to the envelope object
@@ -104,24 +105,23 @@ class ESign::Eg031BulkSendingEnvelopesService
       recipients: [recipient3, recipient4],
       custom_fields: []
     )
-    bulk_copies.append(bulk_copy1,  bulk_copy2)
-    bulk_sending_list = DocuSign_eSign::BulkSendingList.new(
-      name: "sample.csv",
+    bulk_copies.append(bulk_copy1, bulk_copy2)
+    DocuSign_eSign::BulkSendingList.new(
+      name: 'sample.csv',
       bulkCopies: bulk_copies
     )
-    bulk_sending_list
   end
   # Step 3-2 end
 
   # Step 5-2 start
   def custom_fields(bulk_list_id)
     text_custom_fields = DocuSign_eSign::TextCustomField.new(
-      name:'mailingListId',
+      name: 'mailingListId',
       required: 'false',
       show: 'false',
       value: bulk_list_id
     )
-    custom_fields = DocuSign_eSign::CustomFields.new(
+    DocuSign_eSign::CustomFields.new(
       listCustomFields: [],
       textCustomFields: [text_custom_fields]
     )
@@ -142,28 +142,28 @@ class ESign::Eg031BulkSendingEnvelopesService
     doc.document_id = '2'
 
     signer = DocuSign_eSign::Signer.new(
-      name: "Multi Bulk Recipient::signer",
-      email: "multiBulkRecipients-signer@docusign.com",
-      roleName: "signer",
-      note: "",
+      name: 'Multi Bulk Recipient::signer',
+      email: 'multiBulkRecipients-signer@docusign.com',
+      roleName: 'signer',
+      note: '',
       routingOrder: 1,
-      status: "created",
-      templateAccessCodeRequired: "null",
-      deliveryMethod: "email",
-      recipientId: "1",
-      recipientType: "signer"
+      status: 'created',
+      templateAccessCodeRequired: 'null',
+      deliveryMethod: 'email',
+      recipientId: '1',
+      recipientType: 'signer'
     )
 
     cc = DocuSign_eSign::CarbonCopy.new(
-      name: "Multi Bulk Recipient::cc",
-      email: "multiBulkRecipients-cc@docusign.com",
-      roleName: "cc",
-      note: "",
+      name: 'Multi Bulk Recipient::cc',
+      email: 'multiBulkRecipients-cc@docusign.com',
+      roleName: 'cc',
+      note: '',
       routingOrder: 2,
-      status: "created",
-      deliveryMethod: "email",
-      recipientId: "2",
-      recipientType: "cc"
+      status: 'created',
+      deliveryMethod: 'email',
+      recipientId: '2',
+      recipientType: 'cc'
     )
 
     # The DocuSign platform searches throughout your envelope's documents for matching
@@ -188,10 +188,9 @@ class ESign::Eg031BulkSendingEnvelopesService
     envelope_definition.recipients = recipients
     # The order in the docs array determines the order in the envelope
     envelope_definition.documents = [doc]
-    envelope_definition.envelope_id_stamping = "true"
-    envelope_definition.status = "created"
+    envelope_definition.envelope_id_stamping = 'true'
+    envelope_definition.status = 'created'
     envelope_definition
   end
   # Step 4-2 end
-
 end

@@ -2,6 +2,7 @@
 
 class ESign::Eg038ResponsiveSigningService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -48,7 +49,7 @@ class ESign::Eg038ResponsiveSigningService
     # the DocuSign signing. It's usually better to use
     # the session mechanism of your web framework. Query parameters
     # can be changed/spoofed very easily.
-    view_request.return_url = ds_return_url + '?state=123'
+    view_request.return_url = "#{ds_return_url}?state=123"
 
     # How has your app authenticated the user? In addition to your app's
     # authentication, you can include authenticate steps from DocuSign;
@@ -90,17 +91,17 @@ class ESign::Eg038ResponsiveSigningService
     envelope_definition.documents = [doc]
     # Create a signer recipient to sign the document, identified by name and email
     # We're setting the parameters via the object creation
-    signer = DocuSign_eSign::Signer.new ({
-      email: args[:signer_email],
-      name: args[:signer_name],
-      clientUserId: args[:signer_client_id],
-      recipientId: 1,
-      role_name: "Signer"
-    })
+    signer = DocuSign_eSign::Signer.new({
+                                          email: args[:signer_email],
+                                          name: args[:signer_name],
+                                          clientUserId: args[:signer_client_id],
+                                          recipientId: 1,
+                                          role_name: 'Signer'
+                                        })
 
-    cc = DocuSign_eSign::CarbonCopy.new ({
-      email: args[:cc_email], name: args[:cc_name], recipientId: 2
-    })
+    cc = DocuSign_eSign::CarbonCopy.new({
+                                          email: args[:cc_email], name: args[:cc_name], recipientId: 2
+                                        })
 
     # Add the recipients to the envelope object
     recipients = DocuSign_eSign::Recipients.new
@@ -118,14 +119,13 @@ class ESign::Eg038ResponsiveSigningService
     doc_html = File.open(args[:doc_file]).read
     # Substitute values into the HTML
     # Substitute for: {signerName}, {signerEmail}, {ccName}, {ccEmail}
-    return doc_html.gsub('{signerName}', args[:signer_name]) \
-                               .gsub('{signerEmail}', args[:signer_email]) \
-                               .gsub('{ccName}', args[:cc_name]) \
-                               .gsub('{ccEmail}', args[:cc_email]) \
-                               .gsub("/sn1/", "<ds-signature data-ds-role=\"Signer\"/>") \
-                               .gsub("/l1q/", "<input data-ds-type=\"number\"/>") \
-                               .gsub("/l2q/", "<input data-ds-type=\"number\"/>")
-
+    doc_html.gsub('{signerName}', args[:signer_name]) \
+            .gsub('{signerEmail}', args[:signer_email]) \
+            .gsub('{ccName}', args[:cc_name]) \
+            .gsub('{ccEmail}', args[:cc_email]) \
+            .gsub('/sn1/', '<ds-signature data-ds-role="Signer"/>') \
+            .gsub('/l1q/', '<input data-ds-type="number"/>') \
+            .gsub('/l2q/', '<input data-ds-type="number"/>')
   end
   # Step 2 end
 end

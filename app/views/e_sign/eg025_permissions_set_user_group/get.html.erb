@@ -1,19 +1,16 @@
-<h4>Setting a permission profile</a></h4>
+<%= render('partials/example_info') %>
 
-<p>
-  Updates the group name and modifies, or sets, the permission profile for the group
-</p>
+<% form_index = 0 %>
+<% profile_index = 0 %>
+<% group_index = 1 %>
 
-<p>API method used:
-  <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/usergroups/groups/update/">Groups::update</a>.
-</p>
-
-<p>
-  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-</p>
 <form class="eg" action="" method="post" data-busy="form">
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
   <div class="form-group">
-    <label for="lists">Select permission profile</label>
+    <label for="lists"><%= @example["Forms"][form_index]["Inputs"][profile_index]["InputName"] %></label>
     <select id="lists" name="lists" class="form-control">
       <% @permissions_lists.each do |list| %>
         <option value="<%= list.permission_profile_id %>" selected><%= list.permission_profile_name %></option>
@@ -21,12 +18,12 @@
     </select>
   </div>
   <div class="form-group">
-    <label for="group_lists">User group</label>
+    <label for="group_lists"><%= @example["Forms"][form_index]["Inputs"][group_index]["InputName"] %></label>
      <select id="group_lists" name="group_lists" class="form-control">
       <% @group_lists.groups.each do |list| %>
         <option value="<%= list.group_id %>" selected><%= list.group_name %></option>
       <% end %>
     </select>
   </div>
-  <button type="submit" class="btn btn-docu">Submit</button>
+  <%= render('partials/submit_button') %>
 </form>

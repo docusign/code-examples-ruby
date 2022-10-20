@@ -97,14 +97,11 @@ class ESign::Eg010SendBinaryDocsService
     response = http.request(req)
     obj = JSON.parse(response.body)
 
-    if (response.code.to_i >= 200) && (response.code.to_i < 300)
-      envelope_id = obj['envelopeId']
-      { 'envelope_id' => envelope_id }
-    else
-      raise Net::HTTPError.new(response.code, response.body)
-    end
-  end
+    raise Net::HTTPError.new(response.code, response.body) unless (response.code.to_i >= 200) && (response.code.to_i < 300)
 
+    envelope_id = obj['envelopeId']
+    { 'envelope_id' => envelope_id }
+  end
 
   def make_envelope_json(envelope_args)
     # document 1 (HTML) has tag **signature_1**
@@ -163,23 +160,23 @@ class ESign::Eg010SendBinaryDocsService
     # The DocuSign platform searches throughout your envelope's documents for matching
     # anchor strings. So the sign_here_2 tab will be used in both document 2 and 3
     # since they use the same anchor string for their "signer 1" tabs.
-    sign_here1 = DocuSign_eSign::SignHere.new ({
-      anchorString: '**signature_1**',
-      anchorYOffset: '10',
-      anchorUnits: 'pixels',
-      anchorXOffset: '20'
-    })
+    sign_here1 = DocuSign_eSign::SignHere.new({
+                                                anchorString: '**signature_1**',
+                                                anchorYOffset: '10',
+                                                anchorUnits: 'pixels',
+                                                anchorXOffset: '20'
+                                              })
 
-    sign_here2 = DocuSign_eSign::SignHere.new ({
-      anchorString: '/sn1/',
-      anchorYOffset: '10',
-      anchorUnits: 'pixels',
-      anchorXOffset: '20'
-    })
+    sign_here2 = DocuSign_eSign::SignHere.new({
+                                                anchorString: '/sn1/',
+                                                anchorYOffset: '10',
+                                                anchorUnits: 'pixels',
+                                                anchorXOffset: '20'
+                                              })
     # Tabs are set per recipient/signer
-    signer1_tabs = DocuSign_eSign::Tabs.new ({
-      signHereTabs: [sign_here1, sign_here2]
-    })
+    signer1_tabs = DocuSign_eSign::Tabs.new({
+                                              signHereTabs: [sign_here1, sign_here2]
+                                            })
 
     signer1.tabs = signer1_tabs
 

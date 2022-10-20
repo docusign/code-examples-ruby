@@ -1,23 +1,19 @@
-<h4>Send an envelope to an In Person Signer</h4>
-<p>Demonstrates how to host an In Person Signing session with embedded signing.</p>
+<%= render('partials/example_info') %>
 
-<% if @show_doc %>
-  <p><a target='_blank' href='<%= @documentation %>'>Documentation</a> about this example.</p>
-<% end %>
-
-<p>API methods used:
-  <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a> and
-  <a target='_blank' href="https://https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopeviews/createrecipient/">EnvelopeViews::createRecipient</a>.
-</p>
-<p>
-  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-</p>
+<% form_index = 0 %>
+<% signer_name_index = 0 %>
 
 <form class="eg" id="data_form" action="" method="post" data-busy="form">
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
   <div class="form-group">
-    <label for="signer_name">Signer Name</label>
-    <input type="text" class="form-control" id="signer_name" placeholder="Pat Johnson" name="signer_name" required>
+    <label for="signer_name"><%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputName"] %></label>
+    <input type="text" class="form-control" id="signer_name"
+           placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputPlaceholder"] %>"
+           name="signer_name" required>
   </div>
 
-  <button type="submit" class="btn btn-docu">Submit</button>
+  <%= render('partials/submit_button') %>
 </form>

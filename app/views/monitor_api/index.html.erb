@@ -22,23 +22,32 @@
   <p><a target='_blank' href='<%= :documentation %>'>Documentation</a> on using JWT Authorization from a Ruby Rails application.</p>
   <% end %>
 
-  <h4 id="get_stream_for_dataset">1. <a href="eg001">Get monitoring data</a></h4>
-  <p>
-    Demonstrates how to get and display all of your organization’s monitoring data.
-  </p>
-  <p>
-    API method used:
-    <a target='_blank' href="https://developers.docusign.com/docs/monitor-api/reference/monitor/dataset/getstream/">DataSet:GetStream</a>
-  </p>
+  <% @manifest["Groups"].each { |group| %>
+    <h2><%=  group["Name"]  %></h2>
 
-  <h4 id="post_web_query">2. <a href="eg002">Query monitoring data with filters</a></h4>
-  <p>
-    Demonstrates how to query an organization's data based on specified filters and aggregations.
-  </p>
-  <p>
-    API method used:
-    <a target='_blank' href="https://developers.docusign.com/docs/monitor-api/reference/monitor/dataset/postwebquery/">DataSet:postWebQuery</a>.
-  </p>
+    <% group["Examples"].each { |example| %>
+      <%   if not example["SkipLanguages"] or not example["SkipLanguages"].include? "ruby"   %>
+        <h4 id="<%= "example%03d" % example["ExampleNumber"] %>">
+          <a href="<%= "eg%03d" % example["ExampleNumber"] %>">
+            <%=   example["ExampleName"]   %>
+          </a>
+        </h4>
+
+        <p><%= sanitize example["ExampleDescription"] %></p>
+
+        <% if example["LinksToAPIMethod"].length > 1 %>
+          <%= sanitize @manifest["SupportingTexts"]["APIMethodUsedPlural"] %>
+        <% else %>
+          <%= sanitize @manifest["SupportingTexts"]["APIMethodUsed"] %>
+        <% end %>
+
+        <% example["LinksToAPIMethod"].each do |link| %>
+          <a target='_blank' href="<%= link["Path"] %>"><%= link["PathName"] %></a>
+        <% end %>
+      <%   end   %>
+      <br><br>
+    <%   } %>
+  <%  } %>
 
 </div>
 <!-- anchor-js is only for the index page -->

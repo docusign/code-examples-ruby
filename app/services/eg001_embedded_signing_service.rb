@@ -2,6 +2,7 @@
 
 class Eg001EmbeddedSigningService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -29,8 +30,7 @@ class Eg001EmbeddedSigningService
     # session[:envelope_id] = envelope_id
 
     # Step 3. Create the recipient view for the embedded signing
-    view_request = make_recipient_view_request(signer_client_id, ds_return_url, ds_ping_url, signer_email, signer_name
-    )
+    view_request = make_recipient_view_request(signer_client_id, ds_return_url, ds_ping_url, signer_email, signer_name)
 
     # Call the CreateRecipientView API
     results = envelope_api.create_recipient_view args[:account_id], envelope_id, view_request
@@ -54,10 +54,10 @@ class Eg001EmbeddedSigningService
     # the DocuSign signing. It's usually better to use
     # the session mechanism of your web framework. Query parameters
     # can be changed/spoofed very easily.
-    view_request.return_url = ds_return_url + '?state=123'
+    view_request.return_url = "#{ds_return_url}?state=123"
 
     # How has your app authenticated the user? In addition to your app's
-    # authentication, you can include authenticate steps from DocuSign; 
+    # authentication, you can include authenticate steps from DocuSign;
     # e.g., SMS authentication
     view_request.authentication_method = 'none'
 
@@ -92,10 +92,10 @@ class Eg001EmbeddedSigningService
     envelope_definition.documents = [doc1]
     # Create a signer recipient to sign the document, identified by name and email
     # We're setting the parameters via the object creation
-    signer1 = DocuSign_eSign::Signer.new ({
-      email: signer_email, name: signer_name,
-      clientUserId: signer_client_id, recipientId: 1
-    })
+    signer1 = DocuSign_eSign::Signer.new({
+                                           email: signer_email, name: signer_name,
+                                           clientUserId: signer_client_id, recipientId: 1
+                                         })
     # The DocuSign platform searches throughout your envelope's documents for matching
     # anchor strings. So the sign_here_2 tab will be used in both document 2 and 3
     # since they use the same anchor string for their "signer 1" tabs.

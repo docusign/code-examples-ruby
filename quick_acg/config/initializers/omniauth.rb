@@ -15,7 +15,7 @@ OmniAuth.config.logger = Rails.logger
 # GET "/auth/docusign/callback?error=access_denied&error_message=The%20user%20did%20not%20consent%20to%20connecting%20the%20application.&state=
 # OmniAuth.config.failure_raise_out_environments = [] # defaults to: ['development']
 
-OmniAuth.config.allowed_request_methods = [:post, :get]
+OmniAuth.config.allowed_request_methods = %i[post get]
 
 config = Rails.application.config
 config.middleware.use OmniAuth::Builder do
@@ -36,17 +36,16 @@ config.middleware.use OmniAuth::Builder do
     strategy.options[:client_options].authorize_url = "#{strategy.options[:oauth_base_uri]}/oauth/auth"
     strategy.options[:client_options].user_info_url = "#{strategy.options[:oauth_base_uri]}/oauth/userinfo"
     strategy.options[:client_options].token_url = "#{strategy.options[:oauth_base_uri]}/oauth/token"
-    unless strategy.options[:allow_silent_authentication]
-      strategy.options[:authorize_params].prompt = strategy.options.prompt
-    end
+    strategy.options[:authorize_params].prompt = strategy.options.prompt unless strategy.options[:allow_silent_authentication]
     session = strategy.session
 
-    if session[:examples_API] == "Rooms"
-      strategy.options[:authorize_params].scope = "signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
-    elsif session[:examples_API] == "Click"
-      strategy.options[:authorize_params].scope = "signature click.manage click.send"
-    elsif session[:examples_API] == "Admin"
-      strategy.options[:authorize_params].scope = "signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read"
+    case session[:examples_API]
+    when 'Rooms'
+      strategy.options[:authorize_params].scope = 'signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms'
+    when 'Click'
+      strategy.options[:authorize_params].scope = 'signature click.manage click.send'
+    when 'Admin'
+      strategy.options[:authorize_params].scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read'
     end
   }
 end

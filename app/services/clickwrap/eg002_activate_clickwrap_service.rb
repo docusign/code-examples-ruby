@@ -21,7 +21,7 @@ class Clickwrap::Eg002ActivateClickwrapService
 
     # Step 4. Call the Click API
     accounts_api = DocuSign_Click::AccountsApi.new(api_client)
-    response = accounts_api.update_clickwrap_version(
+    accounts_api.update_clickwrap_version(
       args[:account_id],
       args[:clickwrap_id],
       1,

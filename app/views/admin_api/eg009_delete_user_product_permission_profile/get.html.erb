@@ -1,22 +1,18 @@
-<h4>9. Delete user product permission profiles using an email address</h4>
-<p>Demonstrates how to list and delete DocuSign Admin user product permission profiles.</p>
+<%= render('partials/example_info') %>
 
-<p>
-  API methods used:
-  <a target="_blank" href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getuserproductpermissionprofilesbyemail/">MultiProductUserManagement:getUserProductPermissionProfilesByEmail</a>,
-  <a target="_blank" href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/removeuserproductpermission/">MultiProductUserManagement:removeUserProductPermission</a>.
-</p>
+<% form_index = 0 %>
+<% product_index = 0 %>
+<% redirect_to2_index = 0 %>
 
-<p>
-  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-</p>
 <% if @email_ok %>
-  <p>Delete user product permission profile for the following email: <b><%= @email %></b></p>
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize format_string(@example["Forms"][form_index]["FormName"], @email) %>
+  <% end %>
 
   <form class="eg" action="" method="post" data-busy="form">
       <% if @permission_profile_list.present? %>
           <div class="form-group">
-          <label for="starting_view">Choose which product permission profile you would like to delete</label>
+          <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][product_index]["InputName"] %></label>
           <%= select_tag "product_id", options_for_select(@permission_profile_list.map { |obj| [obj['permission_name'], obj['product_id']] }), { :class => 'form-control' } %>
           </div>
       <% else %>
@@ -25,13 +21,12 @@
               </br>Thank you.</p>
           </div>
       <% end %>
-      <button type="submit" class="btn btn-docu">Submit</button>
+      <%= render('partials/submit_button') %>
   </form>
 <% else %>
-  <p>Problem: You do not have the user to change permissions for. Go to <a href="eg002">example 2</a> and create one.
-    </br>Thank you.</p>
+  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to2_index]["RedirectText"], 'href="eg002"') %>
 
   <form class="eg" action="eg002" method="get">
-    <button type="submit" class="btn btn-docu">Continue</button>
+    <%= render('partials/continue_button') %>
   </form>
 <% end %>

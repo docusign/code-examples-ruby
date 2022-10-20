@@ -1,24 +1,24 @@
-<%=render 'room_api/eg003_export_data_from_room/information' %>
+<%= render('partials/example_info') %>
 
+<% form_index = 0 %>
+<% room_id_index = 0 %>
+<% redirect_to1_index = 0 %>
 
 <% if @rooms.count.positive? %>
 
   <form class="eg" id="data_form" action="" method="post" data-busy="form">
+    <% if @example["Forms"][form_index]["FormName"] %>
+      <%= sanitize @example["Forms"][form_index]["FormName"] %>
+    <% end %>
+
     <div class="form-group">
-      <label for="starting_view">Rooms</label>
+      <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][room_id_index]["InputName"] %></label>
       <%= select_tag "roomId", options_for_select(@rooms.map { |obj| [obj['name'], obj['roomId']] }), {:class => 'form-control'}  %>
     </div>
 
-    <button type="submit" class="btn btn-docu">Submit</button>
+    <%= render('partials/submit_button') %>
   </form>
 
 <% else %>
-  <p>
-    Problem: you don't have any rooms. Please first create a room using
-    <a target ='_blank'  href="eg001">Create a new room</a>
-    or
-    <a target ='_blank'  href="eg002">Create room with a template</a>.
-    <br>
-    Thank you.
-  </p>
+  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to1_index]["RedirectText"], 'href="eg001"') %>
 <% end %>

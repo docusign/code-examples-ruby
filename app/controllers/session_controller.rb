@@ -3,11 +3,11 @@
 class SessionController < ApplicationController
   # GET /auth/:provider/callback
   def create
-    if session[:eg]
-      redirect_url = "/" + session[:eg]
-    else
-      redirect_url = root_path
-    end
+    redirect_url = if session[:eg]
+                     "/#{session[:eg]}"
+                   else
+                     root_path
+                   end
 
     # reset the session
     internal_destroy
@@ -57,6 +57,7 @@ class SessionController < ApplicationController
     session.delete :envelope_documents
     session.delete :template_id
     session.delete :eg
+    session.delete :manifest
   end
 
   def store_auth_hash_from_docusign_callback

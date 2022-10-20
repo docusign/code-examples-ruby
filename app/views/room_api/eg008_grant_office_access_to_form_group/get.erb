@@ -1,24 +1,28 @@
-<%= render 'room_api/eg008_grant_office_access_to_form_group/information' %>
+<%= render('partials/example_info') %>
+
+<% form_index = 0 %>
+<% office_index = 0 %>
+<% form_group_index = 1 %>
+<% redirect_to7_index = 0 %>
 
 <% if @form_groups.present? %>
   <form class="eg" id="data_form" action="" method="post" data-busy="form">
+    <% if @example["Forms"][form_index]["FormName"] %>
+      <%= sanitize @example["Forms"][form_index]["FormName"] %>
+    <% end %>
+
     <div class="form-group">
-      <label for="starting_view">Form Groups</label>
+      <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][office_index]["InputName"] %></label>
       <%= select_tag "form_group_id", options_for_select(@form_groups.map { |obj| [obj['name'], obj['formGroupId']] }), { :class => 'form-control' } %>
     </div>
     <div class="form-group">
-      <label for="starting_view">Offices</label>
+      <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][form_group_index]["InputName"] %></label>
       <%= select_tag "office_id", options_for_select(@offices.map { |obj| [obj['name'], obj['officeId']] }), { :class => 'form-control' } %>
     </div>
-    <button type="submit" class="btn btn-docu">Submit</button>
+    <%= render('partials/submit_button') %>
   </form>
 <% else %>
   <div class="form-group">
-    <p>
-      Problem: you don't have any form groups. Please first create a them using
-      <a target='_blank' href="eg007">Create form group</a>
-      <br>
-      Thank you.
-    </p>
+    <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to7_index]["RedirectText"], 'href="eg007"') %>
   </div>
 <% end %>

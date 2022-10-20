@@ -1,10 +1,9 @@
 class AdminApi::Eg003BulkExportUserDataController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 3) }
 
   def create
-    if session[:organization_id].nil?
-      session[:organization_id] = AdminApi::GetDataService.new(session).get_organization_id
-    end
+    session[:organization_id] = AdminApi::GetDataService.new(session).get_organization_id if session[:organization_id].nil?
 
     file_path = File.expand_path(File.join(File.dirname(__FILE__), '../../../data/exportedUserData.csv'))
 
@@ -23,9 +22,8 @@ class AdminApi::Eg003BulkExportUserDataController < EgController
 
       results = AdminApi::Eg003BulkExportUserDataService.new(args).worker
 
-      @title = 'Bulk-export user data'
-      @h1 = 'Bulk-export user data'
-      @message = "User data exported to #{file_path}. </br> Results from UserExport::getUserListExport method:"
+      @title = @example['ExampleName']
+      @message = format_string(@example['ResultsPageText'], file_path)
       @json = results.to_json.to_json
       render 'ds_common/example_done'
     rescue DocuSign_Admin::ApiError => e

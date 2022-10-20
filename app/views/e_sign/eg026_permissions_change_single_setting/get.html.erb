@@ -1,23 +1,20 @@
-<h4>Updating individual permission settings</a></h4>
+<%= render('partials/example_info') %>
 
-<p>
-  This code example demonstrates how to change setting in the existion permission profile.
-</p>
+<% form_index = 0 %>
+<% profile_index = 0 %>
 
- <p>API method used:
-  <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/update/">AccountPermissionProfiles::update</a>.
-</p>
-<p>
-  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-</p>
 <form class="eg" action="" method="post" data-busy="form">
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
   <div class="form-group">
-    <label for="lists">Permissions lists</label>
+    <label for="lists"><%= @example["Forms"][form_index]["Inputs"][profile_index]["InputName"] %></label>
     <select id="lists" name="lists" class="form-control">
       <% @permissions_lists.each do |list| %>
         <option value="<%= list.permission_profile_id %>" selected><%= list.permission_profile_name %></option>
       <% end %>
     </select>
   </div>
-  <button type="submit" class="btn btn-docu">Submit</button>
+  <%= render('partials/submit_button') %>
 </form>

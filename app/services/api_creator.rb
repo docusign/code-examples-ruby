@@ -19,7 +19,7 @@ module ApiCreator
     api_client.default_headers['Authorization'] = "Bearer #{args[:access_token]}"
 
     # Construct your request body
-    accounts_api = DocuSign_eSign::AccountsApi.new api_client
+    DocuSign_eSign::AccountsApi.new api_client
   end
 
   def create_template_api(args)
@@ -27,7 +27,7 @@ module ApiCreator
     configuration.host = args[:base_path]
     api_client = DocuSign_eSign::ApiClient.new configuration
     api_client.default_headers['Authorization'] = "Bearer #{args[:access_token]}"
-    templates_api = DocuSign_eSign::TemplatesApi.new api_client
+    DocuSign_eSign::TemplatesApi.new api_client
   end
 
   def create_envelope_api(args)
@@ -47,6 +47,6 @@ module ApiCreator
     configuration.host = args[:base_path]
     api_client = DocuSign_eSign::ApiClient.new configuration
     api_client.default_headers['Authorization'] = "Bearer #{args[:access_token]}"
-    group_api = DocuSign_eSign::GroupsApi.new api_client
+    DocuSign_eSign::GroupsApi.new api_client
   end
 end

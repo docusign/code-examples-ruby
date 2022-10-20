@@ -1,44 +1,46 @@
-<h4>Send an envelope with delayed routing</h4>
-<p>
-    This example demonstrates how to delay an envelope’s delivery between recipients using the delayed routing feature.
-</p>
+<%= render('partials/example_info') %>
 
-<p>
-    API method used:
-    <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
-</p>
-
-<p>
-  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-</p>
+<% form_index = 0 %>
+<% signer1_email_index = 0 %>
+<% signer1_name_index = 1 %>
+<% signer2_email_index = 2 %>
+<% signer2_name_index = 3 %>
+<% delay_index = 4 %>
 
 <form class="eg" action="" method="post" data-busy="form">
-    <div class="form-group">
-        <label for="signer1Email">Signer 1 Email</label>
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
+  <div class="form-group">
+        <label for="signer1Email"><%= @example["Forms"][form_index]["Inputs"][signer1_email_index]["InputName"] %></label>
         <input type="email" class="form-control" id="signer1Email" name="signer1Email"
-               aria-describedby="emailHelp" placeholder="pat@example.com" required
-               value="<%= @config.signer_email %>" />
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+               aria-describedby="emailHelp"
+               placeholder="<%= @example["Forms"][form_index]["Inputs"][signer1_email_index]["InputPlaceholder"] %>"
+               required value="<%= @config.signer_email %>" />
+        <%= render('partials/email_will_not_be_shared') %>
     </div>
     <div class="form-group">
-        <label for="signer1Name">Signer 1 Name</label>
-        <input type="text" class="form-control" id="signer1Name" placeholder="Pat Johnson" name="signer1Name"
-               value="<%= @config.signer_name %>" required />
+        <label for="signer1Name"><%= @example["Forms"][form_index]["Inputs"][signer1_name_index]["InputName"] %></label>
+        <input type="text" class="form-control" id="signer1Name"
+               placeholder="<%= @example["Forms"][form_index]["Inputs"][signer1_name_index]["InputPlaceholder"] %>"
+               name="signer1Name" value="<%= @config.signer_name %>" required />
     </div>
     <div class="form-group">
-        <label for="signer2Email">Signer 2 Email</label>
+        <label for="signer2Email"><%= @example["Forms"][form_index]["Inputs"][signer2_email_index]["InputName"] %></label>
         <input type="email" class="form-control" id="signer2Email" name="signer2Email"
-               aria-describedby="emailHelp" placeholder="dana@example.com" required />
+               aria-describedby="emailHelp"
+               placeholder="<%= @example["Forms"][form_index]["Inputs"][signer2_email_index]["InputPlaceholder"] %>" required />
     </div>
     <div class="form-group">
-        <label for="signer2Name">Signer 2 Name</label>
-        <input type="text" class="form-control" id="signer2Name" placeholder="Dana Paxon" name="signer2Name"
-               required />
+        <label for="signer2Name"><%= @example["Forms"][form_index]["Inputs"][signer2_name_index]["InputName"] %></label>
+        <input type="text" class="form-control" id="signer2Name"
+               placeholder="<%= @example["Forms"][form_index]["Inputs"][signer2_name_index]["InputPlaceholder"] %>"
+               name="signer2Name" required />
     </div>
     <div class="form-group">
-        <label for="delay">Delay (in hours)</label>
-        <input type="number" class="form-control" id="delay" name="delay"
-               required />
+        <label for="delay"><%= @example["Forms"][form_index]["Inputs"][delay_index]["InputName"] %></label>
+        <input type="number" class="form-control" id="delay" name="delay" required />
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+  <%= render('partials/submit_button') %>
 </form>

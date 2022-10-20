@@ -2,6 +2,7 @@
 
 class ESign::Eg030BrandsApplyToTemplateService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -16,7 +17,7 @@ class ESign::Eg030BrandsApplyToTemplateService
     # Step 3. Construct your envelope JSON body
     envelope_definition = make_envelope(args[:envelope_args])
     # Step 4. Call the eSignature REST API
-    results = envelope_api.create_envelope args[:account_id], envelope_definition
+    envelope_api.create_envelope args[:account_id], envelope_definition
     # ***DS.snippet.0.end
   end
 

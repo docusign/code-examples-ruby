@@ -2,6 +2,7 @@
 
 class ESign::Eg028BrandsCreatingService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -19,9 +20,9 @@ class ESign::Eg028BrandsCreatingService
 
     # Step 3: Construct your request body
     accounts_api = DocuSign_eSign::AccountsApi.new api_client
-    params = { brandName:  args[:brandName], defaultBrandLanguage: args[:defaultBrandLanguage] }
-    
+    params = { brandName: args[:brandName], defaultBrandLanguage: args[:defaultBrandLanguage] }
+
     # Step 4: Call the eSignature API
-    results = accounts_api.create_brand(args[:account_id], params)
+    accounts_api.create_brand(args[:account_id], params)
   end
 end

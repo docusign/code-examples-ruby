@@ -12,9 +12,7 @@ class ESign::GetDataService
     worker
 
     user_info = @api_client.get_user_info(args[:access_token])
-    unless user_info
-      raise "The user does not have access to account"
-    end
+    raise 'The user does not have access to account' unless user_info
 
     user_info.email
   end
@@ -23,9 +21,7 @@ class ESign::GetDataService
     worker
 
     user_info = @api_client.get_user_info(args[:access_token])
-    unless user_info
-      raise "The user does not have access to account"
-    end
+    raise 'The user does not have access to account' unless user_info
 
     user_info.name
   end
@@ -38,7 +34,6 @@ class ESign::GetDataService
 
     @api_client = DocuSign_eSign::ApiClient.new(configuration)
     @api_client.set_base_path(args[:base_path])
-    @api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
-
+    @api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
   end
 end

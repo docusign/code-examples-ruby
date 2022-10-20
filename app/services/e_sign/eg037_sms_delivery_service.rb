@@ -2,6 +2,7 @@
 
 class ESign::Eg037SmsDeliveryService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -24,6 +25,7 @@ class ESign::Eg037SmsDeliveryService
   end
 
   private
+
   # Step 2 start
   def make_envelope(envelope_args)
     # document 1 (HTML) has tag **signature_1**
@@ -77,8 +79,8 @@ class ESign::Eg037SmsDeliveryService
     envelope_definition.documents = [document1, document2, document3]
 
     signer_phone_number = DocuSign_eSign::RecipientPhoneNumber.new
-    signer_phone_number.country_code=envelope_args[:country_code]
-    signer_phone_number.number=envelope_args[:phone_number]
+    signer_phone_number.country_code = envelope_args[:country_code]
+    signer_phone_number.number = envelope_args[:phone_number]
 
     # Create the signer recipient model
     signer1 = DocuSign_eSign::Signer.new
@@ -91,8 +93,8 @@ class ESign::Eg037SmsDeliveryService
     # same integer as the order for two or more recipients
 
     cc_phone_number = DocuSign_eSign::RecipientPhoneNumber.new
-    cc_phone_number.country_code=envelope_args[:cc_country_code]
-    cc_phone_number.number=envelope_args[:cc_phone_number]
+    cc_phone_number.country_code = envelope_args[:cc_country_code]
+    cc_phone_number.number = envelope_args[:cc_phone_number]
 
     # Create a cc recipient to receive a copy of the documents
     cc1 = DocuSign_eSign::CarbonCopy.new
@@ -123,8 +125,8 @@ class ESign::Eg037SmsDeliveryService
     # Add the tabs model (including the sign_here tabs) to the signer
     # The Tabs object takes arrays of the different field/tab types
     signer1_tabs = DocuSign_eSign::Tabs.new({
-      signHereTabs: [sign_here1, sign_here2]
-    })
+                                              signHereTabs: [sign_here1, sign_here2]
+                                            })
 
     signer1.tabs = signer1_tabs
 

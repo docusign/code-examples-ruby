@@ -2,7 +2,7 @@
 
 class EgController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :eg_name, :set_eg, :set_meta
+  before_action :eg_name, :set_eg, :set_meta, :ensure_manifest
 
   def file_name
     "#{controller_path}_service.rb"
@@ -37,7 +37,6 @@ class EgController < ApplicationController
   end
 
   def set_meta
-
     @source_file = file_name.to_s
     @source_url = "#{Rails.application.config.github_example_url}#{@source_file}"
   end
@@ -49,13 +48,13 @@ class EgController < ApplicationController
     expires_at = session[:ds_expires_at]
     remaining_duration = expires_at.nil? ? 0 : expires_at - buffer.seconds.from_now.to_i
     if expires_at.nil?
-      Rails.logger.info "==> Token expiration is not available: fetching token"
+      Rails.logger.info '==> Token expiration is not available: fetching token'
     elsif remaining_duration.negative?
       Rails.logger.debug "==> Token is about to expire in #{time_in_words(remaining_duration)} at: #{Time.at(expires_at)}: fetching token"
     else
       Rails.logger.debug "==> Token is OK for #{time_in_words(remaining_duration)} at: #{Time.at(expires_at)}"
     end
-    remaining_duration > 0
+    remaining_duration.positive?
   end
 
   def time_in_words(duration)
@@ -63,18 +62,18 @@ class EgController < ApplicationController
   end
 
   def param_gsub(parameter)
-    parameter.gsub(/([^\w \-\@\.\,])+/, '')
+    parameter.gsub(/([^\w \-@.,])+/, '')
   end
 
   def check_auth
     minimum_buffer_min = 10
     token_ok = check_token(minimum_buffer_min)
-    unless token_ok
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation so it could be restarted automatically
-      # But since it should be rare to have a token issue here, we'll make the user re-enter the form data after authentication
-      redirect_to '/ds/mustAuthenticate'
-    end
+    return if token_ok
+
+    flash[:messages] = 'Sorry, you need to re-authenticate.'
+    # We could store the parameters of the requested operation so it could be restarted automatically
+    # But since it should be rare to have a token issue here, we'll make the user re-enter the form data after authentication
+    redirect_to '/ds/mustAuthenticate'
   end
 
   def handle_error(e)
@@ -86,5 +85,27 @@ class EgController < ApplicationController
 
   def create_source_path
     # code here
+  end
+
+  def ensure_manifest
+    manifest_url = case session[:examples_API]
+                   when 'Rooms'
+                     Rails.configuration.roomsManifestUrl
+                   when 'Click'
+                     Rails.configuration.clickManifestUrl
+                   when 'Monitor'
+                     Rails.configuration.monitorManifestUrl
+                   when 'Admin'
+                     Rails.configuration.adminManifestUrl
+                   else
+                     Rails.configuration.eSignManifestUrl
+                   end
+
+    manifest = Utils::ManifestUtils.new.get_manifest(manifest_url)
+    @manifest = manifest
+  end
+
+  def format_string(string, *args)
+    string.gsub(/\{(\d+)\}/) { |s| args[s.to_i] }
   end
 end
