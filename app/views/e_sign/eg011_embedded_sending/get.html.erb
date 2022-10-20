@@ -1,60 +1,50 @@
-<h4>Use embedded sending</h4>
-<p>An envelope will be created in draft mode. Your browser will then be redirected to
-  the DocuSign web tool where the envelope can be (optionally) updated and then sent.</p>
-<p>The envelope includes a pdf, Word, and HTML document. Anchor text
-  (<a href="https://developers.docusign.com/docs/esign-rest-api/esign101/concepts/tabs/auto-place/">AutoPlace</a>)
-  is used to position the signing fields in the documents.</p>
-<p>DocuSign recommends that you enhance your application as needed to avoid the need
-  for the embedded sender view.
-</p>
-<p>For example, if the sender view is used to optionally
-  add additional documents to the envelope, enhance your app to provide the
-  needed feature (see Request a signature using a composite template for adding additional documents programmatically).
-</p>
+<%= render('partials/example_info') %>
 
-<% if @show_doc %>
-<p><a target='_blank' href='<%= @documentation %>'>Documentation</a> about this example.</p>
-<% end %>
-
-  <p>API methods used:
-    <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a> and
-    <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopeviews/createsender/">EnvelopeViews::createSender</a>.
-  </p>
-
-  <p>
-    View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-  </p>
+<% form_index = 0 %>
+<% view_index = 0 %>
+<% signer_email_index = 1 %>
+<% signer_name_index = 2 %>
+<% cc_email_index = 3 %>
+<% cc_name_index = 4 %>
 
   <form class="eg" action="" method="post" data-busy="form">
+    <% if @example["Forms"][form_index]["FormName"] %>
+      <%= sanitize @example["Forms"][form_index]["FormName"] %>
+    <% end %>
+
     <div class="form-group">
-      <label for="starting_view">Starting View</label>
+      <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][view_index]["InputName"] %></label>
       <select id="starting_view" name="starting_view" class="form-control">
         <option value="tagging" selected>Tagging view</option>
         <option value="recipient">Recipient &amp; Documents view</option>
       </select>
     </div>
     <div class="form-group">
-      <label for="signerEmail">Signer Email</label>
+      <label for="signerEmail"><%= @example["Forms"][form_index]["Inputs"][signer_email_index]["InputName"] %></label>
       <input type="email" class="form-control" id="signerEmail" name="signerEmail"
-             aria-describedby="emailHelp" placeholder="pat@example.com" required
+             aria-describedby="emailHelp"
+             placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_email_index]["InputPlaceholder"] %>" required
              value="<%= @config.signer_email %>">
-      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      <%= render('partials/email_will_not_be_shared') %>
     </div>
     <div class="form-group">
-      <label for="signerName">Signer Name</label>
-      <input type="text" class="form-control" id="signerName" placeholder="Pat Johnson" name="signerName"
+      <label for="signerName"><%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputName"] %></label>
+      <input type="text" class="form-control" id="signerName"
+             placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputPlaceholder"] %>" name="signerName"
              value="<%= @config.signer_name %>" required>
     </div>
     <div class="form-group">
-      <label for="ccEmail">CC Email</label>
+      <label for="ccEmail"><%= @example["Forms"][form_index]["Inputs"][cc_email_index]["InputName"] %></label>
       <input type="email" class="form-control" id="ccEmail" name="ccEmail"
-             aria-describedby="emailHelp" placeholder="pat@example.com" required />
-      <small id="emailHelp" class="form-text text-muted">The email for the cc recipient must be different from the signer's email.</small>
+             aria-describedby="emailHelp"
+             placeholder="<%= @example["Forms"][form_index]["Inputs"][cc_email_index]["InputPlaceholder"] %>" required />
+      <%= render('partials/email_should_differ_from_signer') %>
     </div>
     <div class="form-group">
-      <label for="ccName">CC Name</label>
-      <input type="text" class="form-control" id="ccName" placeholder="Pat Johnson" name="ccName"
+      <label for="ccName"><%= @example["Forms"][form_index]["Inputs"][cc_name_index]["InputName"] %></label>
+      <input type="text" class="form-control" id="ccName"
+             placeholder="<%= @example["Forms"][form_index]["Inputs"][cc_name_index]["InputPlaceholder"] %>" name="ccName"
              required>
     </div>
-    <button type="submit" class="btn btn-docu">Submit</button>
+    <%= render('partials/submit_button') %>
   </form>

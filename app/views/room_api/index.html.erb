@@ -28,119 +28,33 @@
       from a Ruby Rails application.</p>
   <% end %>
 
-  <h2>Basic examples</h2>
+  <% @manifest["Groups"].each { |group| %>
+    <h2><%=  group["Name"]  %></h2>
 
-  <h4 id="create_room_with_data">1. <a href="eg001">Create room with data</a></h4>
-  <p>
-    This example creates a room.
-  </p>
-  <p>
-    API methods used:
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/reference/Roles/Roles/GetRoles">Roles::GetRoles</a>
-    and
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/code-examples/rooms-creating">Rooms::CreateRoom</a>.
-  </p>
+    <% group["Examples"].each { |example| %>
+      <%   if not example["SkipLanguages"] or not example["SkipLanguages"].include? "ruby"   %>
+        <h4 id="<%= "example%03d" % example["ExampleNumber"] %>">
+          <a href="<%= "eg%03d" % example["ExampleNumber"] %>">
+            <%=   example["ExampleName"]   %>
+          </a>
+        </h4>
 
-  <h4 id="create_room_with_a_template">2. <a href="eg002">Create room with a template</a></h4>
-  <p>
-    This code example demonstrates creating a DocuSign Room using a predefined template. If you've created a template
-    for your organization in either Rooms for Mortgage or Rooms for Real Estate, you can create rooms based on this
-    template using the Rooms API.
-  </p>
-  <p>
-    API methods used:
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/reference/Roles/Roles/GetRoles">Roles::GetRoles</a>
-    and
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/code-examples/rooms-creating-with-template">Rooms::CreateRoom</a>
-    and
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/reference/RoomTemplates/RoomTemplates/GetRoomTemplates">RoomTemplates::GetRoomTemplates</a>.
-  </p>
+        <p><%= sanitize example["ExampleDescription"] %></p>
 
-  <h4 id="export_data_from_room">3. <a href="eg003">Export data from a room</a></h4>
-  <p>
-    This code example demonstrates how to export rooms data from a
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/guides"> DocuSign Room.</a>.
-  </p>
-  <p>
-    API methods used:
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/reference/Rooms/Rooms/GetRooms">Rooms::GetRooms</a>.
-  </p>
+        <% if example["LinksToAPIMethod"].length > 1 %>
+          <%= sanitize @manifest["SupportingTexts"]["APIMethodUsedPlural"] %>
+        <% else %>
+          <%= sanitize @manifest["SupportingTexts"]["APIMethodUsed"] %>
+        <% end %>
 
-  <h4 id="add_from_to_room">4. <a href="eg004">Adding forms to a room</a></h4>
-  <p>
-    This code example demonstrates how to attach forms to a room using the Rooms API.
-  </p>
-  <p>
-    API methods used:
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/reference/Rooms/Rooms/GetRooms">Rooms::GetRooms</a>
-    and
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/reference/Forms/FormLibraries/GetFormLibraries">FormLibraries::GetFormLibraryForms</a>.
-  </p>
+        <% example["LinksToAPIMethod"].each do |link| %>
+          <a target='_blank' href="<%= link["Path"] %>"><%= link["PathName"] %></a>
+        <% end %>
+      <%   end   %>
+      <br><br>
+    <%   } %>
+  <%  } %>
 
-  <h4 id="get_rooms_with_filters">5. <a href="eg005">Get Rooms with filters</a></h4>
-  <p>
-    This code example demonstrates how to return rooms filtered by your parameters using the
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/guides">Rooms API.</a>
-    This specific code example filters for all rooms that have had their field data updated within the last 10 days, as
-    shown on the Details tab in the UI.
-  </p>
-  <p>
-    API methods used:
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/reference/Rooms/Rooms/GetRooms">Rooms::GetRooms</a>
-    and
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/code-examples/rooms-exporting-data">Rooms::CreateRoom</a>.
-  </p>
-
-  <h4 id="export_data_from_room">6. <a href="eg006">Creating an external form fill session</a></h4>
-  <p>
-    The DocuSign Rooms API offers developers the option to have users fill out forms without logging in to the Rooms UI
-    through the use of an
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/guides/forms">external form fill session.</a>
-    This code example demonstrates how to create an external form fill session using the
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/guides">Rooms API: </a>
-    the result of this code example is the URL for the form fill session, which you can embed in your integration or
-    send to the user.
-  </p>
-  <p>
-    API methods used:
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/reference/Rooms/Rooms/GetRooms">Rooms::GetRooms</a>
-    and
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/reference/Forms/FormLibraries/GetFormLibraries">FormLibraries:
-      GetFormLibraries</a> and
-    <a target='_blank' href="https://developers.docusign.com/rooms-api/reference/Forms/FormLibraries/GetFormLibraryForms">FormLibraries::GetFormLibraryForms</a>.
-  </p>
-
-  <h4 id="create_form_group">7. <a href="eg007">Creating a form group</a></h4>
-  <p>
-    Creates a new form group with the name given in the name property of the request body.
-  </p>
-  <p>
-    API methods used:
-    <a target='_blank' href="https://developers.docusign.com/docs/rooms-api/reference/forms/formgroups/createformgroup/">FormGroups::CreateFormGroup</a>.
-  </p>
-
-  <h4 id="grant_office_access_to_form_group">8. <a href="eg008">Grant office access to a form group</a></h4>
-  <p>
-    This example demonstrates how to assign an office to a form group for your DocuSign Rooms for Real Estate account.
-    Granting office access to a form group will enable you to filter which form groups are available based on that office.
-  </p>
-  <p>
-    API methods used:
-    <a href="https://developers.docusign.com/docs/rooms-api/reference/forms/formgroups/getformgroups" target="_blank">FormGroups:GetFormGroups</a>
-    and
-    <a href="https://developers.docusign.com/docs/rooms-api/reference/offices/offices/getoffices" target="_blank">Offices:GetOffices</a>
-  </p>
-
-  <h4 id="assign_form_to_form_group">9. <a href="eg009">Assign a form to a form group</a></h4>
-  <p>
-    How to assign a form to a form group for your DocuSign Rooms for Real Estate account.
-  </p>
-  <p>
-    API methods used:
-    <a href="https://developers.docusign.com/docs/rooms-api/reference/forms/formgroups/getformgroups" target="_blank">FormGroups:GetFormGroups</a>
-    and
-    <a target ='_blank' href="https://developers.docusign.com/docs/rooms-api/reference/forms/formlibraries/getformlibraries">FormLibraries::GetFormLibraryForms</a>.
-  </p>
 </div>
 <!-- anchor-js is only for the index page -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.1/anchor.min.js"></script>

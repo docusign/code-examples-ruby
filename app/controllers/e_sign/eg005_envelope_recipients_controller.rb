@@ -3,6 +3,7 @@
 class ESign::Eg005EnvelopeRecipientsController < EgController
   include ApiCreator
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 5) }
   skip_before_action :set_meta
 
   def create
@@ -19,16 +20,15 @@ class ESign::Eg005EnvelopeRecipientsController < EgController
 
       begin
         results = ESign::Eg005EnvelopeRecipientsService.new(args).worker
-        @title = 'Envelope recipients results'
-        @h1 = 'List the envelope\'s recipients and their status'
+        @title = @example['ExampleName']
         @message = 'Results from the EnvelopesRecipients::list method:'
         @json = results.to_json.to_json
         render 'ds_common/example_done'
-      rescue  DocuSign_eSign::ApiError => e
+      rescue DocuSign_eSign::ApiError => e
         handle_error(e)
       end
     elsif !envelope_id
-      @title = 'Envelope recipient information'
+      @title = @example['ExampleName']
       @envelope_ok = false
     end
   end

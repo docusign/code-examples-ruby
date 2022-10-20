@@ -2,6 +2,7 @@
 
 class ESign::Eg007EnvelopeGetDocController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 7) }
 
   def create
     envelope_id = session[:envelope_id]
@@ -25,7 +26,7 @@ class ESign::Eg007EnvelopeGetDocController < EgController
         handle_error(e)
       end
     elsif !envelope_id || !envelope_documents
-      @title = 'Download an envelope\'s document'
+      @title = @example['ExampleName']
       @envelope_ok = false
       @documents_ok = false
     end

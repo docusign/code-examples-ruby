@@ -1,50 +1,57 @@
-<h4>Request a signature by SMS delivery</h4>
-<p>
-Sends a signature request via an SMS message.
-</p>
+<%= render('partials/example_info') %>
 
-<p>API method used:
-  <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
-</p>
-
-<p>
-  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-</p>
+<% form_index = 0 %>
+<% signer_code_index = 0 %>
+<% signer_phone_index = 1 %>
+<% signer_name_index = 2 %>
+<% cc_code_index = 3 %>
+<% cc_phone_index = 4 %>
+<% cc_name_index = 5 %>
 
 <form class="eg" id="data_form" action="" method="post" data-busy="form">
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
   <div class="form-group">
-    <label for="country_code">Signer Country Code</label>
+    <label for="country_code"><%= @example["Forms"][form_index]["Inputs"][signer_code_index]["InputName"] %></label>
     <input type="tel" class="form-control" id="country_code" name="country_code"
-      aria-describedby="accessHelp" placeholder="1" required />
+           aria-describedby="accessHelp"
+           placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_code_index]["InputPlaceholder"] %>" required />
     <small id="accessHelp" class="form-text text-muted">The country code for the phone number below.</small>
   </div>
   <div class="form-group">
-    <label for="phone_number">Signer Phone Number</label>
+    <label for="phone_number"><%= @example["Forms"][form_index]["Inputs"][signer_phone_index]["InputName"] %></label>
     <input type="tel" class="form-control" id="phone_number" name="phone_number"
-      aria-describedby="accessHelp" placeholder="415-555-1212" required />
-    <small id="accessHelp" class="form-text text-muted">This phone number will receive a notification. We'll never share your phone number.</small>
+           aria-describedby="accessHelp"
+           placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_phone_index]["InputPlaceholder"] %>" required />
+    <%= render('partials/phone_will_not_be_shared') %>
   </div>
   <div class="form-group">
-    <label for="signer_name">Signer Name</label>
-    <input type="text" class="form-control" id="signer_name" placeholder="Pat Johnson" name="signer_name"
-    value="<%= @config.signer_name %>" required />
+    <label for="signer_name"><%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputName"] %></label>
+    <input type="text" class="form-control" id="signer_name"
+           placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputPlaceholder"] %>" name="signer_name"
+           value="<%= @config.signer_name %>" required />
   </div>
   <div class="form-group">
-    <label for="country_code">CC Country Code</label>
+    <label for="country_code"><%= @example["Forms"][form_index]["Inputs"][cc_code_index]["InputName"] %></label>
     <input type="tel" class="form-control" id="cc_country_code" name="cc_country_code"
-      aria-describedby="accessHelp" placeholder="1" required />
+           aria-describedby="accessHelp"
+           placeholder="<%= @example["Forms"][form_index]["Inputs"][cc_code_index]["InputPlaceholder"] %>" required />
     <small id="accessHelp" class="form-text text-muted">The country code for the phone number below.</small>
   </div>
   <div class="form-group">
-    <label for="phone_number">CC Phone Number</label>
+    <label for="phone_number"><%= @example["Forms"][form_index]["Inputs"][cc_phone_index]["InputName"] %></label>
     <input type="tel" class="form-control" id="cc_phone_number" name="cc_phone_number"
-      aria-describedby="accessHelp" placeholder="415-555-1212" required />
-    <small id="accessHelp" class="form-text text-muted">This phone number will receive a notification. We'll never share your phone number.</small>
+           aria-describedby="accessHelp"
+           placeholder="<%= @example["Forms"][form_index]["Inputs"][cc_phone_index]["InputPlaceholder"] %>" required />
+    <%= render('partials/phone_will_not_be_shared') %>
   </div>
   <div class="form-group">
-    <label for="cc_name">CC Name</label>
-    <input type="text" class="form-control" id="cc_name" placeholder="Pat Johnson" name="cc_name"
-      required />
+    <label for="cc_name"><%= @example["Forms"][form_index]["Inputs"][cc_name_index]["InputName"] %></label>
+    <input type="text" class="form-control" id="cc_name"
+           placeholder="<%= @example["Forms"][form_index]["Inputs"][cc_name_index]["InputPlaceholder"] %>" name="cc_name"
+           required />
   </div>
-  <button type="submit" class="btn btn-docu">Submit</button>
+  <%= render('partials/submit_button') %>
 </form>

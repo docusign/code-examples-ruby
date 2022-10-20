@@ -2,6 +2,7 @@
 
 class ESign::Eg003ListEnvelopesController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 3) }
 
   def create
     args = {
@@ -10,8 +11,8 @@ class ESign::Eg003ListEnvelopesController < EgController
       access_token: session[:ds_access_token]
     }
     results = ESign::Eg003ListEnvelopesService.new(args).worker
-    @h1 = 'List envelopes results'
-    @message = 'Results from the Envelopes::listStatusChanges method:'
+    @title = @example['ExampleName']
+    @message = @example['ResultsPageText']
     @json =  results.to_json.to_json
     render 'ds_common/example_done'
   end

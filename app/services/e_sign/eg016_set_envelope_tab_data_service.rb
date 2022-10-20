@@ -2,6 +2,7 @@
 
 class ESign::Eg016SetEnvelopeTabDataService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -43,7 +44,7 @@ class ESign::Eg016SetEnvelopeTabDataService
     # is included as an example of how to save/recover state information during the redirect
     # to the DocuSign signing. It's usually better to use the session mechanism
     # of your web framework. Query parameters can be changed/spoofed very easily
-    view_request.return_url = ds_return_url + '?state=123'
+    view_request.return_url = "#{ds_return_url}?state=123"
 
     # How has your app authenticated the user? In addition to your app's authentication,
     # you can include authenticate steps from DocuSign; e.g., SMS authentication
@@ -79,10 +80,10 @@ class ESign::Eg016SetEnvelopeTabDataService
     envelope_definition.documents = [doc1]
     # Create a signer recipient to sign the document, identified by name and email
     # We're setting the parameters via the object creation
-    signer1 = DocuSign_eSign::Signer.new ({
-      email: signer_email, name: signer_name,
-      clientUserId: signer_client_id, recipientId: 1
-    })
+    signer1 = DocuSign_eSign::Signer.new({
+                                           email: signer_email, name: signer_name,
+                                           clientUserId: signer_client_id, recipientId: 1
+                                         })
 
     # Step 3. Create Tabs and CustomFields
     salary = '$123,000'

@@ -2,6 +2,7 @@
 
 class ESign::Eg008CreateTemplateService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -17,7 +18,7 @@ class ESign::Eg008CreateTemplateService
     results = templates_api.list_templates(args[:account_id], options)
     created_new_template = false
 
-    if results.result_set_size.to_i > 0
+    if results.result_set_size.to_i.positive?
       template_id = results.envelope_templates[0].template_id
       results_template_name = results.envelope_templates[0].name
     else
@@ -63,9 +64,9 @@ class ESign::Eg008CreateTemplateService
 
     # Create the signer recipient model
     # Since these are role definitions, no name/email:
-    signer = DocuSign_eSign::Signer.new ({
-      'roleName' => 'signer', 'recipientId' => '1', 'routingOrder' => '1'
-    })
+    signer = DocuSign_eSign::Signer.new({
+                                          'roleName' => 'signer', 'recipientId' => '1', 'routingOrder' => '1'
+                                        })
     # Create a cc recipient to receive a copy of the documents
     cc = DocuSign_eSign::CarbonCopy.new({
                                           'roleName' => 'cc', 'recipientId' => '2', 'routingOrder' => '2'
@@ -158,7 +159,7 @@ class ESign::Eg008CreateTemplateService
     )
 
     # Top object:
-    template_request = DocuSign_eSign::EnvelopeTemplate.new(
+    DocuSign_eSign::EnvelopeTemplate.new(
       'documents' => [document],
       'name' => template_name,
       'emailSubject' => 'Please sign this document',
@@ -168,8 +169,6 @@ class ESign::Eg008CreateTemplateService
       ),
       'status' => 'created'
     )
-
-    template_request
   end
   # ***DS.snippet.0.end
 end

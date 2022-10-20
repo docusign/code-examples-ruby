@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  constraints lambda { |req| req.session[:examples_API] == "Rooms" } do
+  constraints ->(req) { req.session[:examples_API] == 'Rooms' } do
     scope module: 'room_api' do
       get 'eg001' => 'eg001_create_room_with_data#get'
       post 'eg001' => 'eg001_create_room_with_data#create'
@@ -32,7 +32,7 @@ Rails.application.routes.draw do
       post 'eg009' => 'eg009_assign_form_to_form_group#create'
     end
   end
-  constraints lambda { |req| req.session[:examples_API] == "Click" } do
+  constraints ->(req) { req.session[:examples_API] == 'Click' } do
     scope module: 'clickwrap' do
       get 'eg001' => 'eg001_create_clickwrap#get'
       post 'eg001' => 'eg001_create_clickwrap#create'
@@ -50,7 +50,7 @@ Rails.application.routes.draw do
       post 'eg005' => 'eg005_clickwrap_responses#create'
     end
   end
-  constraints lambda { |req| req.session[:examples_API] == "Monitor" } do
+  constraints ->(req) { req.session[:examples_API] == 'Monitor' } do
     scope module: 'monitor_api' do
       get 'eg001' => 'eg001_get_monitoring_dataset#get'
       post 'eg001' => 'eg001_get_monitoring_dataset#create'
@@ -58,7 +58,7 @@ Rails.application.routes.draw do
       post 'eg002' => 'eg002_post_web_query#create'
     end
   end
-  constraints lambda { |req| req.session[:examples_API] == "Admin" } do
+  constraints ->(req) { req.session[:examples_API] == 'Admin' } do
     scope module: 'admin_api' do
       get 'eg001' => 'eg001_create_user#get'
       post 'eg001' => 'eg001_create_user#create'
@@ -81,7 +81,7 @@ Rails.application.routes.draw do
 
       get 'eg007' => 'eg007_get_user_profile_by_user_id#get'
       post 'eg007' => 'eg007_get_user_profile_by_user_id#create'
-      
+
       get 'eg008' => 'eg008_update_user_product_permission_profile#get'
       post 'eg008' => 'eg008_update_user_product_permission_profile#create'
 
@@ -89,7 +89,7 @@ Rails.application.routes.draw do
       post 'eg009' => 'eg009_delete__user_product_permission_profile#create'
     end
   end
-  constraints lambda { |req| req.session[:examples_API] == "eSignature" } do
+  constraints ->(req) { req.session[:examples_API] == 'eSignature' } do
     get '/eg001' => 'eg001_embedded_signing#get'
     post '/eg001' => 'eg001_embedded_signing#create'
 

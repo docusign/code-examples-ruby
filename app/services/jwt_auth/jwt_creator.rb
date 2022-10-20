@@ -13,19 +13,13 @@ module JwtAuth
       # GET /oauth/auth
       # This endpoint is used to obtain consent and is the first step in several authentication flows.
       # https://developers.docusign.com/platform/auth/reference/obtain-consent
-      scope = "signature impersonation"
-      if examples_API == 'Rooms'
-        scope = "#{scope} dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
-      end
-      if examples_API == 'Click'
-        scope = "#{scope} click.manage click.send"
-      end
-      if examples_API == 'Admin'
-        scope = "#{scope} organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read"
-      end
+      scope = 'signature impersonation'
+      scope = "#{scope} dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms" if examples_API == 'Rooms'
+      scope = "#{scope} click.manage click.send" if examples_API == 'Click'
+      scope = "#{scope} organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read" if examples_API == 'Admin'
 
       base_uri = "#{Rails.configuration.authorization_server}/oauth/auth"
-      response_type = "code"
+      response_type = 'code'
       scopes = ERB::Util.url_encode(scope) # https://developers.docusign.com/platform/auth/reference/scopes/
       client_id = Rails.configuration.jwt_integration_key
       redirect_uri = "#{Rails.configuration.app_url}/auth/docusign/callback"
@@ -36,7 +30,7 @@ module JwtAuth
 
     def initialize(session)
       @session = session
-      scope = "signature impersonation"
+      scope = 'signature impersonation'
       @client_module = DocuSign_eSign
       if session[:examples_API] == 'Rooms'
         scope = "#{scope} dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms"
@@ -46,9 +40,7 @@ module JwtAuth
         scope = "#{scope} click.manage click.send"
         @client_module = DocuSign_Click
       end
-      if session[:examples_API] == 'Monitor'
-        @client_module = DocuSign_Monitor
-      end
+      @client_module = DocuSign_Monitor if session[:examples_API] == 'Monitor'
       if session[:examples_API] == 'Admin'
         scope = "#{scope} organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read"
         @client_module = DocuSign_Admin
@@ -65,24 +57,20 @@ module JwtAuth
         # docusign_esign: POST /oauth/token
         # This endpoint enables you to exchange an authorization code or JWT token for an access token.
         # https://developers.docusign.com/platform/auth/reference/obtain-access-token
-        token = api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk, expires_in=3600, @scope)
-      rescue OpenSSL::PKey::RSAError => exception
-        Rails.logger.error exception.inspect
-        if File.read(rsa_pk).starts_with? '{RSA_PRIVATE_KEY}'
-          fail "Please add your private RSA key to: #{rsa_pk}"
-        else
-          raise
-        end
-      rescue @client_module::ApiError => exception
-        Rails.logger.warn exception.inspect
+        token = api_client.request_jwt_user_token(Rails.configuration.jwt_integration_key, Rails.configuration.impersonated_user_guid, rsa_pk, 3600, @scope)
+      rescue OpenSSL::PKey::RSAError => e
+        Rails.logger.error e.inspect
+        raise "Please add your private RSA key to: #{rsa_pk}" if File.read(rsa_pk).starts_with? '{RSA_PRIVATE_KEY}'
 
-        if exception.response_body == nil
-          return false
-        end
+        raise
+      rescue @client_module::ApiError => e
+        Rails.logger.warn e.inspect
 
-        body = JSON.parse(exception.response_body)
+        return false if e.response_body.nil?
 
-        if body['error'] == "consent_required"
+        body = JSON.parse(e.response_body)
+
+        if body['error'] == 'consent_required'
           false
         else
           details = <<~TXT
@@ -90,7 +78,7 @@ module JwtAuth
             or https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant#troubleshooting-errors
             or try enabling `configuration.debugging = true` in the initialize method above for more logging output
           TXT
-          fail "JWT response error: `#{body}`. #{details}"
+          raise "JWT response error: `#{body}`. #{details}"
         end
       else
         update_account_info(token)

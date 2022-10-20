@@ -2,6 +2,7 @@
 
 class ESign::Eg003ListEnvelopesService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -20,6 +21,6 @@ class ESign::Eg003ListEnvelopesService
     options = DocuSign_eSign::ListStatusChangesOptions.new
     options.from_date = (Date.today - 30).strftime('%Y/%m/%d')
     # Exceptions will be caught by the calling function
-    results = envelope_api.list_status_changes args[:account_id], options
+    envelope_api.list_status_changes args[:account_id], options
   end
 end

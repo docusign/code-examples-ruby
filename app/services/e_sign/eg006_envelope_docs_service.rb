@@ -2,6 +2,7 @@
 
 class ESign::Eg006EnvelopeDocsService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -11,8 +12,7 @@ class ESign::Eg006EnvelopeDocsService
   # ***DS.snippet.0.start
   def worker
     envelope_api = create_envelope_api(args)
-    results = envelope_api.list_documents args[:account_id], args[:envelope_id]
-    results
+    envelope_api.list_documents args[:account_id], args[:envelope_id]
   end
   # ***DS.snippet.0.end
 end

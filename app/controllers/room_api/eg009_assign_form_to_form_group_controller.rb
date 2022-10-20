@@ -1,5 +1,6 @@
 class RoomApi::Eg009AssignFormToFormGroupController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 9) }
 
   def create
     args = {
@@ -13,12 +14,11 @@ class RoomApi::Eg009AssignFormToFormGroupController < EgController
     result = results.to_json.to_json
     if result['exception']
       @error_code = results[:exception]
-      @error_message = "Form may already be assigned to form group."
+      @error_message = 'Form may already be assigned to form group.'
       render 'ds_common/error'
     else
-      @title = "Assigned form to form group"
-      @h1 = "Assigned form to form group"
-      @message = "Form has been assigned to the selected form group."
+      @title = @example['ExampleName']
+      @message = 'Form has been assigned to the selected form group.'
 
       render 'ds_common/example_done'
     end

@@ -1,17 +1,18 @@
-<h4>7. Retrieve the user's DocuSign profile using a User ID</h4>
-<p>Demonstrates how to obtain the user’s DocuSign profile information across all DocuSign accounts by specifying the user’s User ID.</p>
+<%= render('partials/example_info') %>
 
-<p>API method used:
-  <a target="_blank" rel='noopener noreferrer'
-        href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getuserdsprofile/">MultiProductUserManagement:getUserDSProfile.</a>
-</p>
+<% form_index = 0 %>
+<% user_id_index = 0 %>
 
 <form class="eg" action="" method="post" data-busy="form">
-    <div class="form-group">
-        <label for="user_id">User ID</label>
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
+  <div class="form-group">
+        <label for="user_id"><%= @example["Forms"][form_index]["Inputs"][user_id_index]["InputName"] %></label>
         <input type="text" class="form-control" id="user_id" name="user_id"
-               placeholder="00000000-0000-0000-0000-000000000000" required
-               pattern="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}">
+               placeholder="<%= @example["Forms"][form_index]["Inputs"][user_id_index]["InputPlaceholder"] %>"
+               required pattern="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}">
     </div>
-    <button type="submit" class="btn btn-docu">Submit</button>
+    <%= render('partials/submit_button') %>
 </form>

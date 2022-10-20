@@ -1,5 +1,5 @@
 <div style="margin:1% 5%;">
-  <h1 class="display-4">Please Authenticate with DocuSign</h1>
+  <%= sanitize @manifest["SupportingTexts"]["LoginPage"]["LoginHeader"] %>
   <p class="lead">
     <form class="eg" action="" method="POST"  data-busy="form">
      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
@@ -10,10 +10,10 @@
           <% end %>
           <option value="jwt-auth">JSON Web Token (JWT) grant</option>
         </select><br>
-        <button class="btn btn-docu btn-lg">Authenticate with DocuSign</button>
+        <button class="btn btn-docu btn-lg"><%= @manifest["SupportingTexts"]["LoginPage"]["LoginButton"] %></button>
       </div>
     </form>
   </p>
   <hr class="my-4">
-  <p>You need to authenticate with DocuSign to continue your request.</p>
+  <p><%= @manifest["SupportingTexts"]["LoginPage"]["LoginHelperText"] %></p>
 </div>

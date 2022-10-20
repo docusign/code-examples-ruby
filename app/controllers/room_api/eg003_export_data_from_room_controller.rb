@@ -1,5 +1,6 @@
 class RoomApi::Eg003ExportDataFromRoomController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 3) }
 
   def create
     args = {
@@ -11,9 +12,8 @@ class RoomApi::Eg003ExportDataFromRoomController < EgController
 
     results = RoomApi::Eg003ExportDataFromRoomService.new(args).worker
 
-    @title = "The room data was successfully exported"
-    @h1 = "The room data was successfully exported"
-    @message = "Results from the Rooms::GetRoomFieldData method:"
+    @title = @example['ExampleName']
+    @message = @example['ResultsPageText']
     @json = results.to_json.to_json
 
     render 'ds_common/example_done'

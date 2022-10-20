@@ -13,7 +13,7 @@ class AdminApi::Eg005AuditUsersService
     configuration.host = Rails.configuration.admin_host
 
     api_client = DocuSign_Admin::ApiClient.new(configuration)
-    api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
+    api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
     # Step 2 end
 
     # Step 3 start
@@ -35,6 +35,6 @@ class AdminApi::Eg005AuditUsersService
     end
     # Step 5 end
 
-    return results
+    results
   end
 end

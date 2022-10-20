@@ -2,6 +2,7 @@
 
 class ESign::Eg022KbaAuthenticationService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -58,7 +59,7 @@ class ESign::Eg022KbaAuthenticationService
     envelope_definition.status = envelope_args[:status]
 
     # Step 4. Call the eSignature REST API
-    results = envelope_api.create_envelope args[:account_id], envelope_definition
+    envelope_api.create_envelope args[:account_id], envelope_definition
     # ***DS.snippet.0.end
   end
 end

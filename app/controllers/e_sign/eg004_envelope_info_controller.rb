@@ -2,6 +2,7 @@
 
 class ESign::Eg004EnvelopeInfoController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 4) }
 
   def create
     envelope_id = session[:envelope_id]
@@ -16,16 +17,15 @@ class ESign::Eg004EnvelopeInfoController < EgController
         }
         results = ESign::Eg004EnvelopeInfoService.new(args).worker
         # results is an object that implements ArrayAccess. Convert to a regular array:
-        @title = 'Envelope status results'
-        @h1 = 'Envelope status results'
-        @message = 'Results from the Envelopes::get method:'
-        @json = results.to_json.to_json
+        @title = @example['ExampleName']
+        @message = @example['ResultsPageText']
+        @json =  results.to_json.to_json
         render 'ds_common/example_done'
-      rescue  DocuSign_eSign::ApiError => e
+      rescue DocuSign_eSign::ApiError => e
         handle_error(e)
       end
     elsif !envelope_id
-      @title = 'Envelope information'
+      @title = @example['ExampleName']
       @envelope_ok = false
     end
   end

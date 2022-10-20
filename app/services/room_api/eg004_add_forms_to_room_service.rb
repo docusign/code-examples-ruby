@@ -12,7 +12,7 @@ class RoomApi::Eg004AddFormsToRoomService
     configuration.host = Rails.configuration.rooms_host
 
     api_client = DocuSign_Rooms::ApiClient.new(configuration)
-    api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
+    api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
 
     rooms_api = DocuSign_Rooms::RoomsApi.new(api_client)
 
@@ -21,7 +21,7 @@ class RoomApi::Eg004AddFormsToRoomService
 
   def body(form_id)
     DocuSign_Rooms::FormForAdd.new({
-        formId: form_id
-    })
+                                     formId: form_id
+                                   })
   end
 end

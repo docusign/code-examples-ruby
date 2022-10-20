@@ -2,6 +2,7 @@
 
 class ESign::Eg016SetEnvelopeTabDataController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 16) }
 
   def create
     args = {

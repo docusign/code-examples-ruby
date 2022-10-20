@@ -2,6 +2,7 @@
 
 class ESign::Eg018GetEnvelopeCustomFieldDataService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -10,6 +11,6 @@ class ESign::Eg018GetEnvelopeCustomFieldDataService
 
   def worker
     # Step 3. Call the eSignature REST API
-    results = create_envelope_api(args).list_custom_fields args[:account_id], args[:envelope_id]
+    create_envelope_api(args).list_custom_fields args[:account_id], args[:envelope_id]
   end
 end

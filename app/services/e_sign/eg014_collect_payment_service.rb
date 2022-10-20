@@ -2,6 +2,7 @@
 
 class ESign::Eg014CollectPaymentService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -32,16 +33,16 @@ class ESign::Eg014CollectPaymentService
     # recipient 1 - signer
     # recipient 2 - cc
     # The envelope will be sent first to the signer
-    # After it is signed, a copy is sent to the cc person    
+    # After it is signed, a copy is sent to the cc person
     #
     #    #################################################################
-    #    #                                                               
-    #    # NOTA BENE: This method programmatically constructs the        
-    #    #            order form. For many use cases, it would be        
-    #    #            better to create the order form as a template      
-    #    #            using the DocuSign web tool as WYSIWYG             
-    #    #            form designer.                                     
-    #    #                                                               
+    #    #
+    #    # NOTA BENE: This method programmatically constructs the
+    #    #            order form. For many use cases, it would be
+    #    #            better to create the order form as a template
+    #    #            using the DocuSign web tool as WYSIWYG
+    #    #            form designer.
+    #    #
     #    #################################################################
     #
 

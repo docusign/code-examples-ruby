@@ -2,6 +2,7 @@
 
 class ESign::Eg036DelayedRoutingService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -79,21 +80,21 @@ class ESign::Eg036DelayedRoutingService
     )
 
     sign_here2 = DocuSign_eSign::SignHere.new(
-      xPosition: "320",
-      yPosition: "175",
-      pageNumber: "1",
-      documentId: "1"
+      xPosition: '320',
+      yPosition: '175',
+      pageNumber: '1',
+      documentId: '1'
     )
 
     # Add the tabs model (including the sign_here tabs) to the signer
     # The Tabs object takes arrays of the different field/tab types
     signer1_tabs = DocuSign_eSign::Tabs.new({
-      signHereTabs: [sign_here1]
-    })
+                                              signHereTabs: [sign_here1]
+                                            })
 
     signer2_tabs = DocuSign_eSign::Tabs.new({
-      signHereTabs: [sign_here2]
-    })
+                                              signHereTabs: [sign_here2]
+                                            })
 
     signer1.tabs = signer1_tabs
     signer2.tabs = signer2_tabs
@@ -106,7 +107,7 @@ class ESign::Eg036DelayedRoutingService
     envelope_definition.recipients = recipients
 
     # Create recipientRules model
-    delay_time = "0." + envelope_args[:delay].to_s + ":00:00";
+    delay_time = "0.#{envelope_args[:delay]}:00:00"
     rule = DocuSign_eSign::EnvelopeDelayRule.new(delay: delay_time)
 
     delayed_routing = DocuSign_eSign::DelayedRouting.new(rules: [rule])

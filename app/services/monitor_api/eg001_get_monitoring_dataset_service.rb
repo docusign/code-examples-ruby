@@ -18,18 +18,18 @@ class MonitorApi::Eg001GetMonitoringDatasetService
 
     # step 3 start
     monitor_api = DocuSign_Monitor::DataSetApi.new(api_client)
-    begin 
+    begin
       @response = monitor_api.get_stream(args[:data_set_name], args[:version]).data
-      # step 3 end    
+      # step 3 end
     rescue
       # error, probalby no Monitor enabled
       @response = "Monitor not enabled"
-    else    
+    else
       Rails.logger.info "Responses for loops are displayed here. Only the final loop is displayed on the response page"
       Rails.logger.info @response.inspect
-    ensure 
+    ensure
       return @response
     end
-    
+
   end
 end

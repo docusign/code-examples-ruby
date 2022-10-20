@@ -2,6 +2,7 @@
 
 class ESign::Eg007EnvelopeGetDocService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)

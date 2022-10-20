@@ -1,29 +1,21 @@
-<h4>List an envelope's recipients and their status</h4>
-<p>List the envelope's recipients, including their current status.</p>
+<%= render('partials/example_info') %>
 
-<% if @show_doc %>
-<p><a target='_blank' href='<%= @documentation %>'>Documentation</a> about this example.</p>
-<% end %>
-
-  <p>API method used:
-    <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/enveloperecipients/list/">EnvelopeRecipients::list</a>.
-  </p>
-  <p>
-    View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-  </p>
+<% form_index = 0 %>
+<% redirect_to2_index = 0 %>
 
   <% if @envelope_ok %>
-<p>The envelope you created via Request a signature by email (remote signing) will be queried.</p>
-
 <form class="eg" action="" method="post" data-busy="form">
-  <button type="submit" class="btn btn-docu">Continue</button>
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
+  <%= render('partials/submit_button') %>
 </form>
 
 <%  else  %>
-<p>Problem: please first create an envelope using <a href="eg002">Request a signature by email (remote signing).</a> <br/>
-  Thank you.</p>
+  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to2_index]["RedirectText"], 'href="eg002"') %>
 
 <form class="eg" action="eg002" method="get">
-  <button type="submit" class="btn btn-docu">Continue</button>
+  <%= render('partials/continue_button') %>
 </form>
 <% end %>

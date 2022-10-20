@@ -1,34 +1,27 @@
-<h4>Require ID verification (IDV) for a recipient</h4>
-<p>Sends an envelope that requires the recipient to upload a government-issued ID for the purpose of multifactor authentication.</p>
-<p>Anchor text
-  (<a href="https://developers.docusign.com/docs/esign-rest-api/esign101/concepts/tabs/auto-place/">AutoPlace</a>)
-  is used to position the signing fields in the documents.
-</p>
+<%= render('partials/example_info') %>
 
-<% if @show_doc  %>
-<p><a target='_blank' href='<%= @documentation %>'>Documentation</a> about this example.</p>
-<% end %>
-
-  <p>API method used:
-    <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
-  </p>
-
-  <p>
-    View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-  </p>
+<% form_index = 0 %>
+<% signer_email_index = 0 %>
+<% signer_name_index = 1 %>
 
   <form class="eg" action="" method="post" data-busy="form">
+    <% if @example["Forms"][form_index]["FormName"] %>
+      <%= sanitize @example["Forms"][form_index]["FormName"] %>
+    <% end %>
+
     <div class="form-group">
-      <label for="signerEmail">Signer Email</label>
+      <label for="signerEmail"><%= @example["Forms"][form_index]["Inputs"][signer_email_index]["InputName"] %></label>
       <input type="email" class="form-control" id="signerEmail" name="signerEmail"
-             aria-describedby="emailHelp" placeholder="pat@example.com" required
+             aria-describedby="emailHelp"
+             placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_email_index]["InputPlaceholder"] %>" required
              value="<%= @config.signer_email %>">
-      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      <%= render('partials/email_will_not_be_shared') %>
     </div>
     <div class="form-group">
-      <label for="signerName">Signer Name</label>
-      <input type="text" class="form-control" id="signerName" placeholder="Pat Johnson" name="signerName"
+      <label for="signerName"><%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputName"] %></label>
+      <input type="text" class="form-control" id="signerName"
+             placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputPlaceholder"] %>" name="signerName"
              value="<%= @config.signer_name %>" required>
     </div>
-    <button type="submit" class="btn btn-docu">Submit</button>
+    <%= render('partials/submit_button') %>
   </form>

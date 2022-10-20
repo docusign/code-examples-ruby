@@ -1,5 +1,6 @@
 class Clickwrap::Eg004ListClickwrapsController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 4) }
 
   def create
     args = {
@@ -10,9 +11,8 @@ class Clickwrap::Eg004ListClickwrapsController < EgController
 
     results = Clickwrap::Eg004ListClickwrapsService.new(args).worker
 
-    @title = 'Get a list of clickwraps'
-    @h1 = 'Get a list of clickwraps'
-    @message = "Results from the ClickWraps::getClickwraps method:"
+    @title = @example['ExampleName']
+    @message = @example['ResultsPageText']
     @json = results.to_json.to_json
     render 'ds_common/example_done'
   end

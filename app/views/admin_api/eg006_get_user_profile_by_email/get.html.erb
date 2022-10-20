@@ -1,21 +1,19 @@
-<h4>6. Retrieve the user's DocuSign profile using an email address</h4>
-<p>Demonstrates how to obtain the user’s DocuSign profile information across all DocuSign accounts by specifying the user’s email address.</p>
+<%= render('partials/example_info') %>
 
-<p>API method used:
-  <a target="_blank" rel='noopener noreferrer'
-        href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getuserdsprofilesbyemail/">MultiProductUserManagement:getUserDSProfilesByEmail.</a>
-</p>
-
-<p>
-  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-</p>
+<% form_index = 0 %>
+<% email_index = 0 %>
 
 <form class="eg" action="" method="post" data-busy="form">
-    <div class="form-group">
-        <label for="email">Email address</label>
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
+  <div class="form-group">
+        <label for="email"><%= @example["Forms"][form_index]["Inputs"][email_index]["InputName"] %></label>
         <input type="email" class="form-control" id="email" name="email"
-            aria-describedby="emailHelp" required>
-        <small id="emailHelp" class="form-text text-muted">We will never share your email with anyone else.</small>
+               aria-describedby="emailHelp" required
+               placeholder="<%= @example["Forms"][form_index]["Inputs"][email_index]["InputPlaceholder"] %>">
+        <%= render('partials/email_will_not_be_shared') %>
     </div>
-    <button type="submit" class="btn btn-docu">Submit</button>
+    <%= render('partials/submit_button') %>
 </form>

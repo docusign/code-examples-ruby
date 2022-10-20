@@ -2,6 +2,7 @@
 
 class ESign::Eg039SigningInPersonService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -19,7 +20,7 @@ class ESign::Eg039SigningInPersonService
 
     envelope = make_envelope(pdf_filename, host_email, host_name, signer_name)
 
-     # Step 3 start
+    # Step 3 start
     envelope_api = create_envelope_api(args)
 
     results = envelope_api.create_envelope args[:account_id], envelope
@@ -27,10 +28,8 @@ class ESign::Eg039SigningInPersonService
 
     envelope_id = results.envelope_id
 
-
     # Step 5 start
-    view_request = make_recipient_view_request(ds_return_url, ds_ping_url, host_email, host_name
-    )
+    view_request = make_recipient_view_request(ds_return_url, ds_ping_url, host_email, host_name)
 
     # Call the CreateRecipientView API
     results = envelope_api.create_recipient_view args[:account_id], envelope_id, view_request
@@ -56,7 +55,7 @@ class ESign::Eg039SigningInPersonService
     # the DocuSign signing. It's usually better to use
     # the session mechanism of your web framework. Query parameters
     # can be changed/spoofed very easily.
-    view_request.return_url = ds_return_url + '?state=123'
+    view_request.return_url = "#{ds_return_url}?state=123"
 
     # How has your app authenticated the user? In addition to your app's
     # authentication, you can include authenticate steps from DocuSign;

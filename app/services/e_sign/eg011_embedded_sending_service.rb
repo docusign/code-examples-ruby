@@ -2,6 +2,7 @@
 
 class ESign::Eg011EmbeddedSendingService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -125,9 +126,9 @@ class ESign::Eg011EmbeddedSendingService
     )
     # Add the tabs model (including the sign_here tabs) to the signer
     # The Tabs object takes arrays of the different field/tab types
-    signer1_tabs = DocuSign_eSign::Tabs.new ({
-      signHereTabs: [sign_here1, sign_here2]
-    })
+    signer1_tabs = DocuSign_eSign::Tabs.new({
+                                              signHereTabs: [sign_here1, sign_here2]
+                                            })
 
     signer1.tabs = signer1_tabs
 

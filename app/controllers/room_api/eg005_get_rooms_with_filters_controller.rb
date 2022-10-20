@@ -1,5 +1,6 @@
 class RoomApi::Eg005GetRoomsWithFiltersController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 5) }
 
   def create
     args = {
@@ -12,9 +13,8 @@ class RoomApi::Eg005GetRoomsWithFiltersController < EgController
 
     results = RoomApi::Eg005GetRoomsWithFiltersService.new(args).worker
 
-    @title = "The rooms with filters were loaded"
-    @h1 = "The rooms with filters were loaded"
-    @message = "Results from the Rooms: GetRooms method:"
+    @title = @example['ExampleName']
+    @message = @example['ResultsPageText']
     @json = results.to_json.to_json
 
     render 'ds_common/example_done'

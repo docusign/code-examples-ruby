@@ -1,26 +1,28 @@
-<%= render 'room_api/eg006_create_an_external_form_fill_session/information' %>
+<%= render('partials/example_info') %>
+
+<% form_index = 0 %>
+<% form_id_index = 0 %>
+<% redirect_to4_index = 0 %>
 
 <% unless @form_libraries.blank? %>
 
   <form class="eg" id="data_form" action="eg006" method="post" data-busy="form">
-      <div class="form-group">
-        <label for="starting_view">Forms</label>
+    <% if @example["Forms"][form_index]["FormName"] %>
+      <%= sanitize @example["Forms"][form_index]["FormName"] %>
+    <% end %>
+
+    <div class="form-group">
+        <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][form_id_index]["InputName"] %></label>
         <input type="hidden" id="roomId" name="roomId" value=<%= params[:roomId] %> >
         <%= select_tag "formId", options_for_select(@form_libraries.map { |obj| [obj['name'], obj['docuSignFormId']] }), {:class => 'form-control'}  %>
       </div>
-      <button type="submit" class="btn btn-docu">Submit</button>
+      <%= render('partials/submit_button') %>
   </form>
 
 <% else %>
 
   <div class="form-group">
-    <p>
-      Problem: DocuSign Forms is not enabled for this company. Please contact
-      <a target ='_blank' href="https://support.docusign.com/">DocuSign Rooms Support</a>
-      to enable Forms.
-      <br>
-      Thank you.
-    </p>
+    <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to4_index]["RedirectText"], 'href="eg004"') %>
   </div>
 
 <% end %>

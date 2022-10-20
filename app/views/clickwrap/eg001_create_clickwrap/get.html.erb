@@ -1,19 +1,18 @@
-<h4>1. Create a clickwrap</h4>
-<p>Creates a clickwrap that you can embed in your website or app.</p>
+<%= render('partials/example_info') %>
 
-<p>API method used:
-  <a target='_blank' href="https://developers.docusign.com/docs/click-api/reference/accounts/clickwraps/createclickwrap/">ClickWraps::createClickwrap</a>
-</p>
-
-<p>
-  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-</p>
+<% form_index = 0 %>
+<% click_name_index = 0 %>
 
 <form class="eg" action="" method="post" data-busy="form">
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
   <div class="form-group">
-    <label for="clickwrap_name">Clickwrap name</label>
+    <label for="clickwrap_name"><%= @example["Forms"][form_index]["Inputs"][click_name_index]["InputName"] %></label>
     <input type="text" class="form-control" id="clickwrapName"
-           name="clickwrapName" required>
+           name="clickwrapName" required
+           placeholder="<%= @example["Forms"][form_index]["Inputs"][click_name_index]["InputPlaceholder"] %>">
   </div>
-  <button type="submit" class="btn btn-docu">Submit</button>
+  <%= render('partials/submit_button') %>
 </form>

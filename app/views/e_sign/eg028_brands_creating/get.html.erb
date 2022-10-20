@@ -1,26 +1,24 @@
-<h4>Creating a brand</h4>
-<p>The brand includes a Brand Name <a href="#">Configure Brands</a>.</p>
-<p>This is an example demonstrates how to create a brand.</p>
+<%= render('partials/example_info') %>
 
-<% if @show_doc  %>
-  <p><a target='_blank' href='<%= @documentation %>'>Documentation</a> about this example.</p>
-<% end %>
-
-<p>API method used:
-  <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/create/">AccountsBrands::create</a>.
-</p>
+<% form_index = 0 %>
+<% brand_name_index = 0 %>
+<% language_index = 1 %>
 
 <form class="eg" action="" method="post" data-busy="form">
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
 
   <div class="form-group">
-      <label for="brandName">Brand name</label>
-      <input type="text" class="form-control" id="brandName" name="brandName" placeholder="New Brand" required />
+      <label for="brandName"><%= @example["Forms"][form_index]["Inputs"][brand_name_index]["InputName"] %></label>
+      <input type="text" class="form-control" id="brandName" name="brandName"
+             placeholder="<%= @example["Forms"][form_index]["Inputs"][brand_name_index]["InputPlaceholder"] %>" required />
   </div>
 
   <div class="form-group">
-    <label for="defaultBrandLanguage">Default Brand language</label>
+    <label for="defaultBrandLanguage"><%= @example["Forms"][form_index]["Inputs"][language_index]["InputName"] %></label>
     <%= select_tag "defaultBrandLanguage", options_for_select(language_list), { id: "defaultBrandLanguage", name: "defaultBrandLanguage", class: "form-control" }  %>
   </div>
 
-  <button type="submit" class="btn btn-docu">Submit</button>
+  <%= render('partials/submit_button') %>
 </form>

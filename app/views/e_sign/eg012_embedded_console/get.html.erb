@@ -1,38 +1,25 @@
-<h4>Embedded DocuSign web tool</h4>
-<p>Redirect the user to the DocuSign web tool.</p>
-<p>Use this API call to open the DocuSign web tool, the NDSE (New DocuSign Signing Experience),
-  with the user already logged in.</p>
-<p>The starting view can be either an envelope's documents or the web tool's front page.</p>
-<p>The user does not necessarily return from the NDSE, so using this API call is often a final
-  step for your application.
-  Or you can open the NDSE in a new tab for the user.
-</p>
+<%= render('partials/example_info') %>
 
-<% if @show_doc %>
-<p><a target='_blank' href='<%= @documentation %>'>Documentation</a> about this example.</p>
-<% end %>
-
-  <p>API method used:
-    <a target ='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopeviews/createconsole/">EnvelopeViews::createConsole</a>.
-  </p>
-
-  <p>
-    View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-  </p>
+<% form_index = 0 %>
+<% view_index = 0 %>
+<% redirect_to2_index = 0 %>
 
   <% if !@envelope_ok %>
-<p><b>Optional:</b> to use the <i>Envelope's document view</i> please first create an envelope using
-  <a href="eg002">Request a signature by email (remote signing).</a></p>
+  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to2_index]["RedirectText"], 'href="eg002"') %>
 <% end %>
 
     <form class="eg" action="" method="post" data-busy="form">
+      <% if @example["Forms"][form_index]["FormName"] %>
+        <%= sanitize @example["Forms"][form_index]["FormName"] %>
+      <% end %>
+
       <div class="form-group">
-        <label for="starting_view">Starting View</label>
+        <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][view_index]["InputName"] %></label>
         <select id="starting_view" name="starting_view" class="form-control">
           <option value="frontPage" selected>Front page</option>
           <option value="envelope" <%= @envelope_ok ? '' : 'disabled="true"' %> >
             The envelope's documents view</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-docu">Continue</button>
+      <%= render('partials/submit_button') %>
     </form>

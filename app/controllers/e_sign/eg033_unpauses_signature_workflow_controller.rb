@@ -2,6 +2,7 @@
 
 class ESign::Eg033UnpausesSignatureWorkflowController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 33) }
 
   def update
     args = {

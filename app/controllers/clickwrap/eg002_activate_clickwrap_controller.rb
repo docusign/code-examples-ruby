@@ -1,5 +1,6 @@
 class Clickwrap::Eg002ActivateClickwrapController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 2) }
 
   def create
     args = {
@@ -9,11 +10,10 @@ class Clickwrap::Eg002ActivateClickwrapController < EgController
       clickwrap_id: session[:clickwrap_id]
     }
 
-    results = Clickwrap::Eg002ActivateClickwrapService.new(args).worker
+    Clickwrap::Eg002ActivateClickwrapService.new(args).worker
 
-    @title = 'Activate a new clickwrap'
-    @h1 = 'Activate a new clickwrap'
-    @message = "The clickwrap #{results.clickwrap_name} has been activated."
+    @title = @example['ExampleName']
+    @message = @example['ResultsPageText']
     render 'ds_common/example_done'
   end
 end

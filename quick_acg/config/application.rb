@@ -13,7 +13,7 @@ module CodeExamplesRuby
     config.app_url = 'http://localhost:3000' # The public url of the application.
     # Init DocuSign configuration, loaded from config/appsettings.yml file
     DOCUSIGN_CONFIG = YAML.load_file(File.expand_path(File.join(Rails.root.to_s, '../config/appsettings.yml')))[Rails.env]
-    DOCUSIGN_CONFIG.map do |k,v|
+    DOCUSIGN_CONFIG.map do |k, v|
       config.send("#{k}=", v)
     end
 

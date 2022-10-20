@@ -1,5 +1,5 @@
 <div style="margin:1% 5%;">
-  <h1 class="display-4">Please Choose an API</h1>
+  <%= sanitize @manifest["SupportingTexts"]["SelectAPIPage"]["SelectAPIHeader"] %>
   <p class="lead">
     <form class="eg" action="/ds/apiSelected" method="POST"  data-busy="form">
      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
@@ -11,7 +11,7 @@
           <option value="Monitor">Monitor</option>
           <option value="Admin">Admin</option>
         </select><br>
-        <button class="btn btn-docu btn-lg">Choose your desired API</button>
+        <button class="btn btn-docu btn-lg"><%= @manifest["SupportingTexts"]["SelectAPIPage"]["SelectAPIButton"] %></button>
       </div>
     </form>
   </p>

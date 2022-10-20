@@ -2,6 +2,7 @@
 
 class ESign::Eg020PhoneAuthenticationService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -12,11 +13,7 @@ class ESign::Eg020PhoneAuthenticationService
     # ***DS.snippet.0.start
     envelope_args = args[:envelope_args]
 
-    if workflow_id.blank?
-      return "phone_auth_not_enabled"
-    end
-
-    envelope_api = create_envelope_api(args)
+    return 'phone_auth_not_enabled' if workflow_id.blank?
 
     # Construct your envelope JSON body
     # Step 4 start
@@ -72,8 +69,8 @@ class ESign::Eg020PhoneAuthenticationService
     # Add the tabs model (including the sign_here tabs) to the signer
     # The Tabs object wants arrays of the different field/tab types
     signer1_tabs = DocuSign_eSign::Tabs.new({
-      signHereTabs: [sign_here1]
-    })
+                                              signHereTabs: [sign_here1]
+                                            })
     signer1.tabs = signer1_tabs
 
     # Add the recipients to the Envelope object
@@ -94,31 +91,28 @@ class ESign::Eg020PhoneAuthenticationService
   end
 
   def get_workflow
-    #Retrieve the workflow id
+    # Retrieve the workflow id
 
-    begin
-      # Step 3 start
-      workflow_details = create_account_api(args)
-      workflow_response = workflow_details.get_account_identity_verification(args[:account_id])
+    # Step 3 start
+    workflow_details = create_account_api(args)
+    workflow_response = workflow_details.get_account_identity_verification(args[:account_id])
 
-      # Check that idv authentication is enabled
-      if workflow_response.identity_verification
-        phone_auth_workflow = workflow_response.identity_verification.find{ |item| item.default_name == "Phone Authentication" }
-        if phone_auth_workflow
-          phone_auth_workflow.workflow_id
-        else
-          return ""
-        end
+    # Check that idv authentication is enabled
+    if workflow_response.identity_verification
+      phone_auth_workflow = workflow_response.identity_verification.find { |item| item.default_name == 'Phone Authentication' }
+      if phone_auth_workflow
+        phone_auth_workflow.workflow_id
       else
-        return ""
+        ''
       end
-      # Step 3 end
-
-    rescue DocuSign_eSign::ApiError => e
-      error = JSON.parse e.response_body
-      @error_code = e.code
-      @error_message = error['error_description']
-      render 'ds_common/error'
+    else
+      ''
     end
+    # Step 3 end
+  rescue DocuSign_eSign::ApiError => e
+    error = JSON.parse e.response_body
+    @error_code = e.code
+    @error_message = error['error_description']
+    render 'ds_common/error'
   end
 end

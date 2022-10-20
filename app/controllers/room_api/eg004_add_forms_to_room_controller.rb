@@ -1,5 +1,6 @@
 class RoomApi::Eg004AddFormsToRoomController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 4) }
 
   def create
     args = {
@@ -12,9 +13,8 @@ class RoomApi::Eg004AddFormsToRoomController < EgController
 
     results = RoomApi::Eg004AddFormsToRoomService.new(args).worker
 
-    @title = "The form was successfully added to a room"
-    @h1 = "The form was successfully added to a room"
-    @message = "Results from the Rooms: AddFormToRoom method:"
+    @title = @example['ExampleName']
+    @message = @example['ResultsPageText']
     @json = results.to_json.to_json
 
     render 'ds_common/example_done'

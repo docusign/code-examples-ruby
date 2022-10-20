@@ -21,101 +21,32 @@
     <p><a target='_blank' href='<%= :documentation %>'>Documentation</a> on using JWT Grant or Authorization Code Grant from a Ruby on Rails application.</p>
     <% end %>
 
-    <h4 id="create_active_esignature_user">1. <a href="eg001">Create a new active eSignature user</a></h4>
-    <p>
-    Demonstrates how to create a new eSignature user and activate their account automatically.</p>
-    <p>
-      API method used:
-      <a target='_blank' rel='noopener noreferrer'
-        href='https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/list/'>AccountPermissionProfiles:list</a>,
-      <a target='_blank' rel='noopener noreferrer'
-        href='https://developers.docusign.com/docs/esign-rest-api/reference/usergroups/groups/list/'>Groups:list</a>,
-      <a target='_blank' rel='noopener noreferrer'
-        href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/esignusermanagement/createuser/">eSignUserManagement:createUser</a>
-    </p>
+    <% @manifest["Groups"].each { |group| %>
+      <h2><%=  group["Name"]  %></h2>
 
-    <h4 id="create_active_clm_esignature_user">2. <a href="eg002">Create a new active user for CLM and eSignature</a></h4>
-    <p>
-    Demonstrates how to create a new DocuSign user (valid for both CLM and eSignature) and activate their account automatically.
-    </p>
-    <p>
-      API methods used:
-      <a target='_blank' rel='noopener noreferrer'
-        href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getproductpermissionprofiles/">MultiProductUserManagement:getProductPermissionProfiles</a>,
-      <a target='_blank' rel='noopener noreferrer'
-        href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getdsgroups/">MultiProductUserManagement:getDsGroups</a>,
-      <a target='_blank' rel='noopener noreferrer'
-        href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/addorupdateuser/">MultiProductUserManagement:addOrUpdateUser</a>
-    </p>
+      <% group["Examples"].each { |example| %>
+        <%   if not example["SkipLanguages"] or not example["SkipLanguages"].include? "ruby"   %>
+          <h4 id="<%= "example%03d" % example["ExampleNumber"] %>">
+            <a href="<%= "eg%03d" % example["ExampleNumber"] %>">
+              <%=   example["ExampleName"]   %>
+            </a>
+          </h4>
 
-    <h4 id="bulk_export_user_data">3. <a href="eg003">Bulk-export user data</a></h4>
-    <p>
-    Demonstrates how to bulk-export user accounts within an organization into a CSV (comma-separated value) file.</p>
-    <p>
-      API methods used:
-      <a target='_blank' rel='noopener noreferrer'
-        href="https://developers.docusign.com/docs/admin-api/reference/bulkoperations/userexport/createuserlistexport/">UserExport:createUserListExport</a>,
-      <a target='_blank' rel='noopener noreferrer'
-        href="https://developers.docusign.com/docs/admin-api/reference/bulkoperations/userexport/getuserlistexport/">UserExport:getUserListExport</a>
-    </p>
+          <p><%= sanitize example["ExampleDescription"] %></p>
 
-    <h4 id="add_users_via_bulk_import">4. <a href="eg004">Add users via bulk import</a></h4>
-    <p>
-    Demonstrates how to bulk import users and add user data from an example CSV (comma-separated value) file into a DocuSign Admin organization.</p>
-    <p>
-      API method used:
-      <a target='_blank' rel='noopener noreferrer'
-        href="https://developers.docusign.com/docs/admin-api/reference/bulkoperations/userimport/addbulkuserimport/">UserImport:addBulkUserImport</a>,
-      <a target='_blank' rel='noopener noreferrer'
-        href='https://developers.docusign.com/docs/admin-api/reference/bulkoperations/userimport/getbulkuserimportrequest/'>UserImport:getBulkUserImportRequest</a>
+          <% if example["LinksToAPIMethod"].length > 1 %>
+            <%= sanitize @manifest["SupportingTexts"]["APIMethodUsedPlural"] %>
+          <% else %>
+            <%= sanitize @manifest["SupportingTexts"]["APIMethodUsed"] %>
+          <% end %>
 
-</p>
-
-    <h4 id="audit_users">5. <a href="eg005">Audit users</a></h4>
-    <p>
-      Demonstrates how to audit the users in your account by retrieving the profiles of users that were modified after a specified date.
-    </p>
-    <p>
-      API methods used:
-      <a target="_blank" rel="noopener noreferrer"
-        href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/users/getusers/">Users:getUsers</a>,
-      <a target="_blank" rel="noopener noreferrer"
-        href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/esignusermanagement/getuserprofiles/">eSignUserManagement:getUserProfiles</a>
-   </p>
-
-    <h4 id="get_user_ds_profiles_by_email">6. <a href="eg006">Retrieve the user's DocuSign profile using an email address</a></h4>
-    <p>Demonstrates how to obtain the user’s DocuSign profile information across all DocuSign accounts by specifying the user’s email address.</p>
-
-    <p>API method used:
-      <a target="_blank" rel='noopener noreferrer'
-        href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getuserdsprofilesbyemail/">MultiProductUserManagement:getUserDSProfilesByEmail</a>
-    </p>
-
-    <h4 id="eg007_get_user_profile_by_user_id">7. <a href="eg007">Retrieve the user's DocuSign profile using a User ID</a></h4>
-    <p>Demonstrates how to obtain the user’s DocuSign profile information across all DocuSign accounts by specifying the user’s User ID.</p>
-
-    <p>API method used:
-      <a target="_blank" rel='noopener noreferrer'
-        href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getuserdsprofile/">MultiProductUserManagement:getUserDSProfile</a>
-    </p>
-
-    <h4 id="update_user_product_permission_profile">8. <a href="eg008">Update user product permission profiles using an email address</a></h4>
-    <p>Demonstrates how to update user product permission profiles. There may only be one permission profile assigned to a user per product.</p>
-
-    <p>
-      API methods used:
-      <a target='_blank' href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getproductpermissionprofiles/">MultiProductUserManagement:getProductPermissionProfiles</a>,
-      <a target="_blank" href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/adduserproductpermissionprofilesbyemail/">MultiProductUserManagement:addUserProductPermissionProfilesByEmail</a>
-    </p>
-
-    <h4 id="delete_user_product_permission_profile">9. <a href="eg009">Delete user product permission profiles using an email address</a></h4>
-    <p>Demonstrates how to list and delete DocuSign Admin user product permission profiles.</p>
-
-    <p>
-      API methods used:
-      <a target="_blank" href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getuserproductpermissionprofilesbyemail/">MultiProductUserManagement:getUserProductPermissionProfilesByEmail</a>,
-      <a target="_blank" href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/removeuserproductpermission/">MultiProductUserManagement:removeUserProductPermission</a>
-    </p>
+          <% example["LinksToAPIMethod"].each do |link| %>
+            <a target='_blank' href="<%= link["Path"] %>"><%= link["PathName"] %></a>
+          <% end %>
+        <%   end   %>
+        <br><br>
+      <%   } %>
+    <%  } %>
 
   </div>
   <!-- anchor-js is only for the index page -->

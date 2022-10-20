@@ -1,34 +1,33 @@
-<h4>Schedule an envelope</h4>
-<p>
-    This example demonstrates how to schedule an envelope using the scheduled sending feature.
-</p>
+<%= render('partials/example_info') %>
 
-<p>
-    API method used:
-    <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>.
-</p>
-
-<p>
-  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-</p>
+<% form_index = 0 %>
+<% signer_email_index = 0 %>
+<% signer_name_index = 1 %>
+<% date_index = 2 %>
 
 <form class="eg" action="" method="post" data-busy="form">
-    <div class="form-group">
-        <label for="signer_email">Signer Email</label>
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
+  <div class="form-group">
+        <label for="signer_email"><%= @example["Forms"][form_index]["Inputs"][signer_email_index]["InputName"] %></label>
         <input type="email" class="form-control" id="signer_email" name="signer_email"
-               aria-describedby="emailHelp" placeholder="pat@example.com" required
+               aria-describedby="emailHelp"
+               placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_email_index]["InputPlaceholder"] %>" required
                value="<%= @config.signer_email %>">
-        <small id="email_help" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <%= render('partials/email_will_not_be_shared') %>
     </div>
     <div class="form-group">
-        <label for="signer_name">Signer Name</label>
-        <input type="text" class="form-control" id="signer_name" placeholder="Pat Johnson" name="signer_name"
-               value="<%= @config.signer_name %>" required />
+        <label for="signer_name"><%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputName"] %></label>
+        <input type="text" class="form-control" id="signer_name"
+               placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputPlaceholder"] %>"
+               name="signer_name" value="<%= @config.signer_name %>" required />
     </div>
     <div class="form-group">
-        <label for="resume_date">Resume Date</label>
+        <label for="resume_date"><%= @example["Forms"][form_index]["Inputs"][date_index]["InputName"] %></label>
         <input type="date" class="form-control" id="resume_date" name="resume_date" required />
         <small id="date_help" class="form-text text-muted">Please choose a date in the future.</small>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+  <%= render('partials/submit_button') %>
 </form>

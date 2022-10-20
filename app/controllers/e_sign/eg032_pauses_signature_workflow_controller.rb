@@ -2,6 +2,7 @@
 
 class ESign::Eg032PausesSignatureWorkflowController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 32) }
 
   def create
     signers = {

@@ -1,5 +1,6 @@
 class Clickwrap::Eg001CreateClickwrapController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 1) }
 
   def create
     args = {
@@ -14,9 +15,8 @@ class Clickwrap::Eg001CreateClickwrapController < EgController
     session[:clickwrap_id] = results.clickwrap_id
     session[:clickwrap_name] = results.clickwrap_name
 
-    @title = 'Create a clickwrap'
-    @h1 = 'Create a clickwrap'
-    @message = "The clickwrap #{results.clickwrap_name} has been created."
+    @title = @example['ExampleName']
+    @message = format_string(@example['ResultsPageText'], results.clickwrap_name)
     @json = results.to_json.to_json
     render 'ds_common/example_done'
   end

@@ -5,10 +5,10 @@ class RoomApi::GetDataService
 
   def initialize(session, options = {})
     @args = {
-        account_id: session[:ds_account_id],
-        base_path: session[:ds_base_path],
-        access_token: session[:ds_access_token],
-        room_id: options
+      account_id: session[:ds_account_id],
+      base_path: session[:ds_base_path],
+      access_token: session[:ds_access_token],
+      room_id: options
     }
   end
 
@@ -50,7 +50,7 @@ class RoomApi::GetDataService
     form_libraries_api = DocuSign_Rooms::FormLibrariesApi.new(@api_client)
     begin
       form_libraries = form_libraries_api.get_form_libraries(args[:account_id])
-    rescue Exception => e
+    rescue Exception
       return
     end
 
@@ -81,8 +81,8 @@ class RoomApi::GetDataService
 
   def worker
     configuration = DocuSign_Rooms::Configuration.new
-    configuration.host = "https://demo.rooms.docusign.com/restapi"
+    configuration.host = 'https://demo.rooms.docusign.com/restapi'
     @api_client = DocuSign_Rooms::ApiClient.new(configuration)
-    @api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
+    @api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
   end
 end

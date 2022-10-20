@@ -1,5 +1,6 @@
 class Clickwrap::Eg003CreateNewClickwrapVersionController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 3) }
 
   def create
     args = {
@@ -12,9 +13,8 @@ class Clickwrap::Eg003CreateNewClickwrapVersionController < EgController
 
     results = Clickwrap::Eg003CreateNewClickwrapVersionService.new(args).worker
     puts results.to_json.to_json
-    @title = 'Create a new clickwrap version'
-    @h1 = 'Create a new clickwrap version'
-    @message = "Version #{results.version_number} of clickwrap #{results.clickwrap_name} has been created."
+    @title = @example['ExampleName']
+    @message = format_string(@example['ResultsPageText'], results.version_number, results.clickwrap_name)
     render 'ds_common/example_done'
   end
 end

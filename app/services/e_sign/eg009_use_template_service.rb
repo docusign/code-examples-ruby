@@ -2,6 +2,7 @@
 
 class ESign::Eg009UseTemplateService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)

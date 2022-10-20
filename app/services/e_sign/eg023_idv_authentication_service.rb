@@ -2,6 +2,7 @@
 
 class ESign::Eg023IdvAuthenticationService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -15,18 +16,14 @@ class ESign::Eg023IdvAuthenticationService
     accounts_api = create_account_api(args)
     workflow_response = accounts_api.get_account_identity_verification args[:account_id]
     if workflow_response.identity_verification
-      idv_workflow = workflow_response.identity_verification.find{ |item| item.default_name == "DocuSign ID Verification" }
-      if idv_workflow
-        workflow_id = idv_workflow.workflow_id
-      end
+      idv_workflow = workflow_response.identity_verification.find { |item| item.default_name == 'DocuSign ID Verification' }
+      workflow_id = idv_workflow.workflow_id if idv_workflow
     end
     # Step 3 end
 
-    if workflow_id.blank?
-      return "idv_not_enabled"
-    end
+    return 'idv_not_enabled' if workflow_id.blank?
 
-    puts "WORKFLOW ID: "
+    puts 'WORKFLOW ID: '
     puts workflow_id
 
     # Construct your envelope JSON body
@@ -35,7 +32,7 @@ class ESign::Eg023IdvAuthenticationService
     envelope_definition.email_subject = 'Please sign this document set'
 
     # Add the documents
-    pdf_filename = "World_Wide_Corp_lorem.pdf"
+    pdf_filename = 'World_Wide_Corp_lorem.pdf'
 
     # Create the document models
     document1 = DocuSign_eSign::Document.new(
@@ -63,9 +60,9 @@ class ESign::Eg023IdvAuthenticationService
 
     # Add the tabs model (including the sign_here tabs) to the signer
     # The Tabs object takes arrays of the different field/tab types
-    signer1_tabs = DocuSign_eSign::Tabs.new ({
-      signHereTabs: [sign_here1]
-    })
+    signer1_tabs = DocuSign_eSign::Tabs.new({
+                                              signHereTabs: [sign_here1]
+                                            })
     signer1.tabs = signer1_tabs
 
     wf = DocuSign_eSign::RecipientIdentityVerification.new
@@ -85,9 +82,7 @@ class ESign::Eg023IdvAuthenticationService
     # Call the eSignature REST API
     # Step 5 start
     envelope_api = create_envelope_api(args)
-    results = envelope_api.create_envelope args[:account_id], envelope_definition
+    envelope_api.create_envelope args[:account_id], envelope_definition
     # Step 5 end
-
-    results
   end
 end

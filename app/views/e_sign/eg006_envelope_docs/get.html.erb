@@ -1,35 +1,21 @@
-<h4>List an envelope's documents</h4>
-<p>List the envelope's documents. A <i>Certificate of Completion</i> document
-  is also associated with every envelope.
-</p>
+<%= render('partials/example_info') %>
 
-<p>This method is often used to dynamically create a list of an envelope's documents
-  in preparation for enabling your user to download one or more of the documents.</p>
-
-<% if @show_doc %>
-<p><a target='_blank' href='<%= @documentation %>'>Documentation</a> about this example.</p>
-<% end %>
-
-  <p>API method used:
-    <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopedocuments/list/">EnvelopeDocuments::list</a>.
-  </p>
-
-  <p>
-    View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-  </p>
+<% form_index = 0 %>
+<% redirect_to2_index = 0 %>
 
   <% if @envelope_ok %>
-<p>The envelope you created via Request a signature by email (remote signing) will be queried.</p>
-
 <form class="eg" action="" method="post" data-busy="form">
-  <button type="submit" class="btn btn-docu">Continue</button>
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
+  <%= render('partials/submit_button') %>
 </form>
 
 <% else  %>
-<p>Problem: please first create an envelope using <a href="eg002">Request a signature by email (remote signing).</a> <br/>
-  Thank you.</p>
+  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to2_index]["RedirectText"], 'href="eg002"') %>
 
 <form class="eg" action="eg002" method="get">
-  <button type="submit" class="btn btn-docu">Continue</button>
+  <%= render('partials/continue_button') %>
 </form>
 <% end %>

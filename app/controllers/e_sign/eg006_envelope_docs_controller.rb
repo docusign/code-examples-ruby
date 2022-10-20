@@ -2,6 +2,7 @@
 
 class ESign::Eg006EnvelopeDocsController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 6) }
 
   def create
     envelope_id = session[:envelope_id]
@@ -25,11 +26,11 @@ class ESign::Eg006EnvelopeDocsController < EgController
         # The certificate of completion is named "summary"
         # We give it a better name below.
         envelope_doc_items = results.envelope_documents.map do |doc|
-          if doc.document_id == 'certificate'
-            new = { document_id: doc.document_id, name: 'Certificate of completion', type: doc.type }
-          else
-            new = { document_id: doc.document_id, name: doc.name, type: doc.type }
-          end
+          new = if doc.document_id == 'certificate'
+                  { document_id: doc.document_id, name: 'Certificate of completion', type: doc.type }
+                else
+                  { document_id: doc.document_id, name: doc.name, type: doc.type }
+                end
           new
         end
 
@@ -37,16 +38,15 @@ class ESign::Eg006EnvelopeDocsController < EgController
         envelope_documents = { envelope_id: args[:envelope_id], documents: documents }
         session[:envelope_documents] = envelope_documents
 
-        @title = 'Envelope documents list'
-        @h1 = 'List the envelope\'s documents'
-        @message = 'Results from the EnvelopeDocuments::list method:'
-        @json = results.to_json.to_json
+        @title = @example['ExampleName']
+        @message = @example['ResultsPageText']
+        @json =  results.to_json.to_json
         render 'ds_common/example_done'
       rescue DocuSign_eSign::ApiError => e
         handle_error(e)
       end
     elsif !envelope_id
-      @title = 'Envelope recipient information'
+      @title = @example['ExampleName']
       @envelope_ok = false
     end
   end

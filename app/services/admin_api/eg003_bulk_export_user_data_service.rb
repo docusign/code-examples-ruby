@@ -11,7 +11,7 @@ class AdminApi::Eg003BulkExportUserDataService
     configuration.host = Rails.configuration.admin_host
 
     api_client = DocuSign_Admin::ApiClient.new(configuration)
-    api_client.set_default_header("Authorization", "Bearer #{args[:access_token]}")
+    api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
     # Step 2 end
 
     # Step 3 start
@@ -33,7 +33,7 @@ class AdminApi::Eg003BulkExportUserDataService
     end
     # Step 4 end
 
-    return response
+    response
   end
 
   private

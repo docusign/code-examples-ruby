@@ -2,6 +2,7 @@
 
 class ESign::Eg013AddDocToTemplateService
   attr_reader :args
+
   include ApiCreator
 
   def initialize(args)
@@ -118,12 +119,10 @@ class ESign::Eg013AddDocToTemplateService
       document: doc1
     )
     # 8. Create the envelope definition with the composited templates
-    envelope_definition = DocuSign_eSign::EnvelopeDefinition.new(
+    DocuSign_eSign::EnvelopeDefinition.new(
       status: 'sent',
       compositeTemplates: [comp_template1, comp_template2]
     )
-
-    envelope_definition
   end
 
   def create_document1(args)

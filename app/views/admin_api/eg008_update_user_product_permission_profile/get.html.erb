@@ -1,28 +1,25 @@
-<h4>8. Update user product permission profiles using an email address</h4>
-<p>Demonstrates how to update user product permission profiles. There may only be one permission profile assigned to a user per product.</p>
+<%= render('partials/example_info') %>
 
-<p>
-  API methods used:
-  <a target='_blank' href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/getproductpermissionprofiles/">MultiProductUserManagement:getProductPermissionProfiles</a>,
-  <a target="_blank" href="https://developers.docusign.com/docs/admin-api/reference/usermanagement/multiproductusermanagement/adduserproductpermissionprofilesbyemail/">MultiProductUserManagement:addUserProductPermissionProfilesByEmail</a>.
-</p>
-
-<p>
-  View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
-</p>
+<% form_index = 0 %>
+<% product_index = 0 %>
+<% esign_permission_index = 1 %>
+<% clm_permission_index = 2 %>
+<% redirect_to2_index = 0 %>
 
 <% if @email_ok %>
-  <p>Update user product permission profile for the following email: <b><%= @email %></b></p>
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize format_string(@example["Forms"][form_index]["FormName"], @email) %>
+  <% end %>
 
   <form class="eg" action="" method="post" data-busy="form">
     <div class="form-group">
-    <label for="starting_view">Choose a product for which you want to update the permission profile</label>
+    <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][product_index]["InputName"] %></label>
     <%= select_tag "product_id", options_for_select(@product_list.map { |obj| [obj['product_name'], obj['product_id']] }), { :class => 'form-control' } %>
     </div>
 
     <% if @clm_permission_profiles.present? %>
       <div class="form-group" id="clm-profiles">
-      <label for="starting_view">Choose a permission profile</label>
+      <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][esign_permission_index]["InputName"] %></label>
       <%= select_tag "clm_permission_profile_id", options_for_select(@clm_permission_profiles.map { |obj| [obj['permission_profile_name'], obj['permission_profile_id']] }), { :class => 'form-control' } %>
       </div>
     <% else %>
@@ -34,7 +31,7 @@
 
     <% if @esign_permission_profiles.present? %>
       <div class="form-group" id="esign-profiles" style="display: none">
-        <label for="starting_view">Choose a permission profile</label>
+        <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][clm_permission_index]["InputName"] %></label>
         <%= select_tag "esign_permission_profile_id", options_for_select(@esign_permission_profiles.map { |obj| [obj['permission_profile_name'], obj['permission_profile_id']] }), { :class => 'form-control' } %>
       </div>
     <% else %>
@@ -46,7 +43,7 @@
 
       <input type="hidden" name="clm_product_id" value="<%= @clm_product_id %>">
       <input type="hidden" name="esign_product_id" value="<%= @esign_product_id %>">
-      <button type="submit" class="btn btn-docu">Submit</button>
+      <%= render('partials/submit_button') %>
   </form>
 
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
@@ -64,10 +61,9 @@
       });
   </script>
 <% else %>
-  <p>Problem: You do not have the user to change permissions for. Go to <a href="eg002">example 2</a> and create one.
-    </br>Thank you.</p>
+  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to2_index]["RedirectText"], 'href="eg002"') %>
 
   <form class="eg" action="eg002" method="get">
-    <button type="submit" class="btn btn-docu">Continue</button>
+    <%= render('partials/continue_button') %>
   </form>
 <% end %>

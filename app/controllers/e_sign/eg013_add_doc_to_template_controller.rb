@@ -2,6 +2,7 @@
 
 class ESign::Eg013AddDocToTemplateController < EgController
   before_action :check_auth
+  before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 13) }
 
   def create
     template_id = session[:template_id]
@@ -31,7 +32,7 @@ class ESign::Eg013AddDocToTemplateController < EgController
         results = ESign::Eg013AddDocToTemplateService.new(args).worker
         # Save for use by other examples
         # which need an envelopeId
-        session[:envelope_id] = results[:envelope_id] 
+        session[:envelope_id] = results[:envelope_id]
         # Redirect the user to the embedded signing
         # Don't use an iFrame!
         # State can be stored/recovered using the framework's session or a
@@ -44,7 +45,7 @@ class ESign::Eg013AddDocToTemplateController < EgController
         render 'ds_common/error'
       end
     elsif !template_id
-      @title = 'Use embedded signing from template and extra doc'
+      @title = @example['ExampleName']
       @template_ok = false
     end
   end
