@@ -20,5 +20,5 @@
 <% end %>
 
 <p>
-  <%= sanitize format_string(@manifest["SupportingTexts"]["ViewSourceFile"], format_string('<a target="_blank" href="{0}">{1}</a>', @source_url, @source_file)) %>
+  <%= sanitize format_string(@manifest["SupportingTexts"]["ViewSourceFile"], "<a target='_blank' href='#{@source_url}'>#{@source_file}</a>" ) %>
 </p>
