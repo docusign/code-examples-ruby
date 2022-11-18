@@ -26,7 +26,7 @@
     <h2><%=  group["Name"]  %></h2>
 
     <% group["Examples"].each { |example| %>
-      <%   if not example["SkipLanguages"] or not example["SkipLanguages"].include? "ruby"   %>
+      <%   if not example["SkipForLanguages"] or not example["SkipForLanguages"].include? "ruby"   %>
         <h4 id="<%= "example%03d" % example["ExampleNumber"] %>">
           <a href="<%= "eg%03d" % example["ExampleNumber"] %>">
             <%=   example["ExampleName"]   %>

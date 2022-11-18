@@ -28,4 +28,24 @@ class Clickwrap::Eg002ActivateClickwrapService
       clickwrap_request
     )
   end
+
+  def get_inactive_clickwraps
+    configuration = DocuSign_Click::Configuration.new
+    configuration.host = args[:ds_base_path]
+
+    api_client = DocuSign_Click::ApiClient.new configuration
+    api_client.set_default_header('Authorization', "Bearer #{args[:ds_access_token]}")
+
+    accounts_api = DocuSign_Click::AccountsApi.new(api_client)
+
+    options = DocuSign_Click::GetClickwrapsOptions.new
+    options.status = 'inactive'
+
+    results = accounts_api.get_clickwraps(
+      args[:ds_account_id],
+      options
+    )
+    puts results.as_json['clickwraps']
+    results.as_json['clickwraps']
+  end
 end

@@ -48,6 +48,9 @@ Rails.application.routes.draw do
 
       get 'eg005' => 'eg005_clickwrap_responses#get'
       post 'eg005' => 'eg005_clickwrap_responses#create'
+
+      get 'eg006' => 'eg006_embed_clickwrap#get'
+      post 'eg006' => 'eg006_embed_clickwrap#create'
     end
   end
   constraints ->(req) { req.session[:examples_API] == 'Monitor' } do
