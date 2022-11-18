@@ -108,7 +108,7 @@ GEM
       json (~> 2.1, >= 2.1.0)
       jwt (~> 2.2, >= 2.2.1)
       typhoeus (~> 1.0, >= 1.0.1)
-    docusign_esign (3.17.0)
+    docusign_esign (3.19.0)
       addressable (~> 2.7, >= 2.7.0)
       json (~> 2.1, >= 2.1.0)
       jwt (~> 2.2, >= 2.2.1)
@@ -131,6 +131,7 @@ GEM
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.0)
+    ffi (1.15.5)
     ffi (1.15.5-x64-mingw-ucrt)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -167,6 +168,8 @@ GEM
       net-protocol
     nio4r (2.5.8)
     nokogiri (1.13.8-x64-mingw-ucrt)
+      racc (~> 1.4)
+    nokogiri (1.13.8-x86_64-darwin)
       racc (~> 1.4)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
@@ -310,6 +313,7 @@ GEM
 
 PLATFORMS
   x64-mingw-ucrt
+  x86_64-darwin-21
 
 DEPENDENCIES
   bootsnap (~> 1.7.3)
@@ -319,7 +323,7 @@ DEPENDENCIES
   coffee-rails (~> 5.0.0)
   docusign_admin (~> 1.1.0)
   docusign_click (~> 1.0.0)
-  docusign_esign (~> 3.17.0)
+  docusign_esign (~> 3.19.0)
   docusign_monitor (~> 1.1.0)
   docusign_rooms (~> 1.2.0.rc1)
   jbuilder (~> 2.11.5)

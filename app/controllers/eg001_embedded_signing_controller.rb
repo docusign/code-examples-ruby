@@ -1,21 +1,11 @@
 # frozen_string_literal: true
 
 class Eg001EmbeddedSigningController < EgController
+  before_action :check_auth
+  # before_action -> { @manifest = Utils::ManifestUtils.new.get_manifest(Rails.configuration.eSignManifestUrl)}
   before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 1) }
 
   def create
-    minimum_buffer_min = 10
-    token_ok = check_token(minimum_buffer_min)
-    unless token_ok
-      flash[:messages] = 'Sorry, you need to re-authenticate.'
-      # We could store the parameters of the requested operation
-      # so it could be restarted automatically.
-      # But since it should be rare to have a token issue here,
-      # we'll make the user re-enter the form data after
-      # authentication.
-      return redirect_to '/ds/mustAuthenticate'
-    end
-
     pdf_file_path = 'data/World_Wide_Corp_lorem.pdf'
 
     pdf_file_path = '../data/World_Wide_Corp_lorem.pdf' unless File.exist?(pdf_file_path)
@@ -38,6 +28,13 @@ class Eg001EmbeddedSigningController < EgController
   end
 
   def get
+    enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).is_cfr(session[:ds_account_id])
+    if enableCFR == "enabled"
+      session[:status_cfr] = "enabled"
+      @title = "Not CFR Part 11 compatible"
+      @error_information = @manifest['SupportingTexts']['CFRError']
+      render 'ds_common/error'
+    end
     session[:been_here] = true
     super
   end

@@ -10,6 +10,7 @@ class DsCommonController < ApplicationController
   end
 
   def handle_redirects
+    minimum_buffer_min = 10
     if Rails.configuration.quickstart
       @manifest = Utils::ManifestUtils.new.get_manifest(Rails.configuration.eSignManifestUrl)
 
@@ -18,10 +19,22 @@ class DsCommonController < ApplicationController
         session[:quickstarted] = true
         redirect_to '/auth/docusign'
       elsif session[:been_here].nil?
-        redirect_to '/eg001'
+        enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).is_cfr(session[:ds_account_id])
+        if enableCFR == "enabled"
+          session[:status_cfr] = "enabled"
+          redirect_to '/eg041'
+        else
+          redirect_to '/eg001'
+        end
       else
         render_examples
       end
+    elsif session[:ds_access_token].present?
+      enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).is_cfr(session[:ds_account_id])
+      if enableCFR == "enabled"
+        session[:status_cfr] = "enabled"
+      end
+      render_examples
     else
       render_examples
     end
@@ -41,7 +54,9 @@ class DsCommonController < ApplicationController
     elsif session[:examples_API] == 'Admin'
       render 'admin_api/index'
     else
+      @status_cfr = session[:status_cfr]
       session[:examples_API] = 'eSignature'
+      render 'ds_common/index'
     end
   end
 

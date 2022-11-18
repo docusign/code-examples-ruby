@@ -35,25 +35,50 @@
 
         <% group["Examples"].each { |example| %>
           <%   if not example["SkipLanguages"] or not example["SkipLanguages"].include? "ruby"   %>
-            <h4 id="<%= "example%03d" % example["ExampleNumber"] %>">
-              <a href="<%= "eg%03d" % example["ExampleNumber"] %>">
-                <%=   example["ExampleName"]   %>
-              </a>
-            </h4>
+            <% if @status_cfr && @status_cfr == "enabled" %>
+              <% if example["CFREnabled"] == "AllAccounts" || example["CFREnabled"] == "CFROnly" %>
+                <h4 id="<%= "example%03d" % example["ExampleNumber"] %>">
+                  <a href="<%= "eg%03d" % example["ExampleNumber"] %>">
+                    <%=   example["ExampleName"]   %>
+                  </a>
+                </h4>
 
-            <p><%= sanitize example["ExampleDescription"] %></p>
+                <p><%= sanitize example["ExampleDescription"] %></p>
 
-            <% if example["LinksToAPIMethod"].length > 1 %>
-              <%= sanitize @manifest["SupportingTexts"]["APIMethodUsedPlural"] %>
+                <% if example["LinksToAPIMethod"].length > 1 %>
+                  <%= sanitize @manifest["SupportingTexts"]["APIMethodUsedPlural"] %>
+                <% else %>
+                  <%= sanitize @manifest["SupportingTexts"]["APIMethodUsed"] %>
+                <% end %>
+
+                <% example["LinksToAPIMethod"].each do |link| %>
+                  <a target='_blank' href="<%= link["Path"] %>"><%= link["PathName"] %></a>
+                <% end %>
+                <br><br>
+              <% end %>
             <% else %>
-              <%= sanitize @manifest["SupportingTexts"]["APIMethodUsed"] %>
-            <% end %>
+              <% if example["CFREnabled"] == "AllAccounts" || example["CFREnabled"] == "NonCFR" %>
+                <h4 id="<%= "example%03d" % example["ExampleNumber"] %>">
+                  <a href="<%= "eg%03d" % example["ExampleNumber"] %>">
+                    <%=   example["ExampleName"]   %>
+                  </a>
+                </h4>
 
-            <% example["LinksToAPIMethod"].each do |link| %>
-              <a target='_blank' href="<%= link["Path"] %>"><%= link["PathName"] %></a>
+                <p><%= sanitize example["ExampleDescription"] %></p>
+
+                <% if example["LinksToAPIMethod"].length > 1 %>
+                  <%= sanitize @manifest["SupportingTexts"]["APIMethodUsedPlural"] %>
+                <% else %>
+                  <%= sanitize @manifest["SupportingTexts"]["APIMethodUsed"] %>
+                <% end %>
+
+                <% example["LinksToAPIMethod"].each do |link| %>
+                  <a target='_blank' href="<%= link["Path"] %>"><%= link["PathName"] %></a>
+                <% end %>
+                <br><br>
+              <% end %>
             <% end %>
           <%   end   %>
-          <br><br>
         <%   } %>
       <%  } %>
 

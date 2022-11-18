@@ -26,6 +26,13 @@ class ESign::GetDataService
     user_info.name
   end
 
+  def is_cfr(account_id)
+    worker
+    accounts_api = DocuSign_eSign::AccountsApi.new @api_client
+    account_details = accounts_api.get_account_information(account_id)
+    account_details.status21_cfr_part11
+  end
+
   private
 
   def worker

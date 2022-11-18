@@ -208,6 +208,9 @@ Rails.application.routes.draw do
 
       get 'eg040' => 'eg040_set_document_visibility#get'
       post 'eg040' => 'eg040_set_document_visibility#create'
+
+      get 'eg041' => 'eg041_cfr_embedded_signing#get'
+      post 'eg041' => 'eg041_cfr_embedded_signing#create'
     end
   end
 

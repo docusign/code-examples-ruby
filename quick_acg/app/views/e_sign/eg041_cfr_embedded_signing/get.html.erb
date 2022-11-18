@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <% if @title %>
+    <title><%= @title %></title>
+  <% else %>
+    <title>DocuSign Ruby Code Examples</title>
+  <% end %>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+</head>
+
+<body>
+<style>
+    body {
+        padding-top: 5rem;
+    }
+
+    .btn-docu {
+        background-color: #00BAA1;
+        color: #FFF;
+        border-color: #121517;
+    }
+
+    .btn-docu:hover, .btn-docu:focus, .btn-docu:active, .btn-docu.active, .open .dropdown-toggle.btn-docu {
+        background-color: #02d6ba;
+        color: #FFF;
+        border-color: #050607;
+    }
+
+    form.eg {
+        max-width: 30em;
+    }
+
+    form.eg label {
+        font-weight: 550;
+    }
+
+</style>
+
+<div class="container">
+  <section id="content" class="container-full-bg">
+    <h4>Use embedded signing</h4>
+    <p>This example sends an envelope, and then uses embedded signing for the first signer.</p>
+    <p>Embedded signing provides a smoother user experience for the signer: the DocuSign signing is initiated from your
+      website.</p>
+
+    <% if @show_doc %>
+      <p><a target='_blank' href='<%= @documentation %>'>Documentation</a> about this example.</p>
+    <% end %>
+
+    <p>API methods used:
+      <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/">Envelopes::create</a>
+      and
+      <a target='_blank' href="https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopeviews/createrecipient/">EnvelopeViews::createRecipient</a>.
+    </p>
+    <p>
+      View source file <a target="_blank" href="<%= @source_url %>"><%= @source_file %></a> on GitHub.
+    </p>
+
+    <% form_index = 0 %>
+    <% signer_email_index = 0 %>
+    <% signer_name_index = 1 %>
+    <% country_code_index = 2 %>
+    <% phone_number_index = 3 %>
+
+      <form class="eg" action="" method="post" data-busy="form">
+        <% if @example["Forms"][form_index]["FormName"] %>
+          <%= sanitize @example["Forms"][form_index]["FormName"] %>
+        <% end %>
+
+        <div class="form-group">
+          <label for="signerEmail"><%= @example["Forms"][form_index]["Inputs"][signer_email_index]["InputName"] %></label>
+          <input type="email" class="form-control" id="signerEmail" name="signerEmail"
+                aria-describedby="emailHelp"
+                placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_email_index]["InputPlaceholder"] %>" required
+                value="<%= @config.signer_email %>">
+                <small id="emailHelp" class="form-text text-muted"><%= @manifest["SupportingTexts"]["HelpingTexts"]["EmailWontBeShared"] %></small>
+        </div>
+        <div class="form-group">
+          <label for="signerName"><%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputName"] %></label>
+          <input type="text" class="form-control" id="signerName"
+                placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputPlaceholder"] %>" name="signerName"
+                value="<%= @config.signer_name %>" required>
+        </div>
+        <div class="form-group">
+          <label for="countryCode"><%= @example["Forms"][form_index]["Inputs"][country_code_index]["InputName"] %></label>
+          <input type="tel" class="form-control" id="countryCode" name="countryCode"
+                aria-describedby="accessHelp"
+                placeholder="<%= @example["Forms"][form_index]["Inputs"][country_code_index]["InputPlaceholder"] %>" required />
+          <small id="accessHelp" class="form-text text-muted">The country code for the phone number below.</small>
+        </div>
+        <div class="form-group">
+          <label for="phoneNumber"><%= @example["Forms"][form_index]["Inputs"][phone_number_index]["InputName"] %></label>
+          <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber"
+                aria-describedby="accessHelp"
+                placeholder="<%= @example["Forms"][form_index]["Inputs"][phone_number_index]["InputPlaceholder"] %>" required />
+                <small id="accessHelp" class="form-text text-muted"><%= "#{@manifest["SupportingTexts"]["HelpingTexts"]["PhoneNumberWillBeNotified"]} #{@manifest["SupportingTexts"]["HelpingTexts"]["PhoneNumberWontBeShared"]}" %></small>
+        </div>
+        <button type="submit" class="btn btn-docu">Submit</button>
+      </form>
+  </section>
+</div>
+</body>
+</html>

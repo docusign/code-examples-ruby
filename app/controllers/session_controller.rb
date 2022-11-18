@@ -58,6 +58,7 @@ class SessionController < ApplicationController
     session.delete :template_id
     session.delete :eg
     session.delete :manifest
+    session.delete :status_cfr
   end
 
   def store_auth_hash_from_docusign_callback
