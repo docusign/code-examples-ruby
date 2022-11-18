@@ -1,13 +1,20 @@
 <%= render('partials/example_info') %>
 
 <% redirect_to1_index = 0 %>
+<% clickwrap_id_index = 0 %>
+<% form_index = 0 %>
 
-<% if session[:clickwrap_id] %>
+<% if @clickwraps.count.positive? %>
 
   <form class="eg" action="" method="post" data-busy="form">
     <% if @example["Forms"][0]["FormName"] %>
       <%= sanitize @example["Forms"][0]["FormName"] %>
     <% end %>
+
+    <div class="form-group">
+      <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][clickwrap_id_index]["InputName"] %></label>
+      <%= select_tag "clickwrapId", options_for_select(@clickwraps.map { |obj| [obj['clickwrapName'], obj['clickwrapId']] }), {:class => 'form-control'}  %>
+    </div>
 
     <%= render('partials/submit_button') %>
   </form>

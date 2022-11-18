@@ -1,0 +1,28 @@
+<h2><%= @title %></h2>
+<% if !@message.nil? %>
+<p><%= @message.html_safe %></p>
+<% end %>
+
+<% if !@agreementUrl.nil? %>
+  <p>
+    <%= sanitize @manifest["SupportingTexts"]["HelpingTexts"]["EmbedClickwrapURL"] %> <%= @agreementUrl.html_safe %>
+  </p>
+<% end %>
+
+<p id="agreementStatus">
+  <%= sanitize @manifest["SupportingTexts"]["HelpingTexts"]["NOTAGREED"] %>
+</p>
+
+<p><a href="/">Continue</a></p>
+
+<div id="ds-terms-of-service"></div>
+<script src="https://stage.docusign.net/clickapi/sdk/latest/docusign-click.js"></script>
+<%= javascript_tag do %>
+  docuSignClick.Clickwrap.render({
+    agreementUrl: "<%= @agreementUrl.html_safe %>",
+    onAgreed: function () {
+        // Triggered if the user has just agreed
+        document.getElementById("agreementStatus").innerHTML = "<%= sanitize @manifest["SupportingTexts"]["HelpingTexts"]["AGREED"] %>";
+    }
+  }, "#ds-terms-of-service");
+<% end %>
