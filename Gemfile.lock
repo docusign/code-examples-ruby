@@ -167,9 +167,11 @@ GEM
     net-smtp (0.3.2)
       net-protocol
     nio4r (2.5.8)
-    nokogiri (1.13.8-x64-mingw-ucrt)
+    nokogiri (1.13.10-x64-mingw-ucrt)
       racc (~> 1.4)
-    nokogiri (1.13.8-x86_64-darwin)
+    nokogiri (1.13.10-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
@@ -201,7 +203,7 @@ GEM
     public_suffix (5.0.0)
     puma (5.6.5)
       nio4r (~> 2.0)
-    racc (1.6.0)
+    racc (1.6.1)
     rack (2.2.4)
     rack-protection (3.0.2)
       rack
@@ -299,6 +301,7 @@ GEM
       execjs (>= 0.3.0, < 3)
     unicode-display_width (2.3.0)
     version_gem (1.1.1)
+    wdm (0.1.1)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -314,6 +317,7 @@ GEM
 PLATFORMS
   x64-mingw-ucrt
   x86_64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
   bootsnap (~> 1.7.3)
@@ -322,7 +326,7 @@ DEPENDENCIES
   chromedriver-helper (~> 2.1.1)
   coffee-rails (~> 5.0.0)
   docusign_admin (~> 1.1.0)
-  docusign_click (~> 1.2.0)
+  docusign_click (~> 1.2.2)
   docusign_esign (~> 3.19.0)
   docusign_monitor (~> 1.1.0)
   docusign_rooms (~> 1.2.0.rc1)
