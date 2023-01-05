@@ -13,7 +13,7 @@ class EgController < ApplicationController
   end
 
   def set_eg
-    session[:eg] = controller_name.to(4)
+    session[:eg] = controller_name.to(5)
   end
 
   def get
@@ -65,7 +65,17 @@ class EgController < ApplicationController
     parameter.gsub(/([^\w \-@.,])+/, '')
   end
 
-  def check_auth
+  def check_auth(api)
+    # if not authorized for same API type example or
+    # if it is an attempt to authorize from home page
+    # then user will be redirected to login page
+    unless (session[:api] == api) || ((api == 'eSignature') && !session[:api])
+      session[:api] = api
+      params[:auth] = 'jwt-auth' if api == 'Monitor'
+
+      return redirect_to '/ds/mustAuthenticate'
+    end
+
     minimum_buffer_min = 10
     token_ok = check_token(minimum_buffer_min)
     return if token_ok
@@ -88,21 +98,7 @@ class EgController < ApplicationController
   end
 
   def ensure_manifest
-    manifest_url = case session[:examples_API]
-                   when 'Rooms'
-                     Rails.configuration.roomsManifestUrl
-                   when 'Click'
-                     Rails.configuration.clickManifestUrl
-                   when 'Monitor'
-                     Rails.configuration.monitorManifestUrl
-                   when 'Admin'
-                     Rails.configuration.adminManifestUrl
-                   else
-                     Rails.configuration.eSignManifestUrl
-                   end
-
-    manifest = Utils::ManifestUtils.new.get_manifest(manifest_url)
-    @manifest = manifest
+    @manifest = Utils::ManifestUtils.new.get_manifest(Rails.configuration.example_manifest_url)
   end
 
   def format_string(string, *args)

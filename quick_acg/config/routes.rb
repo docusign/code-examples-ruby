@@ -2,26 +2,26 @@ require_relative '../../app/controllers/application_controller'
 require_relative '../../app/controllers/eg_controller'
 require_relative '../../app/controllers/session_controller'
 require_relative '../../app/services/api_creator'
-require_relative '../../app/controllers/eg001_embedded_signing_controller'
+require_relative '../../app/controllers/eeg001_embedded_signing_controller'
 require_relative '../../app/services/eg001_embedded_signing_service'
 require_relative '../../app/services/utils.rb'
 
 class ESign
 end
 
-require_relative '../../app/controllers/e_sign/eg041_cfr_embedded_signing_controller'
+require_relative '../../app/controllers/e_sign/eeg041_cfr_embedded_signing_controller'
 require_relative '../../app/services/e_sign/eg041_cfr_embedded_signing_service'
 require_relative '../../app/services/e_sign/get_data_service'
 
 Rails.application.routes.draw do
   root 'ds_common#index'
 
-  get '/eg001' => 'eg001_embedded_signing#get'
-  post '/eg001' => 'eg001_embedded_signing#create'
+  get '/eeg001' => 'eeg001_embedded_signing#get'
+  post '/eeg001' => 'eeg001_embedded_signing#create'
 
   scope module: 'e_sign' do
-    get 'eg041' => 'eg041_cfr_embedded_signing#get'
-    post 'eg041' => 'eg041_cfr_embedded_signing#create'
+    get 'eeg041' => 'eeg041_cfr_embedded_signing#get'
+    post 'eeg041' => 'eeg041_cfr_embedded_signing#create'
   end
   # Login starts with POST'ing to: /auth/docusign
   # /auth/docusign is an internal route created by OmniAuth and the docusign strategy from: /lib/docusign.rb
