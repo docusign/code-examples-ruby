@@ -65,11 +65,12 @@ group :test do
   gem 'selenium-webdriver', '~> 3.142.7'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper', '~> 2.1.1'
+  gem 'test-unit'
 end
 
 gem 'docusign_admin', '~> 1.1.0'
 gem 'docusign_click', '~> 1.2.2'
-gem 'docusign_esign', '~> 3.19.0'
+gem 'docusign_esign', '~> 3.20.0'
 gem 'docusign_monitor', '~> 1.1.0'
 gem 'docusign_rooms', '~> 1.2.0.rc1'
 gem 'omniauth-oauth2', '~> 1.7.1'
@@ -78,3 +79,5 @@ gem 'omniauth-rails_csrf_protection'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', '~> 1.2022.1', '>= 1.2022.1'
 gem 'wdm', '>= 0.1.0', platforms: %i[mingw mswin x64_mingw]
+
+gem "matrix", "~> 0.4.2"

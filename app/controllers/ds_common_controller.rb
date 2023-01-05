@@ -12,63 +12,48 @@ class DsCommonController < ApplicationController
   def handle_redirects
     minimum_buffer_min = 10
     if Rails.configuration.quickstart
-      @manifest = Utils::ManifestUtils.new.get_manifest(Rails.configuration.eSignManifestUrl)
+      @manifest = Utils::ManifestUtils.new.get_manifest(Rails.configuration.example_manifest_url)
 
       if session[:quickstarted].nil?
-        session[:examples_API] = 'eSignature'
+        session[:api] = 'eSignature'
         session[:quickstarted] = true
         redirect_to '/auth/docusign'
       elsif session[:been_here].nil?
         enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).is_cfr(session[:ds_account_id])
         if enableCFR == "enabled"
           session[:status_cfr] = "enabled"
-          redirect_to '/eg041'
+          @status_cfr = session[:status_cfr]
+          redirect_to '/eeg041'
         else
-          redirect_to '/eg001'
+          redirect_to '/eeg001'
         end
       else
         render_examples
       end
     elsif session[:ds_access_token].present?
-      enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).is_cfr(session[:ds_account_id])
-      if enableCFR == "enabled"
-        session[:status_cfr] = "enabled"
+      if (!session[:api] || session[:api] == "eSignature")
+        enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).is_cfr(session[:ds_account_id])
+        if enableCFR == "enabled"
+          session[:status_cfr] = "enabled"
+        end
       end
-      render_examples
+        render_examples
     else
       render_examples
     end
   end
 
   def render_examples
-    load_corresponding_manifest
-
-    if session[:examples_API].nil?
-      choose_api
-    elsif session[:examples_API] == 'Rooms'
-      render 'room_api/index'
-    elsif session[:examples_API] == 'Click'
-      render 'clickwrap/index'
-    elsif session[:examples_API] == 'Monitor'
-      render 'monitor_api/index'
-    elsif session[:examples_API] == 'Admin'
-      render 'admin_api/index'
+    if(session[:ds_access_token].present? && !session[:status_cfr] && (!session[:api] || session[:api] == "eSignature"))
+      enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).is_cfr(session[:ds_account_id])
+      if enableCFR == "enabled"
+        @status_cfr = "enabled"
+        session[:status_cfr] = "enabled"
+      end
     else
       @status_cfr = session[:status_cfr]
-      session[:examples_API] = 'eSignature'
-      render 'ds_common/index'
     end
-  end
-
-  def choose_api
-    load_corresponding_manifest
-    render 'ds_common/choose_api'
-  end
-
-  def api_selected
-    session.delete :eg
-    session[:examples_API] = params[:chosen_api]
-    redirect_to '/ds/mustAuthenticate'
+    load_manifest
   end
 
   def ds_return
@@ -81,10 +66,10 @@ class DsCommonController < ApplicationController
   end
 
   def ds_must_authenticate
-    load_corresponding_manifest
+    load_manifest
 
-    jwt_auth if session[:examples_API] == 'Monitor'
-    redirect_to '/auth/docusign' if Rails.configuration.quickstart && session[:been_here].nil? && (session[:examples_API] == 'eSignature')
+    jwt_auth if session[:api] == 'Monitor'
+    redirect_to '/auth/docusign' if Rails.configuration.quickstart && session[:been_here].nil?
     @title = 'Authenticate with DocuSign'
     @show_doc = Rails.application.config.documentation
 
@@ -105,10 +90,10 @@ class DsCommonController < ApplicationController
             end
     else
       session['omniauth.state'] = SecureRandom.hex
-      url = JwtAuth::JwtCreator.consent_url(session['omniauth.state'], session['examples_API'])
+      url = JwtAuth::JwtCreator.consent_url(session['omniauth.state'], session['api'])
       redirect_to root_path if session[:token].present?
     end
-    case session[:examples_API]
+    case session[:api]
     when 'Rooms'
       configuration = DocuSign_Rooms::Configuration.new
       DocuSign_Rooms::ApiClient.new(configuration)
@@ -130,21 +115,7 @@ class DsCommonController < ApplicationController
 
   private
 
-  def load_corresponding_manifest
-    manifest_url = if session[:examples_API].nil?
-                     Rails.configuration.eSignManifestUrl
-                   elsif session[:examples_API] == 'Rooms'
-                     Rails.configuration.roomsManifestUrl
-                   elsif session[:examples_API] == 'Click'
-                     Rails.configuration.clickManifestUrl
-                   elsif session[:examples_API] == 'Monitor'
-                     Rails.configuration.monitorManifestUrl
-                   elsif session[:examples_API] == 'Admin'
-                     Rails.configuration.adminManifestUrl
-                   else
-                     Rails.configuration.eSignManifestUrl
-                   end
-
-    @manifest = Utils::ManifestUtils.new.get_manifest(manifest_url)
+  def load_manifest
+    @manifest = Utils::ManifestUtils.new.get_manifest(Rails.configuration.example_manifest_url)
   end
 end
