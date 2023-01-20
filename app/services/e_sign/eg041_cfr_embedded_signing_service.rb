@@ -14,7 +14,7 @@ class ESign::Eg041CfrEmbeddedSigningService
     envelope_args = args[:envelope_args]
     accounts_api = create_account_api(args)
 
-    #Obtain your workflow_id
+    # Obtain your workflow_id
     workflow_results = accounts_api.get_account_identity_verification(args[:account_id])
 
     if workflow_results.identity_verification
@@ -32,14 +32,14 @@ class ESign::Eg041CfrEmbeddedSigningService
     envelope_id = envelope.envelope_id
 
     view_request = DocuSign_eSign::RecipientViewRequest.new({
-      returnUrl: "#{envelope_args[:ds_return_url]}?state=123",
-      authenticationMethod: "none",
-      email: envelope_args[:signer_email],
-      userName: "#{envelope_args[:signer_name]}",
-      clientUserId: envelope_args[:signer_client_id],
-      pingFrequency: 600,
-      pingUrl: envelope_args[:ds_ping_url]
-    })
+                                                              returnUrl: "#{envelope_args[:ds_return_url]}?state=123",
+                                                              authenticationMethod: 'none',
+                                                              email: envelope_args[:signer_email],
+                                                              userName: envelope_args[:signer_name],
+                                                              clientUserId: envelope_args[:signer_client_id],
+                                                              pingFrequency: 600,
+                                                              pingUrl: envelope_args[:ds_ping_url]
+                                                            })
 
     results = envelope_api.create_recipient_view(args[:account_id], envelope_id, view_request)
 
@@ -47,6 +47,7 @@ class ESign::Eg041CfrEmbeddedSigningService
   end
 
   private
+
   def make_envelope(args, workflow_id)
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document sent from Ruby SDK'
@@ -74,16 +75,15 @@ class ESign::Eg041CfrEmbeddedSigningService
     identity_verification.workflow_id = workflow_id
     identity_verification.input_options = [input_option]
 
-
     # Create a signer recipient to sign the document, identified by name and email
     # We're setting the parameters via the object creation
     signer1 = DocuSign_eSign::Signer.new({
-      email: args[:signer_email],
-      name: args[:signer_name],
-      clientUserId: args[:signer_client_id],
-      recipientId: 1,
-      identityVerification: identity_verification
-    })
+                                           email: args[:signer_email],
+                                           name: args[:signer_name],
+                                           clientUserId: args[:signer_client_id],
+                                           recipientId: 1,
+                                           identityVerification: identity_verification
+                                         })
     # The DocuSign platform searches throughout your envelope's documents for matching
     # anchor strings. So the sign_here_2 tab will be used in both document 2 and 3
     # since they use the same anchor string for their "signer 1" tabs.

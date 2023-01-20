@@ -10,7 +10,6 @@ class DsCommonController < ApplicationController
   end
 
   def handle_redirects
-    minimum_buffer_min = 10
     if Rails.configuration.quickstart
       @manifest = Utils::ManifestUtils.new.get_manifest(Rails.configuration.example_manifest_url)
 
@@ -19,9 +18,9 @@ class DsCommonController < ApplicationController
         session[:quickstarted] = true
         redirect_to '/auth/docusign'
       elsif session[:been_here].nil?
-        enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).is_cfr(session[:ds_account_id])
-        if enableCFR == "enabled"
-          session[:status_cfr] = "enabled"
+        enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).cfr?(session[:ds_account_id])
+        if enableCFR == 'enabled'
+          session[:status_cfr] = 'enabled'
           @status_cfr = session[:status_cfr]
           redirect_to '/eeg041'
         else
@@ -31,24 +30,22 @@ class DsCommonController < ApplicationController
         render_examples
       end
     elsif session[:ds_access_token].present?
-      if (!session[:api] || session[:api] == "eSignature")
-        enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).is_cfr(session[:ds_account_id])
-        if enableCFR == "enabled"
-          session[:status_cfr] = "enabled"
-        end
+      if !session[:api] || session[:api] == 'eSignature'
+        enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).cfr?(session[:ds_account_id])
+        session[:status_cfr] = 'enabled' if enableCFR == 'enabled'
       end
-        render_examples
+      render_examples
     else
       render_examples
     end
   end
 
   def render_examples
-    if(session[:ds_access_token].present? && !session[:status_cfr] && (!session[:api] || session[:api] == "eSignature"))
-      enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).is_cfr(session[:ds_account_id])
-      if enableCFR == "enabled"
-        @status_cfr = "enabled"
-        session[:status_cfr] = "enabled"
+    if session[:ds_access_token].present? && !session[:status_cfr] && (!session[:api] || session[:api] == 'eSignature')
+      enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).cfr?(session[:ds_account_id])
+      if enableCFR == 'enabled'
+        @status_cfr = 'enabled'
+        session[:status_cfr] = 'enabled'
       end
     else
       @status_cfr = session[:status_cfr]

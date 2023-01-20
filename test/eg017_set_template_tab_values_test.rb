@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'test/unit'
 require_relative './test_helper'
 require_relative '../app/services/api_creator'

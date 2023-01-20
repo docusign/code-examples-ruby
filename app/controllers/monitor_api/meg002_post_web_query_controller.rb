@@ -16,7 +16,7 @@ class MonitorApi::Meg002PostWebQueryController < EgController
 
     @title = @example['ExampleName']
 
-    if results != "Monitor not enabled"
+    if results != 'Monitor not enabled'
       @message = @example['ResultsPageText']
       @json = results.to_json.to_json
     else

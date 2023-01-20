@@ -14,7 +14,7 @@ class Clickwrap::Eg006EmbedClickwrapService
 
     api_client = DocuSign_Click::ApiClient.new configuration
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
-    api_client.config.debugging = true;
+    api_client.config.debugging = true
 
     # document_data = DocuSign_Click::DocumentData.new({
     #   full_name: args[:full_name],
@@ -25,18 +25,17 @@ class Clickwrap::Eg006EmbedClickwrapService
     # })
 
     document_data = {
-      "fullName" => args[:full_name],
-      "email" => args[:email],
-      "company" => args[:company],
-      "title" => args[:title],
-      "date" => args[:date]
+      'fullName' => args[:full_name],
+      'email' => args[:email],
+      'company' => args[:company],
+      'title' => args[:title],
+      'date' => args[:date]
     }
 
-
     userAgreementRequest = DocuSign_Click::UserAgreementRequest.new({
-      clientUserId: args[:email],
-      documentData: document_data
-    })
+                                                                      clientUserId: args[:email],
+                                                                      documentData: document_data
+                                                                    })
 
     accounts_api = DocuSign_Click::AccountsApi.new(api_client)
 

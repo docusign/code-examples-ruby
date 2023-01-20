@@ -21,15 +21,14 @@ class MonitorApi::Eg001GetMonitoringDatasetService
     begin
       @response = monitor_api.get_stream(args[:data_set_name], args[:version]).data
       # step 3 end
-    rescue
+    rescue StandardError
       # error, probalby no Monitor enabled
-      @response = "Monitor not enabled"
+      @response = 'Monitor not enabled'
     else
-      Rails.logger.info "Responses for loops are displayed here. Only the final loop is displayed on the response page"
+      Rails.logger.info 'Responses for loops are displayed here. Only the final loop is displayed on the response page'
       Rails.logger.info @response.inspect
     ensure
       return @response
     end
-
   end
 end

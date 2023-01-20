@@ -13,7 +13,7 @@ class MonitorApi::Meg001GetMonitoringDatasetController < EgController
 
     @title = @example['ExampleName']
 
-    if results != "Monitor not enabled"
+    if results != 'Monitor not enabled'
       @message = @example['ResultsPageText']
       @json = results.to_json.to_json
     else
