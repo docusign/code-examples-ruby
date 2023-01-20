@@ -102,10 +102,10 @@ GEM
     faraday-net_http (2.0.3)
     ffi (1.15.5)
     ffi (1.15.5-x64-mingw32)
-    globalid (1.0.0)
+    globalid (1.0.1)
       activesupport (>= 5.0)
     hashie (5.0.0)
-    i18n (1.10.0)
+    i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     io-like (0.3.1)
     jbuilder (2.10.2)
@@ -123,7 +123,7 @@ GEM
     marcel (1.0.2)
     method_source (0.9.2)
     mini_mime (1.1.2)
-    minitest (5.16.2)
+    minitest (5.17.0)
     msgpack (1.5.3)
     multi_xml (0.6.0)
     nio4r (2.5.8)
@@ -254,7 +254,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.6.0)
+    zeitwerk (2.6.6)
 
 PLATFORMS
   x64-mingw32
