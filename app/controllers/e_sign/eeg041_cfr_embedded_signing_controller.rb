@@ -41,10 +41,10 @@ class ESign::Eeg041CfrEmbeddedSigningController < EgController
   end
 
   def get
-    enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).is_cfr(session[:ds_account_id])
-    if enableCFR != "enabled"
-      @title = "Must use a CFR Part 11 enabled account"
-      @error_information = "This example requires a CFR Part 11 account. Please return to the homepage to run one of the examples that is compatible or authenticate with a different account."
+    enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).cfr?(session[:ds_account_id])
+    if enableCFR != 'enabled'
+      @title = 'Must use a CFR Part 11 enabled account'
+      @error_information = 'This example requires a CFR Part 11 account. Please return to the homepage to run one of the examples that is compatible or authenticate with a different account.'
       render 'ds_common/error'
     end
     super

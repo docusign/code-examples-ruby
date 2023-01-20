@@ -42,10 +42,10 @@ class ESign::Eeg040SetDocumentVisibilityController < EgController
   end
 
   def get
-    enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).is_cfr(session[:ds_account_id])
-    if enableCFR == "enabled"
-      session[:status_cfr] = "enabled"
-      @title = "Not CFR Part 11 compatible"
+    enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).cfr?(session[:ds_account_id])
+    if enableCFR == 'enabled'
+      session[:status_cfr] = 'enabled'
+      @title = 'Not CFR Part 11 compatible'
       @error_information = @manifest['SupportingTexts']['CFRError']
       render 'ds_common/error'
     end

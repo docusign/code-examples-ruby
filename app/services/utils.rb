@@ -6,7 +6,7 @@ module Utils
       JSON.parse(res.body)
     end
 
-    def get_example(manifest, number, api_name='eSignature')
+    def get_example(manifest, number, api_name = 'eSignature')
       manifest['APIs'].each do |api|
         next unless api_name == api['Name']
 

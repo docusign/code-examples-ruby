@@ -12,9 +12,9 @@ class DsCommonController < ApplicationController
       session[:quickstarted] = true
       redirect_to '/auth/docusign'
     else
-      enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).is_cfr(session[:ds_account_id])
-      if enableCFR == "enabled"
-        session[:status_cfr] = "enabled"
+      enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).cfr?(session[:ds_account_id])
+      if enableCFR == 'enabled'
+        session[:status_cfr] = 'enabled'
         redirect_to '/eeg041'
       else
         redirect_to '/eeg001'

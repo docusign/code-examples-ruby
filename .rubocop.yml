@@ -1,3 +1,15 @@
+AllCops:
+  Exclude:
+    - '**/db/**/*'
+    - '**/config/**/*'
+    - '**/test/**/*'
+    - '**/bin/**/*'
+    - '**/*test*'
+    - '**/vendor/**/*'
+
+Layout/EndOfLine:
+  Enabled: false
+
 Layout/LineLength:
   Enabled: false
 
@@ -5,6 +17,12 @@ Style/ClassAndModuleChildren:
   Enabled: false
 
 Style/Documentation:
+  Enabled: false
+
+Lint/EnsureReturn:
+  Enabled: false
+
+Style/HashSyntax:
   Enabled: false
 
 Style/StringLiterals:

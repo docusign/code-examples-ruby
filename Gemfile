@@ -77,7 +77,6 @@ gem 'omniauth-oauth2', '~> 1.7.1'
 gem 'omniauth-rails_csrf_protection'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'matrix', '~> 0.4.2'
 gem 'tzinfo-data', '~> 1.2022.1', '>= 1.2022.1'
 gem 'wdm', '>= 0.1.0', platforms: %i[mingw mswin x64_mingw]
-
-gem "matrix", "~> 0.4.2"

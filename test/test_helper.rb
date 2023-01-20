@@ -1,6 +1,8 @@
-require 'docusign_esign'
+require 'bundler/inline'
+
 require 'yaml'
 require 'test/unit'
+require 'docusign_esign'
 
 $_scopes = %w[
   signature impersonation
@@ -28,6 +30,10 @@ class TestHelper < Test::Unit::TestCase
     api_client.set_oauth_base_path(data[:authorization_server])
 
     rsa_pk = './config/docusign_private_key.txt'
+    unless File.exist? rsa_pk
+      rsa_pk = ENV['PRIVATE_KEY']
+    end
+
     begin
       token = api_client.request_jwt_user_token(ds_config['jwt_integration_key'], ds_config['impersonated_user_guid'], rsa_pk, 3600, $_scopes)
       user_info_response = api_client.get_user_info(token.access_token)
@@ -59,13 +65,23 @@ class TestHelper < Test::Unit::TestCase
 
   def get_config_data
     config_file_path = './config/appsettings.yml'
-    begin
-      config_file_contents = File.read(config_file_path)
-    rescue Errno::ENOENT
-      warn 'Missing config file'
-      raise
+    if File.exist? config_file_path
+      begin
+        config_file_contents = File.read(config_file_path)
+      rescue Errno::ENOENT
+        warn 'Missing config file'
+        raise
+      end
+      YAML.unsafe_load(config_file_contents)['default']
+    else
+      config = {}
+      config['jwt_integration_key'] = ENV['CLIENT_ID']
+      config['impersonated_user_guid'] = ENV['USER_ID']
+      config['signer_email'] = ENV['SIGNER_EMAIL']
+      config['signer_name'] = ENV['SIGNER_NAME']
+
+      config
     end
-    YAML.unsafe_load(config_file_contents)['default']
   end
 
   def get_common_data

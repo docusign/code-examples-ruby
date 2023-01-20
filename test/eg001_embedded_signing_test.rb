@@ -1,5 +1,5 @@
+require 'rubygems'
 require 'test/unit'
-require 'docusign_esign'
 require 'json'
 require_relative 'test_helper'
 require_relative '../app/services/api_creator'

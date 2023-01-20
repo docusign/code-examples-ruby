@@ -1,5 +1,5 @@
+require 'rubygems'
 require 'test/unit'
-require 'docusign_esign'
 require_relative './test_helper'
 require_relative '../app/services/api_creator'
 require_relative '../app/services/e_sign/eg002_signing_via_email_service'
