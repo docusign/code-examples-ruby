@@ -38,9 +38,10 @@
 
           <% group["Examples"].each { |example| %>
             <%   if example_available? example   %>
-              <% if example["CFREnabled"] == "AllAccounts" ||
-              @status_cfr == "enabled"  && example["CFREnabled"] == "CFROnly" ||
-              @status_cfr != "enabled" && example["CFREnabled"] == "NonCFR"
+              <% if api["Name"].downcase != "esignature" ||
+                example["CFREnabled"] == "AllAccounts" ||
+                @status_cfr == "enabled" && example["CFREnabled"] == "CFROnly" ||
+                @status_cfr != "enabled" && example["CFREnabled"] == "NonCFR"
               %>
                   <% prefix = if api["Name"] == "Admin"
                                 "a"
