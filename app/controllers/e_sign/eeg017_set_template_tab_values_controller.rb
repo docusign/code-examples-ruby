@@ -22,9 +22,12 @@ class ESign::Eeg017SetTemplateTabValuesController < EgController
         access_token: session['ds_access_token'],
         envelope_args: envelope_args
       }
-
-      redirect_url = ESign::Eg017SetTemplateTabValuesService.new(args).worker
-      redirect_to redirect_url
+      begin
+        redirect_url = ESign::Eg017SetTemplateTabValuesService.new(args).worker
+        redirect_to redirect_url
+      rescue DocuSign_eSign::ApiError => e
+        handle_error(e)
+      end
     elsif !template_id
       @title = @example['ExampleName']
       @template_ok = false

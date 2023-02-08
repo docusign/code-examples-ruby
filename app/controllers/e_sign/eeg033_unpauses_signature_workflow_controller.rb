@@ -16,7 +16,7 @@ class ESign::Eeg033UnpausesSignatureWorkflowController < EgController
     results = ESign::Eg033UnpausesSignatureWorkflowService.new(args).worker
 
     @envelop_id = results.to_hash[:envelopeId].to_s
-    render 'e_sign/eg033_unpauses_signature_workflow/return'
+    render 'e_sign/eeg033_unpauses_signature_workflow/return'
   end
 
   def get

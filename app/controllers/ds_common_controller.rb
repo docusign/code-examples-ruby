@@ -29,7 +29,7 @@ class DsCommonController < ApplicationController
       else
         render_examples
       end
-    elsif session[:ds_access_token].present?
+    elsif session[:ds_access_token].present? && session[:ds_account_id].present?
       if !session[:api] || session[:api] == 'eSignature'
         enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).cfr?(session[:ds_account_id])
         session[:status_cfr] = 'enabled' if enableCFR == 'enabled'
@@ -41,7 +41,7 @@ class DsCommonController < ApplicationController
   end
 
   def render_examples
-    if session[:ds_access_token].present? && !session[:status_cfr] && (!session[:api] || session[:api] == 'eSignature')
+    if session[:ds_access_token].present? && session[:ds_account_id].present? && !session[:status_cfr] && (!session[:api] || session[:api] == 'eSignature')
       enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).cfr?(session[:ds_account_id])
       if enableCFR == 'enabled'
         @status_cfr = 'enabled'

@@ -3,8 +3,8 @@
 <% form_index = 0 %>
 <% signer_email_index = 0 %>
 <% signer_name_index = 1 %>
-<% cc_email_index = 2 %>
-<% cc_name_index = 3 %>
+<% cc_name_index = 2 %>
+<% cc_email_index = 3 %>
 <% redirect_to8_index = 0 %>
 
   <% if @template_ok %>
@@ -28,25 +28,25 @@
              value="<%= @config.signer_name %>" required>
     </div>
     <div class="form-group">
+      <label for="ccName"><%= @example["Forms"][form_index]["Inputs"][cc_name_index]["InputName"] %></label>
+      <input type="text" class="form-control" id="ccName"
+             placeholder="<%= @example["Forms"][form_index]["Inputs"][cc_name_index]["InputPlaceholder"] %>" name="ccName"
+             required>
+    </div>
+    <div class="form-group">
       <label for="ccEmail"><%= @example["Forms"][form_index]["Inputs"][cc_email_index]["InputName"] %></label>
       <input type="email" class="form-control" id="ccEmail" name="ccEmail"
              aria-describedby="emailHelp"
              placeholder="<%= @example["Forms"][form_index]["Inputs"][cc_email_index]["InputPlaceholder"] %>" required />
       <%= render('partials/email_should_differ_from_signer') %>
     </div>
-    <div class="form-group">
-      <label for="ccName"><%= @example["Forms"][form_index]["Inputs"][cc_name_index]["InputName"] %></label>
-      <input type="text" class="form-control" id="ccName"
-             placeholder="<%= @example["Forms"][form_index]["Inputs"][cc_name_index]["InputPlaceholder"] %>" name="ccName"
-             required>
-    </div>
     <%= render('partials/submit_button') %>
   </form>
 
   <%  else  %>
-  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to8_index]["RedirectText"], 'href="eg008"') %>
+  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to8_index]["RedirectText"], 'href="eeg008"') %>
 
-  <form class="eg" action="eg008" method="get">
+  <form class="eg" action="eeg008" method="get">
     <%= render('partials/continue_button') %>
   </form>
   <% end %>

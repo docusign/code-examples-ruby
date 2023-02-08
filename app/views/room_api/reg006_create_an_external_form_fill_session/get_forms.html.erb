@@ -6,7 +6,7 @@
 
 <% unless @form_libraries.blank? %>
 
-  <form class="eg" id="data_form" action="eg006" method="post" data-busy="form">
+  <form class="eg" id="data_form" action="reg006" method="post" data-busy="form">
     <% if @example["Forms"][form_index]["FormName"] %>
       <%= sanitize @example["Forms"][form_index]["FormName"] %>
     <% end %>
@@ -22,7 +22,7 @@
 <% else %>
 
   <div class="form-group">
-    <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to4_index]["RedirectText"], 'href="eg004"') %>
+    <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to4_index]["RedirectText"], 'href="reg004"') %>
   </div>
 
 <% end %>

@@ -6,15 +6,15 @@
 <% redirect_to6_index = 1 %>
 
 <% if !@envelope_ok %>
-  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to2_index]["RedirectText"], 'href="eg002"') %>
+  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to2_index]["RedirectText"], 'href="eeg002"') %>
 
  <form class="eg" action="eg002" method="get">
      <%= render('partials/continue_button') %>
  </form>
 <% elsif !@documents_ok %>
-  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to6_index]["RedirectText"], 'href="eg006"') %>
+  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to6_index]["RedirectText"], 'href="eeg006"') %>
 
- <form class="eg" action="eg006" method="get">
+ <form class="eg" action="eeg006" method="get">
      <%= render('partials/continue_button') %>
  </form>
 <% else %>

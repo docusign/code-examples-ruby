@@ -5,9 +5,9 @@
 <% redirect_to32_index = 0 %>
 
 <% if session[:envelope_id] %>
-  <%= form_tag eg033_path, method: :put do -%>
+  <%= form_tag eeg033_path, method: :put do -%>
     <%= submit_tag 'Submit', class: 'btn btn-docu'%>
   <%- end -%>
 <% else %>
-  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to32_index]["RedirectText"], 'href="eg032"') %>
+  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to32_index]["RedirectText"], 'href="eeg032"') %>
 <% end %>

@@ -11,10 +11,10 @@ class ESign::Eg017SetTemplateTabValuesService
 
   # ***DS.snippet.0.start
   def worker
-    ds_ping_url = args[:ds_ping_url]
-    ds_return_url = "#{ds_ping_url}/ds_common-return"
     signer_client_id = 1000
     envelope_args = args[:envelope_args]
+    ds_ping_url = envelope_args[:ds_ping_url]
+    ds_return_url = "#{ds_ping_url}/ds_common-return"
 
     # Step 4. Construct the request body
     envelope_definition = make_envelope(envelope_args)
@@ -28,7 +28,7 @@ class ESign::Eg017SetTemplateTabValuesService
     view_request = make_recipient_view_request(envelope_args[:signer_email], envelope_args[:signer_name], signer_client_id, ds_return_url, ds_ping_url)
 
     # Call the CreateRecipientView API
-    results = create_envelope_api(args).create_recipient_view args[:account_id], envelope_id, view_request
+    results = envelope_api.create_recipient_view args[:account_id], envelope_id, view_request
 
     # Redirect the user to the embedded signing
     # Don't use an iframe!

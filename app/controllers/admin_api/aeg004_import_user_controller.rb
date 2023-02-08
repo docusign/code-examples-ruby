@@ -40,7 +40,7 @@ class AdminApi::Aeg004ImportUserController < EgController
       @title = @example['ExampleName']
       @message = @example['AdditionalPage'][0]['ResultsPageText']
       @json = results.to_json.to_json
-      render 'admin_api/eg004_import_user/get_status.html.erb'
+      render 'admin_api/aeg004_import_user/get_status.html.erb'
     rescue DocuSign_Admin::ApiError => e
       error = JSON.parse e.response_body
       @error_code = e.code
