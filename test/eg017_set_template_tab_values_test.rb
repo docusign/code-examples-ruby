@@ -13,13 +13,13 @@ class Eg017SetTemplateTabValuesTest < TestHelper
       signer_name: @config['signer_name'],
       cc_email: @data[:cc_email],
       cc_name: @data[:cc_name],
-      template_id: TestData.get_template_id
+      template_id: TestData.get_template_id,
+      ds_ping_url: @data[:ds_ping_url],
     }
     args = {
       account_id: @account_id,
       base_path: @base_path,
       access_token: @access_token,
-      ds_ping_url: @data[:ds_ping_url],
       envelope_args: envelope_args
     }
 

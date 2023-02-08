@@ -6,7 +6,7 @@
 
 <% if @rooms.count.positive? %>
 
-  <form class="eg" id="data_form" action="eg006_forms" method="get" data-busy="form">
+  <form class="eg" id="data_form" action="reg006_forms" method="get" data-busy="form">
     <% if @example["Forms"][form_index]["FormName"] %>
       <%= sanitize @example["Forms"][form_index]["FormName"] %>
     <% end %>
@@ -21,7 +21,7 @@
 <% else %>
 
   <div class="form-group">
-    <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to1_index]["RedirectText"], 'href="eg001"') %>
+    <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to1_index]["RedirectText"], 'href="reg001"') %>
   </div>
 
 <% end %>

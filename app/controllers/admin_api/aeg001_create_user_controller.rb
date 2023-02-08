@@ -31,14 +31,16 @@ class AdminApi::Aeg001CreateUserController < EgController
       ]
     }
 
-    results = AdminApi::Eg001CreateUserService.new(args, user_data).worker
+    begin
+      results = AdminApi::Eg001CreateUserService.new(args, user_data).worker
 
-    @title = @example['ExampleName']
-    @message = @example['ResultsPageText']
-    @json = results.to_json.to_json
-    render 'ds_common/example_done'
-  rescue DocuSign_Admin::ApiError => e
-    handle_error(e)
+      @title = @example['ExampleName']
+      @message = @example['ResultsPageText']
+      @json = results.to_json.to_json
+      render 'ds_common/example_done'
+    rescue DocuSign_Admin::ApiError => e
+      handle_error(e)
+    end
   end
 
   def get

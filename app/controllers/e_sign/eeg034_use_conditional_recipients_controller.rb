@@ -24,7 +24,7 @@ class ESign::Eeg034UseConditionalRecipientsController < EgController
 
     results = ESign::Eg034UseConditionalRecipientsService.new(args, signers).worker
     @envelop_id = results.to_hash[:envelopeId].to_s
-    render 'e_sign/eg034_use_conditional_recipients/return'
+    render 'e_sign/eeg034_use_conditional_recipients/return'
   rescue DocuSign_eSign::ApiError => e
     error = JSON.parse e.response_body
     @error_code = error['errorCode']

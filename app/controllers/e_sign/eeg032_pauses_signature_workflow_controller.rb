@@ -23,7 +23,7 @@ class ESign::Eeg032PausesSignatureWorkflowController < EgController
     @envelop_id = results.to_hash[:envelopeId].to_s
     session[:envelope_id] = @envelop_id
 
-    render 'e_sign/eg032_pauses_signature_workflow/return'
+    render 'e_sign/eeg032_pauses_signature_workflow/return'
   end
 
   def get
