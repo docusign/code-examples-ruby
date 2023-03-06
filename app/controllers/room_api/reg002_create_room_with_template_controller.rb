@@ -6,7 +6,7 @@ class RoomApi::Reg002CreateRoomWithTemplateController < EgController
     args = {
       room_name: params[:roomName],
       office_id: RoomApi::GetDataService.new(session).get_offices[0]['officeId'],
-      role_id: RoomApi::GetDataService.new(session).get_roles[2]['roleId'],
+      role_id: RoomApi::GetDataService.new(session).get_default_admin_role_id,
       template_id: params['templateId'],
       account_id: session[:ds_account_id],
       base_path: session[:ds_base_path],

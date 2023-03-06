@@ -20,12 +20,13 @@ class RoomApi::GetDataService
     offices.as_json['officeSummaries']
   end
 
-  def get_roles
+  def get_default_admin_role_id
     worker
 
     roles_api = DocuSign_Rooms::RolesApi.new(@api_client)
-    roles = roles_api.get_roles(args[:account_id])
-    roles.as_json['roles']
+    roles = roles_api.get_roles(args[:account_id]).as_json['roles']
+    default_admin_role = roles.find { |role| role['name'] == 'Default Admin' }
+    default_admin_role['roleId']
   end
 
   def get_rooms

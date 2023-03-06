@@ -16,11 +16,7 @@ class RoomApi::Eg006CreateAnExternalFormFillSessionService
 
     rooms_api = DocuSign_Rooms::ExternalFormFillSessionsApi.new(api_client)
 
-    begin
-      rooms_api.create_external_form_fill_session(args[:account_id], body(args))
-    rescue Exception
-      nil
-    end
+    rooms_api.create_external_form_fill_session(args[:account_id], body(args))
   end
 
   private
@@ -28,7 +24,8 @@ class RoomApi::Eg006CreateAnExternalFormFillSessionService
   def body(args)
     DocuSign_Rooms::ExternalFormFillSessionForCreate.new({
                                                            formId: args[:form_id],
-                                                           roomId: args[:room_id]
+                                                           roomId: args[:room_id],
+                                                           xFrameAllowedUrl: "http://#{args[:allowed_host]}"
                                                          })
   end
 end
