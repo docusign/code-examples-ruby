@@ -8,16 +8,21 @@ class RoomApi::Reg006CreateAnExternalFormFillSessionController < EgController
       room_id: params['roomId'],
       account_id: session[:ds_account_id],
       base_path: session[:ds_base_path],
-      access_token: session[:ds_access_token]
+      access_token: session[:ds_access_token],
+      allowed_host: request.host_with_port
     }
+    begin
+      results = RoomApi::Eg006CreateAnExternalFormFillSessionService.new(args).worker
 
-    results = RoomApi::Eg006CreateAnExternalFormFillSessionService.new(args).worker
+      @title = @example['ExampleName']
+      @message = @example['ResultsPageText']
+      @json = results.to_json
+      @url = results.url
 
-    @title = @example['ExampleName']
-    @message = @example['ResultsPageText']
-    @json = results.to_json.to_json
-
-    render 'ds_common/example_done'
+      render 'room_api/reg006_create_an_external_form_fill_session/results'
+    rescue DocuSign_Rooms::ApiError => e
+      handle_error(e)
+    end
   end
 
   def get_rooms

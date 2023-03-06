@@ -1,0 +1,12 @@
+<h2><%= @title %></h2>
+<% if !@message.nil? %>
+<p><%= @message.html_safe %></p>
+<% end %>
+
+<code><%= @json %></code>
+
+<iframe width="100%" height="800" src=<%= @url %>>
+
+</iframe>
+
+<p><a href="/">Continue</a></p>
