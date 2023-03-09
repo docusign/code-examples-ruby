@@ -29,7 +29,7 @@ class DsCommonController < ApplicationController
       else
         render_examples
       end
-    elsif session[:ds_access_token].present? && session[:ds_account_id].present?
+    elsif check_token
       if !session[:api] || session[:api] == 'eSignature'
         enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).cfr?(session[:ds_account_id])
         session[:status_cfr] = 'enabled' if enableCFR == 'enabled'
@@ -41,7 +41,7 @@ class DsCommonController < ApplicationController
   end
 
   def render_examples
-    if session[:ds_access_token].present? && session[:ds_account_id].present? && !session[:status_cfr] && (!session[:api] || session[:api] == 'eSignature')
+    if check_token && !session[:status_cfr] && (!session[:api] || session[:api] == 'eSignature')
       enableCFR = ESign::GetDataService.new(session[:ds_access_token], session[:ds_base_path]).cfr?(session[:ds_account_id])
       if enableCFR == 'enabled'
         @status_cfr = 'enabled'
@@ -114,5 +114,12 @@ class DsCommonController < ApplicationController
 
   def load_manifest
     @manifest = Utils::ManifestUtils.new.get_manifest(Rails.configuration.example_manifest_url)
+  end
+
+  def check_token(buffer_in_min = 10)
+    buffer = buffer_in_min * 60
+    expires_at = session[:ds_expires_at]
+    remaining_duration = expires_at.nil? ? 0 : expires_at - buffer.seconds.from_now.to_i
+    remaining_duration.positive?
   end
 end
