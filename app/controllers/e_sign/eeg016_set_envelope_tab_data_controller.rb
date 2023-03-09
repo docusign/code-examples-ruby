@@ -14,11 +14,15 @@ class ESign::Eeg016SetEnvelopeTabDataController < EgController
       account_id: session['ds_account_id']
     }
 
-    results = ESign::Eg016SetEnvelopeTabDataService.new(args).worker
+    begin
+      results = ESign::Eg016SetEnvelopeTabDataService.new(args).worker
 
-    # Save for future use within the example launcher
-    session[:envelope_id] = results[:envelope_id]
+      # Save for future use within the example launcher
+      session[:envelope_id] = results[:envelope_id]
 
-    redirect_to results[:url]
+      redirect_to results[:url]
+    rescue DocuSign_eSign::ApiError => e
+      handle_error(e)
+    end
   end
 end

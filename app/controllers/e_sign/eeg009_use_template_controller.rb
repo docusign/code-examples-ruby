@@ -25,6 +25,8 @@ class ESign::Eeg009UseTemplateController < EgController
         }
 
         results = ESign::Eg009UseTemplateService.new(args).worker
+
+        session[:envelope_id] = results[:envelope_id]
         # results is an object that implements ArrayAccess. Convert to a regular array:
         @title = @example['ExampleName']
         @message = format_string(@example['ResultsPageText'], results[:envelope_id])

@@ -97,7 +97,7 @@ class TestHelper < Test::Unit::TestCase
       doc_for_template: './data/World_Wide_Corp_fields.pdf',
       item: 'Item',
       quantity: 5,
-      template_name: 'Example Signer and CC template'
+      template_name: 'Example Signer and CC template v2'
     }
   end
 

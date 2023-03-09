@@ -114,11 +114,11 @@ class ESign::Eg008CreateTemplateService
       ]
     )
 
-    number1 = DocuSign_eSign::Number.new(
+    numerical = DocuSign_eSign::Numerical.new(
       'documentId' => '1', 'pageNumber' => '1',
       'xPosition' => '163', 'yPosition' => '260',
-      'font' => 'helvetica', 'fontSize' => 'size14',
-      'tabLabel' => 'numbersOnly', 'width' => '84', 'required' => 'false'
+      'font' => 'helvetica', 'fontSize' => 'size14', 'validationType' => 'Currency',
+      'tabLabel' => 'numericalCurrency', 'width' => '84', 'required' => 'false'
     )
     radio_group =  DocuSign_eSign::RadioGroup.new(
       'documentId' => '1', 'groupName' => 'radio1',
@@ -148,7 +148,7 @@ class ESign::Eg008CreateTemplateService
       'signHereTabs' => [sign_here],
       'checkboxTabs' => [check1, check2, check3, check4],
       'listTabs' => [list1],
-      'numberTabs' => [number1],
+      'numericalTabs' => [numerical],
       'radioGroupTabs' => [radio_group],
       'textTabs' => [text]
     )

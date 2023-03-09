@@ -9,7 +9,7 @@ class ESign::Eeg008CreateTemplateController < EgController
       account_id: session['ds_account_id'],
       base_path: session['ds_base_path'],
       access_token: session['ds_access_token'],
-      template_name: 'Example Signer and CC template'
+      template_name: 'Example Signer and CC template v2'
     }
     results = ESign::Eg008CreateTemplateService.new(args).worker
     session[:template_id] = results[:template_id]

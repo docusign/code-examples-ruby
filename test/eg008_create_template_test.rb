@@ -77,11 +77,11 @@ class Eg008CreateTemplateTest < TestHelper
       ]
     )
 
-    expected_number1 = DocuSign_eSign::Number.new(
+    expected_numerical = DocuSign_eSign::Numerical.new(
       'documentId' => '1', 'pageNumber' => '1',
       'xPosition' => '163', 'yPosition' => '260',
-      'font' => 'helvetica', 'fontSize' => 'size14',
-      'tabLabel' => 'numbersOnly', 'width' => '84', 'required' => 'false'
+      'font' => 'helvetica', 'fontSize' => 'size14', 'validationType' => 'Currency',
+      'tabLabel' => 'numericalCurrency', 'width' => '84', 'required' => 'false'
     )
     expected_radio_group =  DocuSign_eSign::RadioGroup.new(
       'documentId' => '1', 'groupName' => 'radio1',
@@ -110,7 +110,7 @@ class Eg008CreateTemplateTest < TestHelper
     expected_tabs.sign_here_tabs = [expected_sign_here]
     expected_tabs.checkbox_tabs = [expected_check1, expected_check2, expected_check3, expected_check4]
     expected_tabs.list_tabs = [expected_list1]
-    expected_tabs.number_tabs = [expected_number1]
+    expected_tabs.numerical_tabs = [expected_numerical]
     expected_tabs.radio_group_tabs = [expected_radio_group]
     expected_tabs.text_tabs = [expected_text]
 

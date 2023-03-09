@@ -86,7 +86,6 @@ class ESign::Eg016SetEnvelopeTabDataService
                                          })
 
     # Step 3. Create Tabs and CustomFields
-    salary = '$123,000'
 
     sign_here1 = DocuSign_eSign::SignHere.new
     sign_here1.anchor_string = '/sn1/'
@@ -111,7 +110,7 @@ class ESign::Eg016SetEnvelopeTabDataService
     text_familiar.anchor_string = '/familiar/'
     text_familiar.anchor_units = 'pixels'
     text_familiar.anchor_y_offset = '-9'
-    text_familiar.anchor_y_offset = '5'
+    text_familiar.anchor_x_offset = '5'
     text_familiar.font = 'Helvetica'
     text_familiar.font_size = 'size11'
     text_familiar.bold = 'true'
@@ -120,23 +119,46 @@ class ESign::Eg016SetEnvelopeTabDataService
     text_familiar.tab_id = 'familiar_name'
     text_familiar.tab_label = 'Familiar name'
 
-    text_salary = DocuSign_eSign::Text.new
-    text_salary.anchor_string = '/salary/'
-    text_salary.anchor_units = 'pixels'
-    text_salary.anchor_y_offset = '-9'
-    text_salary.anchor_y_offset = '5'
-    text_salary.font = 'Helvetica'
-    text_salary.font_size = 'size11'
-    text_salary.bold = 'true'
-    text_salary.value = salary
-    text_salary.locked = 'true'
-    text_salary.tab_id = 'salary'
-    text_salary.tab_label = 'Salary'
+    locale_policy_tab = DocuSign_eSign::LocalePolicyTab.new
+    locale_policy_tab.culture_name = 'en-US'
+    locale_policy_tab.currency_code = 'usd'
+    locale_policy_tab.currency_positive_format = 'csym_1_comma_234_comma_567_period_89'
+    locale_policy_tab.currency_negative_format = 'minus_csym_1_comma_234_comma_567_period_89'
+    locale_policy_tab.use_long_currency_format = 'true'
+
+    numerical_salary = DocuSign_eSign::Numerical.new
+    numerical_salary.page_number = '1'
+    numerical_salary.document_id = '1'
+    numerical_salary.x_position = '210'
+    numerical_salary.y_position = '235'
+    numerical_salary.height = '20'
+    numerical_salary.width = '70'
+    numerical_salary.min_numerical_value = '0'
+    numerical_salary.max_numerical_value = '1000000'
+    numerical_salary.validation_type = 'Currency'
+    numerical_salary.font = 'Helvetica'
+    numerical_salary.font_size = 'size11'
+    numerical_salary.bold = 'true'
+    numerical_salary.tab_id = 'salary'
+    numerical_salary.tab_label = 'Salary'
+    numerical_salary.numerical_value = '123000'
+    numerical_salary.locale_policy = locale_policy_tab
+
+    salary_custom_field = DocuSign_eSign::TextCustomField.new
+    salary_custom_field.name = 'salary'
+    salary_custom_field.required = 'false'
+    salary_custom_field.show = 'true'
+    salary_custom_field.value = '123000'
+
+    cf = DocuSign_eSign::CustomFields.new
+    cf.text_custom_fields = [salary_custom_field]
+    envelope_definition.custom_fields = cf
 
     # Tabs are set per recipient / signer
     tabs = DocuSign_eSign::Tabs.new
     tabs.sign_here_tabs = [sign_here1]
-    tabs.text_tabs = [text_legal, text_familiar, text_salary]
+    tabs.text_tabs = [text_legal, text_familiar]
+    tabs.numerical_tabs = [numerical_salary]
 
     signer1.tabs = tabs
     # Add the recipients to the envelope object
