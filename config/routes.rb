@@ -209,6 +209,9 @@ Rails.application.routes.draw do
 
     get 'eeg041' => 'eeg041_cfr_embedded_signing#get'
     post 'eeg041' => 'eeg041_cfr_embedded_signing#create'
+
+    get 'eeg042' => 'eeg042_document_generation#get'
+    post 'eeg042' => 'eeg042_document_generation#create'
   end
 
   root 'ds_common#index'

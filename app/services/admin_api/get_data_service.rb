@@ -51,7 +51,7 @@ class AdminApi::GetDataService
     options.email = email
     response = users_api.get_users(args[:organization_id], options)
 
-    return false if response.users.length.zero? || response.users[0].user_status == 'closed'
+    return false if response.users.empty? || response.users[0].user_status == 'closed'
 
     true
   end
