@@ -6,7 +6,7 @@ require_relative '../app/services/e_sign/eg017_set_template_tab_values_service'
 
 class Eg017SetTemplateTabValuesTest < TestHelper
   setup do
-    setup_test_data
+    setup_test_data [api_type[:e_sign]]
 
     envelope_args = {
       signer_email: @config['signer_email'],

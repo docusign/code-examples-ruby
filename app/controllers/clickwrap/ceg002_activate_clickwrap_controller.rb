@@ -18,6 +18,7 @@ class Clickwrap::Ceg002ActivateClickwrapController < EgController
   end
 
   def get
-    @clickwraps = Clickwrap::Eg002ActivateClickwrapService.new(session).get_inactive_clickwraps
+    statuses = %w[inactive draft]
+    @clickwraps = Clickwrap::Eg002ActivateClickwrapService.new(session).get_inactive_clickwraps(statuses).as_json
   end
 end

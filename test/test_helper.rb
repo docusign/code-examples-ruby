@@ -3,14 +3,27 @@ require 'bundler/inline'
 require 'yaml'
 require 'test/unit'
 require 'docusign_esign'
+require 'docusign_click'
 
-$_scopes = %w[
-  signature impersonation
-]
+$_scopes = %w[signature impersonation]
+$_click_scopes = %w[click.manage click.send]
+$_rooms_scopes = %w[dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms]
+$_admin_scopes = %w[organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read]
+
 
 class TestHelper < Test::Unit::TestCase
-  def setup_test_data
-    auth_results = authenticate
+  def api_type
+    {
+      e_sign: 'ESign',
+      click: 'Click',
+      rooms: 'Rooms',
+      monitor: 'Monitor',
+      admin: 'Admin'
+    }
+  end
+
+  def setup_test_data(api_types)
+    auth_results = authenticate api_types
 
     @config = get_config_data
     @data = get_common_data
@@ -20,7 +33,7 @@ class TestHelper < Test::Unit::TestCase
     @base_path = auth_results[:base_path]
   end
 
-  def authenticate
+  def authenticate(api_types)
     ds_config = get_config_data
     data = get_common_data
 
@@ -34,8 +47,20 @@ class TestHelper < Test::Unit::TestCase
       rsa_pk = ENV['PRIVATE_KEY']
     end
 
+    scopes = $_scopes
+
+    if api_types.include?(api_type[:click])
+      scopes = scopes.concat($_click_scopes)
+    end
+    if api_types.include?(api_type[:rooms])
+      scopes = scopes.concat($_rooms_scopes)
+    end
+    if api_types.include?(api_type[:admin])
+      scopes = scopes.concat($_admin_scopes)
+    end
+
     begin
-      token = api_client.request_jwt_user_token(ds_config['jwt_integration_key'], ds_config['impersonated_user_guid'], rsa_pk, 3600, $_scopes)
+      token = api_client.request_jwt_user_token(ds_config['jwt_integration_key'], ds_config['impersonated_user_guid'], rsa_pk, 3600, scopes)
       user_info_response = api_client.get_user_info(token.access_token)
       account = user_info_response.accounts.find(&:is_default)
 
@@ -53,7 +78,7 @@ class TestHelper < Test::Unit::TestCase
     rescue DocuSign_eSign::ApiError => e
       body = JSON.parse(e.response_body)
       if body['error'] == 'consent_required'
-        authenticate if get_consent
+        authenticate api_types if get_consent
       else
         puts 'API Error'
         puts body['error']
@@ -88,16 +113,24 @@ class TestHelper < Test::Unit::TestCase
     {
       cc_name: 'Test Name',
       cc_email: 'test@mail.com',
+      signer1_email: 'test.signer2@mail.com',
+      signer1_name: 'Test signer2',
+      cc1_email: 'test.cc2@mail.com',
+      cc1_name: 'Test cc2',
       authorization_server: 'account-d.docusign.com',
       signer_client_id: 1000,
       ds_ping_url: 'http://localhost:3000',
       ds_return_url: 'http://localhost:3000/ds_common-return',
       doc_docx: './data/World_Wide_Corp_Battle_Plan_Trafalgar.docx',
       doc_pdf: './data/World_Wide_Corp_lorem.pdf',
+      term_of_service: './data/Term_Of_Service.pdf',
       doc_for_template: './data/World_Wide_Corp_fields.pdf',
       item: 'Item',
       quantity: 5,
-      template_name: 'Example Signer and CC template v2'
+      template_name: 'Example Signer and CC template v2',
+      permission_profile_name: 'Test_Permission_Profile',
+      brand_name: 'Test_Brand_Name',
+      default_brand_language: 'en'
     }
   end
 
@@ -140,15 +173,36 @@ end
 
 class TestData
   @template_id
+  @brand_id
+  @clickwrap_id
 
   def self.get_template_id
     @template_id
   end
 
+  def self.get_brand_id
+    @brand_id
+  end
+
+  def self.get_clickwrap_id
+    @clickwrap_id
+  end
+
   def self.set_template_id(id)
     @template_id = id
+  end
+
+  def self.set_brand_id(id)
+    @brand_id = id
+  end
+
+  def self.set_clickwrap_id(id)
+    @clickwrap_id = id
   end
 end
 
 class ESign
+end
+
+class Clickwrap
 end

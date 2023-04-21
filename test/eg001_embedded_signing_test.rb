@@ -7,7 +7,7 @@ require_relative '../app/services/eg001_embedded_signing_service'
 
 class Eg001EmbeddedSigningTest < TestHelper
   setup do
-    setup_test_data
+    setup_test_data [api_type[:e_sign]]
 
     args = {
       account_id: @account_id,

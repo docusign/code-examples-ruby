@@ -7,6 +7,7 @@ class Clickwrap::Ceg001CreateClickwrapController < EgController
       account_id: session[:ds_account_id],
       base_path: session[:ds_base_path],
       access_token: session[:ds_access_token],
+      doc_pdf: File.join('data', Rails.configuration.doc_terms_pdf),
       clickwrap_name: request[:clickwrapName]
     }
 

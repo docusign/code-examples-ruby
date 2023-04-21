@@ -6,7 +6,7 @@ require_relative '../app/services/e_sign/eg008_create_template_service'
 
 class Eg008CreateTemplateTest < TestHelper
   setup do
-    setup_test_data
+    setup_test_data [api_type[:e_sign]]
 
     args = {
       account_id: @account_id,
