@@ -29,7 +29,7 @@ class Clickwrap::Eg002ActivateClickwrapService
     )
   end
 
-  def get_inactive_clickwraps
+  def get_inactive_clickwraps(statuses)
     configuration = DocuSign_Click::Configuration.new
     configuration.host = args[:ds_base_path]
 
@@ -38,14 +38,16 @@ class Clickwrap::Eg002ActivateClickwrapService
 
     accounts_api = DocuSign_Click::AccountsApi.new(api_client)
 
-    options = DocuSign_Click::GetClickwrapsOptions.new
-    options.status = 'inactive'
+    clickwraps = []
+    statuses.each do |status|
+      options = DocuSign_Click::GetClickwrapsOptions.new
+      options.status = status
+      clickwraps.concat accounts_api.get_clickwraps(
+        args[:ds_account_id],
+        options
+      ).clickwraps
+    end
 
-    results = accounts_api.get_clickwraps(
-      args[:ds_account_id],
-      options
-    )
-    puts results.as_json['clickwraps']
-    results.as_json['clickwraps']
+    clickwraps
   end
 end

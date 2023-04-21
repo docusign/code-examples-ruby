@@ -31,8 +31,7 @@ class Clickwrap::Eg001CreateClickwrapService
 
     # Read file from a local directory
     # The reads could raise an exception if the file is not available!
-    doc_pdf = Rails.configuration.doc_terms_pdf
-    doc_b64 = Base64.encode64(File.binread(File.join('data', doc_pdf)))
+    doc_b64 = Base64.encode64(File.binread(args[:doc_pdf]))
 
     # Create the document model.
     documents = [

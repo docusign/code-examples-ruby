@@ -30,6 +30,7 @@ jobs:
       - name: Run tests
         run: |
           gem install docusign_esign
+          gem install docusign_click
           ruby test/run_tests.rb
         env:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}

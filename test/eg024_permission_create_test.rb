@@ -1,27 +1,32 @@
-# frozen_string_literal: true
+require 'date'
+require 'rubygems'
+require 'test/unit'
+require_relative './test_helper'
+require_relative '../app/services/api_creator'
+require_relative '../app/services/e_sign/eg024_permission_create_service'
 
-class ESign::Eg024PermissionCreateService
-  attr_reader :args
+class Eg024PermissionCreateTest < TestHelper
+  setup do
+    setup_test_data [api_type[:e_sign]]
 
-  include ApiCreator
+    args = {
+      account_id: @account_id,
+      base_path: @base_path,
+      access_token: @access_token,
+      permission_profile_name: "#{@data[:permission_profile_name]}_#{Time.now.strftime("%s%L")}"
+    }
 
-  def initialize(args)
-    @args = args
+    @eg024 = ESign::Eg024PermissionCreateService.new(args)
   end
 
-  def worker
-    accounts_api = create_account_api(args)
-    permission_profile_name = args[:permission_profile_name]
-    permission_profile_settings = make_permission_profile_settings
-    accounts_api.create_permission_profile(args[:account_id], { permissionProfileName: permission_profile_name,
-                                                                settings: permission_profile_settings },
-                                           DocuSign_eSign::CreatePermissionProfileOptions.default)
+  test 'should correctly create permission profile if correct data is provided' do
+    results = @eg024.worker
+
+    assert_not_nil results
   end
 
-  private
-
-  def make_permission_profile_settings
-    {
+  test 'should create correct permission profile settings if correct data is provided' do
+    expected_permission_profile_settings = {
       useNewDocuSignExperienceInterface: 0,
       allowBulkSending: 'true',
       allowEnvelopeSending: 'true',
@@ -48,5 +53,10 @@ class ESign::Eg024PermissionCreateService
       powerFormRole: 'admin',
       vaultingMode: 'none'
     }
+
+    permission_profile_settings = @eg024.send(:make_permission_profile_settings)
+
+    assert_not_nil permission_profile_settings
+    assert_equal expected_permission_profile_settings, permission_profile_settings
   end
 end
