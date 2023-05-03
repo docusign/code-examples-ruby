@@ -10,6 +10,9 @@ AllCops:
 Layout/EndOfLine:
   Enabled: false
 
+Layout/LeadingCommentSpace:
+  Enabled: false
+
 Layout/LineLength:
   Enabled: false
 
