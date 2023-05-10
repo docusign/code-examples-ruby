@@ -41,8 +41,6 @@ class EgController < ApplicationController
     @source_url = "#{Rails.application.config.github_example_url}#{@source_file}"
   end
 
-  private
-
   def check_token(buffer_in_min = 10)
     buffer = buffer_in_min * 60
     expires_at = session[:ds_expires_at]
@@ -56,6 +54,8 @@ class EgController < ApplicationController
     end
     remaining_duration.positive?
   end
+
+  private
 
   def time_in_words(duration)
     "#{Object.new.extend(ActionView::Helpers::DateHelper).distance_of_time_in_words(duration)}#{duration.negative? ? ' ago' : ''}"

@@ -212,6 +212,12 @@ Rails.application.routes.draw do
 
     get 'eeg042' => 'eeg042_document_generation#get'
     post 'eeg042' => 'eeg042_document_generation#create'
+
+    post 'eeg043' => 'eeg043_shared_access#create_agent'
+    get 'eeg043' => 'eeg043_shared_access#get'
+    get 'eeg043auth' => 'eeg043_shared_access#create_authorization'
+    get 'eeg043reauthenticate' => 'eeg043_shared_access#reauthenticate'
+    get 'eeg043envelopes' => 'eeg043_shared_access#list_envelopes'
   end
 
   root 'ds_common#index'

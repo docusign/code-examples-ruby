@@ -18,4 +18,16 @@ module Utils
       end
     end
   end
+
+  class DocuSignUtils
+    def get_user_id(args)
+      configuration = DocuSign_eSign::Configuration.new
+      configuration.host = args[:base_path]
+      api_client = DocuSign_eSign::ApiClient.new configuration
+      api_client.set_base_path(args[:base_path])
+      api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
+      user_info = api_client.get_user_info(args[:access_token])
+      user_info.sub
+    end
+  end
 end
