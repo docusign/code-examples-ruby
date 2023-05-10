@@ -15,14 +15,18 @@ class ESign::Eg029BrandsApplyToEnvelopeService
     # Step 2. Construct your API headers
     envelope_api = create_envelope_api(args)
     # Step 3: Construct your envelope JSON body
+    #ds-snippet-start:eSign29Step3
     envelope_definition = make_envelope(args[:envelope_args])
+    #ds-snippet-end:eSign29Step3
     # Step 4. Call the eSignature REST API
+    #ds-snippet-start:eSign29Step4
     envelope_api.create_envelope args[:account_id], envelope_definition
-    # ***DS.snippet.0.end
+    #ds-snippet-end:eSign29Step4
   end
 
   private
 
+  #ds-snippet-start:eSign29Step3
   def make_envelope(envelope_args)
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_blurb = 'Sample text for email body'
@@ -80,4 +84,5 @@ class ESign::Eg029BrandsApplyToEnvelopeService
     envelope_definition.status = envelope_args[:status]
     envelope_definition
   end
+  #ds-snippet-end:eSign29Step3
 end
