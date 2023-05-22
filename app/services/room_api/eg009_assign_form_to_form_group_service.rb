@@ -8,34 +8,34 @@ class RoomApi::Eg009AssignFormToFormGroupService
   end
 
   def worker
-    # Step 2 start
+    #ds-snippet-start:Rooms9Step2
     configuration = DocuSign_Rooms::Configuration.new
     configuration.host = Rails.configuration.rooms_host
 
     api_client = DocuSign_Rooms::ApiClient.new(configuration)
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
-    # Step 2 end
+    #ds-snippet-end:Rooms9Step2
 
-    # Step 6 start
+    #ds-snippet-start:Rooms9Step6
     form_groups_api = DocuSign_Rooms::FormGroupsApi.new(api_client)
     begin
       response = form_groups_api.assign_form_group_form(args[:form_group_id], args[:account_id], body(args))
     rescue Exception
       return { exception: 'Failed to assign a form to a form group' }
     end
-    # Step 6 end
+    #ds-snippet-end:Rooms9Step6
     response
   end
 
   private
 
   def body(args)
-    # Step 5 start
+    #ds-snippet-start:Rooms9Step5
     DocuSign_Rooms::FormGroupFormToAssign.new(
       {
         formId: args[:form_id]
       }
     )
-    # Step 5 end
+    #ds-snippet-end:Rooms9Step5
   end
 end

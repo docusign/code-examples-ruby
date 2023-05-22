@@ -26,12 +26,12 @@ class RoomApi::Reg009AssignFormToFormGroupController < EgController
 
   def get
     super
-    # Step 3 start
+    #ds-snippet-start:Rooms9Step3
     @forms = RoomApi::GetDataService.new(session).get_form_libraries
-    # Step 3 end
+    #ds-snippet-end:Rooms9Step3
 
-    # Step 4 start
+    #ds-snippet-start:Rooms9Step4
     @form_groups = RoomApi::GetDataService.new(session).get_form_groups
-    # Step 4 end
+    #ds-snippet-end:Rooms9Step4
   end
 end
