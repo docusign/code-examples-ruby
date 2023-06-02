@@ -21,7 +21,10 @@ class AdminApi::Eg011DeleteUserDataFromAccountService
     membership_redaction_request = DocuSign_Admin::IndividualMembershipDataRedactionRequest.new(
       user_id: args[:user_id]
     )
-    accounts_api.redact_individual_membership_data(args[:account_id], membership_redaction_request)
     # Step 3 end
+
+    # Step 4 start
+    accounts_api.redact_individual_membership_data(args[:account_id], membership_redaction_request)
+    # Step 4 end
   end
 end
