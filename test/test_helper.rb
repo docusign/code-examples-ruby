@@ -8,7 +8,7 @@ require 'docusign_click'
 $_scopes = %w[signature impersonation]
 $_click_scopes = %w[click.manage click.send]
 $_rooms_scopes = %w[dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms]
-$_admin_scopes = %w[organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read]
+$_admin_scopes = %w[organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact]
 
 
 class TestHelper < Test::Unit::TestCase

@@ -86,6 +86,12 @@ Rails.application.routes.draw do
 
     get 'aeg009' => 'aeg009_delete_user_product_permission_profile#get'
     post 'aeg009' => 'aeg009_delete_user_product_permission_profile#create'
+
+    get 'aeg010' => 'aeg010_delete_user_data_from_organization#get'
+    post 'aeg010' => 'aeg010_delete_user_data_from_organization#create'
+
+    get 'aeg011' => 'aeg011_delete_user_data_from_account#get'
+    post 'aeg011' => 'aeg011_delete_user_data_from_account#create'
   end
 
   get '/eeg001' => 'eeg001_embedded_signing#get'
