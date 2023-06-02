@@ -1,0 +1,19 @@
+<%= render('partials/example_info') %>
+
+<% form_index = 0 %>
+<% email_index = 0 %>
+
+<form class="eg" action="" method="post" data-busy="form">
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
+  <div class="form-group">
+        <label for="email"><%= @example["Forms"][form_index]["Inputs"][email_index]["InputName"] %></label>
+        <input type="email" class="form-control" id="email" name="email"
+               aria-describedby="email_help" required
+               placeholder="<%= @example["Forms"][form_index]["Inputs"][email_index]["InputPlaceholder"] %>">
+        <small id="email_help" class="form-text text-muted"><%= @manifest["SupportingTexts"]["HelpingTexts"]["EmailAddressOfUserToDelete"] %></small>
+    </div>
+    <%= render('partials/submit_button') %>
+</form>
