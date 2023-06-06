@@ -9,10 +9,10 @@ class ESign::Eg006EnvelopeDocsService
     @args = args
   end
 
-  # ***DS.snippet.0.start
   def worker
+    #ds-snippet-start:eSign6Step3
     envelope_api = create_envelope_api(args)
     envelope_api.list_documents args[:account_id], args[:envelope_id]
+    #ds-snippet-end:eSign6Step3
   end
-  # ***DS.snippet.0.end
 end
