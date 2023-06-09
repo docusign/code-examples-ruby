@@ -8,17 +8,17 @@ class AdminApi::Eg007GetUserProfileByUserIdService
   end
 
   def worker
-    # Step 2 start
+    #ds-snippet-start:Admin7Step2
     configuration = DocuSign_Admin::Configuration.new
     configuration.host = Rails.configuration.admin_host
 
     api_client = DocuSign_Admin::ApiClient.new(configuration)
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
-    # Step 2 end
+    #ds-snippet-end:Admin7Step2
 
-    # Step 3 start
+    #ds-snippet-start:Admin7Step3
     users_api = DocuSign_Admin::UsersApi.new(api_client)
     users_api.get_user_ds_profile(args[:organization_id], args[:user_id])
-    # Step 3 end
+    #ds-snippet-end:Admin7Step3
   end
 end
