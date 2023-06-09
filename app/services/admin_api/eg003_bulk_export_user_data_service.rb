@@ -6,20 +6,20 @@ class AdminApi::Eg003BulkExportUserDataService
   end
 
   def worker
-    # Step 2 start
+    #ds-snippet-start:Admin3Step2
     configuration = DocuSign_Admin::Configuration.new
     configuration.host = Rails.configuration.admin_host
 
     api_client = DocuSign_Admin::ApiClient.new(configuration)
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
-    # Step 2 end
+    #ds-snippet-end:Admin3Step2
 
-    # Step 3 start
+    #ds-snippet-start:Admin3Step3
     @bulk_exports_api = DocuSign_Admin::BulkExportsApi.new(api_client)
     response = bulk_exports_api.create_user_list_export(args[:organization_id], args[:request_body])
-    # Step 3 end
+    #ds-snippet-end:Admin3Step3
 
-    # Step 4 start
+    #ds-snippet-start:Admin3Step4
     retry_count = 5
     while retry_count >= 0
       if response.results
@@ -31,14 +31,14 @@ class AdminApi::Eg003BulkExportUserDataService
         response = bulk_exports_api.get_user_list_export(args[:organization_id], response.id)
       end
     end
-    # Step 4 end
+    #ds-snippet-end:Admin3Step4
 
     response
   end
 
   private
 
-  # Step 5 start
+  #ds-snippet-start:Admin3Step5
   def get_exported_user_data(args, export_id)
     bulk_export_response = bulk_exports_api.get_user_list_export(args[:organization_id], export_id)
     data_url = bulk_export_response.results[0].url
@@ -59,5 +59,5 @@ class AdminApi::Eg003BulkExportUserDataService
       end
     end
   end
-  # Step 5 end
+  #ds-snippet-end:Admin3Step5
 end
