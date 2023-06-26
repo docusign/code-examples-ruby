@@ -9,7 +9,6 @@ class Eg001EmbeddedSigningService
     @args = args
   end
 
-  # ***DS.snippet.0.start
   def worker
     ds_ping_url = args[:ds_ping_url]
     ds_return_url = "#{ds_ping_url}/ds_common-return"
@@ -18,33 +17,37 @@ class Eg001EmbeddedSigningService
     signer_email = args[:signer_email]
     signer_name = args[:signer_name]
 
-    # Step 1. Create the envelope definition
+    # Create the envelope definition
+    #ds-snippet-start:eSign1Step3
     envelope = make_envelope(args[:signer_client_id], pdf_filename, signer_email, signer_name)
 
-    # Step 2. Call DocuSign to create the envelope
+    # Call DocuSign to create the envelope
     envelope_api = create_envelope_api(args)
 
     results = envelope_api.create_envelope args[:account_id], envelope
     envelope_id = results.envelope_id
+    #ds-snippet-end
     # Save for future use within the example launcher
     # session[:envelope_id] = envelope_id
 
-    # Step 3. Create the recipient view for the embedded signing
+    # Create the recipient view for the embedded signing
+    #ds-snippet-start:eSign1Step5
     view_request = make_recipient_view_request(signer_client_id, ds_return_url, ds_ping_url, signer_email, signer_name)
 
     # Call the CreateRecipientView API
     results = envelope_api.create_recipient_view args[:account_id], envelope_id, view_request
 
-    # Step 4. Redirect the user to the embedded signing
+    # Redirect the user to the embedded signing
     # Don't use an iframe!
     # State can be stored/recovered using the framework's session or a
     # query parameter on the returnUrl (see the makeRecipientViewRequest method)
     # Redirect to results.url
     results.url
+    #ds-snippet-end
   end
 
   private
-
+  #ds-snippet-start:eSign1Step4
   def make_recipient_view_request(signer_client_id, ds_return_url, ds_ping_url, signer_email, signer_name)
     view_request = DocuSign_eSign::RecipientViewRequest.new
     # Set the URL where you want the recipient to go once they are done signing
@@ -77,7 +80,9 @@ class Eg001EmbeddedSigningService
 
     view_request
   end
+  #ds-snippet-end
 
+  #ds-snippet-start:eSign1Step2
   def make_envelope(signer_client_id, pdf_filename, signer_email, signer_name)
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document sent from Ruby SDK'
@@ -118,5 +123,5 @@ class Eg001EmbeddedSigningService
     envelope_definition.status = 'sent'
     envelope_definition
   end
-  # ***DS.snippet.0.end
+  #ds-snippet-end
 end

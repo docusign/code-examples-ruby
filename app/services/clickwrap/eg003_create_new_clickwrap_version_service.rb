@@ -9,14 +9,17 @@ class Clickwrap::Eg003CreateNewClickwrapVersionService
 
   def worker
     # Step 2. Construct your API headers
+    #ds-snippet-start:Click3Step2
     configuration = DocuSign_Click::Configuration.new
     configuration.host = args[:base_path]
 
     api_client = DocuSign_Click::ApiClient.new configuration
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
+    #ds-snippet-end:Click3Step2
 
     # Step 3. Construct the request body
     # Create a display settings model
+    #ds-snippet-start:Click3Step3
     display_settings = DocuSign_Click::DisplaySettings.new(
       consentButtonText: 'I Agree',
       displayName: "#{args[:clickwrap_name]} v2",
@@ -49,13 +52,16 @@ class Clickwrap::Eg003CreateNewClickwrapVersionService
       requireReacceptance: true,
       status: 'active'
     )
+    #ds-snippet-end:Click3Step3
 
     # Step 4. Call the Click API
+    #ds-snippet-start:Click3Step4
     accounts_api = DocuSign_Click::AccountsApi.new(api_client)
     accounts_api.create_clickwrap_version(
       args[:account_id],
       args[:clickwrap_id],
       clickwrap_request
     )
+    #ds-snippet-end:Click4Step4
   end
 end

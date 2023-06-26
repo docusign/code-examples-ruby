@@ -8,23 +8,23 @@ class AdminApi::Eg011DeleteUserDataFromAccountService
   end
 
   def worker
-    # Step 2 start
+    #ds-snippet-start:Admin11Step2
     configuration = DocuSign_Admin::Configuration.new
     configuration.host = Rails.configuration.admin_host
 
     api_client = DocuSign_Admin::ApiClient.new(configuration)
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
-    # Step 2 end
+    #ds-snippet-end:Admin11Step2
 
-    # Step 3 start
+    #ds-snippet-start:Admin11Step3
     accounts_api = DocuSign_Admin::AccountsApi.new(api_client)
     membership_redaction_request = DocuSign_Admin::IndividualMembershipDataRedactionRequest.new(
       user_id: args[:user_id]
     )
-    # Step 3 end
+    #ds-snippet-end:Admin11Step3
 
-    # Step 4 start
+    #ds-snippet-start:Admin11Step4
     accounts_api.redact_individual_membership_data(args[:account_id], membership_redaction_request)
-    # Step 4 end
+    #ds-snippet-end:Admin11Step4
   end
 end

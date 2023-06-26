@@ -8,13 +8,13 @@ class AdminApi::Eg010DeleteUserDataFromOrganizationService
   end
 
   def worker
-    # Step 2 start
+    #ds-snippet-start:Admin10Step2
     configuration = DocuSign_Admin::Configuration.new
     configuration.host = Rails.configuration.admin_host
 
     api_client = DocuSign_Admin::ApiClient.new(configuration)
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
-    # Step 2 end
+    #ds-snippet-end:Admin10Step2
 
     # Get user
     users_api = DocuSign_Admin::UsersApi.new(api_client)
@@ -24,7 +24,7 @@ class AdminApi::Eg010DeleteUserDataFromOrganizationService
     result = users_api.get_user_ds_profiles_by_email(args[:organization_id], options)
     user = result.users[0]
 
-    # Step 3 start
+    #ds-snippet-start:Admin10Step3
     organizations_api = DocuSign_Admin::OrganizationsApi.new(api_client)
     user_data_redaction_request = DocuSign_Admin::IndividualUserDataRedactionRequest.new(
       user_id: user.id,
@@ -34,10 +34,10 @@ class AdminApi::Eg010DeleteUserDataFromOrganizationService
         )
       ]
     )
-    # Step 3 end
+    #ds-snippet-end:Admin10Step3
 
-    # Step 4 start
+    #ds-snippet-start:Admin10Step4
     organizations_api.redact_individual_user_data(args[:organization_id], user_data_redaction_request)
-    # Step 4 end
+    #ds-snippet-end:Admin10Step4
   end
 end
