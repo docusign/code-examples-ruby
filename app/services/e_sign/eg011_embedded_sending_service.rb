@@ -10,19 +10,23 @@ class ESign::Eg011EmbeddedSendingService
   end
 
   def worker
-    # Step 1. Create the envelope as a draft using eg002's worker
+    # Create the envelope as a draft using eg002's worker
     # Exceptions will be caught by the calling function
+    #ds-snippet-start:eSign11Step2
     results = create_envelope(args)
     envelope_id = results['envelope_id']
-    # Step 2. Create the sender view
+    #ds-snippet-end:eSign11Step2
+
+    #ds-snippet-start:eSign11Step3
+    # Create the sender view
     view_request = DocuSign_eSign::ReturnUrlRequest.new({ returnUrl: args[:ds_return_url] })
     envelope_api = create_envelope_api(args)
     results = envelope_api.create_sender_view args[:account_id], envelope_id, view_request
     # Switch to the Recipients/Documents view if requested by the user in the form
     url = results.url
     url = url.sub! 'send=1', 'send=0' if args[:starting_view] == 'recipient'
-
     { 'envelope_id' => envelope_id, 'redirect_url' => url }
+    #ds-snippet-end:eSign11Step3
   end
 
   private
