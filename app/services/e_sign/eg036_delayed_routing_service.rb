@@ -16,9 +16,9 @@ class ESign::Eg036DelayedRoutingService
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
 
-    # Step 3 start
+    #ds-snippet-start:eSign36Step3
     results = envelope_api.create_envelope args[:account_id], envelope_definition
-    # Step 3 end
+    #ds-snippet-end:eSign36Step3
     envelope_id = results.envelope_id
     { 'envelope_id' => envelope_id }
   end
@@ -26,8 +26,8 @@ class ESign::Eg036DelayedRoutingService
   private
 
   def make_envelope(envelope_args)
-    # Step 2 start
     # Create the envelope definition
+    #ds-snippet-start:eSign36Step2
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
 
     envelope_definition.email_subject = 'Please sign this document'
@@ -126,7 +126,7 @@ class ESign::Eg036DelayedRoutingService
     # Request that the envelope be sent by setting status to "sent".
     # To request that the envelope be created as a draft, set status to "created"
     envelope_definition.status = envelope_args[:status]
-    # Step 2 end
     envelope_definition
+    #ds-snippet-end:eSign36Step2
   end
 end
