@@ -9,7 +9,6 @@ class ESign::Eg017SetTemplateTabValuesService
     @args = args
   end
 
-  # ***DS.snippet.0.start
   def worker
     signer_client_id = 1000
     envelope_args = args[:envelope_args]
@@ -17,14 +16,19 @@ class ESign::Eg017SetTemplateTabValuesService
     ds_return_url = "#{ds_ping_url}/ds_common-return"
 
     # Step 4. Construct the request body
+    #ds-snippet-start:eSign17Step4
     envelope_definition = make_envelope(envelope_args)
+    #ds-snippet-end:eSign17Step4
 
     # Step 5. Call the eSignature REST API
+    #ds-snippet-start:eSign17Step5
     envelope_api = create_envelope_api(args)
     results = envelope_api.create_envelope args[:account_id], envelope_definition
     envelope_id = results.envelope_id
+    #ds-snippet-end:eSign17Step5
 
     # Step 6. Create the View Request
+    #ds-snippet-start:eSign17Step6
     view_request = make_recipient_view_request(envelope_args[:signer_email], envelope_args[:signer_name], signer_client_id, ds_return_url, ds_ping_url)
 
     # Call the CreateRecipientView API
@@ -36,6 +40,7 @@ class ESign::Eg017SetTemplateTabValuesService
     # query parameter on the return URL (see the makeRecipientViewRequest method)
     # Redirect to results.url
     results.url
+    #ds-snippet-end:eSign17Step6
   end
 
   private
@@ -64,6 +69,7 @@ class ESign::Eg017SetTemplateTabValuesService
     # Step 3. Create Tabs and CustomFields
 
     # List item
+    #ds-snippet-start:eSign17Step3
     list1 = DocuSign_eSign::List.new
     list1.value = 'Green'
     list1.document_id = '1'
@@ -118,6 +124,7 @@ class ESign::Eg017SetTemplateTabValuesService
     # Add the TemplateRole objects to the envelope object
     envelope_definition.template_roles = [signer, cc]
     envelope_definition
+    #ds-snippet-end:eSign17Step3
   end
 
   def make_recipient_view_request(signer_email, signer_name, signer_client_id, ds_return_url, ds_ping_url)
@@ -148,5 +155,4 @@ class ESign::Eg017SetTemplateTabValuesService
 
     view_request
   end
-  # ***DS.snippet.0.end
 end
