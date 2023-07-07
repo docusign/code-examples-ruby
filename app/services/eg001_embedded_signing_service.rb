@@ -47,6 +47,7 @@ class Eg001EmbeddedSigningService
   end
 
   private
+
   #ds-snippet-start:eSign1Step4
   def make_recipient_view_request(signer_client_id, ds_return_url, ds_ping_url, signer_email, signer_name)
     view_request = DocuSign_eSign::RecipientViewRequest.new

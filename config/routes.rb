@@ -54,8 +54,6 @@ Rails.application.routes.draw do
   scope module: 'monitor_api' do
     get 'meg001' => 'meg001_get_monitoring_dataset#get'
     post 'meg001' => 'meg001_get_monitoring_dataset#create'
-    get 'meg002' => 'meg002_post_web_query#get'
-    post 'meg002' => 'meg002_post_web_query#create'
   end
 
   scope module: 'admin_api' do
