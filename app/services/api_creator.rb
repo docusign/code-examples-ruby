@@ -32,15 +32,13 @@ module ApiCreator
 
   def create_envelope_api(args)
     # Obtain your OAuth token
-    # Step 2 start
-    #ds-snippet-start:eSign29Step2
+    #ds-snippet-start:eSignRubyStep2
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:base_path]
     api_client = DocuSign_eSign::ApiClient.new configuration
 
     api_client.default_headers['Authorization'] = "Bearer #{args[:access_token]}"
-    #ds-snippet-end:eSign29Step2
-    # Step 2 end
+    #ds-snippet-end:eSignRubyStep2
     DocuSign_eSign::EnvelopesApi.new api_client
   end
 
