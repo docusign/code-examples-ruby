@@ -10,12 +10,16 @@ class ESign::Eg043SharedAccessService
   end
 
   def create_agent
+    #ds-snippet-start:eSign43Step2
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:base_path]
     api_client = DocuSign_eSign::ApiClient.new configuration
     api_client.default_headers['Authorization'] = "Bearer #{args[:access_token]}"
+    #ds-snippet-end:eSign43Step2
 
+    #ds-snippet-start:eSign43Step3
     users_api = DocuSign_eSign::UsersApi.new api_client
+    #ds-snippet-end:eSign43Step3
 
     # Check if active user already exists
     begin
@@ -33,8 +37,10 @@ class ESign::Eg043SharedAccessService
     end
 
     # Create new user
+    #ds-snippet-start:eSign43Step3
     new_users = users_api.create args[:account_id], new_users_definition(args)
     new_users.new_users[0]
+    #ds-snippet-end:eSign43Step3
   end
 
   def create_authorization
@@ -43,6 +49,7 @@ class ESign::Eg043SharedAccessService
     api_client = DocuSign_eSign::ApiClient.new configuration
     api_client.default_headers['Authorization'] = "Bearer #{args[:access_token]}"
 
+    #ds-snippet-start:eSign43Step4
     accounts_api = DocuSign_eSign::AccountsApi.new api_client
 
     # Check if authorization with manage permission already exists
@@ -58,8 +65,10 @@ class ESign::Eg043SharedAccessService
       args[:user_id],
       user_authorization_request(args)
     )
+    #ds-snippet-end:eSign43Step4
   end
 
+  #ds-snippet-start:eSign43Step3
   def new_users_definition(args)
     agent = DocuSign_eSign::UserInformation.new(
       userName: args[:user_name],
@@ -68,7 +77,9 @@ class ESign::Eg043SharedAccessService
     )
     DocuSign_eSign::NewUsersDefinition.new(newUsers: [agent])
   end
+  #ds-snippet-end:eSign43Step3
 
+  #ds-snippet-start:eSign43Step4
   def user_authorization_request(args)
     DocuSign_eSign::UserAuthorizationCreateRequest.new(
       agentUser: DocuSign_eSign::AuthorizationUser.new(
@@ -78,8 +89,10 @@ class ESign::Eg043SharedAccessService
       permission: 'manage'
     )
   end
+  #ds-snippet-end:eSign43Step4
 
   def get_envelopes
+    #ds-snippet-start:eSign43Step5
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:base_path]
     api_client = DocuSign_eSign::ApiClient.new configuration
@@ -90,5 +103,6 @@ class ESign::Eg043SharedAccessService
     options = DocuSign_eSign::ListStatusChangesOptions.new
     options.from_date = (Date.today - 10).strftime('%Y/%m/%d')
     envelopes_api.list_status_changes args[:account_id], options
+    #ds-snippet-end:eSign43Step5
   end
 end
