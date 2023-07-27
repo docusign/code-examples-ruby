@@ -83,10 +83,10 @@ class ESign::Eg020PhoneAuthenticationService
     #ds-snippet-end:eSign20Step4
 
     # Call the eSignature REST API
-    # Step 5 start
+    #ds-snippet-start:eSign20Step5
     envelope_api = create_envelope_api(args)
     envelope_api.create_envelope args[:account_id], envelope_definition
-    # Step 5 end
+    #ds-snippet-end:eSign20Step5
   end
 
   def get_workflow
