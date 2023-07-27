@@ -15,9 +15,11 @@ class RoomApi::GetDataService
   def get_offices
     worker
 
+    #ds-snippet-start:Rooms8Step3
     offices_api = DocuSign_Rooms::OfficesApi.new(@api_client)
     offices = offices_api.get_offices(args[:account_id])
     offices.as_json['officeSummaries']
+    #ds-snippet-end:Rooms8Step3
   end
 
   def get_default_admin_role_id
@@ -73,9 +75,11 @@ class RoomApi::GetDataService
   def get_form_groups
     worker
 
+    #ds-snippet-start:Rooms8Step4
     form_groups_api = DocuSign_Rooms::FormGroupsApi.new(@api_client)
     form_groups = form_groups_api.get_form_groups(args[:account_id])
     form_groups.as_json['formGroups']
+    #ds-snippet-end:Rooms8Step4
   end
 
   private

@@ -17,7 +17,9 @@ class ESign::Eg035ScheduledSendingService
     envelope_api = create_envelope_api(args)
 
     # Step 3 start
+    #ds-snippet-start:eSign35Step3
     results = envelope_api.create_envelope args[:account_id], envelope_definition
+    #ds-snippet-end:eSign35Step3
     # Step 3 end
 
     envelope_id = results.envelope_id
@@ -31,6 +33,7 @@ class ESign::Eg035ScheduledSendingService
     # The envelope has one recipient
 
     # Step 2 start
+    #ds-snippet-start:eSign35Step2
     # Create the envelope definition
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
 
@@ -105,6 +108,7 @@ class ESign::Eg035ScheduledSendingService
     # Request that the envelope be sent by setting status to "sent".
     # To request that the envelope be created as a draft, set status to "created"
     envelope_definition.status = envelope_args[:status]
+    #ds-snippet-end:eSign35Step2
     # Step 2 end
     envelope_definition
   end

@@ -9,10 +9,10 @@ class ESign::Eg012EmbeddedConsoleService
     @args = args
   end
 
-  # ***DS.snippet.0.start
   def worker
     # Step 1. Create the NDSE view request object
     # Exceptions will be caught by the calling function
+    #ds-snippet-start:eSign12Step2
     view_request = DocuSign_eSign::ConsoleViewRequest.new({
                                                             returnUrl: args[:ds_return_url]
                                                           })
@@ -20,7 +20,7 @@ class ESign::Eg012EmbeddedConsoleService
     # Step 2. Call the API method
     envelope_api = create_envelope_api(args)
     results = envelope_api.create_console_view args[:account_id], view_request
+    #ds-snippet-end:eSign12Step2
     { 'redirect_url' => results.url }
   end
-  # ***DS.snippet.0.end
 end

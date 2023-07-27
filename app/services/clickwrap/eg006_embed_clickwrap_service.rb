@@ -9,21 +9,16 @@ class Clickwrap::Eg006EmbedClickwrapService
 
   def worker
     # Step 2. Construct your API headers
+    #ds-snippet-start:Click6Step2
     configuration = DocuSign_Click::Configuration.new
     configuration.host = args[:base_path]
 
     api_client = DocuSign_Click::ApiClient.new configuration
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
     api_client.config.debugging = true
+    #ds-snippet-end:Click6Step2
 
-    # document_data = DocuSign_Click::DocumentData.new({
-    #   full_name: args[:full_name],
-    #   email: args[:email],
-    #   company: args[:company],
-    #   title: args[:title],
-    #   date: args[:date]
-    # })
-
+    #ds-snippet-start:Click6Step3
     document_data = {
       'fullName' => args[:full_name],
       'email' => args[:email],
@@ -37,11 +32,14 @@ class Clickwrap::Eg006EmbedClickwrapService
                                                                       documentData: document_data
                                                                     })
 
+    #ds-snippet-end:Click6Step3
+    #ds-snippet-start:Click6Step4
     accounts_api = DocuSign_Click::AccountsApi.new(api_client)
 
     response = accounts_api.create_has_agreed(args[:account_id], args[:clickwrap_id], userAgreementRequest)
 
     response.as_json
+    #ds-snippet-end:Click6Step4
   end
 
   def get_active_clickwraps

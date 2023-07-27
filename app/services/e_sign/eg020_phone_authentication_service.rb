@@ -10,13 +10,12 @@ class ESign::Eg020PhoneAuthenticationService
   end
 
   def worker(workflow_id)
-    # ***DS.snippet.0.start
     envelope_args = args[:envelope_args]
 
     return 'phone_auth_not_enabled' if workflow_id.blank?
 
     # Construct your envelope JSON body
-    # Step 4 start
+    #ds-snippet-start:eSign20Step4
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document set'
 
@@ -81,19 +80,19 @@ class ESign::Eg020PhoneAuthenticationService
     # To request that the envelope be created as a draft, set to "created"
     envelope_definition.recipients = recipients
     envelope_definition.status = envelope_args[:status]
-    # Step 4 end
+    #ds-snippet-end:eSign20Step4
 
     # Call the eSignature REST API
-    # Step 5 start
+    #ds-snippet-start:eSign20Step5
     envelope_api = create_envelope_api(args)
     envelope_api.create_envelope args[:account_id], envelope_definition
-    # Step 5 end
+    #ds-snippet-end:eSign20Step5
   end
 
   def get_workflow
     # Retrieve the workflow id
 
-    # Step 3 start
+    #ds-snippet-start:eSign20Step3
     workflow_details = create_account_api(args)
     workflow_response = workflow_details.get_account_identity_verification(args[:account_id])
 
@@ -108,7 +107,7 @@ class ESign::Eg020PhoneAuthenticationService
     else
       ''
     end
-    # Step 3 end
+    #ds-snippet-end:eSign20Step3
   rescue DocuSign_eSign::ApiError => e
     error = JSON.parse e.response_body
     @error_code = e.code

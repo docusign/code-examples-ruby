@@ -12,12 +12,15 @@ class ESign::Eg034UseConditionalRecipientsService
 
   def worker
     # Step 2. Construct your API headers
+    #ds-snippet-start:eSign34Step2
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:basePath]
     api_client = DocuSign_eSign::ApiClient.new configuration
     api_client.set_default_header('Authorization', "Bearer #{args[:accessToken]}")
+    #ds-snippet-end:eSign34Step2
 
     # Step 3. Construct the request body
+    #ds-snippet-start:eSign34Step3
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new(emailSubject: 'ApproveIfChecked')
 
     # Create the document model.
@@ -174,13 +177,16 @@ class ESign::Eg034UseConditionalRecipientsService
     # Request that the envelope be sent by setting |status| to "sent"
     # To request that the envelope be created as a draft, set to "created"
     envelope_definition.status = 'sent'
+    #ds-snippet-end:eSign34Step3
 
     # Step 4. Call the eSignature API
+    #ds-snippet-start:eSign34Step4
     envelopes_api = DocuSign_eSign::EnvelopesApi.new(api_client)
 
     envelopes_api.create_envelope(
       args[:accountId],
       envelope_definition
     )
+    #ds-snippet-end:eSign34Step4
   end
 end

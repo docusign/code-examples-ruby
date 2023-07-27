@@ -10,7 +10,6 @@ class ESign::Eg029BrandsApplyToEnvelopeService
   end
 
   def worker
-    # ***DS.snippet.0.start
     # Step 1. Obtain your OAuth token
     # Step 2. Construct your API headers
     envelope_api = create_envelope_api(args)
