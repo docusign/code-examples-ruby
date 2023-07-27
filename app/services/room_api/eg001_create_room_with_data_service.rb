@@ -11,17 +11,22 @@ class RoomApi::Eg001CreateRoomWithDataService
     configuration = DocuSign_Rooms::Configuration.new
     configuration.host = Rails.configuration.rooms_host
 
+    #ds-snippet-start:Rooms1Step2
     api_client = DocuSign_Rooms::ApiClient.new(configuration)
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
+    #ds-snippet-end:Rooms1Step2
 
+    #ds-snippet-start:Rooms1Step4
     rooms_api = DocuSign_Rooms::RoomsApi.new(api_client)
 
     rooms_api.create_room(args[:account_id], body(args))
+    #ds-snippet-end:Rooms1Step4
   end
 
   private
 
   def body(args)
+    #ds-snippet-start:Rooms1Step3
     DocuSign_Rooms::RoomForCreate.new(
       {
         name: args[:room_name],
@@ -40,5 +45,6 @@ class RoomApi::Eg001CreateRoomWithDataService
         )
       }
     )
+    #ds-snippet-end:Rooms1Step3
   end
 end
