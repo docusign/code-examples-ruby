@@ -10,6 +10,7 @@ class AdminApi::Aeg001CreateUserController < EgController
       access_token: session['ds_access_token'],
       organization_id: session['organization_id']
     }
+    #ds-snippet-start:Admin1Step5
     user_data = {
       user_name: param_gsub(params['user_name']),
       first_name: param_gsub(params['first_name']),
@@ -30,6 +31,7 @@ class AdminApi::Aeg001CreateUserController < EgController
         }
       ]
     }
+    #ds-snippet-end:Admin1Step5
 
     begin
       results = AdminApi::Eg001CreateUserService.new(args, user_data).worker
@@ -52,10 +54,14 @@ class AdminApi::Aeg001CreateUserController < EgController
       access_token: session['ds_access_token']
     }
 
+    #ds-snippet-start:Admin1Step3
     accounts_api = create_account_api(args)
     @permission_profiles = accounts_api.list_permissions(args[:account_id]).permission_profiles
+    #ds-snippet-end:Admin1Step3
 
+    #ds-snippet-start:Admin1Step4
     groups_api = create_group_api(args)
     @groups = groups_api.list_groups(args[:account_id]).groups
+    #ds-snippet-end:Admin1Step4
   end
 end
