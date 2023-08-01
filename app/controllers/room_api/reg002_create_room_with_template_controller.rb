@@ -23,6 +23,8 @@ class RoomApi::Reg002CreateRoomWithTemplateController < EgController
   end
 
   def get
+    #ds-snippet-start:Rooms2Step3
     @templates = RoomApi::GetDataService.new(session).get_templates
+    #ds-snippet-end:Rooms2Step3
   end
 end
