@@ -9,7 +9,6 @@ class ESign::Eg008CreateTemplateService
     @args = args
   end
 
-  # ***DS.snippet.0.start
   def worker
     templates_api = create_template_api(args)
     # Step 1. Does the template exist? Try to look it up by name
@@ -24,8 +23,10 @@ class ESign::Eg008CreateTemplateService
     else
       # Template not found -- so create it
       # Step 2 create the template
+      #ds-snippet-start:eSign8Step3
       template_req_object = make_template_req
       result = templates_api.create_template(args[:account_id], template_req_object)
+      #ds-snippet-end:eSign8Step3
       created_new_template = true
 
       # Retreive the new template ID
@@ -39,6 +40,7 @@ class ESign::Eg008CreateTemplateService
     }
   end
 
+  #ds-snippet-start:eSign8Step2
   def make_template_req
     # document 1 is a PDF
     #
@@ -170,5 +172,5 @@ class ESign::Eg008CreateTemplateService
       'status' => 'created'
     )
   end
-  # ***DS.snippet.0.end
+  #ds-snippet-end:eSign8Step2
 end
