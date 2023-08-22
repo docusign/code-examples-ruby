@@ -17,16 +17,16 @@ class ESign::Eg037SmsDeliveryService
     # Call Envelopes::create API method
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
-    # Step 3 start
+    #ds-snippet-start:eSign37Step3
     results = envelope_api.create_envelope args[:account_id], envelope_definition
-    # Step 3 end
+    #ds-snippet-end:eSign37Step3
     envelope_id = results.envelope_id
     { 'envelope_id' => envelope_id }
   end
 
   private
 
-  # Step 2 start
+  #ds-snippet-start:eSign37Step2
   def make_envelope(envelope_args)
     # document 1 (HTML) has tag **signature_1**
     # document 2 (DOCX) has tag /sn1/
@@ -169,5 +169,5 @@ color: darkblue;\">Order Processing Division</h2>
         </body>
     </html>"
   end
-  # Step 2 end
+  #ds-snippet-end:eSign37Step2
 end
