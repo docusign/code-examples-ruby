@@ -2,8 +2,7 @@
 
 <% form_index = 0 %>
 <% product_index = 0 %>
-<% esign_permission_index = 1 %>
-<% clm_permission_index = 2 %>
+<% permission_index = 1 %>
 <% redirect_to2_index = 0 %>
 
 <% if @email_ok %>
@@ -19,7 +18,7 @@
 
     <% if @clm_permission_profiles.present? %>
       <div class="form-group" id="clm-profiles">
-      <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][esign_permission_index]["InputName"] %></label>
+      <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][permission_index]["InputName"] %></label>
       <%= select_tag "clm_permission_profile_id", options_for_select(@clm_permission_profiles.map { |obj| [obj['permission_profile_name'], obj['permission_profile_id']] }), { :class => 'form-control' } %>
       </div>
     <% else %>
@@ -31,7 +30,7 @@
 
     <% if @esign_permission_profiles.present? %>
       <div class="form-group" id="esign-profiles" style="display: none">
-        <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][clm_permission_index]["InputName"] %></label>
+        <label for="starting_view"><%= @example["Forms"][form_index]["Inputs"][permission_index]["InputName"] %></label>
         <%= select_tag "esign_permission_profile_id", options_for_select(@esign_permission_profiles.map { |obj| [obj['permission_profile_name'], obj['permission_profile_id']] }), { :class => 'form-control' } %>
       </div>
     <% else %>
