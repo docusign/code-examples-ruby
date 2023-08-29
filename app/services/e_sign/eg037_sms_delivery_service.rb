@@ -88,7 +88,7 @@ class ESign::Eg037SmsDeliveryService
     signer1.name = envelope_args[:signer_name]
     signer1.recipient_id = '1'
     signer1.routing_order = '1'
-    signer1.delivery_method = 'SMS'
+    signer1.delivery_method = envelope_args[:delivery_method]
 
     ## routingOrder (lower means earlier) determines the order of deliveries
     # to the recipients. Parallel routing order is supported by using the
@@ -104,7 +104,7 @@ class ESign::Eg037SmsDeliveryService
     cc1.routing_order = '2'
     cc1.recipient_id = '2'
     cc1.phone_number = cc_phone_number
-    cc1.delivery_method = 'SMS'
+    cc1.delivery_method = envelope_args[:delivery_method]
 
     # Create signHere fields (also known as tabs) on the documents
     # We're using anchor (autoPlace) positioning

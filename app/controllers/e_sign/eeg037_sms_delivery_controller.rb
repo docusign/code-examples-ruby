@@ -6,6 +6,7 @@ class ESign::Eeg037SmsDeliveryController < EgController
 
   def create
     envelope_args = {
+      delivery_method: param_gsub(params['delivery_method']),
       signer_name: param_gsub(params['signer_name']),
       cc_name: param_gsub(params['cc_name']),
       cc_phone_number: param_gsub(params['cc_phone_number']),

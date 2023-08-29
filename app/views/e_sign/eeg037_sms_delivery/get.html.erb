@@ -7,11 +7,22 @@
 <% cc_code_index = 3 %>
 <% cc_phone_index = 4 %>
 <% cc_name_index = 5 %>
+<% delivery_method_index = 6 %>
+<% sms_index = 7 %>
+<% whatsapp_index = 8 %>
 
 <form class="eg" id="data_form" action="" method="post" data-busy="form">
   <% if @example["Forms"][form_index]["FormName"] %>
     <%= sanitize @example["Forms"][form_index]["FormName"] %>
   <% end %>
+
+  <div class="form-group">
+    <label for="delivery_method"><%= @example["Forms"][form_index]["Inputs"][delivery_method_index]["InputName"] %></label></br>
+    <label for="sms_delivery"><%= @example["Forms"][form_index]["Inputs"][sms_index]["InputName"] %></label>
+    <input type="radio" name="delivery_method" value="SMS" checked/>
+    <label for="whatsapp_delivery"><%= @example["Forms"][form_index]["Inputs"][whatsapp_index]["InputName"] %></label>
+    <input type="radio" name="delivery_method" value="WhatsApp"/>
+  </div>
 
   <div class="form-group">
     <label for="country_code"><%= @example["Forms"][form_index]["Inputs"][signer_code_index]["InputName"] %></label>

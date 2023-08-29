@@ -38,6 +38,9 @@ class EgController < ApplicationController
 
   def set_meta
     @source_file = file_name.to_s
+    #remove extra character that doesn't exist in service file
+    index = @source_file.index('/')
+    @source_file[index + 1] = ''
     @source_url = "#{Rails.application.config.github_example_url}#{@source_file}"
   end
 
