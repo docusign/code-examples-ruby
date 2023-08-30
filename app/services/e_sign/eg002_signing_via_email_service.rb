@@ -9,10 +9,11 @@ class ESign::Eg002SigningViaEmailService
     @args = args
   end
 
+  #ds-snippet-start:eSign2Step3
   def worker
-    # 1. Create the envelope request object
+    # Create the envelope request object
     envelope_definition = make_envelope args[:envelope_args]
-    # 2. Call Envelopes::create API method
+    # Call Envelopes::create API method
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
 
@@ -20,9 +21,11 @@ class ESign::Eg002SigningViaEmailService
     envelope_id = results.envelope_id
     { 'envelope_id' => envelope_id }
   end
+  #ds-snippet-end:eSign2Step3
 
   private
 
+  #ds-snippet-start:eSign2Step2
   def make_envelope(envelope_args)
     # document 1 (HTML) has tag **signature_1**
     # document 2 (DOCX) has tag /sn1/
@@ -152,4 +155,5 @@ color: darkblue;\">Order Processing Division</h2>
         </body>
     </html>"
   end
+  #ds-snippet-end:eSign2Step2
 end
