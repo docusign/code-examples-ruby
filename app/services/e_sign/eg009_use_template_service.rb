@@ -9,19 +9,21 @@ class ESign::Eg009UseTemplateService
     @args = args
   end
 
-  # ***DS.snippet.0.start
+  #ds-snippet-start:eSign9Step3
   def worker
     envelope_args = args[:envelope_args]
-    # 1. Create the envelope request object
+    # Create the envelope request object
     envelope_definition = make_envelope(envelope_args)
-    # 2. Call Envelopes::create API method
+    # Call Envelopes::create API method
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
     results = envelope_api.create_envelope args[:account_id], envelope_definition
     envelope_id = results.envelope_id
     { envelope_id: envelope_id }
   end
+  #ds-snippet-end:eSign9Step3
 
+  #ds-snippet-start:eSign9Step2
   def make_envelope(args)
     # Create the envelope definition with the template_id
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new({
@@ -65,5 +67,5 @@ class ESign::Eg009UseTemplateService
     envelope_definition.template_roles = [signer, cc]
     envelope_definition
   end
-  # ***DS.snippet.0.end
+  #ds-snippet-end:eSign9Step2
 end
