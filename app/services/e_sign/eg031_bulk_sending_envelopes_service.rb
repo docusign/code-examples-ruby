@@ -12,45 +12,45 @@ class ESign::Eg031BulkSendingEnvelopesService
 
   def worker
     # Construct your API headers
-    # Step 2 start
+    #ds-snippet-start:eSign31Step2
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:base_path]
     api_client = DocuSign_eSign::ApiClient.new configuration
     construct_api_headers(api_client, args)
-    # Step end
+    #ds-snippet-end:eSign31Step2
 
     # Create and submit the bulk sending list
-    # Step 3-1 start
+    #ds-snippet-start:eSign31Step3
     bulk_envelopes_api = DocuSign_eSign::BulkEnvelopesApi.new api_client
     bulk_sending_list = create_bulk_sending_list(signers)
     bulk_list = bulk_envelopes_api.create_bulk_send_list(args[:account_id], bulk_sending_list)
     bulk_list_id = bulk_list.list_id
-    # Step 3-1 end
+    #ds-snippet-end:eSign31Step3
 
     # Create the draft envelope
-    # Step 4-1 start
+    #ds-snippet-start:eSign31Step4
     envelope_api = create_envelope_api(args)
     envelope_definition = make_envelope
     envelope = envelope_api.create_envelope(args[:account_id], envelope_definition, DocuSign_eSign::CreateEnvelopeOptions.default)
     envelope_id = envelope.envelope_id
-    # Step 4-1 end
+    #ds-snippet-end:eSign31Step4
 
     # Attach your bulk list ID to the envelope
-    # Step 5-1 start
+    #ds-snippet-start:eSign31Step5
     envelope_api.create_custom_fields(args[:account_id], envelope_id, custom_fields(bulk_list_id))
-    # Step 5-1 end
+    #ds-snippet-end:eSign31Step5
 
     # Initiate bulk send
-    # Step 6 start
+    #ds-snippet-start:eSign31Step6
     bulk_send_request = DocuSign_eSign::BulkSendRequest.new(envelopeOrTemplateId: envelope_id)
     batch = bulk_envelopes_api.create_bulk_send_request(args[:account_id], bulk_list_id, bulk_send_request)
     batch_id = batch.batch_id
-    # Step 6 end
+    #ds-snippet-end:eSign31Step6
 
     # Confirm successful batch send
-    # Step 7 start
+    #ds-snippet-start:eSign31Step7
     bulk_envelopes_api.get_bulk_send_batch_status(args[:account_id], batch_id)
-    # Step 7 end
+    #ds-snippet-end:eSign31Step7
   end
 
   private
@@ -63,7 +63,6 @@ class ESign::Eg031BulkSendingEnvelopesService
     api_client.default_headers['Accept-Language'] = 'en-US,en;q=0.9'
   end
 
-  # Step 3-2 start
   def create_bulk_sending_list(signers)
     bulk_copies = []
     recipient1 = DocuSign_eSign::BulkSendingCopyRecipient.new(
@@ -111,9 +110,7 @@ class ESign::Eg031BulkSendingEnvelopesService
       bulkCopies: bulk_copies
     )
   end
-  # Step 3-2 end
 
-  # Step 5-2 start
   def custom_fields(bulk_list_id)
     text_custom_fields = DocuSign_eSign::TextCustomField.new(
       name: 'mailingListId',
@@ -126,9 +123,7 @@ class ESign::Eg031BulkSendingEnvelopesService
       textCustomFields: [text_custom_fields]
     )
   end
-  # Step 5-2 end
 
-  # Step 4-2 start
   def make_envelope
     # Create the envelope definition
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
@@ -192,5 +187,4 @@ class ESign::Eg031BulkSendingEnvelopesService
     envelope_definition.status = 'created'
     envelope_definition
   end
-  # Step 4-2 end
 end
