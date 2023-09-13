@@ -53,6 +53,6 @@ class AdminApi::Eg012CloneAccountService
     options = DocuSign_Admin::GetAssetGroupAccountsOptions.new
     options.compliant = true
     asset_group_api.get_asset_group_accounts(args[:organization_id], options)
-    #ds-snippet-start:Admin12Step3
+    #ds-snippet-end:Admin12Step3
   end
 end
