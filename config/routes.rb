@@ -90,6 +90,9 @@ Rails.application.routes.draw do
 
     get 'aeg011' => 'aeg011_delete_user_data_from_account#get'
     post 'aeg011' => 'aeg011_delete_user_data_from_account#create'
+
+    get 'aeg012' => 'aeg012_clone_account#get'
+    post 'aeg012' => 'aeg012_clone_account#create'
   end
 
   get '/eeg001' => 'eeg001_embedded_signing#get'

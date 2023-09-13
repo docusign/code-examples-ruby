@@ -45,7 +45,7 @@ config.middleware.use OmniAuth::Builder do
     when 'Click'
       strategy.options[:authorize_params].scope = 'signature click.manage click.send'
     when 'Admin'
-      strategy.options[:authorize_params].scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact'
+      strategy.options[:authorize_params].scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read'
     end
   }
 end

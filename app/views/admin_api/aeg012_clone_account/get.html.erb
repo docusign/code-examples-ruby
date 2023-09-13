@@ -1,0 +1,40 @@
+<%= render('partials/example_info') %>
+
+<% form_index = 0 %>
+<% source_account_id_index = 0 %>
+<% target_account_name_index = 1 %>
+<% target_account_first_name_index = 2 %>
+<% target_account_last_name_index = 3 %>
+<% target_account_email_index = 4 %>
+
+<form class="eg" action="" method="post" data-busy="form">
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
+  <div class="form-group">
+    <label for="source_account_id"><%= @example['Forms'][form_index]['Inputs'][source_account_id_index]['InputName'] %></label>
+    <%= select_tag "source_account_id", options_for_select(@accounts.map { |obj| [obj.account_name, obj.account_id] }), { :class => 'form-control' } %>
+  </div>
+  <div class="form-group">
+    <label for="target_account_name"><%= @example['Forms'][form_index]['Inputs'][target_account_name_index]['InputName'] %></label>
+    <input type="text" class="form-control" id="target_account_name" name="target_account_name"
+           placeholder="<%= @example['Forms'][form_index]['Inputs'][target_account_name_index]['InputPlaceholder'] %>" required>
+  </div>
+  <div class="form-group">
+    <label for="target_account_first_name"><%= @example['Forms'][form_index]['Inputs'][target_account_first_name_index]['InputName'] %></label>
+    <input type="text" class="form-control" id="target_account_first_name" name="target_account_first_name"
+           placeholder="<%= @example['Forms'][form_index]['Inputs'][target_account_first_name_index]['InputPlaceholder'] %>" required>
+  </div>
+  <div class="form-group">
+    <label for="target_account_last_name"><%= @example['Forms'][form_index]['Inputs'][target_account_last_name_index]['InputName'] %></label>
+    <input type="text" class="form-control" id="target_account_last_name" name="target_account_last_name"
+           placeholder="<%= @example['Forms'][form_index]['Inputs'][target_account_last_name_index]['InputPlaceholder'] %>" required>
+  </div>
+  <div class="form-group">
+    <label for="target_account_email"><%= @example['Forms'][form_index]['Inputs'][target_account_email_index]['InputName'] %></label>
+    <input type="email" class="form-control" id="target_account_email" name="target_account_email"
+           aria-describedby="emailHelp" placeholder="<%= @example['Forms'][form_index]['Inputs'][target_account_email_index]['InputPlaceholder'] %>" required>
+  </div>
+  <%= render('partials/submit_button') %>
+</form>
