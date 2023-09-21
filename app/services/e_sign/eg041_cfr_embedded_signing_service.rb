@@ -9,9 +9,10 @@ class ESign::Eg041CfrEmbeddedSigningService
     @args = args
   end
 
-  # ***DS.snippet.0.start
   def worker
     envelope_args = args[:envelope_args]
+
+    #ds-snippet-start:eSign41Step2
     accounts_api = create_account_api(args)
 
     # Obtain your workflow_id
@@ -21,16 +22,20 @@ class ESign::Eg041CfrEmbeddedSigningService
       workflow = workflow_results.identity_verification.find { |item| item.default_name == 'SMS for access & signatures' }
       workflow_id = workflow.workflow_id if workflow
     end
+    #ds-snippet-end:eSign41Step2
 
     return 'invalid_workflow_id' if workflow_id.blank?
 
+    #ds-snippet-start:eSign41Step4
     envelope_api = create_envelope_api(args)
     envelope_definition = make_envelope(args[:envelope_args], workflow_id)
 
     envelope = envelope_api.create_envelope(args[:account_id], envelope_definition)
 
     envelope_id = envelope.envelope_id
+    #ds-snippet-end:eSign41Step4
 
+    #ds-snippet-start:eSign41Step5
     view_request = DocuSign_eSign::RecipientViewRequest.new({
                                                               returnUrl: "#{envelope_args[:ds_return_url]}?state=123",
                                                               authenticationMethod: 'none',
@@ -40,14 +45,18 @@ class ESign::Eg041CfrEmbeddedSigningService
                                                               pingFrequency: 600,
                                                               pingUrl: envelope_args[:ds_ping_url]
                                                             })
+    #ds-snippet-end:eSign41Step5
 
+    #ds-snippet-start:eSign41Step6
     results = envelope_api.create_recipient_view(args[:account_id], envelope_id, view_request)
 
     results.url
+    #ds-snippet-end:eSign41Step6
   end
 
   private
 
+  #ds-snippet-start:eSign41Step3
   def make_envelope(args, workflow_id)
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document sent from Ruby SDK'
@@ -106,5 +115,5 @@ class ESign::Eg041CfrEmbeddedSigningService
     envelope_definition.status = 'sent'
     envelope_definition
   end
-  # ***DS.snippet.0.end
+  #ds-snippet-end:eSign41Step3
 end
