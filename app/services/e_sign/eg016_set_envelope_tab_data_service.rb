@@ -9,27 +9,30 @@ class ESign::Eg016SetEnvelopeTabDataService
     @args = args
   end
 
-  # ***DS.snippet.0.start
   def worker
     ds_ping_url = Rails.application.config.app_url
     ds_return_url = "#{ds_ping_url}/ds_common-return"
     signer_client_id = 1000
     pdf_filename = 'World_Wide_Corp_salary.docx'
 
-    # Step 4. Construct the request body
+    # Construct the request body
     envelope = make_envelope(args[:signer_email], args[:signer_name], signer_client_id, pdf_filename)
 
-    # Step 5. Call the eSignature REST API
+    # Call the eSignature REST API
+    #ds-snippet-start:eSign16Step4
     results = create_envelope_api(args).create_envelope args[:account_id], envelope
     envelope_id = results.envelope_id
+    #ds-snippet-end:eSign16Step4
 
-    # Step 6. Create the View Request
+    # Create the View Request
+    #ds-snippet-start:eSign16Step5
     view_request = make_recipient_view_request(args[:signer_email], args[:signer_name], signer_client_id, ds_return_url, ds_ping_url)
-
+    #ds-snippet-end:eSign16Step5
+    
     # Call the CreateRecipientView API
     results = create_envelope_api(args).create_recipient_view args[:account_id], envelope_id, view_request
 
-    # Step 4. Redirect the user to the embedded signing
+    # Redirect the user to the embedded signing
     # Don't use an iframe!
     # State can be stored/recovered using the framework's session or a
     # query parameter on the return URL (see the makeRecipientViewRequest method)
@@ -66,6 +69,7 @@ class ESign::Eg016SetEnvelopeTabDataService
     view_request
   end
 
+  #ds-snippet-start:eSign16Step3
   def make_envelope(signer_email, signer_name, signer_client_id, pdf_filename)
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document sent from Ruby SDK'
@@ -85,7 +89,7 @@ class ESign::Eg016SetEnvelopeTabDataService
                                            clientUserId: signer_client_id, recipientId: 1
                                          })
 
-    # Step 3. Create Tabs and CustomFields
+    # Create Tabs and CustomFields
 
     sign_here1 = DocuSign_eSign::SignHere.new
     sign_here1.anchor_string = '/sn1/'
@@ -171,5 +175,5 @@ class ESign::Eg016SetEnvelopeTabDataService
     envelope_definition.status = 'sent'
     envelope_definition
   end
-  # ***DS.snippet.0.end
+  #ds-snippet-end:eSign16Step3
 end
