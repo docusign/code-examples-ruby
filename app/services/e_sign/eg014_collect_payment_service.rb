@@ -9,19 +9,21 @@ class ESign::Eg014CollectPaymentService
     @args = args
   end
 
-  # ***DS.snippet.0.start
+  #ds-snippet-start:eSign14Step4
   def worker
     envelope_definition = make_envelope(args[:envelope_args])
-    # 2. Create and send the envelope
+    # Create and send the envelope
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
     results = envelope_api.create_envelope args[:account_id], envelope_definition
     envelope_id = results.envelope_id
     { envelope_id: envelope_id }
   end
+  #ds-snippet-end:eSign14Step4
 
   private
 
+  #ds-snippet-start:eSign14Step3
   def make_envelope(args)
     # This function creates the envelope definition for the order form
     # document 1 (html) has multiple tags:
@@ -200,5 +202,5 @@ class ESign::Eg014CollectPaymentService
     envelope_definition.recipients = recipients
     envelope_definition
   end
-  # ***DS.snippet.0.end
+  #ds-snippet-end:eSign14Step3
 end
