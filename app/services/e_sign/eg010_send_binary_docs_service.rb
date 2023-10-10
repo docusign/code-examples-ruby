@@ -5,12 +5,11 @@ class ESign::Eg010SendBinaryDocsService
     @args = args
   end
 
-  # ***DS.snippet.0.start
   def worker
     envelope_args = args[:envelope_args]
-    # Step 1. Make the envelope JSON request body
+    # Make the envelope JSON request body
     envelopeJSON = make_envelope_json(envelope_args)
-    # Step 2. Gather documents and their headers
+    # Gather documents and their headers
     # Read files from a local directory
     # The reads could raise an exception if the file is not available!
     config = Rails.application.config
@@ -33,7 +32,7 @@ class ESign::Eg010SendBinaryDocsService
         bytes: doc3_pdf_bytes }
     ]
 
-    # Step 3. Create and send the envelope
+    # Create and send the envelope
     crlf = "\r\n"
     boundary = 'multipartboundary_multipartboundary'
     hyphens = '--'
@@ -81,11 +80,14 @@ class ESign::Eg010SendBinaryDocsService
     buffer << hyphens
     buffer << crlf
 
+    #ds-snippet-start:eSign10Step2
     header = {
       "Accept": 'application/json',
       "Authorization": "Bearer #{args[:access_token]}"
     }
+    #ds-snippet-end:eSign10Step2
     # Change your API version in the URL below to v2 for API version 2
+    #ds-snippet-start:eSign10Step4
     uri = URI.parse("#{args[:base_path]}/restapi/v2.1/accounts/#{args[:account_id]}/envelopes")
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = (uri.scheme == 'https')
@@ -98,11 +100,12 @@ class ESign::Eg010SendBinaryDocsService
     obj = JSON.parse(response.body)
 
     raise Net::HTTPError.new(response.code, response.body) unless (response.code.to_i >= 200) && (response.code.to_i < 300)
-
+    #ds-snippet-end:eSign10Step4
     envelope_id = obj['envelopeId']
     { 'envelope_id' => envelope_id }
   end
 
+  #ds-snippet-start:eSign10Step3
   def make_envelope_json(envelope_args)
     # document 1 (HTML) has tag **signature_1**
     # document 2 (DOCX) has tag /sn1/
@@ -214,5 +217,5 @@ color: darkblue;\">Order Processing Division</h2>
         </body>
     </html>"
   end
-  # ***DS.snippet.0.end
+  #ds-snippet-end:eSign10Step3
 end
