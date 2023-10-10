@@ -10,19 +10,22 @@ class ESign::Eg030BrandsApplyToTemplateService
   end
 
   def worker
-    # ***DS.snippet.0.start
-    # Step 1. Obtain your OAuth token
-    # Step 2. Construct your API headers
+    # Obtain your OAuth token
+    # Construct your API headers
     envelope_api = create_envelope_api(args)
-    # Step 3. Construct your envelope JSON body
+    # Construct your envelope JSON body
+    #ds-snippet-start:eSign30Step3
     envelope_definition = make_envelope(args[:envelope_args])
-    # Step 4. Call the eSignature REST API
+    #ds-snippet-end:eSign30Step3
+    # Call the eSignature REST API
+    #ds-snippet-start:eSign30Step4
     envelope_api.create_envelope args[:account_id], envelope_definition
-    # ***DS.snippet.0.end
+    #ds-snippet-end:eSign30Step4
   end
 
   private
 
+  #ds-snippet-start:eSign30Step3
   def make_envelope(envelope_args)
     # Create the envelope definition with the template_id
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
@@ -33,18 +36,19 @@ class ESign::Eg030BrandsApplyToTemplateService
     # Create the template role elements to connect the signer and cc recipients
     # to the template
     signer = DocuSign_eSign::TemplateRole.new({
-                                                email: envelope_args[:signer_email],
-                                                name: envelope_args[:signer_name],
-                                                roleName: 'signer'
-                                              })
+      email: envelope_args[:signer_email],
+      name: envelope_args[:signer_name],
+      roleName: 'signer'
+    })
     # Create a cc template role
     cc = DocuSign_eSign::TemplateRole.new({
-                                            email: envelope_args[:cc_email],
-                                            name: envelope_args[:cc_name],
-                                            roleName: 'cc'
-                                          })
+      email: envelope_args[:cc_email],
+      name: envelope_args[:cc_name],
+      roleName: 'cc'
+    })
 
     envelope_definition.template_roles = [signer, cc]
     envelope_definition
   end
+  #ds-snippet-end:eSign30Step3
 end
