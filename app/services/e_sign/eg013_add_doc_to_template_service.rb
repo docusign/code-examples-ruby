@@ -9,6 +9,7 @@ class ESign::Eg013AddDocToTemplateService
     @args = args
   end
 
+  #ds-snippet-start:eSign13Step3
   def worker
     envelope_args = args[:envelope_args]
     # 1. Create the envelope request object
@@ -19,7 +20,9 @@ class ESign::Eg013AddDocToTemplateService
 
     results = envelope_api.create_envelope(args[:account_id], envelope_definition)
     envelope_id = results.envelope_id
+    #ds-snippet-end:eSign13Step3
     # 3. Create the Recipient View request object
+    #ds-snippet-start:eSign13Step4
     authentication_method = 'None' # How is this application authenticating
     # the signer? See the `authenticationMethod' definition
     # https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopeviews/createrecipient/
@@ -36,9 +39,11 @@ class ESign::Eg013AddDocToTemplateService
                                                  envelope_id, recipient_view_request)
     { envelope_id: envelope_id, redirect_url: results.url }
   end
+  #ds-snippet-end:eSign13Step4
 
   private
 
+  #ds-snippet-start:eSign13Step2
   def make_envelope(args)
     # 1. Create recipients for server template. Note that the Recipients object
     #    is used, not TemplateRole
@@ -151,5 +156,5 @@ class ESign::Eg013AddDocToTemplateService
           </html>
     HEREDOC
   end
-  # ***DS.snippet.0.start
+  #ds-snippet-end:eSign13Step2
 end
