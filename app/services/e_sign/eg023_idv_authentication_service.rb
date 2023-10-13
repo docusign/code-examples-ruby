@@ -12,14 +12,15 @@ class ESign::Eg023IdvAuthenticationService
   def worker
     envelope_args = args[:envelope_args]
 
-    # Step 3. Obtain your workflow ID
+    # Obtain your workflow ID
+    #ds-snippet-start:eSign23Step3
     accounts_api = create_account_api(args)
     workflow_response = accounts_api.get_account_identity_verification args[:account_id]
     if workflow_response.identity_verification
       idv_workflow = workflow_response.identity_verification.find { |item| item.default_name == 'DocuSign ID Verification' }
       workflow_id = idv_workflow.workflow_id if idv_workflow
     end
-    # Step 3 end
+    ##ds-snippet-end:eSign23Step3
 
     return 'idv_not_enabled' if workflow_id.blank?
 
@@ -27,7 +28,7 @@ class ESign::Eg023IdvAuthenticationService
     puts workflow_id
 
     # Construct your envelope JSON body
-    # Step 4 start
+    #ds-snippet-start:eSign23Step4
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document set'
 
@@ -77,12 +78,12 @@ class ESign::Eg023IdvAuthenticationService
     # To request that the envelope be created as a draft, set status to "created"
     envelope_definition.recipients = recipients
     envelope_definition.status = envelope_args[:status]
-    # Step 4 end
+    #ds-snippet-end:eSign23Step4
 
     # Call the eSignature REST API
-    # Step 5 start
+    #ds-snippet-start:eSign23Step5
     envelope_api = create_envelope_api(args)
     envelope_api.create_envelope args[:account_id], envelope_definition
-    # Step 5 end
+    #ds-snippet-end:eSign23Step5
   end
 end
