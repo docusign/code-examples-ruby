@@ -10,19 +10,21 @@ class ESign::Eg033UnpausesSignatureWorkflowService
   end
 
   def worker
-    # Step 2. Construct your API headers
+    #ds-snippet-start:eSign33Step2
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:basePath]
 
     api_client = DocuSign_eSign::ApiClient.new configuration
     api_client.set_default_header('Authorization', "Bearer #{args[:accessToken]}")
+    #ds-snippet-end:eSign33Step2
 
-    # Step 3. Construct the JSON body for your envelope
+    #ds-snippet-start:eSign33Step3
     workflow = DocuSign_eSign::Workflow.new(status: args[:status])
 
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new(workflow: workflow)
+    #ds-snippet-end:eSign33Step3
 
-    # Step 4. Call the eSignature API
+    #ds-snippet-start:eSign33Step4
     envelopes_api = DocuSign_eSign::EnvelopesApi.new(api_client)
 
     update_options = DocuSign_eSign::UpdateOptions.new
@@ -35,4 +37,5 @@ class ESign::Eg033UnpausesSignatureWorkflowService
       update_options
     )
   end
+  #ds-snippet-end:eSign33Step4
 end
