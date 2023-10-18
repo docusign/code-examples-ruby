@@ -11,14 +11,15 @@ class ESign::Eg032PausesSignatureWorkflowService
   end
 
   def worker
-    # Step 2. Construct your API headers
+    #ds-snippet-start:eSign32Step2
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = args[:basePath]
 
     api_client = DocuSign_eSign::ApiClient.new configuration
     api_client.set_default_header('Authorization', "Bearer #{args[:accessToken]}")
+    #ds-snippet-end:eSign32Step2
 
-    # Step 3. Construct the request body
+    #ds-snippet-start:eSign32Step3
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new(emailSubject: 'EnvelopeWorkflowTest')
 
     # Create the document model.
@@ -90,12 +91,14 @@ class ESign::Eg032PausesSignatureWorkflowService
     # Request that the envelope be sent by setting |status| to "sent"
     # To request that the envelope be created as a draft, set to "created"
     envelope_definition.status = args[:status]
+    #ds-snippet-end:eSign32Step3
 
-    # Step 4. Call the eSignature API
+    #ds-snippet-start:eSign32Step4
     envelopes_api = DocuSign_eSign::EnvelopesApi.new(api_client)
     envelopes_api.create_envelope(
       args[:accountId],
       envelope_definition
     )
+    #ds-snippet-end:eSign32Step4
   end
 end
