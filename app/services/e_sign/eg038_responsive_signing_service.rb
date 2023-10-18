@@ -72,7 +72,7 @@ class ESign::Eg038ResponsiveSigningService
 
     view_request
   end
-  #ds-snippet-start:eSign38Step3
+  #ds-snippet-end:eSign38Step3
 
   #ds-snippet-start:eSign38Step2
   def make_envelope(args)
