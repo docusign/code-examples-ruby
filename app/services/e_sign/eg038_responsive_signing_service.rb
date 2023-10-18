@@ -9,7 +9,7 @@ class ESign::Eg038ResponsiveSigningService
     @args = args
   end
 
-  # Step 3 start
+  #ds-snippet-start:eSign38Step3
   def worker
     ds_return_url = "#{args[:ds_ping_url]}/ds_common-return"
 
@@ -72,9 +72,9 @@ class ESign::Eg038ResponsiveSigningService
 
     view_request
   end
-  # Step 3 end
+  #ds-snippet-start:eSign38Step3
 
-  # Step 2 start
+  #ds-snippet-start:eSign38Step2
   def make_envelope(args)
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Example Signing Document'
@@ -127,5 +127,5 @@ class ESign::Eg038ResponsiveSigningService
             .gsub('/l1q/', '<input data-ds-type="number"/>') \
             .gsub('/l2q/', '<input data-ds-type="number"/>')
   end
-  # Step 2 end
+  #ds-snippet-end:eSign38Step2
 end
