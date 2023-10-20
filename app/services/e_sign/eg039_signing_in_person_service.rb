@@ -9,7 +9,6 @@ class ESign::Eg039SigningInPersonService
     @args = args
   end
 
-  # ***DS.snippet.0.start
   def worker
     ds_ping_url = args[:ds_ping_url]
     ds_return_url = "#{ds_ping_url}/ds_common-return"
@@ -20,20 +19,20 @@ class ESign::Eg039SigningInPersonService
 
     envelope = make_envelope(pdf_filename, host_email, host_name, signer_name)
 
-    # Step 3 start
+    #ds-snippet-start:eSign39Step3
     envelope_api = create_envelope_api(args)
 
     results = envelope_api.create_envelope args[:account_id], envelope
-    # Step 3 end
+    #ds-snippet-end:eSign39Step3
 
     envelope_id = results.envelope_id
 
-    # Step 5 start
+    #ds-snippet-start:eSign39Step5
     view_request = make_recipient_view_request(ds_return_url, ds_ping_url, host_email, host_name)
 
     # Call the CreateRecipientView API
     results = envelope_api.create_recipient_view args[:account_id], envelope_id, view_request
-    # Step 5 end
+    #ds-snippet-end:eSign39Step5
 
     # Redirect the user to the embedded signing
     # Don't use an iframe!
@@ -45,7 +44,7 @@ class ESign::Eg039SigningInPersonService
 
   private
 
-  # Step 4 start
+  #ds-snippet-start:eSign39Step4
   def make_recipient_view_request(ds_return_url, ds_ping_url, host_email, host_name)
     view_request = DocuSign_eSign::RecipientViewRequest.new
     # Set the URL where you want the recipient to go once they are done signing
@@ -77,9 +76,9 @@ class ESign::Eg039SigningInPersonService
 
     view_request
   end
-  # Step 4 end
+  #ds-snippet-end:eSign39Step4
 
-  # Step 2 start
+  #ds-snippet-start:eSign39Step2
   def make_envelope(pdf_filename, host_email, host_name, signer_name)
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document sent from Ruby SDK'
@@ -123,5 +122,5 @@ class ESign::Eg039SigningInPersonService
     envelope_definition.status = 'sent'
     envelope_definition
   end
-  # Step 2 end
+  #ds-snippet-end:eSign39Step2
 end
