@@ -28,7 +28,7 @@ class ESign::Eg016SetEnvelopeTabDataService
     #ds-snippet-start:eSign16Step5
     view_request = make_recipient_view_request(args[:signer_email], args[:signer_name], signer_client_id, ds_return_url, ds_ping_url)
     #ds-snippet-end:eSign16Step5
-    
+
     # Call the CreateRecipientView API
     results = create_envelope_api(args).create_recipient_view args[:account_id], envelope_id, view_request
 

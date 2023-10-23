@@ -100,6 +100,7 @@ class ESign::Eg010SendBinaryDocsService
     obj = JSON.parse(response.body)
 
     raise Net::HTTPError.new(response.code, response.body) unless (response.code.to_i >= 200) && (response.code.to_i < 300)
+
     #ds-snippet-end:eSign10Step4
     envelope_id = obj['envelopeId']
     { 'envelope_id' => envelope_id }

@@ -36,16 +36,16 @@ class ESign::Eg030BrandsApplyToTemplateService
     # Create the template role elements to connect the signer and cc recipients
     # to the template
     signer = DocuSign_eSign::TemplateRole.new({
-      email: envelope_args[:signer_email],
-      name: envelope_args[:signer_name],
-      roleName: 'signer'
-    })
+                                                email: envelope_args[:signer_email],
+                                                name: envelope_args[:signer_name],
+                                                roleName: 'signer'
+                                              })
     # Create a cc template role
     cc = DocuSign_eSign::TemplateRole.new({
-      email: envelope_args[:cc_email],
-      name: envelope_args[:cc_name],
-      roleName: 'cc'
-    })
+                                            email: envelope_args[:cc_email],
+                                            name: envelope_args[:cc_name],
+                                            roleName: 'cc'
+                                          })
 
     envelope_definition.template_roles = [signer, cc]
     envelope_definition

@@ -225,6 +225,9 @@ Rails.application.routes.draw do
     get 'eeg043auth' => 'eeg043_shared_access#create_authorization'
     get 'eeg043reauthenticate' => 'eeg043_shared_access#reauthenticate'
     get 'eeg043envelopes' => 'eeg043_shared_access#list_envelopes'
+
+    get 'eeg044' => 'eeg044_focused_view#get'
+    post 'eeg044' => 'eeg044_focused_view#create'
   end
 
   root 'ds_common#index'

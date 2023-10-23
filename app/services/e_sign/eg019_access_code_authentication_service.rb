@@ -10,7 +10,6 @@ class ESign::Eg019AccessCodeAuthenticationService
   end
 
   def worker
-
     envelope_api = create_envelope_api(args)
     envelope_args = args[:envelope_args]
 
