@@ -70,7 +70,7 @@ end
 
 gem 'docusign_admin', '~> 1.3.0'
 gem 'docusign_click', '~> 1.4.0'
-gem 'docusign_esign', '~> 3.24.0'
+gem 'docusign_esign', '~> 3.25.0'
 gem 'docusign_monitor', '~> 1.2.0'
 gem 'docusign_rooms', '~> 1.3.0'
 gem 'omniauth-oauth2', '~> 1.8.0'

@@ -91,12 +91,67 @@ class ESign::Eg038ResponsiveSigningService
     envelope_definition.documents = [doc]
     # Create a signer recipient to sign the document, identified by name and email
     # We're setting the parameters via the object creation
+    price_1 = 5
+    formula_tab_1 = DocuSign_eSign::FormulaTab.new({
+                                                     font: 'helvetica',
+                                                     fontSize: 'size11',
+                                                     fontColor: 'black',
+                                                     anchorString: '/l1e/',
+                                                     anchorYOffset: '-8',
+                                                     anchorUnits: 'pixels',
+                                                     anchorXOffset: '105',
+                                                     tabLabel: 'l1e',
+                                                     formula: "[l1q] * #{price_1}",
+                                                     roundDecimalPlaces: '0',
+                                                     required: 'true',
+                                                     locked: 'true',
+                                                     disableAutoSize: 'false'
+                                                   })
+
+    price_2 = 150
+    formula_tab_2 = DocuSign_eSign::FormulaTab.new({
+                                                     font: 'helvetica',
+                                                     fontSize: 'size11',
+                                                     fontColor: 'black',
+                                                     anchorString: '/l2e/',
+                                                     anchorYOffset: '-8',
+                                                     anchorUnits: 'pixels',
+                                                     anchorXOffset: '105',
+                                                     tabLabel: 'l2e',
+                                                     formula: "[l2q] * #{price_2}",
+                                                     roundDecimalPlaces: '0',
+                                                     required: 'true',
+                                                     locked: 'true',
+                                                     disableAutoSize: 'false'
+                                                   })
+
+    formula_tab_3 = DocuSign_eSign::FormulaTab.new({
+                                                     font: 'helvetica',
+                                                     fontSize: 'size11',
+                                                     fontColor: 'black',
+                                                     anchorString: '/l3t/',
+                                                     anchorYOffset: '-8',
+                                                     anchorUnits: 'pixels',
+                                                     anchorXOffset: '105',
+                                                     tabLabel: 'l3t',
+                                                     formula: '[l1e] + [l2e]',
+                                                     roundDecimalPlaces: '0',
+                                                     required: 'true',
+                                                     locked: 'true',
+                                                     disableAutoSize: 'false'
+                                                   })
+
+    tabs = DocuSign_eSign::Tabs.new({
+                                      formulaTabs: [formula_tab_1, formula_tab_2, formula_tab_3]
+                                    })
+
     signer = DocuSign_eSign::Signer.new({
                                           email: args[:signer_email],
                                           name: args[:signer_name],
                                           clientUserId: args[:signer_client_id],
                                           recipientId: 1,
-                                          role_name: 'Signer'
+                                          role_name: 'Signer',
+                                          tabs: tabs
                                         })
 
     cc = DocuSign_eSign::CarbonCopy.new({
@@ -124,8 +179,8 @@ class ESign::Eg038ResponsiveSigningService
             .gsub('{ccName}', args[:cc_name]) \
             .gsub('{ccEmail}', args[:cc_email]) \
             .gsub('/sn1/', '<ds-signature data-ds-role="Signer"/>') \
-            .gsub('/l1q/', '<input data-ds-type="number"/>') \
-            .gsub('/l2q/', '<input data-ds-type="number"/>')
+            .gsub('/l1q/', '<input data-ds-type="number" name="l1q"/>') \
+            .gsub('/l2q/', '<input data-ds-type="number" name="l2q"/>')
   end
   #ds-snippet-end:eSign38Step2
 end
