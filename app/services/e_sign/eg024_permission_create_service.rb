@@ -10,16 +10,19 @@ class ESign::Eg024PermissionCreateService
   end
 
   def worker
+    #ds-snippet-start:eSign24Step4
     accounts_api = create_account_api(args)
     permission_profile_name = args[:permission_profile_name]
     permission_profile_settings = make_permission_profile_settings
     accounts_api.create_permission_profile(args[:account_id], { permissionProfileName: permission_profile_name,
                                                                 settings: permission_profile_settings },
                                            DocuSign_eSign::CreatePermissionProfileOptions.default)
+    #ds-snippet-end:eSign24Step4
   end
 
   private
 
+  #ds-snippet-start:eSign24Step3
   def make_permission_profile_settings
     {
       useNewDocuSignExperienceInterface: 0,
@@ -49,4 +52,5 @@ class ESign::Eg024PermissionCreateService
       vaultingMode: 'none'
     }
   end
+  #ds-snippet-end:eSign24Step3
 end
