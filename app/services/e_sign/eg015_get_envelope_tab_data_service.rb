@@ -9,7 +9,6 @@ class ESign::Eg015GetEnvelopeTabDataService
     @args = args
   end
 
-  # ***DS.snippet.0.start
   def worker
     # Step 3. Call the eSignature REST API
     # The Envelopes::getEnvelopeFormData method has many options
@@ -17,7 +16,8 @@ class ESign::Eg015GetEnvelopeTabDataService
     # The get form data call requires an account ID and an envelope ID
 
     # Exceptions will be caught by the calling function
+    #ds-snippet-start:eSign15Step3
     create_envelope_api(args).get_form_data args[:account_id], args[:envelope_id]
+    #ds-snippet-end:eSign15Step3
   end
-  # ***DS.snippet.0.end
 end
