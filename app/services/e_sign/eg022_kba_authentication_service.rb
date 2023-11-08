@@ -10,11 +10,10 @@ class ESign::Eg022KbaAuthenticationService
   end
 
   def worker
-    # ***DS.snippet.0.start
     envelope_api = create_envelope_api(args)
     envelope_args = args[:envelope_args]
 
-    # Step 3: Construct your envelope JSON body
+    #ds-snippet-start:eSign22Step3
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document set'
 
@@ -57,9 +56,10 @@ class ESign::Eg022KbaAuthenticationService
     # To request that the envelope be created as a draft, set to "created"
     envelope_definition.recipients = recipients
     envelope_definition.status = envelope_args[:status]
-
-    # Step 4. Call the eSignature REST API
+    #ds-snippet-end:eSign22Step3
+    
+    #ds-snippet-start:eSign22Step4
     envelope_api.create_envelope args[:account_id], envelope_definition
-    # ***DS.snippet.0.end
+    #ds-snippet-end:eSign22Step4
   end
 end
