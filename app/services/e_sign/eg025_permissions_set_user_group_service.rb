@@ -12,10 +12,14 @@ class ESign::Eg025PermissionsSetUserGroupService
   def worker
     group_api = create_group_api(args)
 
-    # Step 3: Construct the request body
+    # Construct the request body
+    #ds-snippet-start:eSign25Step3
     params = { groups: [{ permissionProfileId: args[:permission_profile_id], groupId: args[:group_id] }] }
+    #ds-snippet-end:eSign25Step3
 
-    # Step 4: Call the eSignature REST API
+    # Call the eSignature REST API
+    #ds-snippet-start:eSign25Step4
     group_api.update_groups(args[:account_id], params)
+    #ds-snippet-end:eSign25Step4
   end
 end
