@@ -17,7 +17,6 @@ class ESign::Eg040SetDocumentVisibilityService
     # Exceptions will be caught by the calling function
     #ds-snippet-start:eSign40Step4
     envelope_api = create_envelope_api(args)
-
     results = envelope_api.create_envelope args[:account_id], envelope_definition
     envelope_id = results.envelope_id
     #ds-snippet-end:eSign40Step4
