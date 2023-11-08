@@ -10,24 +10,24 @@ class ESign::Eg040SetDocumentVisibilityService
   end
 
   def worker
-    # Step 3-1 start
+    #ds-snippet-start:eSign40Step3
     envelope_definition = make_envelope args[:envelope_args]
-    # Step 3-1 end
+    #ds-snippet-end:eSign40Step3
 
     # Exceptions will be caught by the calling function
-    # Step 4 start
+    #ds-snippet-start:eSign40Step4
     envelope_api = create_envelope_api(args)
 
     results = envelope_api.create_envelope args[:account_id], envelope_definition
     envelope_id = results.envelope_id
-    # Step 4 end
+    #ds-snippet-end:eSign40Step4
 
     { 'envelope_id' => envelope_id }
   end
 
   private
 
-  # Step 3-2 start
+  #ds-snippet-start:eSign40Step3
   def make_envelope(envelope_args)
     # document 1 (HTML) has tag **signature_1**
     # document 2 (DOCX) has tag /sn1/
@@ -147,7 +147,7 @@ class ESign::Eg040SetDocumentVisibilityService
     envelope_definition.status = envelope_args[:status]
     envelope_definition
   end
-  # Step 3-2 end
+  #ds-snippet-end:eSign40Step3
 
   def create_document1(args)
     "
