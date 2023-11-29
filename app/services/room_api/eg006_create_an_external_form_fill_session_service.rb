@@ -22,6 +22,7 @@ class RoomApi::Eg006CreateAnExternalFormFillSessionService
   end
 
   private
+
   #ds-snippet-start:Rooms6Step3
   def body(args)
     DocuSign_Rooms::ExternalFormFillSessionForCreate.new({

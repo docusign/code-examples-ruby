@@ -57,7 +57,7 @@ class ESign::Eg022KbaAuthenticationService
     envelope_definition.recipients = recipients
     envelope_definition.status = envelope_args[:status]
     #ds-snippet-end:eSign22Step3
-    
+
     #ds-snippet-start:eSign22Step4
     envelope_api.create_envelope args[:account_id], envelope_definition
     #ds-snippet-end:eSign22Step4

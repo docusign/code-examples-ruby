@@ -51,6 +51,8 @@
                                 "r"
                               elsif api["Name"] == "Monitor"
                                 "m"
+                              elsif api["Name"] == "Connect"
+                                "cn"
                               else
                                 "e"
                               end %>
@@ -63,16 +65,18 @@
 
                   <p><%= sanitize example["ExampleDescription"] %></p>
 
-                  <% if example["LinksToAPIMethod"].length > 1 %>
-                    <%= sanitize @manifest["SupportingTexts"]["APIMethodUsedPlural"] %>
-                  <% else %>
-                    <%= sanitize @manifest["SupportingTexts"]["APIMethodUsed"] %>
-                  <% end %>
+                  <% if example["LinksToAPIMethod"] %>
+                    <% if example["LinksToAPIMethod"].length > 1 %>
+                      <%= sanitize @manifest["SupportingTexts"]["APIMethodUsedPlural"] %>
+                    <% else %>
+                      <%= sanitize @manifest["SupportingTexts"]["APIMethodUsed"] %>
+                    <% end %>
 
-                  <% example["LinksToAPIMethod"].each do |link| %>
-                    <a target='_blank' href="<%= link["Path"] %>"><%= link["PathName"] %></a>
-                  <% end %>
+                    <% example["LinksToAPIMethod"].each do |link| %>
+                      <a target='_blank' href="<%= link["Path"] %>"><%= link["PathName"] %></a>
+                    <% end %>
                   <br><br>
+                  <% end %>
                 <%   end   %>
             <%   end   %>
           <%   } %>

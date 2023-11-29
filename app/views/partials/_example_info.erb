@@ -9,14 +9,16 @@
   <%= sanitize @example["Note"] %>
 <% end %>
 
-<% if @example["LinksToAPIMethod"].length > 1 %>
-  <%= sanitize @manifest["SupportingTexts"]["APIMethodUsedPlural"] %>
-<% else %>
-  <%= sanitize @manifest["SupportingTexts"]["APIMethodUsed"] %>
-<% end %>
+<% if @example["LinksToAPIMethod"] %>
+  <% if @example["LinksToAPIMethod"].length > 1 %>
+    <%= sanitize @manifest["SupportingTexts"]["APIMethodUsedPlural"] %>
+  <% else %>
+    <%= sanitize @manifest["SupportingTexts"]["APIMethodUsed"] %>
+  <% end %>
 
-<% @example["LinksToAPIMethod"].each do |link| %>
-  <a target='_blank' href="<%= link["Path"] %>"><%= link["PathName"] %></a>
+  <% @example["LinksToAPIMethod"].each do |link| %>
+    <a target='_blank' href="<%= link["Path"] %>"><%= link["PathName"] %></a>
+  <% end %>
 <% end %>
 
 <p>

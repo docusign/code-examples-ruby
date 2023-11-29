@@ -13,7 +13,7 @@ class EgController < ApplicationController
   end
 
   def set_eg
-    session[:eg] = controller_name.to(5)
+    session[:eg] = controller_name.split('_', 2).first
   end
 
   def get
@@ -22,7 +22,7 @@ class EgController < ApplicationController
     # to have the user authenticate or re-authenticate.
     @token_ok = check_token
     @config = Rails.application.config
-    if @token_ok
+    if @token_ok || controller_name.include?('cneg')
       # addSpecialAttributes(model)
       @envelope_ok = session[:envelope_id].present?
       @documents_ok = session[:envelope_documents].present?
@@ -40,7 +40,7 @@ class EgController < ApplicationController
     @source_file = file_name.to_s
     #remove extra character that doesn't exist in service file
     index = @source_file.index('/')
-    index.nil? ? @source_file[0] = '' : @source_file[index + 1] = ''
+    @source_file = index.nil? ? @source_file.sub(/^.*?eg/, 'eg') : @source_file.sub(%r{/.+?eg}, '/eg')
     @source_url = "#{Rails.application.config.github_example_url}#{@source_file}"
   end
 

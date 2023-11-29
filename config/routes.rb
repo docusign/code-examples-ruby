@@ -230,6 +230,11 @@ Rails.application.routes.draw do
     post 'eeg044' => 'eeg044_focused_view#create'
   end
 
+  scope module: 'connect' do
+    get 'cneg001' => 'cneg001_validate_webhook_message#get'
+    post 'cneg001' => 'cneg001_validate_webhook_message#create'
+  end
+
   root 'ds_common#index'
 
   # Login starts with POST'ing to: /auth/docusign
