@@ -10,7 +10,7 @@ class Connect::Eg001ValidateWebhookMessageService
     @args = args
   end
 
-  #ds-snippet-start:Connect1Step2
+  #ds-snippet-start:Connect1Step1
   def worker
     digest = OpenSSL::Digest.new('sha256')
     hashBytes = OpenSSL::HMAC.digest(digest, args[:secret], args[:payload])
@@ -21,5 +21,5 @@ class Connect::Eg001ValidateWebhookMessageService
     hash = worker(args[:secret], args[:payload])
     OpenSSL.secure_compare(hash.chomp, args[:signature])
   end
-  #ds-snippet-end:Connect1Step2
+  #ds-snippet-end:Connect1Step1
 end
