@@ -21,6 +21,10 @@
   <% end %>
 <% end %>
 
+<% if @example["LinkToHowTo"] %>
+    <p>Prerequisite: See <a target='_blank' href="<%= @example["LinkToHowTo"][0]["Path"] %>"><%= @example["LinkToHowTo"][0]["PathName"] %></a></p>
+<% end %>
+
 <p>
   <%= sanitize format_string(@manifest["SupportingTexts"]["ViewSourceFile"], "<a target='_blank' href='#{@source_url}'>#{@source_file}</a>" ) %>
 </p>
