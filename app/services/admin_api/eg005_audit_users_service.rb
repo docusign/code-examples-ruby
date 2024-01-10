@@ -28,8 +28,12 @@ class AdminApi::Eg005AuditUsersService
     #ds-snippet-start:Admin5Step5
     results = []
     modified_users.each do |user|
+    #ds-snippet-end:Admin5Step5
+      #ds-snippet-start:Admin5Step4  
       userProfilesOptions = DocuSign_Admin::GetUserProfilesOptions.new
       userProfilesOptions.email = user['email']
+      #ds-snippet-end:Admin5Step4
+      #ds-snippet-start:Admin5Step5
       result = users_api.get_user_profiles(args[:organization_id], userProfilesOptions)
       results.push(result)
     end
