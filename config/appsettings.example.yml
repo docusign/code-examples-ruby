@@ -23,6 +23,7 @@ default: &default
   rooms_host: "https://demo.rooms.docusign.com/restapi"
   monitor_host: "https://lens-d.docusign.net"
   admin_host: "https://api-d.docusign.net/management"
+  webforms_host: ".services.docusign.net/webforms/v1.1"
   allow_silent_authentication: true # A user can be silently authenticated if they have an
                                     # Active login session on another tab of the same browser
                                     # Set if you want a specific DocuSign AccountId, If false, the users default account will be used.
@@ -34,6 +35,8 @@ default: &default
   doc_pdf: World_Wide_Corp_lorem.pdf
   doc_terms_pdf: Term_Of_Service.pdf
   doc_offer_letter: Offer_Letter_Demo.docx
+  web_form_template_file: World_Wide_Corp_Form.pdf
+  web_form_config_file: web-form-config.json
   gateway_name: "stripe"
   gateway_display_name: "Stripe"
   github_example_url: https://github.com/docusign/code-examples-ruby/tree/master/app/services/

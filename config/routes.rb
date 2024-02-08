@@ -235,6 +235,13 @@ Rails.application.routes.draw do
     post 'cneg001' => 'cneg001_validate_webhook_message#create'
   end
 
+  scope module: 'webforms' do
+    get 'weg001' => 'weg001_create_instance#get'
+    get 'weg001webForm' => 'weg001_create_instance#get_web_form_create_view'
+    post 'weg001' => 'weg001_create_instance#create_web_form_template'
+    post 'weg001webForm' => 'weg001_create_instance#create_web_form_instance'
+  end
+
   root 'ds_common#index'
 
   # Login starts with POST'ing to: /auth/docusign
