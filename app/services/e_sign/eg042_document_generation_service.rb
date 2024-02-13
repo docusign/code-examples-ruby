@@ -16,43 +16,52 @@ class ESign::Eg042DocumentGenerationService
     account_id = args[:account_id]
     envelope_args = args[:envelope_args]
 
-    # Step 1. Create the template
+    #ds-snippet-start:eSign42Step2
     template = template_api.create_template(account_id, template_data)
     template_id = template.template_id
+    #ds-snippet-end:eSign42Step2
 
-    # Step 2. Update template document
+    #ds-snippet-start:eSign42Step3
     document_id = '1'
     template_api.update_document(account_id, document_id, template_id, template_document(envelope_args))
+    #ds-snippet-end:eSign42Step3
 
-    # Step 3. Update recipient tabs
+    #ds-snippet-start:eSign42Step4
     recipient_id = '1'
     template_api.create_tabs(account_id, recipient_id, template_id, recipient_tabs)
+    #ds-snippet-end:eSign42Step4
 
-    # Step 4. Create draft envelope
+    #ds-snippet-start:eSign42Step5
     envelope_definition = make_envelope(template_id, envelope_args)
     envelope = envelope_api.create_envelope(account_id, envelope_definition)
     envelope_id = envelope.envelope_id
+    #ds-snippet-end:eSign42Step5
 
-    # Step 5: Get the document id
+    #ds-snippet-start:eSign42Step6
     doc_gen_form_fields_response = envelope_api.get_envelope_doc_gen_form_fields(account_id, envelope_id)
     document_id_guid = doc_gen_form_fields_response.doc_gen_form_fields[0].document_id
+    #ds-snippet-end:eSign42Step6
 
-    # Step 6: Merge the data fields
+    #ds-snippet-start:eSign42Step7
     form_fields_request = form_fields(envelope_args, document_id_guid)
     envelope_api.update_envelope_doc_gen_form_fields(
       account_id,
       envelope_id,
       form_fields_request
     )
+    #ds-snippet-end:eSign42Step7
 
-    # Step 7. Send the envelope
+    #ds-snippet-start:eSign42Step8
     send_envelope_req = DocuSign_eSign::Envelope.new(status: 'sent')
     envelope = envelope_api.update(account_id, envelope_id, send_envelope_req)
+    #ds-snippet-end:eSign42Step8
+
     { 'envelope_id' => envelope.envelope_id }
   end
 
   private
 
+  #ds-snippet-start:eSign42Step2
   def template_data
     # Create recipients
     signer = DocuSign_eSign::Signer.new(
@@ -74,7 +83,9 @@ class ESign::Eg042DocumentGenerationService
       status: 'created'
     )
   end
+  #ds-snippet-end:eSign42Step2
 
+  #ds-snippet-start:eSign42Step3
   def template_document(args)
     # Create the document model
     document = DocuSign_eSign::Document.new(
@@ -90,7 +101,9 @@ class ESign::Eg042DocumentGenerationService
       documents: [document]
     )
   end
+  #ds-snippet-end:eSign42Step3
 
+  #ds-snippet-start:eSign42Step4
   def recipient_tabs
     # Create tabs
     sign_here = DocuSign_eSign::SignHere.new(
@@ -109,7 +122,9 @@ class ESign::Eg042DocumentGenerationService
       dateSignedTabs: [date_signed]
     )
   end
+  #ds-snippet-end:eSign42Step4
 
+  #ds-snippet-start:eSign42Step5
   def make_envelope(template_id, args)
     # Create the signer model
     signer = DocuSign_eSign::TemplateRole.new(
@@ -125,7 +140,9 @@ class ESign::Eg042DocumentGenerationService
       templateId: template_id
     )
   end
+  #ds-snippet-end:eSign42Step5
 
+  #ds-snippet-start:eSign42Step7
   def form_fields(args, document_id_guid)
     candidate_name_field = DocuSign_eSign::DocGenFormField.new(
       name: 'Candidate_Name',
@@ -160,4 +177,5 @@ class ESign::Eg042DocumentGenerationService
       docGenFormFields: [doc_gen_form_fields]
     )
   end
+  #ds-snippet-end:eSign42Step7
 end
