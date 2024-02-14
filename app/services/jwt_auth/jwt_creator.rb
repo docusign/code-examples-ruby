@@ -17,7 +17,7 @@ module JwtAuth
       scope = 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms' if api == 'Rooms'
       scope = 'signature impersonation click.manage click.send' if api == 'Click'
       scope = 'signature impersonation organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read' if api == 'Admin'
-      scope = 'signature webforms_manage' if api == 'WebForms'
+      scope = 'signature webforms_read webforms_instance_read webforms_instance_write' if api == 'WebForms'
 
       base_uri = "#{Rails.configuration.authorization_server}/oauth/auth"
       response_type = 'code'
@@ -47,7 +47,7 @@ module JwtAuth
         @client_module = DocuSign_Admin
       end
       if session[:api] == 'WebForms'
-        scope = 'signature webforms_manage'
+        scope = 'signature webforms_read webforms_instance_read webforms_instance_write'
         @client_module = DocuSign_WebForms
       end
 
