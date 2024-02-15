@@ -40,12 +40,16 @@ config.middleware.use OmniAuth::Builder do
     session = strategy.session
 
     case session[:api]
+    when 'eSignature'
+      strategy.options[:authorize_params].scope = 'signature'
     when 'Rooms'
       strategy.options[:authorize_params].scope = 'signature dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms'
     when 'Click'
       strategy.options[:authorize_params].scope = 'signature click.manage click.send'
     when 'Admin'
       strategy.options[:authorize_params].scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read'
+    when 'WebForms'
+      strategy.options[:authorize_params].scope = 'signature webforms_read webforms_instance_read webforms_instance_write'
     end
   }
 end

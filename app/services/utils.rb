@@ -30,4 +30,14 @@ module Utils
       user_info.sub
     end
   end
+
+  class FileUtils
+    def replace_template_id(file_path, template_id)
+      content = File.read(file_path)
+
+      content.gsub!('template-id', template_id)
+
+      File.write(file_path, content)
+    end
+  end
 end
