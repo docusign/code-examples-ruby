@@ -28,17 +28,20 @@ class Webforms::Eg001CreateInstanceService
   end
 
   def list_web_forms
+    #ds-snippet-start:WebForms1Step2
     configuration = DocuSign_WebForms::Configuration.new
-
     api_client = DocuSign_WebForms::ApiClient.new(configuration)
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
+    #ds-snippet-end:WebForms1Step2
 
+    #ds-snippet-start:WebForms1Step3
     webforms_api = DocuSign_WebForms::FormManagementApi.new(api_client)
 
     options = DocuSign_WebForms::ListFormsOptions.new
     options.search = args[:form_name]
 
     webforms_api.list_forms(args[:account_id], options)
+    #ds-snippet-end:WebForms1Step3
   end
 
   def create_web_form_instance(form_id)
@@ -47,8 +50,7 @@ class Webforms::Eg001CreateInstanceService
     api_client = DocuSign_WebForms::ApiClient.new(configuration)
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
 
-    webforms_api = DocuSign_WebForms::FormInstanceManagementApi.new(api_client)
-
+    #ds-snippet-start:WebForms1Step4
     web_form_values = {
       'PhoneNumber' => '555-555-5555',
       'Yes' => ['Yes'],
@@ -60,7 +62,12 @@ class Webforms::Eg001CreateInstanceService
       'formValues' => web_form_values,
       'expirationOffset' => '3600'
     })
+    #ds-snippet-end:WebForms1Step4
+
+    #ds-snippet-start:WebForms1Step5
+    webforms_api = DocuSign_WebForms::FormInstanceManagementApi.new(api_client)
     webforms_api.create_instance(args[:account_id], form_id, web_form_req_object)
+    #ds-snippet-end:WebForms1Step5
   end
 
   private
