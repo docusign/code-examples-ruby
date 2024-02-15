@@ -29,7 +29,6 @@ class Webforms::Eg001CreateInstanceService
 
   def list_web_forms
     configuration = DocuSign_WebForms::Configuration.new
-    configuration.host = Rails.configuration.webforms_host
 
     api_client = DocuSign_WebForms::ApiClient.new(configuration)
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
@@ -44,7 +43,6 @@ class Webforms::Eg001CreateInstanceService
 
   def create_web_form_instance(form_id)
     configuration = DocuSign_WebForms::Configuration.new
-    configuration.host = Rails.configuration.webforms_host
 
     api_client = DocuSign_WebForms::ApiClient.new(configuration)
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
@@ -58,10 +56,10 @@ class Webforms::Eg001CreateInstanceService
       'JobTitle' => 'Programmer Writer'
     }
     web_form_req_object = DocuSign_WebForms::CreateInstanceRequestBody.new({
-                                                                             'clientUserId' => args[:client_user_id],
-                                                                             'formValues' => web_form_values,
-                                                                             'expirationOffset' => '3600'
-                                                                           })
+      'clientUserId' => args[:client_user_id],
+      'formValues' => web_form_values,
+      'expirationOffset' => '3600'
+    })
     webforms_api.create_instance(args[:account_id], form_id, web_form_req_object)
   end
 
@@ -74,18 +72,18 @@ class Webforms::Eg001CreateInstanceService
 
     # Create the document model
     document = DocuSign_eSign::Document.new({
-                                              # Create the DocuSign document object
-                                              'documentBase64' => base64_file_content,
-                                              'name' => 'World_Wide_Web_Form', # Can be different from actual file name
-                                              'fileExtension' => 'pdf', # Many different document types are accepted
-                                              'documentId' => '1' # A label used to reference the doc
-                                            })
+      # Create the DocuSign document object
+      'documentBase64' => base64_file_content,
+      'name' => 'World_Wide_Web_Form', # Can be different from actual file name
+      'fileExtension' => 'pdf', # Many different document types are accepted
+      'documentId' => '1' # A label used to reference the doc
+    })
 
     # Create the signer recipient model
     # Since these are role definitions, no name/email:
     signer = DocuSign_eSign::Signer.new({
-                                          'roleName' => 'signer', 'recipientId' => '1', 'routingOrder' => '1'
-                                        })
+      'roleName' => 'signer', 'recipientId' => '1', 'routingOrder' => '1'
+    })
     # Create fields using absolute positioning
     # Create a sign_here tab (field on the document)
     sign_here = DocuSign_eSign::SignHere.new(
