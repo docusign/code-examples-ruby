@@ -13,21 +13,21 @@ class AdminApi::GetDataService
   def get_product_permission_profiles
     worker
 
-    # Step 3 start
+    #ds-snippet-start:Admin2Step3
     product_permission_profiles_api = DocuSign_Admin::ProductPermissionProfilesApi.new(@api_client)
     product_permission_profiles = product_permission_profiles_api.get_product_permission_profiles(args[:organization_id], args[:account_id])
     product_permission_profiles.as_json['product_permission_profiles']
-    # Step 3 end
+    #ds-snippet-end:Admin2Step3
   end
 
   def get_ds_groups
     worker
 
-    # Step 4 start
+    #ds-snippet-start:Admin2Step4
     ds_groups_api = DocuSign_Admin::DSGroupsApi.new(@api_client)
     ds_groups = ds_groups_api.get_ds_groups(args[:organization_id], args[:account_id])
     ds_groups.as_json['ds_groups']
-    # Step 4 end
+    #ds-snippet-end:Admin2Step4
   end
 
   def get_organization_id
@@ -39,9 +39,7 @@ class AdminApi::GetDataService
   def check_import_status(import_id)
     worker
     bulk_imports_api = DocuSign_Admin::BulkImportsApi.new(@api_client)
-    # Step 4 start
     bulk_imports_api.get_bulk_user_import_request(args[:organization_id], import_id)
-    # Step 4 end
   end
 
   def check_user_exists_by_email(email)
@@ -59,9 +57,11 @@ class AdminApi::GetDataService
   private
 
   def worker
+    #ds-snippet-start:AdminRubyStep2
     configuration = DocuSign_Admin::Configuration.new
     configuration.host = Rails.configuration.admin_host
     @api_client = DocuSign_Admin::ApiClient.new(configuration)
     @api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
+    #ds-snippet-end:AdminRubyStep2
   end
 end

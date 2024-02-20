@@ -8,23 +8,21 @@ class AdminApi::Eg002CreateActiveClmEsignUserService
   end
 
   def worker
-    # Step 2 start
     configuration = DocuSign_Admin::Configuration.new
     configuration.host = Rails.configuration.admin_host
 
     api_client = DocuSign_Admin::ApiClient.new(configuration)
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
-    # Step 2 end
 
-    # Step 6 start
+    #ds-snippet-start:Admin2Step6
     users_api = DocuSign_Admin::UsersApi.new(api_client)
     users_api.add_or_update_user(args[:organization_id], args[:account_id], body(args))
-    # Step 6 end
+    #ds-snippet-end:Admin2Step6
   end
 
   private
 
-  # Step 5 start
+  #ds-snippet-start:Admin2Step5
   def body(args)
     {
       user_name: args[:user_name],
@@ -49,5 +47,5 @@ class AdminApi::Eg002CreateActiveClmEsignUserService
       ]
     }
   end
-  # Step 5 end
+  #ds-snippet-end:Admin2Step5
 end
