@@ -20,7 +20,7 @@ class ESign::Eg003ListEnvelopesService
     #ds-snippet-start:eSign3Step2
     envelope_api = create_envelope_api(args)
     options = DocuSign_eSign::ListStatusChangesOptions.new
-    options.from_date = (Date.today - 30).strftime('%Y/%m/%d')
+    options.from_date = (Date.today - 30).strftime('%Y-%m-%d')
     # Exceptions will be caught by the calling function
     envelope_api.list_status_changes args[:account_id], options
     #ds-snippet-end:eSign3Step2
