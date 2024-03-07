@@ -23,11 +23,11 @@ class AdminApi::GetDataService
   def get_ds_groups
     worker
 
-    #ds-snippet-start:Admin2Step4
+    #ds-snippet-start:Admin4Step4
     ds_groups_api = DocuSign_Admin::DSGroupsApi.new(@api_client)
     ds_groups = ds_groups_api.get_ds_groups(args[:organization_id], args[:account_id])
     ds_groups.as_json['ds_groups']
-    #ds-snippet-end:Admin2Step4
+    #ds-snippet-end:Admin4Step4
   end
 
   def get_organization_id
