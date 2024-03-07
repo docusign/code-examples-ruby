@@ -38,8 +38,10 @@ class AdminApi::GetDataService
 
   def check_import_status(import_id)
     worker
+    #ds-snippet-start:Admin4Step4
     bulk_imports_api = DocuSign_Admin::BulkImportsApi.new(@api_client)
     bulk_imports_api.get_bulk_user_import_request(args[:organization_id], import_id)
+    #ds-snippet-end:Admin4Step4
   end
 
   def check_user_exists_by_email(email)
