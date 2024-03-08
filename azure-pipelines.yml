@@ -1,0 +1,120 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+resources:
+  repositories:
+  - repository: launcher-automation
+    type: github
+    name: docusign/launcher-automation
+    ref: main
+    endpoint: launcherAutomationServiceConnection
+
+pr:
+- master
+- releases/*
+
+pool:
+  name: launcher-automation-pool
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+- checkout: self
+- checkout: launcher-automation
+
+- script: dir $(Build.SourcesDirectory)
+
+- task: DownloadSecureFile@1
+  name: ruby_dockerfile
+  displayName: 'download Dockerfile'
+  inputs:
+    secureFile: 'ruby.Dockerfile'
+
+- script: |
+    echo "place ruby.Dockerfile"
+    echo $(ruby_dockerfile.secureFilePath)
+    cp $(ruby_Dockerfile.secureFilePath) code-examples-ruby-private/Dockerfile
+  displayName: 'place Dockerfile'
+
+- script: |
+    allure –-version
+    java --version
+    javac --version
+    mvn --version
+    docker --version
+
+- task: DownloadSecureFile@1
+  name: tests_config_properties
+  displayName: 'download config.properties'
+  inputs:
+    secureFile: 'tests_config.properties'
+
+
+- script: |
+    echo "place config.properties"
+    echo $(tests_config_properties.secureFilePath)
+    cp $(tests_config_properties.secureFilePath) launcher-automation/src/main/resources/config.properties
+  displayName: 'place config.properties'
+
+- task: DownloadSecureFile@1
+  name: ruby_appsettings
+  displayName: 'download appsettings.yml'
+  inputs:
+    secureFile: 'ruby.appsettings.yml'
+
+
+- script: |
+    echo "place appsettings.yml"
+    cp $(ruby_appsettings.secureFilePath) code-examples-ruby-private/config/appsettings.yml
+  displayName: 'place appsettings.yml'
+
+
+- task: DownloadSecureFile@1
+  name: ruby_private_key
+  displayName: 'download private.key'
+  inputs:
+    secureFile: 'private.key'
+
+
+- script: |
+    echo "place private.key"
+    cp $(ruby_private_key.secureFilePath) code-examples-ruby-private/config/docusign_private_key.txt
+  displayName: 'place docusign_private_key.txt'
+
+- script: dir $(Build.SourcesDirectory)
+
+- script: dir $(Build.SourcesDirectory)/code-examples-ruby-private
+
+- task: Docker@2
+  displayName: Build ruby image
+  inputs:
+    command: build
+    repository: 'launcher-automation-ruby'
+    dockerfile: '$(Build.SourcesDirectory)/code-examples-ruby-private/Dockerfile'
+    buildContext: '$(Build.SourcesDirectory)/code-examples-ruby-private '
+    tags: |
+      latest
+
+- script: |
+    docker run -p 3000:3000 -d launcher-automation-ruby:latest
+  displayName: 'start ruby app'
+
+- script: |
+    cd launcher-automation
+    mvn clean test -DsuiteXmlFile="ruby_suite.xml"
+  displayName: 'Ruby app tests'
+
+- script: |
+    docker stop $(docker ps -a -q)
+    docker rm $(docker ps -a -q)
+  displayName: 'stop ruby app'
+
+- script: |
+    allure generate --clean --output $(Build.SourcesDirectory)/ruby-allure-output '$(Build.SourcesDirectory)/launcher-automation/target/allure-results'
+  displayName: generate allure html reports
+
+- task: PublishAllureReport@1
+  displayName: 'Publish Allure Report'
+  inputs:
+    reportDir: '$(Build.SourcesDirectory)/ruby-allure-output'
