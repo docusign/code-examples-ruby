@@ -58,10 +58,10 @@ class Webforms::Eg001CreateInstanceService
       'JobTitle' => 'Programmer Writer'
     }
     web_form_req_object = DocuSign_WebForms::CreateInstanceRequestBody.new({
-      'clientUserId' => args[:client_user_id],
-      'formValues' => web_form_values,
-      'expirationOffset' => '3600'
-    })
+                                                                             'clientUserId' => args[:client_user_id],
+                                                                             'formValues' => web_form_values,
+                                                                             'expirationOffset' => '3600'
+                                                                           })
     #ds-snippet-end:WebForms1Step4
 
     #ds-snippet-start:WebForms1Step5
@@ -79,18 +79,18 @@ class Webforms::Eg001CreateInstanceService
 
     # Create the document model
     document = DocuSign_eSign::Document.new({
-      # Create the DocuSign document object
-      'documentBase64' => base64_file_content,
-      'name' => 'World_Wide_Web_Form', # Can be different from actual file name
-      'fileExtension' => 'pdf', # Many different document types are accepted
-      'documentId' => '1' # A label used to reference the doc
-    })
+                                              # Create the DocuSign document object
+                                              'documentBase64' => base64_file_content,
+                                              'name' => 'World_Wide_Web_Form', # Can be different from actual file name
+                                              'fileExtension' => 'pdf', # Many different document types are accepted
+                                              'documentId' => '1' # A label used to reference the doc
+                                            })
 
     # Create the signer recipient model
     # Since these are role definitions, no name/email:
     signer = DocuSign_eSign::Signer.new({
-      'roleName' => 'signer', 'recipientId' => '1', 'routingOrder' => '1'
-    })
+                                          'roleName' => 'signer', 'recipientId' => '1', 'routingOrder' => '1'
+                                        })
     # Create fields using absolute positioning
     # Create a sign_here tab (field on the document)
     sign_here = DocuSign_eSign::SignHere.new(

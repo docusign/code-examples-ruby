@@ -43,6 +43,7 @@ class ESign::Eg040SetDocumentVisibilityService
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
 
     envelope_definition.email_subject = 'Please sign this document set'
+    envelope_definition.enforce_signer_visibility = 'true'
 
     # Add the documents
     doc1_b64 = Base64.encode64(create_document1(envelope_args))

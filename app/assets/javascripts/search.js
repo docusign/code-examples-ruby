@@ -140,7 +140,7 @@ const DS_SEARCH = (function () {
       case API_TYPES.MONITOR:
         return "meg";
       case API_TYPES.ESIGNATURE:
-        return "eg";
+        return "eeg";
       case API_TYPES.CONNECT:
         return "cneg";
       case API_TYPES.WEBFORMS:
