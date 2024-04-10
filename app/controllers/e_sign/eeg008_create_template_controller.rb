@@ -13,6 +13,7 @@ class ESign::Eeg008CreateTemplateController < EgController
     }
     results = ESign::Eg008CreateTemplateService.new(args).worker
     session[:template_id] = results[:template_id]
+    session[:workflow_template_id] = results[:template_id]
     msg = if results.fetch(:created_new_template)
             'The template has been created!'
           else

@@ -40,4 +40,17 @@ module Utils
       File.write(file_path, content)
     end
   end
+
+  class URLUtils
+    def get_parameter_value_from_url(url, param_name)
+      parsed_url = URI.parse(url)
+      query_params = URI.decode_www_form(parsed_url.query || '')
+
+      # Access the parameter value (returns a list)
+      param_value_list = query_params.assoc(param_name)
+
+      # If the parameter exists, return the first value; otherwise, return nil
+      param_value_list ? param_value_list[1] : nil
+    end
+  end
 end

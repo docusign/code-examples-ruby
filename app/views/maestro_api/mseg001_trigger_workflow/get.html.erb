@@ -1,0 +1,54 @@
+<%= render('partials/example_info') %>
+
+<% form_index = 0 %>
+<% instance_name_index = 0 %>
+<% signer_email_index = 1 %>
+<% signer_name_index = 2 %>
+<% cc_email_index = 3 %>
+<% cc_name_index = 4 %>
+<% redirect_to8_index = 0 %>
+
+<% unless @show_template_not_ok %>
+  <form class="eg" action="mseg001" method="post" data-busy="form">
+    <% if @example["Forms"][form_index]["FormName"] %>
+      <%= sanitize @example["Forms"][form_index]["FormName"] %>
+    <% end %>
+
+    <div class="form-group">
+      <label for="instance_name"><%= @example['Forms'][form_index]['Inputs'][instance_name_index]['InputName'] %></label>
+      <input type="text" class="form-control" id="instance_name" name="instance_name"
+             placeholder="<%= @example['Forms'][form_index]['Inputs'][instance_name_index]['InputPlaceholder'] %>" required>
+    </div>
+    <div class="form-group">
+      <label for="signer_email"><%= @example['Forms'][form_index]['Inputs'][signer_email_index]['InputName'] %></label>
+      <input type="email" class="form-control" id="signer_email" name="signer_email"
+             aria-describedby="emailHelp" placeholder="<%= @example['Forms'][form_index]['Inputs'][signer_email_index]['InputPlaceholder'] %>" required
+             >
+      <%= render('partials/email_will_not_be_shared') %>
+    </div>
+    <div class="form-group">
+      <label for="signer_name"><%= @example['Forms'][form_index]['Inputs'][signer_name_index]['InputName'] %></label>
+      <input type="text" class="form-control" id="signer_name" placeholder="<%= @example['Forms'][form_index]['Inputs'][signer_name_index]['InputPlaceholder'] %>" name="signer_name"
+             required>
+    </div>
+    <div class="form-group">
+      <label for="cc_email"><%= @example['Forms'][form_index]['Inputs'][cc_email_index]['InputName'] %></label>
+      <input type="email" class="form-control" id="cc_email" name="cc_email"
+             aria-describedby="emailHelp" placeholder="<%= @example['Forms'][form_index]['Inputs'][cc_email_index]['InputPlaceholder'] %>" required/>
+      <small id="emailHelp" class="form-text text-muted">The email for the cc recipient must be different from the signer's email.</small>
+    </div>
+    <div class="form-group">
+      <label for="cc_name"><%= @example['Forms'][form_index]['Inputs'][cc_name_index]['InputName'] %></label>
+      <input type="text" class="form-control" id="cc_name" placeholder="<%= @example['Forms'][form_index]['Inputs'][cc_name_index]['InputPlaceholder'] %>" name="cc_name"
+             required>
+    </div>
+
+    <%= render('partials/submit_button') %>
+  </form>
+<% else %>
+  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to8_index]["RedirectText"], 'href="eeg008"') %>
+     
+  <form class="eg" action="eeg008" method="get">
+    <%= render('partials/continue_button') %>
+  </form>
+<% end %>

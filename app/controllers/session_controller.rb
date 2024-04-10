@@ -59,6 +59,7 @@ class SessionController < ApplicationController
     session.delete :eg
     session.delete :manifest
     session.delete :status_cfr
+    session.delete :is_workflow_published
   end
 
   def store_auth_hash_from_docusign_callback

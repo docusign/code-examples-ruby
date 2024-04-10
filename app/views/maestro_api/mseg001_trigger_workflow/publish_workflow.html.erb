@@ -1,0 +1,7 @@
+<h2><%= @title %></h2>
+<%= format_string(@message, @consent_url).html_safe %>
+     
+<form class="eg" action="mseg001publish" method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+  <%= render('partials/submit_button') %>
+</form>

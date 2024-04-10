@@ -1,0 +1,33 @@
+<%= render('partials/example_info') %>
+
+<% form_index = 0 %>
+<% workflow_id_index = 0 %>
+<% instance_id_index = 1 %>
+<% redirect_to1_index = 0 %>
+
+<% if @instance_ok %>
+  <form class="eg" action="" method="post" data-busy="form">
+    <% if @example["Forms"][form_index]["FormName"] %>
+      <%= sanitize @example["Forms"][form_index]["FormName"] %>
+    <% end %>
+
+    <div class="form-group">
+      <label for="workflow_id"><%= @example['Forms'][form_index]['Inputs'][workflow_id_index]['InputName'] %></label>
+      <input type="text" class="form-control" id="workflow_id" name="workflow_id"
+             value="<%= @workflow_id %>" required readonly>
+    </div>
+    <div class="form-group">
+      <label for="instance_id"><%= @example['Forms'][form_index]['Inputs'][instance_id_index]['InputName'] %></label>
+      <input type="text" class="form-control" id="instance_id" name="instance_id"
+             value="<%= @instance_id %>" required readonly>
+    </div>
+
+    <%= render('partials/submit_button') %>
+  </form>
+<% else %>
+  <%= sanitize format_string(@example["RedirectsToOtherCodeExamples"][redirect_to1_index]["RedirectText"], 'href="mseg001"') %>
+     
+  <form class="eg" action="mseg001" method="get">
+    <%= render('partials/continue_button') %>
+  </form>
+<% end %>
