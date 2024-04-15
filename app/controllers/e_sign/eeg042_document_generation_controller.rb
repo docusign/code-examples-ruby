@@ -13,8 +13,9 @@ class ESign::Eeg042DocumentGenerationController < EgController
       manager_name: param_gsub(params['manager_name']),
       job_title: param_gsub(params['job_title']),
       salary: param_gsub(params['salary']),
+      rsus: param_gsub(params['rsus']),
       start_date: param_gsub(params['start_date']),
-      doc_file: File.join('data', Rails.application.config.doc_offer_letter)
+      doc_file: File.join('data', Rails.application.config.offer_letter_dynamic_table)
     }
     args = {
       account_id: session['ds_account_id'],

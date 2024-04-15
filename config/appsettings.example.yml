@@ -35,7 +35,7 @@ default: &default
   doc_docx: World_Wide_Corp_Battle_Plan_Trafalgar.docx
   doc_pdf: World_Wide_Corp_lorem.pdf
   doc_terms_pdf: Term_Of_Service.pdf
-  doc_offer_letter: Offer_Letter_Demo.docx
+  offer_letter_dynamic_table: Offer_Letter_Dynamic_Table.docx
   web_form_template_file: World_Wide_Corp_Form.pdf
   web_form_config_file: web-form-config.json
   gateway_name: "stripe"

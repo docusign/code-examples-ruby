@@ -113,7 +113,7 @@ class ESign::Eg042DocumentGenerationService
       anchorYOffset: '-22'
     )
     date_signed = DocuSign_eSign::DateSigned.new(
-      anchorString: 'Date',
+      anchorString: 'Date Signed',
       anchorUnits: 'pixels',
       anchorYOffset: '-22'
     )
@@ -144,6 +144,8 @@ class ESign::Eg042DocumentGenerationService
 
   #ds-snippet-start:eSign42Step7
   def form_fields(args, document_id_guid)
+    bonus_value = '20%'
+
     candidate_name_field = DocuSign_eSign::DocGenFormField.new(
       name: 'Candidate_Name',
       value: args[:candidate_name]
@@ -156,16 +158,54 @@ class ESign::Eg042DocumentGenerationService
       name: 'Job_Title',
       value: args[:job_title]
     )
-    salary_field = DocuSign_eSign::DocGenFormField.new(
-      name: 'Salary',
-      value: args[:salary]
-    )
     start_date_field = DocuSign_eSign::DocGenFormField.new(
       name: 'Start_Date',
       value: args[:start_date]
     )
+
+    salary_row = DocuSign_eSign::DocGenFormFieldRowValue.new(
+      docGenFormFieldList: [
+        DocuSign_eSign::DocGenFormField.new(
+          name: 'Compensation_Component',
+          value: 'Salary'
+        ),
+        DocuSign_eSign::DocGenFormField.new(
+          name: 'Details',
+          value: "$#{args[:salary]}"
+        )
+      ]
+    )
+    bonus_row = DocuSign_eSign::DocGenFormFieldRowValue.new(
+      docGenFormFieldList: [
+        DocuSign_eSign::DocGenFormField.new(
+          name: 'Compensation_Component',
+          value: 'Bonus'
+        ),
+        DocuSign_eSign::DocGenFormField.new(
+          name: 'Details',
+          value: bonus_value
+        )
+      ]
+    )
+    rsus_row = DocuSign_eSign::DocGenFormFieldRowValue.new(
+      docGenFormFieldList: [
+        DocuSign_eSign::DocGenFormField.new(
+          name: 'Compensation_Component',
+          value: 'RSUs'
+        ),
+        DocuSign_eSign::DocGenFormField.new(
+          name: 'Details',
+          value: args[:rsus]
+        )
+      ]
+    )
+    compensation_package = DocuSign_eSign::DocGenFormField.new(
+      name: 'Compensation_Package',
+      type: 'TableRow',
+      rowValues: [salary_row, bonus_row, rsus_row]
+    )
     doc_gen_form_fields_list = [
-      candidate_name_field, manager_name_field, salary_field, job_title_field, start_date_field
+      candidate_name_field, manager_name_field, job_title_field, start_date_field, compensation_package
     ]
 
     doc_gen_form_fields = DocuSign_eSign::DocGenFormFields.new(
