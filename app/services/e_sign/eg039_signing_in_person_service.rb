@@ -51,13 +51,13 @@ class ESign::Eg039SigningInPersonService
     # should typically be a callback route somewhere in your app.
     # The query parameter is included as an example of how
     # to save/recover state information during the redirect to
-    # the DocuSign signing. It's usually better to use
+    # the Docusign signing. It's usually better to use
     # the session mechanism of your web framework. Query parameters
     # can be changed/spoofed very easily.
     view_request.return_url = "#{ds_return_url}?state=123"
 
     # How has your app authenticated the user? In addition to your app's
-    # authentication, you can include authenticate steps from DocuSign;
+    # authentication, you can include authenticate steps from Docusign;
     # e.g., SMS authentication
     view_request.authentication_method = 'none'
 
@@ -66,9 +66,9 @@ class ESign::Eg039SigningInPersonService
     view_request.email = host_email
     view_request.user_name = host_name
 
-    # DocuSign recommends that you redirect to DocuSign for the embedded signing. There are
+    # Docusign recommends that you redirect to Docusign for the embedded signing. There are
     # multiple ways to save state. To maintain your application's session, use the pingUrl
-    # parameter. It causes the DocuSign signing web page (not the DocuSign server)
+    # parameter. It causes the Docusign signing web page (not the Docusign server)
     # to send pings via AJAX to your app
     view_request.ping_frequency = '600' # seconds
     # NOTE: The pings will only be sent if the pingUrl is an HTTPS address
@@ -101,7 +101,7 @@ class ESign::Eg039SigningInPersonService
     in_person_signer.recipient_id = '1'
     in_person_signer.routing_order = '1'
 
-    # The DocuSign platform searches throughout your envelope's documents for matching
+    # The Docusign platform searches throughout your envelope's documents for matching
     # anchor strings.
     sign_here = DocuSign_eSign::SignHere.new
     sign_here.anchor_string = '/sn1/'

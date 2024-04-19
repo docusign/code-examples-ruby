@@ -161,7 +161,7 @@ class ESign::Eg010SendBinaryDocsService
     # Create signHere fields (also known as tabs) on the documents,
     # We're using anchor (autoPlace) positioning
     #
-    # The DocuSign platform searches throughout your envelope's documents for matching
+    # The Docusign platform searches throughout your envelope's documents for matching
     # anchor strings. So the sign_here_2 tab will be used in both document 2 and 3
     # since they use the same anchor string for their "signer 1" tabs.
     sign_here1 = DocuSign_eSign::SignHere.new({

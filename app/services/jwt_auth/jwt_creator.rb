@@ -6,7 +6,7 @@ module JwtAuth
 
     attr_reader :session, :api_client, :state
 
-    # DocuSign authorization URI to obtain individual consent
+    # Docusign authorization URI to obtain individual consent
     # https://developers.docusign.com/platform/auth/jwt/jwt-get-token
     # https://developers.docusign.com/platform/auth/consent/obtaining-individual-consent/
     def self.consent_url(state, api)
@@ -97,7 +97,7 @@ module JwtAuth
     def update_account_info(token)
       # docusign_esign: GET /oauth/userinfo
       # This endpoint returns information on the caller, including their name, email, account, and organizational information.
-      # The response includes the base_uri needed to interact with the DocuSign APIs.
+      # The response includes the base_uri needed to interact with the Docusign APIs.
       # https://developers.docusign.com/platform/auth/reference/user-info
       user_info_response = api_client.get_user_info(token.access_token)
       accounts = user_info_response.accounts

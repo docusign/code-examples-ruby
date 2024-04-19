@@ -58,7 +58,7 @@ class DsCommonController < ApplicationController
   def ds_return
     # To break out of the Quickstart loop an example has been completed
     session[:been_here] = true
-    @title = 'Return from DocuSign'
+    @title = 'Return from Docusign'
     @event = request.params['event']
     @state = request.params['state']
     @envelope_id = request.params['envelopeId']
@@ -69,7 +69,7 @@ class DsCommonController < ApplicationController
 
     jwt_auth if session[:api] == 'Monitor'
     redirect_to '/auth/docusign' if Rails.configuration.quickstart && session[:been_here].nil?
-    @title = 'Authenticate with DocuSign'
+    @title = 'Authenticate with Docusign'
     @show_doc = Rails.application.config.documentation
 
     case params[:auth]

@@ -22,7 +22,7 @@ class ESign::Eg020PhoneAuthenticationService
     # Add the documents and create the document models
     pdf_filename = 'World_Wide_Corp_lorem.pdf'
     document1 = DocuSign_eSign::Document.new(
-      # Create the DocuSign Document object
+      # Create the Docusign Document object
       documentBase64: Base64.encode64(File.binread(File.join('data', pdf_filename))),
       name: 'Lorem', # Can be different from actual file name
       fileExtension: 'pdf', # Many different document types are accepted

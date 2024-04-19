@@ -57,7 +57,7 @@ class ESign::Eg008CreateTemplateService
 
     # Create the document model
     document = DocuSign_eSign::Document.new({
-                                              # Create the DocuSign document object
+                                              # Create the Docusign document object
                                               'documentBase64' => base64_file_content,
                                               'name' => 'Lorem Ipsum', # Can be different from actual file name
                                               'fileExtension' => 'pdf', # Many different document types are accepted

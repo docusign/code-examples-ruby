@@ -54,21 +54,21 @@ class ESign::Eg037SmsDeliveryService
 
     # Create the document models
     document1 = DocuSign_eSign::Document.new(
-      # Create the DocuSign document object
+      # Create the Docusign document object
       documentBase64: doc1_b64,
       name: 'Order acknowledgement', # Can be different from actual file name
       fileExtension: 'html', # Many different document types are accepted
       documentId: '1' # A label used to reference the doc
     )
     document2 = DocuSign_eSign::Document.new(
-      # Create the DocuSign document object
+      # Create the Docusign document object
       documentBase64: doc2_b64,
       name: 'Battle Plan', # Can be different from actual file name
       fileExtension: 'docx', # Many different document types are accepted
       documentId: '2' # A label used to reference the do
     )
     document3 = DocuSign_eSign::Document.new(
-      # Create the DocuSign document object
+      # Create the Docusign document object
       documentBase64: doc3_b64,
       name: 'Lorem Ipsum', # Can be different from actual file name
       fileExtension: 'pdf', # Many different document types are accepted
@@ -109,7 +109,7 @@ class ESign::Eg037SmsDeliveryService
     # Create signHere fields (also known as tabs) on the documents
     # We're using anchor (autoPlace) positioning
     #
-    # The DocuSign platform searches throughout your envelope's documents for matching
+    # The Docusign platform searches throughout your envelope's documents for matching
     # anchor strings. So the sign_here_2 tab will be used in both document 2 and 3
     # since they use the same anchor string for their "signer 1" tabs.
     sign_here1 = DocuSign_eSign::SignHere.new(

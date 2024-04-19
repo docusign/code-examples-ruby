@@ -9,8 +9,8 @@ module OmniAuth
       # The name of the strategy, used in config/initializer/omniauth.rb
       option :name, 'docusign'
 
-      # These are called after the OAuth2 login authentication has succeeded and are part of the DocuSign callback response message:
-      # transforms the DocuSign login response from the raw_info https://github.com/omniauth/omniauth/wiki/Strategy-Contribution-Guide#defining-the-callback-phase
+      # These are called after the OAuth2 login authentication has succeeded and are part of the Docusign callback response message:
+      # transforms the Docusign login response from the raw_info https://github.com/omniauth/omniauth/wiki/Strategy-Contribution-Guide#defining-the-callback-phase
       # into the standardized schema required by OmniAuth https://github.com/omniauth/omniauth/wiki/Auth-Hash-Schema
       # and gets exposed through the "request.env[omniauth.auth]" to the SessionController#create
       uid { raw_info['sub'] }

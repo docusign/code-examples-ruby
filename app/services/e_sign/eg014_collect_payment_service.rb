@@ -42,7 +42,7 @@ class ESign::Eg014CollectPaymentService
     #    # NOTA BENE: This method programmatically constructs the
     #    #            order form. For many use cases, it would be
     #    #            better to create the order form as a template
-    #    #            using the DocuSign web tool as WYSIWYG
+    #    #            using the Docusign web tool as WYSIWYG
     #    #            form designer.
     #    #
     #    #################################################################

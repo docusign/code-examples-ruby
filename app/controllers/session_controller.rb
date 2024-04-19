@@ -12,7 +12,7 @@ class SessionController < ApplicationController
     # reset the session
     internal_destroy
 
-    Rails.logger.debug "\n==> DocuSign callback Authentication response:\n#{auth_hash.to_yaml}\n"
+    Rails.logger.debug "\n==> Docusign callback Authentication response:\n#{auth_hash.to_yaml}\n"
     Rails.logger.info "==> Login: New token for admin user which will expire at: #{Time.at(auth_hash.credentials['expires_at'])}"
     store_auth_hash_from_docusign_callback
     redirect_to redirect_url

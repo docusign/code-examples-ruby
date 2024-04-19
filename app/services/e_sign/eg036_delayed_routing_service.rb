@@ -40,7 +40,7 @@ class ESign::Eg036DelayedRoutingService
 
     # Create the document model
     document = DocuSign_eSign::Document.new(
-      # Create the DocuSign document object
+      # Create the Docusign document object
       documentBase64: doc_b64,
       name: 'Lorem Ipsum', # Can be different from actual file name
       fileExtension: 'pdf', # Many different document types are accepted
@@ -70,7 +70,7 @@ class ESign::Eg036DelayedRoutingService
     # We're using anchor (autoPlace) positioning for the sign_here1 tab
     # and we're using absolute positioning for the sign_here2 tab.
     #
-    # The DocuSign platform searches throughout your envelope's documents for matching
+    # The Docusign platform searches throughout your envelope's documents for matching
     # anchor strings.
     sign_here1 = DocuSign_eSign::SignHere.new(
       anchorString: '/sn1/',
