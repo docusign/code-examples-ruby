@@ -19,12 +19,10 @@ class ESign::Eg011EmbeddedSendingService
 
     #ds-snippet-start:eSign11Step3
     # Create the sender view
-    view_request = DocuSign_eSign::ReturnUrlRequest.new({ returnUrl: args[:ds_return_url] })
+    view_request = envelope_view_request(args)
     envelope_api = create_envelope_api(args)
     results = envelope_api.create_sender_view args[:account_id], envelope_id, view_request
-    # Switch to the Recipients/Documents view if requested by the user in the form
     url = results.url
-    url = url.sub! 'send=1', 'send=0' if args[:starting_view] == 'recipient'
     { 'envelope_id' => envelope_id, 'redirect_url' => url }
     #ds-snippet-end:eSign11Step3
   end
@@ -146,6 +144,38 @@ class ESign::Eg011EmbeddedSendingService
     envelope_definition.recipients = recipients
     envelope_definition.status = envelope_args[:status]
     envelope_definition
+  end
+
+  def envelope_view_request(args)
+    DocuSign_eSign::EnvelopeViewRequest.new(
+      returnUrl: args[:ds_return_url],
+      viewAccess: 'envelope',
+      settings: DocuSign_eSign::EnvelopeViewSettings.new(
+        startingScreen: args[:starting_view],
+        sendButtonAction: 'send',
+        showBackButton: 'false',
+        backButtonAction: 'previousPage',
+        showHeaderActions: 'false',
+        showDiscardAction: 'false',
+        lockToken: '',
+        recipientSettings: DocuSign_eSign::EnvelopeViewRecipientSettings.new(
+          showEditRecipients: 'false',
+          showContactsList: 'false'
+        ),
+        documentSettings: DocuSign_eSign::EnvelopeViewDocumentSettings.new(
+          showEditDocuments: 'false',
+          showEditDocumentVisibility: 'false',
+          showEditPages: 'false'
+        ),
+        taggerSettings: DocuSign_eSign::EnvelopeViewTaggerSettings.new(
+          paletteSections: 'default',
+          paletteDefault: 'custom'
+        ),
+        templateSettings: DocuSign_eSign::EnvelopeViewTemplateSettings.new(
+          showMatchingTemplatesPrompt: 'true'
+        )
+      )
+    )
   end
 
   def create_document1(args)
