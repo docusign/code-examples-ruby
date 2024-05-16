@@ -146,6 +146,7 @@ class ESign::Eg011EmbeddedSendingService
     envelope_definition
   end
 
+  #ds-snippet-start:eSign11Step3
   def envelope_view_request(args)
     DocuSign_eSign::EnvelopeViewRequest.new(
       returnUrl: args[:ds_return_url],
@@ -177,6 +178,7 @@ class ESign::Eg011EmbeddedSendingService
       )
     )
   end
+  #ds-snippet-end:eSign11Step3
 
   def create_document1(args)
     "
