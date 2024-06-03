@@ -75,6 +75,7 @@ gem 'docusign_maestro', '~> 1.0.0.rc1'
 gem 'docusign_monitor', '~> 1.2.0'
 gem 'docusign_rooms', '~> 1.3.0'
 gem 'omniauth-oauth2', '~> 1.8.0'
+gem 'docusign_webforms', '~> 1.0.0'
 gem 'omniauth-rails_csrf_protection'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
