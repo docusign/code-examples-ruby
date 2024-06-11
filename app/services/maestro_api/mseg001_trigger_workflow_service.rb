@@ -65,7 +65,7 @@ class MaestroApi::Mseg001TriggerWorkflowService
 
     #ds-snippet-start:Maestro1Step5
     workflow_trigger_api = DocuSign_Maestro::WorkflowTriggerApi.new(api_client)
-    workflow_trigger_api.trigger_workflow(args[:account_id], trigger_payload, trigger_options)
+    workflow_trigger_api.trigger_workflow(args[:account_id], args[:workflow_id], trigger_payload, trigger_options)
     #ds-snippet-end:Maestro1Step5
   end
 end
