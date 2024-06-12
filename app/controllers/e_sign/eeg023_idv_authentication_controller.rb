@@ -17,6 +17,12 @@ class ESign::Eeg023IdvAuthenticationController < EgController
       envelope_args: envelope_args
     }
 
+    if Rails.application.config.signer_email == envelope_args[:signer_email]
+      @error_code = 400
+      @error_message = @manifest['SupportingTexts']['IdenticalEmailsNotAllowedErrorMessage']
+      return render 'ds_common/error'
+    end
+
     results = ESign::Eg023IdvAuthenticationService.new(args).worker
 
     if results.to_s == 'idv_not_enabled'
