@@ -6,11 +6,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '~>3.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.0.4.3'
+gem 'rails', '~> 7.1.3.2'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.6.1'
+gem 'sqlite3', '~> 1.7.3'
 # Use Puma as the app server
-gem 'puma', '~> 6.1.1'
+gem 'puma', '~> 6.4.2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 6.0.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -49,20 +49,20 @@ end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'listen', '~> 3.8.0'
-  gem 'web-console', '~> 4.2.0'
+  gem 'listen', '~> 3.9.0'
+  gem 'web-console', '~> 4.2.1'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'pry-nav', '~> 1.0.0'
   gem 'pry-rails', '~> 0.3.9'
-  gem 'rubocop', '~> 1.48.1', require: false
-  gem 'spring', '~> 4.1.1'
+  gem 'rubocop', '~> 1.63.3', require: false
+  gem 'spring', '~> 4.2.1'
   gem 'spring-watcher-listen', '~> 2.1.0'
 end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '~> 3.38.0'
-  gem 'selenium-webdriver', '~> 4.8.1'
+  gem 'capybara', '~> 3.40.0'
+  gem 'selenium-webdriver', '~> 4.19.0'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper', '~> 2.1.1'
   gem 'test-unit'
@@ -71,7 +71,7 @@ end
 gem 'docusign_admin', '~> 1.3.0'
 gem 'docusign_click', '~> 1.4.0'
 gem 'docusign_esign', '~> 4.0.0.rc1'
-gem 'docusign_maestro', '~> 1.0.0.rc1'
+gem 'docusign_maestro', '~> 2.0.0.rc1'
 gem 'docusign_monitor', '~> 1.2.0'
 gem 'docusign_rooms', '~> 1.3.0'
 gem 'omniauth-oauth2', '~> 1.8.0'

@@ -30,14 +30,14 @@
       <input type="email" class="form-control" id="signer_email" name="signer_email"
              aria-describedby="emailHelp"
              placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_email_index]["InputPlaceholder"] %>" required
-             value="<%= @config.signer_email %>" required>
+             required>
       <%= render('partials/email_will_not_be_shared') %>
     </div>
     <div class="form-group">
       <label for="signer_name"><%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputName"] %></label>
       <input type="text" class="form-control" id="signer_name"
              placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputPlaceholder"] %>" name="signer_name"
-             value="<%= @config.signer_name %>" required>
+             required>
     </div>
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <%= render('partials/submit_button') %>
