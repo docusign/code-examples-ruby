@@ -19,6 +19,12 @@ class ESign::Eeg020PhoneAuthenticationController < EgController
       envelope_args: envelope_args
     }
 
+    if Rails.application.config.signer_email == envelope_args[:signer_email]
+      @error_code = 400
+      @error_message = @manifest['SupportingTexts']['IdenticalEmailsNotAllowedErrorMessage']
+      return render 'ds_common/error'
+    end
+
     phone_auth_service = ESign::Eg020PhoneAuthenticationService.new(args)
 
     # Retrieve the workflow id
