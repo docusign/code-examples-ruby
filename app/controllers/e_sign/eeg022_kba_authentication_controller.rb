@@ -17,6 +17,12 @@ class ESign::Eeg022KbaAuthenticationController < EgController
       envelope_args: envelope_args
     }
 
+    if Rails.application.config.signer_email == envelope_args[:signer_email]
+      @error_code = 400
+      @error_message = @manifest['SupportingTexts']['IdenticalEmailsNotAllowedErrorMessage']
+      return render 'ds_common/error'
+    end
+
     results = ESign::Eg022KbaAuthenticationService.new(args).worker
     session[:envelope_id] = results.envelope_id
 
