@@ -92,7 +92,7 @@ class EgController < ApplicationController
   def handle_error(e)
     error = JSON.parse e.response_body
     @error_code = e.code || error['errorCode']
-    @error_message = error['error_description'] || error['message']
+    @error_message = error['error_description'] || error['message'] || error['error']
     render 'ds_common/error'
   end
 
