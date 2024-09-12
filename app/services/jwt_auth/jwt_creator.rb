@@ -16,7 +16,7 @@ module JwtAuth
       scope = 'signature impersonation' if %w[eSignature Monitor].include?(api)
       scope = 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms' if api == 'Rooms'
       scope = 'signature impersonation click.manage click.send' if api == 'Click'
-      scope = 'signature impersonation organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read' if api == 'Admin'
+      scope = 'signature impersonation organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read organization_sub_account_write organization_sub_account_read' if api == 'Admin'
       scope = 'signature webforms_read webforms_instance_read webforms_instance_write' if api == 'WebForms'
       scope = 'signature aow_manage' if api == 'Maestro'
 
@@ -44,7 +44,7 @@ module JwtAuth
       end
       @client_module = DocuSign_Monitor if session[:api] == 'Monitor'
       if session[:api] == 'Admin'
-        scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read'
+        scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read organization_sub_account_write organization_sub_account_read'
         @client_module = DocuSign_Admin
       end
       if session[:api] == 'WebForms'
