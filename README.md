@@ -61,7 +61,7 @@ For a list of code examples that use the Admin API, see the [How-to guides overv
 ### Prerequisites
 **Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the Docusign Developer Center, skip items 1 and 2 as they were automatically performed for you.
 
-1. A free [Docusign developer account](https://go.docusign.com/o/sandbox/); create one if you don't already have one.
+1. A free [Docusign developer account](https://www.docusign.com/developers/sandbox); create one if you don't already have one.
 1. A Docusign app and integration key that is configured for authentication to use either [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) or [JWT Grant](https://developers.docusign.com/platform/auth/jwt/).
 
    This [video](https://www.youtube.com/watch?v=eiRI4fe5HgM) demonstrates how to obtain an integration key.
