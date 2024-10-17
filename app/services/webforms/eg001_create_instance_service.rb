@@ -95,38 +95,38 @@ class Webforms::Eg001CreateInstanceService
     # Create a sign_here tab (field on the document)
     sign_here = DocuSign_eSign::SignHere.new(
       'documentId' => '1', 'tabLabel' => 'Signature',
-      'anchorString' => '/SignHere/', 'anchorUnits' => 'pixel',
-      'anchorXOffset' => '20', 'anchorYOffset' => '10'
+      'anchorString' => '/SignHere/', 'anchorUnits' => 'pixels',
+      'anchorXOffset' => '0', 'anchorYOffset' => '0'
     )
     check = DocuSign_eSign::Checkbox.new(
       'documentId' => '1', 'tabLabel' => 'Yes',
-      'anchorString' => '/SMS/', 'anchorUnits' => 'pixel',
-      'anchorXOffset' => '20', 'anchorYOffset' => '10'
+      'anchorString' => '/SMS/', 'anchorUnits' => 'pixels',
+      'anchorXOffset' => '0', 'anchorYOffset' => '0'
     )
     text1 = DocuSign_eSign::Text.new(
       'documentId' => '1', 'tabLabel' => 'FullName',
-      'anchorString' => '/FullName/', 'anchorUnits' => 'pixel',
-      'anchorXOffset' => '20', 'anchorYOffset' => '10'
+      'anchorString' => '/FullName/', 'anchorUnits' => 'pixels',
+      'anchorXOffset' => '0', 'anchorYOffset' => '0'
     )
     text2 = DocuSign_eSign::Text.new(
       'documentId' => '1', 'tabLabel' => 'PhoneNumber',
-      'anchorString' => '/PhoneNumber/', 'anchorUnits' => 'pixel',
-      'anchorXOffset' => '20', 'anchorYOffset' => '10'
+      'anchorString' => '/PhoneNumber/', 'anchorUnits' => 'pixels',
+      'anchorXOffset' => '0', 'anchorYOffset' => '0'
     )
     text3 = DocuSign_eSign::Text.new(
       'documentId' => '1', 'tabLabel' => 'Company',
-      'anchorString' => '/Company/', 'anchorUnits' => 'pixel',
-      'anchorXOffset' => '20', 'anchorYOffset' => '10'
+      'anchorString' => '/Company/', 'anchorUnits' => 'pixels',
+      'anchorXOffset' => '0', 'anchorYOffset' => '0'
     )
     text4 = DocuSign_eSign::Text.new(
       'documentId' => '1', 'tabLabel' => 'JobTitle',
-      'anchorString' => '/JobTitle/', 'anchorUnits' => 'pixel',
-      'anchorXOffset' => '20', 'anchorYOffset' => '10'
+      'anchorString' => '/JobTitle/', 'anchorUnits' => 'pixels',
+      'anchorXOffset' => '0', 'anchorYOffset' => '0'
     )
     date_signed = DocuSign_eSign::DateSigned.new(
       'documentId' => '1', 'tabLabel' => 'DateSigned',
-      'anchorString' => '/Date/', 'anchorUnits' => 'pixel',
-      'anchorXOffset' => '20', 'anchorYOffset' => '10'
+      'anchorString' => '/Date/', 'anchorUnits' => 'pixels',
+      'anchorXOffset' => '0', 'anchorYOffset' => '0'
     )
 
     # Add the tabs model to the signer
@@ -139,7 +139,7 @@ class Webforms::Eg001CreateInstanceService
     )
     # Create top two objects
     envelope_template_definition = DocuSign_eSign::EnvelopeTemplate.new(
-      'description' => 'Example template created via the API',
+      'description' => 'Example template created via the eSignature API',
       'shared' => 'false'
     )
 
