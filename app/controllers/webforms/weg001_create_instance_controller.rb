@@ -12,11 +12,15 @@ class Webforms::Weg001CreateInstanceController < EgController
       access_token: session[:ds_access_token]
     }
 
-    web_form_template_id = Webforms::Eg001CreateInstanceService.new(args).create_web_form_template
-    Utils::FileUtils.new.replace_template_id(File.join('data', Rails.application.config.web_form_config_file), web_form_template_id)
-    session[:web_form_template_id] = web_form_template_id
+    begin
+      web_form_template_id = Webforms::Eg001CreateInstanceService.new(args).create_web_form_template
+      Utils::FileUtils.new.replace_template_id(File.join('data', Rails.application.config.web_form_config_file), web_form_template_id)
+      session[:web_form_template_id] = web_form_template_id
 
-    redirect_to '/weg001webForm'
+      redirect_to '/weg001webForm'
+    rescue DocuSign_eSign::ApiError => e
+      handle_error(e)
+    end
   end
 
   def create_web_form_instance
@@ -49,7 +53,7 @@ class Webforms::Weg001CreateInstanceController < EgController
 
     additional_page = @example['AdditionalPage'].find { |p| p['Name'] == 'create_web_form' }
     @title = @example['ExampleName']
-    @description = additional_page['ResultsPageText']
+    @description = format_string(additional_page['ResultsPageText'], 'data')
 
     render 'webforms/weg001_create_instance/web_form_create'
   end
