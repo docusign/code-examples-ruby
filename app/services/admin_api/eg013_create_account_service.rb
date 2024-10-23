@@ -17,9 +17,6 @@ class AdminApi::Eg013CreateAccountService
     #ds-snippet-end:Admin13Step2
 
     #ds-snippet-start:Admin13Step4
-    source_account = DocuSign_Admin::AssetGroupAccountCloneSourceAccount.new
-    source_account.id = args[:source_account_id]
-
     target_account_admin = DocuSign_Admin::SubAccountCreateRequestSubAccountCreationTargetAccountAdmin.new
     target_account_admin.first_name = args[:first_name]
     target_account_admin.last_name = args[:last_name]

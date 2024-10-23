@@ -2,7 +2,7 @@ require 'bundler/inline'
 
 gemfile do
   source 'https://rubygems.org'
-  gem 'docusign_esign', ' ~> 3.27.0.rc1'
+  gem 'docusign_esign', ' ~> 5.0.0'
 end
 
 class ESign
