@@ -93,6 +93,9 @@ Rails.application.routes.draw do
 
     get 'aeg012' => 'aeg012_clone_account#get'
     post 'aeg012' => 'aeg012_clone_account#create'
+
+    get 'aeg013' => 'aeg013_create_account#get'
+    post 'aeg013' => 'aeg013_create_account#create'
   end
 
   get '/eeg001' => 'eeg001_embedded_signing#get'
