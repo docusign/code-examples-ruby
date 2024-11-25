@@ -8,7 +8,7 @@ class Clickwrap::Ceg001CreateClickwrapController < EgController
       base_path: session[:ds_base_path],
       access_token: session[:ds_access_token],
       doc_pdf: File.join('data', Rails.configuration.doc_terms_pdf),
-      clickwrap_name: request[:clickwrapName]
+      clickwrap_name: param_gsub(params[:clickwrapName])
     }
 
     results = Clickwrap::Eg001CreateClickwrapService.new(args).worker

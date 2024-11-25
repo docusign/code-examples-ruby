@@ -6,14 +6,14 @@ class ESign::Eeg034UseConditionalRecipientsController < EgController
 
   def create
     signers = {
-      signerEmail1: request['signerEmail1'],
-      signerName1: request['signerName1'],
+      signerEmail1: param_gsub(params['signerEmail1']),
+      signerName1: param_gsub(params['signerName1']),
 
-      signerEmailNotChecked: request['signerEmailNotChecked'],
-      signerNameNotChecked: request['signerNameNotChecked'],
+      signerEmailNotChecked: param_gsub(params['signerEmailNotChecked']),
+      signerNameNotChecked: param_gsub(params['signerNameNotChecked']),
 
-      signerEmailChecked: request['signerEmailChecked'],
-      signerNameChecked: request['signerNameChecked']
+      signerEmailChecked: param_gsub(params['signerEmailChecked']),
+      signerNameChecked: param_gsub(params['signerNameChecked'])
     }
 
     args = {

@@ -13,7 +13,7 @@ OmniAuth.config.logger = Rails.logger
 # otherwise a callback exception like the following will not get caught:
 # OmniAuth::Strategies::OAuth2::CallbackError (access_denied)
 # GET "/auth/docusign/callback?error=access_denied&error_message=The%20user%20did%20not%20consent%20to%20connecting%20the%20application.&state=
-# OmniAuth.config.failure_raise_out_environments = [] # defaults to: ['development']
+OmniAuth.config.failure_raise_out_environments = [] # defaults to: ['development']
 
 OmniAuth.config.allowed_request_methods = %i[post get]
 
@@ -38,6 +38,10 @@ config.middleware.use OmniAuth::Builder do
     strategy.options[:client_options].token_url = "#{strategy.options[:oauth_base_uri]}/oauth/token"
     strategy.options[:authorize_params].prompt = strategy.options.prompt unless strategy.options[:allow_silent_authentication]
     session = strategy.session
+
+    unless session[:pkce_failed]
+      strategy.options[:pkce] = true
+    end
 
     case session[:api]
     when 'Rooms'
