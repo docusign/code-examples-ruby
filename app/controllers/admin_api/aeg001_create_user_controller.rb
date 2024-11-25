@@ -21,11 +21,11 @@ class AdminApi::Aeg001CreateUserController < EgController
         {
           id: args[:account_id],
           permission_profile: {
-            id: request['permission_profile_id']
+            id: param_gsub(params['permission_profile_id'])
           },
           groups: [
             {
-              id: request['group_id']
+              id: param_gsub(params['group_id'])
             }
           ]
         }

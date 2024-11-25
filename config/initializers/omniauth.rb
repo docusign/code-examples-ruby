@@ -39,6 +39,10 @@ config.middleware.use OmniAuth::Builder do
     strategy.options[:authorize_params].prompt = strategy.options.prompt unless strategy.options[:allow_silent_authentication]
     session = strategy.session
 
+    unless session[:pkce_failed]
+      strategy.options[:pkce] = true
+    end
+
     case session[:api]
     when 'eSignature'
       strategy.options[:authorize_params].scope = 'signature'

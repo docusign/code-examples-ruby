@@ -18,11 +18,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
-      - name: Install Ruby and gems
+      - name: Install Ruby
         uses: ruby/setup-ruby@v1
         with:
-          bundler-cache: true
+          bundler-cache: false
           ruby-version: 3.1.2
+
+      - name: Update rubygems
+        run: gem update --system
+
+      - name: Install dependencies
+        run: bundle install
 
       - name: Run linter
         run: bundle exec rubocop --parallel

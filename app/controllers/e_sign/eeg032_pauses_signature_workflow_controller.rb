@@ -6,10 +6,10 @@ class ESign::Eeg032PausesSignatureWorkflowController < EgController
 
   def create
     signers = {
-      signerEmail1: request['signerEmail1'],
-      signerName1: request['signerName1'],
-      signerEmail2: request['signerEmail2'],
-      signerName2: request['signerName2']
+      signerEmail1: param_gsub(params['signerEmail1']),
+      signerName1: param_gsub(params['signerName1']),
+      signerEmail2: param_gsub(params['signerEmail2']),
+      signerName2: param_gsub(params['signerName2'])
     }
     args = {
       accountId: session['ds_account_id'],

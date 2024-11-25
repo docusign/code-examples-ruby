@@ -8,7 +8,7 @@ class Clickwrap::Ceg005ClickwrapResponsesController < EgController
       base_path: session[:ds_base_path],
       access_token: session[:ds_access_token],
       clickwrap_id: session[:clickwrap_id],
-      client_user_id: request[:client_user_id]
+      client_user_id: param_gsub(params[:client_user_id])
     }
 
     results = Clickwrap::Eg005ClickwrapResponsesService.new(args).worker

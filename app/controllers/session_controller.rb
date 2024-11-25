@@ -30,6 +30,12 @@ class SessionController < ApplicationController
 
   # GET /auth/failure
   def omniauth_failure
+    unless session[:pkce_failed]
+      Rails.logger.warn "PKCE Auth failed \n"
+      session[:pkce_failed] = true
+      return redirect_to '/auth/docusign'
+    end
+
     error_msg = "OmniAuth authentication failure message: #{params[:message]} for strategy: #{params[:strategy]} and HTTP_REFERER: #{params[:origin]}"
     Rails.logger.warn "\n==> #{error_msg}"
     flash[:notice] = error_msg
