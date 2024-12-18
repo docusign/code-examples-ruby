@@ -19,8 +19,8 @@ class MonitorApi::Eg001GetMonitoringDatasetService
     #ds-snippet-start:Monitor1Step3
     monitor_api = DocuSign_Monitor::DataSetApi.new(api_client)
     begin
-      cursor_value = ''
-      limit = 100
+      cursor_value = '2024-01-01T00:00:00Z'
+      limit = 2000
       function_results = []
       options = DocuSign_Monitor::GetStreamOptions.new
       options.limit = limit
