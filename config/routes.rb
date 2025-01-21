@@ -245,18 +245,6 @@ Rails.application.routes.draw do
     post 'weg001webForm' => 'weg001_create_instance#create_web_form_instance'
   end
 
-  scope module: 'maestro_api' do
-    get 'mseg001' => 'mseg001_trigger_workflow#get'
-    post 'mseg001' => 'mseg001_trigger_workflow#create'
-    post 'mseg001publish' => 'mseg001_trigger_workflow#publish'
-
-    get 'mseg002' => 'mseg002_cancel_workflow#get'
-    post 'mseg002' => 'mseg002_cancel_workflow#create'
-
-    get 'mseg003' => 'mseg003_get_workflow_status#get'
-    post 'mseg003' => 'mseg003_get_workflow_status#create'
-  end
-
   root 'ds_common#index'
 
   # Login starts with POST'ing to: /auth/docusign

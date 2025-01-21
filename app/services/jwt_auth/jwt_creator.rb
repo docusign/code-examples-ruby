@@ -18,7 +18,6 @@ module JwtAuth
       scope = 'signature impersonation click.manage click.send' if api == 'Click'
       scope = 'signature impersonation organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read organization_sub_account_write organization_sub_account_read' if api == 'Admin'
       scope = 'signature webforms_read webforms_instance_read webforms_instance_write' if api == 'WebForms'
-      scope = 'signature aow_manage' if api == 'Maestro'
 
       base_uri = "#{Rails.configuration.authorization_server}/oauth/auth"
       response_type = 'code'

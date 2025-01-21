@@ -54,8 +54,6 @@ config.middleware.use OmniAuth::Builder do
       strategy.options[:authorize_params].scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read organization_sub_account_write organization_sub_account_read'
     when 'WebForms'
       strategy.options[:authorize_params].scope = 'signature webforms_read webforms_instance_read webforms_instance_write'
-    when 'Maestro'
-      strategy.options[:authorize_params].scope = 'signature aow_manage'
     end
   }
 end

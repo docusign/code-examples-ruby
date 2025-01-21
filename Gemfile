@@ -71,7 +71,6 @@ end
 gem 'docusign_admin', '~> 2.0.0.rc2'
 gem 'docusign_click', '~> 1.4.0'
 gem 'docusign_esign', '~> 5.0.0'
-gem 'docusign_maestro', '~> 2.0.0.rc1'
 gem 'docusign_monitor', '~> 1.2.0'
 gem 'docusign_rooms', '~> 1.3.0'
 gem 'docusign_webforms', '~> 1.0.0'
