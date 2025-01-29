@@ -245,6 +245,11 @@ Rails.application.routes.draw do
     post 'weg001webForm' => 'weg001_create_instance#create_web_form_instance'
   end
 
+  scope module: 'notary' do
+    get 'neg004' => 'neg004_send_with_third_party_notary#get'
+    post 'neg004' => 'neg004_send_with_third_party_notary#create'
+  end
+
   root 'ds_common#index'
 
   # Login starts with POST'ing to: /auth/docusign
