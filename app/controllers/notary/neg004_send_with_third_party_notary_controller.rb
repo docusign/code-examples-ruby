@@ -10,7 +10,7 @@ class Notary::Neg004SendWithThirdPartyNotaryController < EgController
     envelope_args = {
       signer_email: param_gsub(params['signerEmail']),
       signer_name: param_gsub(params['signerName']),
-      doc_pdf: File.join('data', Rails.application.config.doc_pdf)
+      doc_path: File.join('data', Rails.application.config.doc_docx)
     }
     args = {
       account_id: session['ds_account_id'],

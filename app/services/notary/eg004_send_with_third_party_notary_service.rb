@@ -27,13 +27,9 @@ class Notary::Eg004SendWithThirdPartyNotaryService
 
   #ds-snippet-start:Notary4Step2
   def make_envelope(envelope_args)
-    # document 1 (HTML) has tag **signature_1**
-    # document 2 (DOCX) has tag /sn1/
-    # document 3 (PDF) has tag /sn1/
-    #
     # The envelope has two recipients:
-    # recipient 1 - signer
-    # recipient 2 - cc
+    # recipient 1 - notary
+    # recipient 2 - signer
     # The envelope will be sent first to the signer.
     # After it is signed, a copy is sent to the cc person
 
@@ -43,7 +39,7 @@ class Notary::Eg004SendWithThirdPartyNotaryService
     envelope_definition.email_subject = 'Please sign this document set'
 
     # Add the document
-    doc_b64 = Base64.encode64(File.binread(envelope_args[:doc_pdf]))
+    doc_b64 = Base64.encode64(File.binread(envelope_args[:doc_path]))
 
     # Create the document model
     document = DocuSign_eSign::Document.new(
@@ -57,36 +53,36 @@ class Notary::Eg004SendWithThirdPartyNotaryService
     # The order in the docs array determines the order in the envelope
     envelope_definition.documents = [document]
 
-    # Create the signer recipient model
-    signer = DocuSign_eSign::Signer.new
-    signer.email = envelope_args[:signer_email]
-    signer.name = envelope_args[:signer_name]
-    signer.recipient_id = '1'
-    signer.routing_order = '1'
-    ## routingOrder (lower means earlier) determines the order of deliveries
-    # to the recipients. Parallel routing order is supported by using the
-    # same integer as the order for two or more recipients
-
-    # Create signHere fields (also known as tabs) on the documents
-    # We're using anchor (autoPlace) positioning
-    #
-    # The Docusign platform searches throughout your envelope's documents for matching
-    # anchor strings. So the sign_here_2 tab will be used in both document 2 and 3
-    # since they use the same anchor string for their "signer 1" tabs.
-    sign_here = DocuSign_eSign::SignHere.new(
-      anchorString: '/sn1/',
-      anchorYOffset: '10',
-      anchorUnits: 'pixels',
-      anchorXOffset: '20'
+    sign_here_1 = DocuSign_eSign::SignHere.new(
+      documentId: '1',
+      xPosition: '200',
+      yPosition: '235',
+      pageNumber: '1'
+    )
+    sign_here_2 = DocuSign_eSign::SignHere.new(
+      stampType: 'stamp',
+      documentId: '1',
+      xPosition: '200',
+      yPosition: '150',
+      pageNumber: '1'
     )
 
     # Add the tabs model (including the sign_here tabs) to the signer
     # The Tabs object takes arrays of the different field/tab types
-    signer_tab = DocuSign_eSign::Tabs.new({
-                                            signHereTabs: [sign_here]
-                                          })
+    signer_tab = DocuSign_eSign::Tabs.new(
+      signHereTabs: [sign_here_1, sign_here_2]
+    )
 
-    signer.tabs = signer_tab
+    # Create the signer recipient model
+    signer = DocuSign_eSign::Signer.new(
+      clientUserId: '1000',
+      email: envelope_args[:signer_email],
+      name: envelope_args[:signer_name],
+      recipientId: '2',
+      routingOrder: '1',
+      notaryId: '1',
+      tabs: signer_tab
+    )
 
     notary_seal = DocuSign_eSign::NotarySeal.new(
       xPosition: '300',
@@ -128,7 +124,7 @@ class Notary::Eg004SendWithThirdPartyNotaryService
     # Add the recipients to the envelope object
     recipients = DocuSign_eSign::Recipients.new(
       signers: [signer],
-      notary: [notary_recipient]
+      notaries: [notary_recipient]
     )
     # Request that the envelope be sent by setting status to "sent".
     # To request that the envelope be created as a draft, set status to "created"

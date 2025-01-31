@@ -6,11 +6,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '~>3.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.2.1.1'
+gem 'rails', '~> 7.2.2.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '~> 2.1.1'
 # Use Puma as the app server
-gem 'puma', '~> 6.4.3'
+gem 'puma', '~> 6.6.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 6.0.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -54,7 +54,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'pry-nav', '~> 1.0.0'
   gem 'pry-rails', '~> 0.3.11'
-  gem 'rubocop', '~> 1.67.0', require: false
+  gem 'rubocop', '~> 1.71.0', require: false
   gem 'spring', '~> 4.2.1'
   gem 'spring-watcher-listen', '~> 2.1.0'
 end
