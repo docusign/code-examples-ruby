@@ -88,14 +88,14 @@ class Notary::Eg004SendWithThirdPartyNotaryService
       xPosition: '300',
       yPosition: '235',
       documentId: '1',
-      pageNumber: '1',
+      pageNumber: '1'
     )
 
     notary_sign_here = DocuSign_eSign::SignHere.new(
       xPosition: '300',
       yPosition: '150',
       documentId: '1',
-      pageNumber: '1',
+      pageNumber: '1'
     )
 
     notary_tabs = DocuSign_eSign::Tabs.new(
