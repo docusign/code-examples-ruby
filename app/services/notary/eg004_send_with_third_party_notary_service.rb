@@ -9,9 +9,9 @@ class Notary::Eg004SendWithThirdPartyNotaryService
     @args = args
   end
 
-  #ds-snippet-start:Notary4Step3
   def worker
     # Create the envelope request object
+    #ds-snippet-start:Notary4Step4
     envelope_definition = make_envelope args[:envelope_args]
     # Call Envelopes::create API method
     # Exceptions will be caught by the calling function
@@ -20,12 +20,12 @@ class Notary::Eg004SendWithThirdPartyNotaryService
     results = envelope_api.create_envelope args[:account_id], envelope_definition
     envelope_id = results.envelope_id
     { 'envelope_id' => envelope_id }
+    #ds-snippet-end:Notary4Step4
   end
-  #ds-snippet-end:Notary4Step3
 
   private
 
-  #ds-snippet-start:Notary4Step2
+  #ds-snippet-start:Notary4Step3
   def make_envelope(envelope_args)
     # The envelope has two recipients:
     # recipient 1 - notary
@@ -104,7 +104,6 @@ class Notary::Eg004SendWithThirdPartyNotaryService
     )
 
     notary_recipient = DocuSign_eSign::NotaryRecipient.new(
-      email: '',
       name: 'Notary',
       recipientId: '1',
       routingOrder: '1',
@@ -132,5 +131,5 @@ class Notary::Eg004SendWithThirdPartyNotaryService
     envelope_definition.status = 'sent'
     envelope_definition
   end
-  #ds-snippet-end:Notary4Step2
+  #ds-snippet-end:Notary4Step3
 end
