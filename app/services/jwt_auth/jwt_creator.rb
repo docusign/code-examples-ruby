@@ -19,6 +19,7 @@ module JwtAuth
       scope = 'signature impersonation organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read organization_sub_account_write organization_sub_account_read' if api == 'Admin'
       scope = 'signature webforms_read webforms_instance_read webforms_instance_write' if api == 'WebForms'
       scope = 'signature organization_read notary_read notary_write' if api == 'Notary'
+      scope = 'signature adm_store_unified_repo_read' if api == 'ConnectedFields'
 
       base_uri = "#{Rails.configuration.authorization_server}/oauth/auth"
       response_type = 'code'
@@ -53,6 +54,10 @@ module JwtAuth
       end
       if session[:api] == 'Notary'
         scope = 'signature organization_read notary_read notary_write'
+        @client_module = DocuSign_eSign
+      end
+      if session[:api] == 'ConnectedFields'
+        scope = 'signature adm_store_unified_repo_read'
         @client_module = DocuSign_eSign
       end
 

@@ -250,6 +250,11 @@ Rails.application.routes.draw do
     post 'neg004' => 'neg004_send_with_third_party_notary#create'
   end
 
+  scope module: 'connected_fields' do
+    get 'feg001' => 'feg001_set_connected_fields#get'
+    post 'feg001' => 'feg001_set_connected_fields#create'
+  end
+
   root 'ds_common#index'
 
   # Login starts with POST'ing to: /auth/docusign

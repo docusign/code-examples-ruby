@@ -56,6 +56,8 @@ config.middleware.use OmniAuth::Builder do
       strategy.options[:authorize_params].scope = 'signature webforms_read webforms_instance_read webforms_instance_write'
     when 'Notary'
       strategy.options[:authorize_params].scope = 'signature organization_read notary_read notary_write'
+    when 'ConnectedFields'
+      strategy.options[:authorize_params].scope = 'signature adm_store_unified_repo_read'
     end
   }
 end
