@@ -57,7 +57,7 @@ class RoomApi::GetDataService
       return
     end
 
-    form_libraries_id = form_libraries.as_json['formsLibrarySummaries'].first['formsLibraryId']
+    form_libraries_id = form_libraries.as_json['formsLibrarySummaries'].find { |lib| lib['formCount'].positive? }['formsLibraryId']
 
     forms_api = DocuSign_Rooms::FormLibrariesApi.new(@api_client)
     forms = forms_api.get_form_library_forms(form_libraries_id, args[:account_id])
