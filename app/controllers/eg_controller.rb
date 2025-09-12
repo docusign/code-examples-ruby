@@ -105,6 +105,6 @@ class EgController < ApplicationController
   end
 
   def format_string(string, *args)
-    string.gsub(/\{(\d+)\}/) { args[$1.to_i] }
+    string.gsub(/\{(\d+)\}/) { args[::Regexp.last_match(1).to_i] }
   end
 end
