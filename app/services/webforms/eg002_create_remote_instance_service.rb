@@ -28,20 +28,20 @@ class Webforms::Eg002CreateRemoteInstanceService
   end
 
   def list_web_forms
-    #ds-snippet-start:WebForms1Step2
+    #ds-snippet-start:WebForms2Step2
     configuration = DocuSign_WebForms::Configuration.new
     api_client = DocuSign_WebForms::ApiClient.new(configuration)
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
-    #ds-snippet-end:WebForms1Step2
+    #ds-snippet-end:WebForms2Step2
 
-    #ds-snippet-start:WebForms1Step3
+    #ds-snippet-start:WebForms2Step3
     webforms_api = DocuSign_WebForms::FormManagementApi.new(api_client)
 
     options = DocuSign_WebForms::ListFormsOptions.new
     options.search = args[:form_name]
 
     webforms_api.list_forms(args[:account_id], options)
-    #ds-snippet-end:WebForms1Step3
+    #ds-snippet-end:WebForms2Step3
   end
 
   def create_web_form_instance(form_id)
@@ -50,7 +50,7 @@ class Webforms::Eg002CreateRemoteInstanceService
     api_client = DocuSign_WebForms::ApiClient.new(configuration)
     api_client.set_default_header('Authorization', "Bearer #{args[:access_token]}")
 
-    #ds-snippet-start:WebForms1Step4
+    #ds-snippet-start:WebForms2Step4
     web_form_values = {
       'PhoneNumber' => '555-555-5555',
       'Yes' => ['Yes'],
@@ -58,21 +58,21 @@ class Webforms::Eg002CreateRemoteInstanceService
       'JobTitle' => 'Programmer Writer'
     }
     recipient = DocuSign_WebForms::CreateInstanceRequestBodyRecipients.new({
-      'roleName' => 'signer',
-      'name' => args[:signer_name],
-      'email' => args[:signer_email]
-    })
+                                                                             'roleName' => 'signer',
+                                                                             'name' => args[:signer_name],
+                                                                             'email' => args[:signer_email]
+                                                                           })
     web_form_req_object = DocuSign_WebForms::CreateInstanceRequestBody.new({
-      'formValues' => web_form_values,
-      'recipients' => [recipient],
-      'sendOption' => 'now'
-    })
-    #ds-snippet-end:WebForms1Step4
+                                                                             'formValues' => web_form_values,
+                                                                             'recipients' => [recipient],
+                                                                             'sendOption' => 'now'
+                                                                           })
+    #ds-snippet-end:WebForms2Step4
 
-    #ds-snippet-start:WebForms1Step5
+    #ds-snippet-start:WebForms2Step5
     webforms_api = DocuSign_WebForms::FormInstanceManagementApi.new(api_client)
     webforms_api.create_instance(args[:account_id], form_id, web_form_req_object)
-    #ds-snippet-end:WebForms1Step5
+    #ds-snippet-end:WebForms2Step5
   end
 
   private
