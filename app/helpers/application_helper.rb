@@ -12,6 +12,6 @@ module ApplicationHelper
   end
 
   def example_available?(example)
-    !(example['SkipForLanguages']) or !example['SkipForLanguages'].include? 'ruby'
+    !example['SkipForLanguages'] or !example['SkipForLanguages'].include? 'ruby'
   end
 end
