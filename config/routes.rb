@@ -243,6 +243,11 @@ Rails.application.routes.draw do
     get 'weg001webForm' => 'weg001_create_instance#get_web_form_create_view'
     post 'weg001' => 'weg001_create_instance#create_web_form_template'
     post 'weg001webForm' => 'weg001_create_instance#create_web_form_instance'
+
+    get 'weg002' => 'weg002_create_remote_instance#get'
+    get 'weg002webForm' => 'weg002_create_remote_instance#get_web_form_create_view'
+    post 'weg002' => 'weg002_create_remote_instance#create_web_form_template'
+    post 'weg002webForm' => 'weg002_create_remote_instance#create_web_form_instance'
   end
 
   scope module: 'notary' do

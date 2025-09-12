@@ -23,7 +23,7 @@ default: &default
   rooms_host: "https://demo.rooms.docusign.com/restapi"
   monitor_host: "https://lens-d.docusign.net"
   admin_host: "https://api-d.docusign.net/management"
-  webforms_host: "https://apps-d.docusign.com/api/webforms/v1.1"
+  webforms_host: "https://apps-d.docusign.com/api/webforms"
   allow_silent_authentication: true # A user can be silently authenticated if they have an
                                     # Active login session on another tab of the same browser
                                     # Set if you want a specific Docusign AccountId, If false, the users default account will be used.
