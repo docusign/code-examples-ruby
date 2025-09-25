@@ -5,8 +5,8 @@
   <p><a target='_blank' href='<%= @documentation %>'>Documentation</a> about this example.</p>
 <% end %>
 
-<% if @example["Note"] %>
-  <%= sanitize @example["Note"] %>
+<% if @example["Notes"] %>
+  <%= sanitize @example["Notes"] %>
 <% end %>
 
 <% if @example["LinksToAPIMethod"] %>

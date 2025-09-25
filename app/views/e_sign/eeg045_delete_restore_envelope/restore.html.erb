@@ -1,0 +1,14 @@
+<h4><%= @example["ExampleName"] %></h4>
+<p><%= sanitize @example["ExampleDescription"] %></p>
+<%= sanitize format_string(@manifest["SupportingTexts"]["HelpingTexts"]["EnvelopeWillBeRestored"], @envelope_id) %>
+
+<% form_index = 0 %>
+
+<form class="eg" action="" method="post" data-busy="form">
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
+  <%= render('partials/submit_button') %>
+</form>
+

@@ -231,6 +231,11 @@ Rails.application.routes.draw do
 
     get 'eeg044' => 'eeg044_focused_view#get'
     post 'eeg044' => 'eeg044_focused_view#create'
+
+    get 'eeg045' => 'eeg045_delete_restore_envelope#get_delete_envelope'
+    post 'eeg045' => 'eeg045_delete_restore_envelope#delete_envelope'
+    get 'eeg045restore' => 'eeg045_delete_restore_envelope#get_restore_envelope'
+    post 'eeg045restore' => 'eeg045_delete_restore_envelope#restore_envelope'
   end
 
   scope module: 'connect' do
