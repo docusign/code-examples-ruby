@@ -60,7 +60,7 @@ class Webforms::Eg001CreateInstanceService
     web_form_req_object = DocuSign_WebForms::CreateInstanceRequestBody.new({
                                                                              'clientUserId' => args[:client_user_id],
                                                                              'formValues' => web_form_values,
-                                                                             'expirationOffset' => '3600'
+                                                                             'expirationOffset' => '24'
                                                                            })
     #ds-snippet-end:WebForms1Step4
 
