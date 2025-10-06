@@ -1,15 +1,9 @@
 # frozen_string_literal: true
 
 class ESign::Eg045DeleteRestoreEnvelopeService
-  attr_reader :args
-
   include ApiCreator
 
-  def initialize(args)
-    @args = args
-  end
-
-  def move_envelope
+  def move_envelope(args)
     #ds-snippet-start:eSign45Step2
     folders_api = create_folders_api(args)
     #ds-snippet-end:eSign45Step2
@@ -23,5 +17,13 @@ class ESign::Eg045DeleteRestoreEnvelopeService
     #ds-snippet-start:eSign45Step4
     folders_api.move_envelopes(args[:account_id], args[:folder_id], folders_request)
     #ds-snippet-end:eSign45Step4
+  end
+
+  def get_folders(args)
+    folders_api = create_folders_api(args)
+
+    #ds-snippet-start:eSign45Step5
+    folders_api.list(args[:account_id])
+    #ds-snippet-end:eSign45Step5
   end
 end

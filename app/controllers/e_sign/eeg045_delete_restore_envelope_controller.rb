@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
+require_relative '../../services/utils'
+
 class ESign::Eeg045DeleteRestoreEnvelopeController < EgController
   before_action -> { check_auth('eSignature') }
   before_action -> { @example = Utils::ManifestUtils.new.get_example(@manifest, 45, 'eSignature') }
 
   DELETE_FOLDER_ID = 'recyclebin'
-  RESTORE_FOLDER_ID = 'sentitems'
 
   def delete_envelope
     args = {
@@ -16,36 +17,48 @@ class ESign::Eeg045DeleteRestoreEnvelopeController < EgController
       folder_id: DELETE_FOLDER_ID
     }
 
-    delete_restore_envelope_service = ESign::Eg045DeleteRestoreEnvelopeService.new(args)
+    delete_restore_envelope_service = ESign::Eg045DeleteRestoreEnvelopeService.new
 
-    delete_restore_envelope_service.move_envelope
+    delete_restore_envelope_service.move_envelope args
 
     session[:envelope_id] = args[:envelope_id]
     additional_page_data = @example['AdditionalPage'].find { |p| p['Name'] == 'envelope_is_deleted' }
     @title = @example['ExampleName']
-    @message = additional_page_data['ResultsPageText']
+    @message = format_string(additional_page_data['ResultsPageText'], args[:envelope_id])
     @redirect_url = "/#{session[:eg]}restore"
 
     render 'ds_common/example_done'
   end
 
   def restore_envelope
+    folder_name = param_gsub(params['folder_name'])
     args = {
       account_id: session['ds_account_id'],
       base_path: session['ds_base_path'],
       access_token: session['ds_access_token'],
       envelope_id: param_gsub(session[:envelope_id]),
-      folder_id: RESTORE_FOLDER_ID,
       from_folder_id: DELETE_FOLDER_ID
     }
 
-    delete_restore_envelope_service = ESign::Eg045DeleteRestoreEnvelopeService.new(args)
+    delete_restore_envelope_service = ESign::Eg045DeleteRestoreEnvelopeService.new
 
-    delete_restore_envelope_service.move_envelope
+    folders = delete_restore_envelope_service.get_folders args
+    args[:folder_id] = Utils::DocuSignUtils.new.get_folder_id_by_name(folders.folders, folder_name)
+
+    if args[:folder_id].nil? || args[:folder_id].empty?
+      additional_page_data = @example['AdditionalPage'].find { |p| p['Name'] == 'folder_does_not_exist' }
+      @title = @example['ExampleName']
+      @message = format_string(additional_page_data['ResultsPageText'], folder_name)
+      @redirect_url = "/#{session[:eg]}restore"
+
+      return render 'ds_common/example_done'
+    end
+
+    delete_restore_envelope_service.move_envelope args
 
     session[:envelope_id] = args[:envelope_id]
     @title = @example['ExampleName']
-    @message = @example['ResultsPageText']
+    @message = format_string(@example['ResultsPageText'], session[:envelope_id], args[:folder_id], folder_name)
     render 'ds_common/example_done'
   end
 

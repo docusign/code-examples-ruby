@@ -29,6 +29,21 @@ module Utils
       user_info = api_client.get_user_info(args[:access_token])
       user_info.sub
     end
+
+    def get_folder_id_by_name(folders, folder_name)
+      folders.each do |folder|
+        if folder.name.downcase == folder_name.downcase
+          return folder.folder_id
+        end
+
+        if folder.folders&.any?
+          folder_id = get_folder_id_by_name(folder.folders, folder_name)
+          return folder_id if folder_id
+        end
+      end
+
+      nil
+    end
   end
 
   class FileUtils
