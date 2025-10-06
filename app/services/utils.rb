@@ -32,9 +32,7 @@ module Utils
 
     def get_folder_id_by_name(folders, folder_name)
       folders.each do |folder|
-        if folder.name.downcase == folder_name.downcase
-          return folder.folder_id
-        end
+        return folder.folder_id if folder.name.downcase == folder_name.downcase
 
         if folder.folders&.any?
           folder_id = get_folder_id_by_name(folder.folders, folder_name)
