@@ -14,7 +14,7 @@ class ESign::Eeg045DeleteRestoreEnvelopeController < EgController
       base_path: session['ds_base_path'],
       access_token: session['ds_access_token'],
       envelope_id: param_gsub(params['envelope_id']),
-      folder_id: DELETE_FOLDER_ID
+      delete_folder_id: DELETE_FOLDER_ID
     }
 
     delete_restore_envelope_service = ESign::Eg045DeleteRestoreEnvelopeService.new

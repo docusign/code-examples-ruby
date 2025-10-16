@@ -14,7 +14,7 @@ class ESign::Eg045DeleteRestoreEnvelopeService
     #ds-snippet-end:eSign45Step3
 
     #ds-snippet-start:eSign45Step4
-    folders_api.move_envelopes(args[:account_id], args[:folder_id], folders_request)
+    folders_api.move_envelopes(args[:account_id], args[:delete_folder_id], folders_request)
     #ds-snippet-end:eSign45Step4
   end
 
