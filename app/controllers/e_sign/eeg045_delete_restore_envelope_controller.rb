@@ -19,7 +19,7 @@ class ESign::Eeg045DeleteRestoreEnvelopeController < EgController
 
     delete_restore_envelope_service = ESign::Eg045DeleteRestoreEnvelopeService.new
 
-    delete_restore_envelope_service.move_envelope args
+    delete_restore_envelope_service.delete_envelope args
 
     session[:envelope_id] = args[:envelope_id]
     additional_page_data = @example['AdditionalPage'].find { |p| p['Name'] == 'envelope_is_deleted' }
@@ -54,7 +54,7 @@ class ESign::Eeg045DeleteRestoreEnvelopeController < EgController
       return render 'ds_common/example_done'
     end
 
-    delete_restore_envelope_service.move_envelope args
+    delete_restore_envelope_service.move_envelope_to_folder args
 
     session[:envelope_id] = args[:envelope_id]
     @title = @example['ExampleName']
