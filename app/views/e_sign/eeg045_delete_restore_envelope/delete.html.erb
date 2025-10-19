@@ -1,0 +1,21 @@
+<%= render('partials/example_info') %>
+
+<% form_index = 0 %>
+<% envelope_id_index = 0 %>
+
+<form class="eg" action="" method="post" data-busy="form">
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
+  <div class="form-group">
+    <label for="envelope_id"><%= @example["Forms"][form_index]["Inputs"][envelope_id_index]["InputName"] %></label>
+    <input type="text" class="form-control" id="envelope_id" name="envelope_id"
+           aria-describedby="envelope_id_help" value="<%= @envelope_id %>" required
+           placeholder="<%= @example["Forms"][form_index]["Inputs"][envelope_id_index]["InputPlaceholder"] %>">
+    <small id="envelope_id_help" class="form-text text-muted"><%= @manifest["SupportingTexts"]["HelpingTexts"]["DefaultEnvelopeId"] %></small>
+  </div>
+
+  <%= render('partials/submit_button') %>
+</form>
+

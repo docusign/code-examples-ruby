@@ -49,4 +49,12 @@ module ApiCreator
     api_client.default_headers['Authorization'] = "Bearer #{args[:access_token]}"
     DocuSign_eSign::GroupsApi.new api_client
   end
+
+  def create_folders_api(args)
+    configuration = DocuSign_eSign::Configuration.new
+    configuration.host = args[:base_path]
+    api_client = DocuSign_eSign::ApiClient.new configuration
+    api_client.default_headers['Authorization'] = "Bearer #{args[:access_token]}"
+    DocuSign_eSign::FoldersApi.new api_client
+  end
 end
