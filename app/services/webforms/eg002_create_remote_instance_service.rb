@@ -57,16 +57,20 @@ class Webforms::Eg002CreateRemoteInstanceService
       'Company' => 'Tally',
       'JobTitle' => 'Programmer Writer'
     }
-    recipient = DocuSign_WebForms::CreateInstanceRequestBodyRecipients.new({
-      'roleName' => 'signer',
-      'name' => args[:signer_name],
-      'email' => args[:signer_email]
-    })
-    web_form_req_object = DocuSign_WebForms::CreateInstanceRequestBody.new({
-      'formValues' => web_form_values,
-      'recipients' => [recipient],
-      'sendOption' => 'now'
-    })
+    recipient = DocuSign_WebForms::CreateInstanceRequestBodyRecipients.new(
+      {
+        'roleName' => 'signer',
+        'name' => args[:signer_name],
+        'email' => args[:signer_email]
+      }
+    )
+    web_form_req_object = DocuSign_WebForms::CreateInstanceRequestBody.new(
+      {
+        'formValues' => web_form_values,
+        'recipients' => [recipient],
+        'sendOption' => 'now'
+      }
+    )
     #ds-snippet-end:WebForms2Step4
 
     #ds-snippet-start:WebForms2Step5

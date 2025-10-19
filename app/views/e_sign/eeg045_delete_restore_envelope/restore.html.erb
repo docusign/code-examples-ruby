@@ -1,0 +1,21 @@
+<h4><%= @example["ExampleName"] %></h4>
+<p><%= sanitize @example["ExampleDescription"] %></p>
+<%= sanitize format_string(@manifest["SupportingTexts"]["HelpingTexts"]["EnvelopeWillBeRestored"], @envelope_id) %>
+
+<% form_index = 0 %>
+<% folder_name_index = 1 %>
+
+<form class="eg" action="" method="post" data-busy="form">
+  <% if @example["Forms"][form_index]["FormName"] %>
+    <%= sanitize @example["Forms"][form_index]["FormName"] %>
+  <% end %>
+
+  <div class="form-group">
+    <label for="folder_name"><%= @example["Forms"][form_index]["Inputs"][folder_name_index]["InputName"] %></label>
+    <input type="text" class="form-control" id="folder_name" name="folder_name" required
+           placeholder="<%= @example["Forms"][form_index]["Inputs"][folder_name_index]["InputPlaceholder"] %>">
+  </div>
+
+  <%= render('partials/submit_button') %>
+</form>
+
