@@ -16,7 +16,16 @@ class AdminApi::Eg003BulkExportUserDataService
 
     #ds-snippet-start:Admin3Step3
     @bulk_exports_api = DocuSign_Admin::BulkExportsApi.new(api_client)
-    response = bulk_exports_api.create_user_list_export(args[:organization_id], args[:request_body])
+    response, _status, headers = bulk_exports_api.create_user_list_export_with_http_info(args[:organization_id], args[:request_body])
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Admin3Step3
 
     #ds-snippet-start:Admin3Step4
@@ -28,7 +37,16 @@ class AdminApi::Eg003BulkExportUserDataService
       else
         retry_count -= 1
         sleep(5)
-        response = bulk_exports_api.get_user_list_export(args[:organization_id], response.id)
+        response, _status, headers = bulk_exports_api.get_user_list_export_with_http_info(args[:organization_id], response.id)
+
+        remaining = headers['X-RateLimit-Remaining']
+        reset = headers['X-RateLimit-Reset']
+
+        if remaining && reset
+          reset_date = Time.at(reset.to_i).utc
+          puts "API calls remaining: #{remaining}"
+          puts "Next Reset: #{reset_date}"
+        end
       end
     end
     #ds-snippet-end:Admin3Step4
@@ -40,7 +58,17 @@ class AdminApi::Eg003BulkExportUserDataService
 
   #ds-snippet-start:Admin3Step5
   def get_exported_user_data(args, export_id)
-    bulk_export_response = bulk_exports_api.get_user_list_export(args[:organization_id], export_id)
+    bulk_export_response, _status, headers = bulk_exports_api.get_user_list_export_with_http_info(args[:organization_id], export_id)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     data_url = bulk_export_response.results[0].url
 
     uri = URI(data_url)

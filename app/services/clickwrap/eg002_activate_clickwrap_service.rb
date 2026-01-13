@@ -26,13 +26,24 @@ class Clickwrap::Eg002ActivateClickwrapService
     # Step 4. Call the Click API
     #ds-snippet-start:Click2Step4
     accounts_api = DocuSign_Click::AccountsApi.new(api_client)
-    accounts_api.update_clickwrap_version(
+    results, _status, headers = accounts_api.update_clickwrap_version_with_http_info(
       args[:account_id],
       args[:clickwrap_id],
       1,
       clickwrap_request
     )
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Click2Step4
+
+    results
   end
 
   def get_inactive_clickwraps(statuses)
@@ -48,10 +59,21 @@ class Clickwrap::Eg002ActivateClickwrapService
     statuses.each do |status|
       options = DocuSign_Click::GetClickwrapsOptions.new
       options.status = status
-      clickwraps.concat accounts_api.get_clickwraps(
+      results, _status, headers = accounts_api.get_clickwraps_with_http_info(
         args[:ds_account_id],
         options
-      ).clickwraps
+      )
+
+      remaining = headers['X-RateLimit-Remaining']
+      reset = headers['X-RateLimit-Reset']
+
+      if remaining && reset
+        reset_date = Time.at(reset.to_i).utc
+        puts "API calls remaining: #{remaining}"
+        puts "Next Reset: #{reset_date}"
+      end
+
+      clickwraps.concat results.clickwraps
     end
 
     clickwraps

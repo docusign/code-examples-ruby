@@ -58,7 +58,18 @@ class Clickwrap::Eg001CreateClickwrapService
     # Step 4. Call the Click API
     #ds-snippet-start:Click1Step4
     account_api = DocuSign_Click::AccountsApi.new(api_client)
-    account_api.create_clickwrap(args[:account_id], clickwrap_request)
+    results, _status, headers = account_api.create_clickwrap_with_http_info(args[:account_id], clickwrap_request)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Click1Step4
+
+    results
   end
 end

@@ -19,8 +19,19 @@ class ESign::Eg029BrandsApplyToEnvelopeService
     #ds-snippet-end:eSign29Step3
     # Step 4. Call the eSignature REST API
     #ds-snippet-start:eSign29Step4
-    envelope_api.create_envelope args[:account_id], envelope_definition
+    results, _status, headers = envelope_api.create_envelope_with_http_info args[:account_id], envelope_definition
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign29Step4
+
+    results
   end
 
   private

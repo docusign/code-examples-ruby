@@ -29,7 +29,17 @@ class MonitorApi::Eg001GetMonitoringDatasetService
       loop do
         options.cursor = cursor_value unless cursor_value.empty?
 
-        cursored_results = monitor_api.get_stream(args[:data_set_name], args[:version], options)
+        cursored_results, _status, headers = monitor_api.get_stream_with_http_info(args[:data_set_name], args[:version], options)
+
+        remaining = headers['X-RateLimit-Remaining']
+        reset = headers['X-RateLimit-Reset']
+
+        if remaining && reset
+          reset_date = Time.at(reset.to_i).utc
+          puts "API calls remaining: #{remaining}"
+          puts "Next Reset: #{reset_date}"
+        end
+
         end_cursor = cursored_results.end_cursor
 
         break if cursor_value == end_cursor

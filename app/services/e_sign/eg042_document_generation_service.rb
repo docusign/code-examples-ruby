@@ -17,43 +17,109 @@ class ESign::Eg042DocumentGenerationService
     envelope_args = args[:envelope_args]
 
     #ds-snippet-start:eSign42Step2
-    template = template_api.create_template(account_id, template_data)
+    template, _status, headers = template_api.create_template_with_http_info(account_id, template_data)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     template_id = template.template_id
     #ds-snippet-end:eSign42Step2
 
     #ds-snippet-start:eSign42Step3
     document_id = '1'
-    template_api.update_document(account_id, document_id, template_id, template_document(envelope_args))
+    results, _status, headers = template_api.update_document_with_http_info(account_id, document_id, template_id, template_document(envelope_args))
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign42Step3
 
     #ds-snippet-start:eSign42Step4
     recipient_id = '1'
-    template_api.create_tabs(account_id, recipient_id, template_id, recipient_tabs)
+    results, _status, headers = template_api.create_tabs_with_http_info(account_id, recipient_id, template_id, recipient_tabs)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign42Step4
 
     #ds-snippet-start:eSign42Step5
     envelope_definition = make_envelope(template_id, envelope_args)
-    envelope = envelope_api.create_envelope(account_id, envelope_definition)
+    envelope, _status, headers = envelope_api.create_envelope_with_http_info(account_id, envelope_definition)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     envelope_id = envelope.envelope_id
     #ds-snippet-end:eSign42Step5
 
     #ds-snippet-start:eSign42Step6
-    doc_gen_form_fields_response = envelope_api.get_envelope_doc_gen_form_fields(account_id, envelope_id)
+    doc_gen_form_fields_response, _status, headers = envelope_api.get_envelope_doc_gen_form_fields_with_http_info(account_id, envelope_id)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     document_id_guid = doc_gen_form_fields_response.doc_gen_form_fields[0].document_id
     #ds-snippet-end:eSign42Step6
 
     #ds-snippet-start:eSign42Step7
     form_fields_request = form_fields(envelope_args, document_id_guid)
-    envelope_api.update_envelope_doc_gen_form_fields(
+    results, _status, headers = envelope_api.update_envelope_doc_gen_form_fields_with_http_info(
       account_id,
       envelope_id,
       form_fields_request
     )
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign42Step7
 
     #ds-snippet-start:eSign42Step8
     send_envelope_req = DocuSign_eSign::Envelope.new(status: 'sent')
-    envelope = envelope_api.update(account_id, envelope_id, send_envelope_req)
+    envelope, _status, headers = envelope_api.update_with_http_info(account_id, envelope_id, send_envelope_req)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign42Step8
 
     { 'envelope_id' => envelope.envelope_id }

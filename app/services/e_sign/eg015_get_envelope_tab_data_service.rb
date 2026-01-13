@@ -17,7 +17,18 @@ class ESign::Eg015GetEnvelopeTabDataService
 
     # Exceptions will be caught by the calling function
     #ds-snippet-start:eSign15Step3
-    create_envelope_api(args).get_form_data args[:account_id], args[:envelope_id]
+    results, _status, headers = create_envelope_api(args).get_form_data_with_http_info args[:account_id], args[:envelope_id]
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign15Step3
+
+    results
   end
 end

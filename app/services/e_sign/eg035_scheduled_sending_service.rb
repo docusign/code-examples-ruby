@@ -18,7 +18,16 @@ class ESign::Eg035ScheduledSendingService
 
     # Step 3 start
     #ds-snippet-start:eSign35Step3
-    results = envelope_api.create_envelope args[:account_id], envelope_definition
+    results, _status, headers = envelope_api.create_envelope_with_http_info args[:account_id], envelope_definition
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign35Step3
     # Step 3 end
 

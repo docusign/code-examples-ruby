@@ -19,7 +19,16 @@ class RoomApi::Eg009AssignFormToFormGroupService
     #ds-snippet-start:Rooms9Step6
     form_groups_api = DocuSign_Rooms::FormGroupsApi.new(api_client)
     begin
-      response = form_groups_api.assign_form_group_form(args[:form_group_id], args[:account_id], body(args))
+      response, _status, headers = form_groups_api.assign_form_group_form_with_http_info(args[:form_group_id], args[:account_id], body(args))
+
+      remaining = headers['X-RateLimit-Remaining']
+      reset = headers['X-RateLimit-Reset']
+
+      if remaining && reset
+        reset_date = Time.at(reset.to_i).utc
+        puts "API calls remaining: #{remaining}"
+        puts "Next Reset: #{reset_date}"
+      end
     rescue Exception
       return { exception: 'Failed to assign a form to a form group' }
     end

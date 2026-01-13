@@ -36,7 +36,16 @@ class Clickwrap::Eg006EmbedClickwrapService
     #ds-snippet-start:Click6Step4
     accounts_api = DocuSign_Click::AccountsApi.new(api_client)
 
-    response = accounts_api.create_has_agreed(args[:account_id], args[:clickwrap_id], userAgreementRequest)
+    response, _status, headers = accounts_api.create_has_agreed_with_http_info(args[:account_id], args[:clickwrap_id], userAgreementRequest)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
 
     response.as_json
     #ds-snippet-end:Click6Step4
@@ -54,10 +63,20 @@ class Clickwrap::Eg006EmbedClickwrapService
     options = DocuSign_Click::GetClickwrapsOptions.new
     options.status = 'active'
 
-    results = accounts_api.get_clickwraps(
+    results, _status, headers = accounts_api.get_clickwraps_with_http_info(
       args[:ds_account_id],
       options
     )
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     puts results.as_json['clickwraps']
     results.as_json['clickwraps']
   end
@@ -74,10 +93,20 @@ class Clickwrap::Eg006EmbedClickwrapService
     options = DocuSign_Click::GetClickwrapsOptions.new
     options.status = 'inactive'
 
-    results = accounts_api.get_clickwraps(
+    results, _status, headers = accounts_api.get_clickwraps_with_http_info(
       args[:ds_account_id],
       options
     )
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     results.as_json['clickwraps']
   end
 end

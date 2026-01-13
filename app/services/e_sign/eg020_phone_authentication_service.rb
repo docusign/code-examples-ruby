@@ -85,8 +85,19 @@ class ESign::Eg020PhoneAuthenticationService
     # Call the eSignature REST API
     #ds-snippet-start:eSign20Step5
     envelope_api = create_envelope_api(args)
-    envelope_api.create_envelope args[:account_id], envelope_definition
+    results, _status, headers = envelope_api.create_envelope_with_http_info args[:account_id], envelope_definition
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign20Step5
+
+    results
   end
 
   def get_workflow
@@ -94,7 +105,16 @@ class ESign::Eg020PhoneAuthenticationService
 
     #ds-snippet-start:eSign20Step3
     workflow_details = create_account_api(args)
-    workflow_response = workflow_details.get_account_identity_verification(args[:account_id])
+    workflow_response, _status, headers = workflow_details.get_account_identity_verification_with_http_info(args[:account_id])
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
 
     # Check that idv authentication is enabled
     if workflow_response.identity_verification

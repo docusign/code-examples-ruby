@@ -26,11 +26,22 @@ class Clickwrap::Eg005ClickwrapResponsesService
 
     # Get clickwrap responses using SDK
     accounts_api = DocuSign_Click::AccountsApi.new(api_client)
-    accounts_api.get_clickwrap_agreements(
+    results, _status, headers = accounts_api.get_clickwrap_agreements_with_http_info(
       args[:account_id],
       args[:clickwrap_id],
       agreements
     )
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Click5Step3
+
+    results
   end
 end

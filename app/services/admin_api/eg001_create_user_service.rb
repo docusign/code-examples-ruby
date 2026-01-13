@@ -19,7 +19,18 @@ class AdminApi::Eg001CreateUserService
 
     #ds-snippet-start:Admin1Step6
     users_api = DocuSign_Admin::UsersApi.new(api_client)
-    users_api.create_user(args[:organization_id], user_data)
+    results, _status, headers = users_api.create_user_with_http_info(args[:organization_id], user_data)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Admin1Step6
+
+    results
   end
 end

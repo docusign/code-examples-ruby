@@ -19,7 +19,18 @@ class ESign::Eg025PermissionsSetUserGroupService
 
     # Call the eSignature REST API
     #ds-snippet-start:eSign25Step4
-    group_api.update_groups(args[:account_id], params)
+    results, _status, headers = group_api.update_groups_with_http_info(args[:account_id], params)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign25Step4
+
+    results
   end
 end

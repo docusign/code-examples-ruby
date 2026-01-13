@@ -16,7 +16,16 @@ class ESign::Eg041CfrEmbeddedSigningService
     accounts_api = create_account_api(args)
 
     # Obtain your workflow_id
-    workflow_results = accounts_api.get_account_identity_verification(args[:account_id])
+    workflow_results, _status, headers = accounts_api.get_account_identity_verification_with_http_info(args[:account_id])
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
 
     if workflow_results.identity_verification
       workflow = workflow_results.identity_verification.find { |item| item.default_name == 'SMS for access & signatures' }
@@ -30,7 +39,16 @@ class ESign::Eg041CfrEmbeddedSigningService
     envelope_api = create_envelope_api(args)
     envelope_definition = make_envelope(args[:envelope_args], workflow_id)
 
-    envelope = envelope_api.create_envelope(args[:account_id], envelope_definition)
+    envelope, _status, headers = envelope_api.create_envelope_with_http_info(args[:account_id], envelope_definition)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
 
     envelope_id = envelope.envelope_id
     #ds-snippet-end:eSign41Step4
@@ -48,7 +66,16 @@ class ESign::Eg041CfrEmbeddedSigningService
     #ds-snippet-end:eSign41Step5
 
     #ds-snippet-start:eSign41Step6
-    results = envelope_api.create_recipient_view(args[:account_id], envelope_id, view_request)
+    results, _status, headers = envelope_api.create_recipient_view_with_http_info(args[:account_id], envelope_id, view_request)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
 
     results.url
     #ds-snippet-end:eSign41Step6

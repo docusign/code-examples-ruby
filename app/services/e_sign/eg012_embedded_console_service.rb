@@ -19,7 +19,17 @@ class ESign::Eg012EmbeddedConsoleService
     view_request.envelope_id = args[:envelope_id] if args[:starting_view] == 'envelope' && args[:envelope_id]
     # Step 2. Call the API method
     envelope_api = create_envelope_api(args)
-    results = envelope_api.create_console_view args[:account_id], view_request
+    results, _status, headers = envelope_api.create_console_view_with_http_info args[:account_id], view_request
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     #ds-snippet-end:eSign12Step2
     { 'redirect_url' => results.url }
   end

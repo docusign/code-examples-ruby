@@ -18,8 +18,19 @@ class RoomApi::Eg007CreateFormGroupService
 
     #ds-snippet-start:Rooms7Step4
     rooms_api = DocuSign_Rooms::FormGroupsApi.new(api_client)
-    rooms_api.create_form_group(args[:account_id], body(args))
+    results, _status, headers = rooms_api.create_form_group_with_http_info(args[:account_id], body(args))
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Rooms7Step4
+
+    results
   end
 
   private
