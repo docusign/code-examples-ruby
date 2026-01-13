@@ -57,7 +57,7 @@ class ESign::Eg031BulkSendingEnvelopesService
 
     # Attach your bulk list ID to the envelope
     #ds-snippet-start:eSign31Step5
-    results, _status, headers = envelope_api.create_custom_fields_with_http_info(args[:account_id], envelope_id, custom_fields(bulk_list_id))
+    _results, _status, headers = envelope_api.create_custom_fields_with_http_info(args[:account_id], envelope_id, custom_fields(bulk_list_id))
 
     remaining = headers['X-RateLimit-Remaining']
     reset = headers['X-RateLimit-Reset']

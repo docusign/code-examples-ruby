@@ -89,7 +89,7 @@ class ESign::Eg043SharedAccessService
     return if authorizations.result_set_size.to_i.positive?
 
     # Create authorization
-    results, _status, headers = accounts_api.create_user_authorization_with_http_info(
+    _results, _status, headers = accounts_api.create_user_authorization_with_http_info(
       args[:account_id],
       args[:user_id],
       user_authorization_request(args)

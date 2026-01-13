@@ -33,7 +33,7 @@ class ESign::Eg042DocumentGenerationService
 
     #ds-snippet-start:eSign42Step3
     document_id = '1'
-    results, _status, headers = template_api.update_document_with_http_info(account_id, document_id, template_id, template_document(envelope_args))
+    _results, _status, headers = template_api.update_document_with_http_info(account_id, document_id, template_id, template_document(envelope_args))
 
     remaining = headers['X-RateLimit-Remaining']
     reset = headers['X-RateLimit-Reset']
@@ -47,7 +47,7 @@ class ESign::Eg042DocumentGenerationService
 
     #ds-snippet-start:eSign42Step4
     recipient_id = '1'
-    results, _status, headers = template_api.create_tabs_with_http_info(account_id, recipient_id, template_id, recipient_tabs)
+    _results, _status, headers = template_api.create_tabs_with_http_info(account_id, recipient_id, template_id, recipient_tabs)
 
     remaining = headers['X-RateLimit-Remaining']
     reset = headers['X-RateLimit-Reset']
@@ -92,7 +92,7 @@ class ESign::Eg042DocumentGenerationService
 
     #ds-snippet-start:eSign42Step7
     form_fields_request = form_fields(envelope_args, document_id_guid)
-    results, _status, headers = envelope_api.update_envelope_doc_gen_form_fields_with_http_info(
+    _results, _status, headers = envelope_api.update_envelope_doc_gen_form_fields_with_http_info(
       account_id,
       envelope_id,
       form_fields_request
