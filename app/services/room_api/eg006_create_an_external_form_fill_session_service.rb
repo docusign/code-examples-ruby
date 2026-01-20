@@ -17,8 +17,19 @@ class RoomApi::Eg006CreateAnExternalFormFillSessionService
 
     #ds-snippet-start:Rooms6Step4
     rooms_api = DocuSign_Rooms::ExternalFormFillSessionsApi.new(api_client)
-    rooms_api.create_external_form_fill_session(args[:account_id], body(args))
+    results, _status, headers = rooms_api.create_external_form_fill_session_with_http_info(args[:account_id], body(args))
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Rooms6Step4
+
+    results
   end
 
   private

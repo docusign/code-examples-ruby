@@ -37,8 +37,19 @@ class AdminApi::Eg012CloneAccountService
 
     #ds-snippet-start:Admin12Step5
     asset_group_api = DocuSign_Admin::ProvisionAssetGroupApi.new(api_client)
-    asset_group_api.clone_asset_group_account(args[:organization_id], account_data)
+    results, _status, headers = asset_group_api.clone_asset_group_account_with_http_info(args[:organization_id], account_data)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Admin12Step5
+
+    results
   end
 
   def get_account
@@ -52,7 +63,18 @@ class AdminApi::Eg012CloneAccountService
     asset_group_api = DocuSign_Admin::ProvisionAssetGroupApi.new(api_client)
     options = DocuSign_Admin::GetAssetGroupAccountsOptions.new
     options.compliant = true
-    asset_group_api.get_asset_group_accounts(args[:organization_id], options)
+    results, _status, headers = asset_group_api.get_asset_group_accounts_with_http_info(args[:organization_id], options)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Admin12Step3
+
+    results
   end
 end

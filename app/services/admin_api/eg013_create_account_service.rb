@@ -40,8 +40,19 @@ class AdminApi::Eg013CreateAccountService
 
     #ds-snippet-start:Admin13Step5
     asset_group_api = DocuSign_Admin::ProvisionAssetGroupApi.new(api_client)
-    asset_group_api.create_asset_group_account(args[:organization_id], account_data)
+    results, _status, headers = asset_group_api.create_asset_group_account_with_http_info(args[:organization_id], account_data)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Admin13Step5
+
+    results
   end
 
   def get_organization_plan_items
@@ -53,7 +64,18 @@ class AdminApi::Eg013CreateAccountService
 
     #ds-snippet-start:Admin13Step3
     asset_group_api = DocuSign_Admin::ProvisionAssetGroupApi.new(api_client)
-    asset_group_api.get_organization_plan_items(args[:organization_id])
+    results, _status, headers = asset_group_api.get_organization_plan_items_with_http_info(args[:organization_id])
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Admin13Step3
+
+    results
   end
 end

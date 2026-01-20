@@ -183,10 +183,21 @@ class ESign::Eg034UseConditionalRecipientsService
     #ds-snippet-start:eSign34Step4
     envelopes_api = DocuSign_eSign::EnvelopesApi.new(api_client)
 
-    envelopes_api.create_envelope(
+    results, _status, headers = envelopes_api.create_envelope_with_http_info(
       args[:accountId],
       envelope_definition
     )
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign34Step4
+
+    results
   end
 end

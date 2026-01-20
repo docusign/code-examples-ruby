@@ -17,7 +17,17 @@ class RoomApi::GetDataService
 
     #ds-snippet-start:Rooms8Step3
     offices_api = DocuSign_Rooms::OfficesApi.new(@api_client)
-    offices = offices_api.get_offices(args[:account_id])
+    offices, _status, headers = offices_api.get_offices_with_http_info(args[:account_id])
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     offices.as_json['officeSummaries']
     #ds-snippet-end:Rooms8Step3
   end
@@ -26,8 +36,18 @@ class RoomApi::GetDataService
     worker
 
     roles_api = DocuSign_Rooms::RolesApi.new(@api_client)
-    roles = roles_api.get_roles(args[:account_id]).as_json['roles']
-    default_admin_role = roles.find { |role| role['name'] == 'Default Admin' }
+    roles, _status, headers = roles_api.get_roles_with_http_info(args[:account_id])
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
+    default_admin_role = roles.as_json['roles'].find { |role| role['name'] == 'Default Admin' }
     default_admin_role['roleId']
   end
 
@@ -35,7 +55,17 @@ class RoomApi::GetDataService
     worker
 
     rooms_api = DocuSign_Rooms::RoomsApi.new(@api_client)
-    rooms = rooms_api.get_rooms(args[:account_id])
+    rooms, _status, headers = rooms_api.get_rooms_with_http_info(args[:account_id])
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     rooms.as_json['rooms']
   end
 
@@ -43,7 +73,17 @@ class RoomApi::GetDataService
     worker
 
     templates_api = DocuSign_Rooms::RoomTemplatesApi.new(@api_client)
-    templates = templates_api.get_room_templates(args[:account_id])
+    templates, _status, headers = templates_api.get_room_templates_with_http_info(args[:account_id])
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     templates.as_json['roomTemplates']
   end
 
@@ -52,7 +92,16 @@ class RoomApi::GetDataService
 
     form_libraries_api = DocuSign_Rooms::FormLibrariesApi.new(@api_client)
     begin
-      form_libraries = form_libraries_api.get_form_libraries(args[:account_id])
+      form_libraries, _status, headers = form_libraries_api.get_form_libraries_with_http_info(args[:account_id])
+
+      remaining = headers['X-RateLimit-Remaining']
+      reset = headers['X-RateLimit-Reset']
+
+      if remaining && reset
+        reset_date = Time.at(reset.to_i).utc
+        puts "API calls remaining: #{remaining}"
+        puts "Next Reset: #{reset_date}"
+      end
     rescue Exception
       return
     end
@@ -60,7 +109,17 @@ class RoomApi::GetDataService
     form_libraries_id = form_libraries.as_json['formsLibrarySummaries'].find { |lib| lib['formCount'].positive? }['formsLibraryId']
 
     forms_api = DocuSign_Rooms::FormLibrariesApi.new(@api_client)
-    forms = forms_api.get_form_library_forms(form_libraries_id, args[:account_id])
+    forms, _status, headers = forms_api.get_form_library_forms_with_http_info(form_libraries_id, args[:account_id])
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     forms.as_json['forms']
   end
 
@@ -68,7 +127,17 @@ class RoomApi::GetDataService
     worker
 
     room_forms_api = DocuSign_Rooms::RoomsApi.new(@api_client)
-    forms = room_forms_api.get_documents(args[:room_id], args[:account_id])
+    forms, _status, headers = room_forms_api.get_documents_with_http_info(args[:room_id], args[:account_id])
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     forms.as_json['documents']
   end
 
@@ -77,7 +146,17 @@ class RoomApi::GetDataService
 
     #ds-snippet-start:Rooms8Step4
     form_groups_api = DocuSign_Rooms::FormGroupsApi.new(@api_client)
-    form_groups = form_groups_api.get_form_groups(args[:account_id])
+    form_groups, _status, headers = form_groups_api.get_form_groups_with_http_info(args[:account_id])
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     form_groups.as_json['formGroups']
     #ds-snippet-end:Rooms8Step4
   end

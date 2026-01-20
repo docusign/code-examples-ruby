@@ -95,10 +95,21 @@ class ESign::Eg032PausesSignatureWorkflowService
 
     #ds-snippet-start:eSign32Step4
     envelopes_api = DocuSign_eSign::EnvelopesApi.new(api_client)
-    envelopes_api.create_envelope(
+    results, _status, headers = envelopes_api.create_envelope_with_http_info(
       args[:accountId],
       envelope_definition
     )
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign32Step4
+
+    results
   end
 end

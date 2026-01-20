@@ -21,7 +21,17 @@ class AdminApi::Eg010DeleteUserDataFromOrganizationService
 
     options = DocuSign_Admin::GetUserDSProfilesByEmailOptions.new
     options.email = args[:email]
-    result = users_api.get_user_ds_profiles_by_email(args[:organization_id], options)
+    result, _status, headers = users_api.get_user_ds_profiles_by_email_with_http_info(args[:organization_id], options)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     user = result.users[0]
 
     #ds-snippet-start:Admin10Step3
@@ -37,7 +47,18 @@ class AdminApi::Eg010DeleteUserDataFromOrganizationService
     #ds-snippet-end:Admin10Step3
 
     #ds-snippet-start:Admin10Step4
-    organizations_api.redact_individual_user_data(args[:organization_id], user_data_redaction_request)
+    results, _status, headers = organizations_api.redact_individual_user_data_with_http_info(args[:organization_id], user_data_redaction_request)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Admin10Step4
+
+    results
   end
 end

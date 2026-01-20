@@ -19,8 +19,19 @@ class RoomApi::Eg001CreateRoomWithDataService
     #ds-snippet-start:Rooms1Step4
     rooms_api = DocuSign_Rooms::RoomsApi.new(api_client)
 
-    rooms_api.create_room(args[:account_id], body(args))
+    results, _status, headers = rooms_api.create_room_with_http_info(args[:account_id], body(args))
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Rooms1Step4
+
+    results
   end
 
   private

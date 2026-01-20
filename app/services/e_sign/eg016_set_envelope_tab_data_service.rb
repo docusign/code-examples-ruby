@@ -20,7 +20,17 @@ class ESign::Eg016SetEnvelopeTabDataService
 
     # Call the eSignature REST API
     #ds-snippet-start:eSign16Step4
-    results = create_envelope_api(args).create_envelope args[:account_id], envelope
+    results, _status, headers = create_envelope_api(args).create_envelope_with_http_info args[:account_id], envelope
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     envelope_id = results.envelope_id
     #ds-snippet-end:eSign16Step4
 
@@ -30,7 +40,16 @@ class ESign::Eg016SetEnvelopeTabDataService
     #ds-snippet-end:eSign16Step5
 
     # Call the CreateRecipientView API
-    results = create_envelope_api(args).create_recipient_view args[:account_id], envelope_id, view_request
+    results, _status, headers = create_envelope_api(args).create_recipient_view_with_http_info args[:account_id], envelope_id, view_request
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
 
     # Redirect the user to the embedded signing
     # Don't use an iframe!

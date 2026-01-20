@@ -15,7 +15,17 @@ class ESign::Eg014CollectPaymentService
     # Create and send the envelope
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
-    results = envelope_api.create_envelope args[:account_id], envelope_definition
+    results, _status, headers = envelope_api.create_envelope_with_http_info args[:account_id], envelope_definition
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     envelope_id = results.envelope_id
     { envelope_id: envelope_id }
   end

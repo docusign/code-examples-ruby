@@ -16,8 +16,19 @@ class AdminApi::Eg002CreateActiveClmEsignUserService
 
     #ds-snippet-start:Admin2Step6
     users_api = DocuSign_Admin::UsersApi.new(api_client)
-    users_api.add_or_update_user(args[:organization_id], args[:account_id], body(args))
+    results, _status, headers = users_api.add_or_update_user_with_http_info(args[:organization_id], args[:account_id], body(args))
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Admin2Step6
+
+    results
   end
 
   private

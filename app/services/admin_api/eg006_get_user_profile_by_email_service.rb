@@ -21,7 +21,18 @@ class AdminApi::Eg006GetUserProfileByEmailService
 
     options = DocuSign_Admin::GetUserDSProfilesByEmailOptions.new
     options.email = args[:email]
-    users_api.get_user_ds_profiles_by_email(args[:organization_id], options)
+    results, _status, headers = users_api.get_user_ds_profiles_by_email_with_http_info(args[:organization_id], options)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Admin6Step3
+
+    results
   end
 end

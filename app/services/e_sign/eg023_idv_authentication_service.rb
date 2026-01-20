@@ -15,7 +15,17 @@ class ESign::Eg023IdvAuthenticationService
     # Obtain your workflow ID
     #ds-snippet-start:eSign23Step3
     accounts_api = create_account_api(args)
-    workflow_response = accounts_api.get_account_identity_verification args[:account_id]
+    workflow_response, _status, headers = accounts_api.get_account_identity_verification_with_http_info args[:account_id]
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     if workflow_response.identity_verification
       idv_workflow = workflow_response.identity_verification.find { |item| item.default_name == 'DocuSign ID Verification' }
       workflow_id = idv_workflow.workflow_id if idv_workflow
@@ -83,7 +93,18 @@ class ESign::Eg023IdvAuthenticationService
     # Call the eSignature REST API
     #ds-snippet-start:eSign23Step5
     envelope_api = create_envelope_api(args)
-    envelope_api.create_envelope args[:account_id], envelope_definition
+    results, _status, headers = envelope_api.create_envelope_with_http_info args[:account_id], envelope_definition
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign23Step5
+
+    results
   end
 end

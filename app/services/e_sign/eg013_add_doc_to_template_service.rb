@@ -18,7 +18,17 @@ class ESign::Eg013AddDocToTemplateService
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
 
-    results = envelope_api.create_envelope(args[:account_id], envelope_definition)
+    results, _status, headers = envelope_api.create_envelope_with_http_info(args[:account_id], envelope_definition)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     envelope_id = results.envelope_id
     #ds-snippet-end:eSign13Step3
     # 3. Create the Recipient View request object
@@ -35,8 +45,18 @@ class ESign::Eg013AddDocToTemplateService
     )
     # 4. Obtain the recipient_view_url for the embedded signing
     # Exceptions will be caught by the calling function
-    results = envelope_api.create_recipient_view(args[:account_id],
-                                                 envelope_id, recipient_view_request)
+    results, _status, headers = envelope_api.create_recipient_view_with_http_info(args[:account_id],
+                                                                                  envelope_id, recipient_view_request)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     { envelope_id: envelope_id, redirect_url: results.url }
   end
   #ds-snippet-end:eSign13Step4

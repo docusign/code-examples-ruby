@@ -26,7 +26,18 @@ class ESign::Eg028BrandsCreatingService
 
     # Step 4: Call the eSignature API
     #ds-snippet-start:eSign28Step4
-    accounts_api.create_brand(args[:account_id], params)
+    results, _status, headers = accounts_api.create_brand_with_http_info(args[:account_id], params)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign28Step4
+
+    results
   end
 end

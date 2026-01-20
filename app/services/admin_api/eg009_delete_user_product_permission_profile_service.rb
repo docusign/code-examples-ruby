@@ -22,8 +22,19 @@ class AdminApi::Eg009DeleteUserProductPermissionProfileService
 
     #ds-snippet-start:Admin9Step5
     product_permission_profiles_api = DocuSign_Admin::ProductPermissionProfilesApi.new(api_client)
-    product_permission_profiles_api.remove_user_product_permission(args[:organization_id], args[:account_id], user_product_profile_delete_request)
+    results, _status, headers = product_permission_profiles_api.remove_user_product_permission_with_http_info(args[:organization_id], args[:account_id], user_product_profile_delete_request)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Admin9Step5
+
+    results
   end
 
   def get_permission_profiles_by_email
@@ -39,7 +50,17 @@ class AdminApi::Eg009DeleteUserProductPermissionProfileService
     options = DocuSign_Admin::GetUserProductPermissionProfilesByEmailOptions.new
     options.email = args[:email]
 
-    product_permission_profiles = product_permission_profiles_api.get_user_product_permission_profiles_by_email(args[:organization_id], args[:account_id], options)
+    product_permission_profiles, _status, headers = product_permission_profiles_api.get_user_product_permission_profiles_by_email_with_http_info(args[:organization_id], args[:account_id], options)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     product_permission_profiles.as_json['product_permission_profiles']
     #ds-snippet-end:Admin9Step3
   end

@@ -18,7 +18,16 @@ class ESign::Eg037SmsDeliveryService
     # Exceptions will be caught by the calling function
     envelope_api = create_envelope_api(args)
     #ds-snippet-start:eSign37Step3
-    results = envelope_api.create_envelope args[:account_id], envelope_definition
+    results, _status, headers = envelope_api.create_envelope_with_http_info args[:account_id], envelope_definition
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign37Step3
     envelope_id = results.envelope_id
     { 'envelope_id' => envelope_id }

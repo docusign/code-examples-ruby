@@ -23,7 +23,17 @@ class ESign::Eg031BulkSendingEnvelopesService
     #ds-snippet-start:eSign31Step3
     bulk_envelopes_api = DocuSign_eSign::BulkEnvelopesApi.new api_client
     bulk_sending_list = create_bulk_sending_list(signers)
-    bulk_list = bulk_envelopes_api.create_bulk_send_list(args[:account_id], bulk_sending_list)
+    bulk_list, _status, headers = bulk_envelopes_api.create_bulk_send_list_with_http_info(args[:account_id], bulk_sending_list)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     bulk_list_id = bulk_list.list_id
     #ds-snippet-end:eSign31Step3
 
@@ -31,26 +41,66 @@ class ESign::Eg031BulkSendingEnvelopesService
     #ds-snippet-start:eSign31Step4
     envelope_api = create_envelope_api(args)
     envelope_definition = make_envelope
-    envelope = envelope_api.create_envelope(args[:account_id], envelope_definition, DocuSign_eSign::CreateEnvelopeOptions.default)
+    envelope, _status, headers = envelope_api.create_envelope_with_http_info(args[:account_id], envelope_definition, DocuSign_eSign::CreateEnvelopeOptions.default)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     envelope_id = envelope.envelope_id
     #ds-snippet-end:eSign31Step4
 
     # Attach your bulk list ID to the envelope
     #ds-snippet-start:eSign31Step5
-    envelope_api.create_custom_fields(args[:account_id], envelope_id, custom_fields(bulk_list_id))
+    _results, _status, headers = envelope_api.create_custom_fields_with_http_info(args[:account_id], envelope_id, custom_fields(bulk_list_id))
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign31Step5
 
     # Initiate bulk send
     #ds-snippet-start:eSign31Step6
     bulk_send_request = DocuSign_eSign::BulkSendRequest.new(envelopeOrTemplateId: envelope_id)
-    batch = bulk_envelopes_api.create_bulk_send_request(args[:account_id], bulk_list_id, bulk_send_request)
+    batch, _status, headers = bulk_envelopes_api.create_bulk_send_request_with_http_info(args[:account_id], bulk_list_id, bulk_send_request)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     batch_id = batch.batch_id
     #ds-snippet-end:eSign31Step6
 
     # Confirm successful batch send
     #ds-snippet-start:eSign31Step7
-    bulk_envelopes_api.get_bulk_send_batch_status(args[:account_id], batch_id)
+    results, _status, headers = bulk_envelopes_api.get_bulk_send_batch_status_with_http_info(args[:account_id], batch_id)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign31Step7
+
+    results
   end
 
   private

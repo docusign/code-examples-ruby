@@ -30,12 +30,23 @@ class ESign::Eg033UnpausesSignatureWorkflowService
     update_options = DocuSign_eSign::UpdateOptions.new
     update_options.resend_envelope = true
 
-    envelopes_api.update(
+    results, _status, headers = envelopes_api.update_with_http_info(
       args[:accountId],
       args[:envelopeId],
       envelope_definition,
       update_options
     )
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
+    results
   end
   #ds-snippet-end:eSign33Step4
 end

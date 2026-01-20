@@ -15,7 +15,16 @@ class ESign::Eg007EnvelopeGetDocService
 
     document_id = args[:document_id]
 
-    temp_file = envelope_api.get_document args[:account_id], document_id, args[:envelope_id]
+    temp_file, _status, headers = envelope_api.get_document_with_http_info args[:account_id], document_id, args[:envelope_id]
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign7Step3
     # Find the matching document information item
     doc_item = args[:envelope_documents]['documents'].find { |item| item['document_id'] == document_id }

@@ -25,7 +25,16 @@ class ESign::Eg043SharedAccessService
     begin
       options = DocuSign_eSign::ListOptions.new
       options.email = args[:email]
-      users = users_api.list args[:account_id], options
+      users, _status, headers = users_api.list_with_http_info args[:account_id], options
+
+      remaining = headers['X-RateLimit-Remaining']
+      reset = headers['X-RateLimit-Reset']
+
+      if remaining && reset
+        reset_date = Time.at(reset.to_i).utc
+        puts "API calls remaining: #{remaining}"
+        puts "Next Reset: #{reset_date}"
+      end
 
       if users.result_set_size.to_i.positive?
         user = users.users.find { |u| u.user_status == 'Active' }
@@ -38,7 +47,17 @@ class ESign::Eg043SharedAccessService
 
     # Create new user
     #ds-snippet-start:eSign43Step3
-    new_users = users_api.create args[:account_id], new_users_definition(args)
+    new_users, _status, headers = users_api.create_with_http_info args[:account_id], new_users_definition(args)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     new_users.new_users[0]
     #ds-snippet-end:eSign43Step3
   end
@@ -56,15 +75,35 @@ class ESign::Eg043SharedAccessService
     options = DocuSign_eSign::GetAgentUserAuthorizationsOptions.new
     options.permissions = 'manage'
 
-    authorizations = accounts_api.get_agent_user_authorizations(args[:account_id], args[:agent_user_id], options)
+    authorizations, _status, headers = accounts_api.get_agent_user_authorizations_with_http_info(args[:account_id], args[:agent_user_id], options)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     return if authorizations.result_set_size.to_i.positive?
 
     # Create authorization
-    accounts_api.create_user_authorization(
+    _results, _status, headers = accounts_api.create_user_authorization_with_http_info(
       args[:account_id],
       args[:user_id],
       user_authorization_request(args)
     )
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    return unless remaining && reset
+
+    reset_date = Time.at(reset.to_i).utc
+    puts "API calls remaining: #{remaining}"
+    puts "Next Reset: #{reset_date}"
+
     #ds-snippet-end:eSign43Step4
   end
 
@@ -102,7 +141,18 @@ class ESign::Eg043SharedAccessService
 
     options = DocuSign_eSign::ListStatusChangesOptions.new
     options.from_date = (Date.today - 10).strftime('%Y/%m/%d')
-    envelopes_api.list_status_changes args[:account_id], options
+    results, _status, headers = envelopes_api.list_status_changes_with_http_info args[:account_id], options
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign43Step5
+
+    results
   end
 end

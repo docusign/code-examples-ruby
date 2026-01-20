@@ -24,7 +24,18 @@ class RoomApi::Eg005GetRoomsWithFiltersService
 
     #ds-snippet-start:Rooms5Step4
     rooms_api = DocuSign_Rooms::RoomsApi.new(api_client)
-    rooms_api.get_rooms(args[:account_id], filters)
+    results, _status, headers = rooms_api.get_rooms_with_http_info(args[:account_id], filters)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Rooms5Step4
+
+    results
   end
 end
