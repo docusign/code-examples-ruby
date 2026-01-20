@@ -19,7 +19,17 @@ class ESign::Eg038ResponsiveSigningService
     # Call Docusign to create the envelope
     envelope_api = create_envelope_api(args)
 
-    results = envelope_api.create_envelope args[:account_id], envelope
+    results, _status, headers = envelope_api.create_envelope_with_http_info args[:account_id], envelope
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     envelope_id = results.envelope_id
     # Save for future use within the example launcher
     # session[:envelope_id] = envelope_id
@@ -28,7 +38,16 @@ class ESign::Eg038ResponsiveSigningService
     view_request = make_recipient_view_request(args, ds_return_url)
 
     # Call the CreateRecipientView API
-    results = envelope_api.create_recipient_view args[:account_id], envelope_id, view_request
+    results, _status, headers = envelope_api.create_recipient_view_with_http_info args[:account_id], envelope_id, view_request
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
 
     # Step 4. Redirect the user to the embedded signing
     # Don't use an iframe!

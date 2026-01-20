@@ -18,7 +18,18 @@ class RoomApi::Eg003ExportDataFromRoomService
 
     #ds-snippet-start:Rooms3Step3
     rooms_api = DocuSign_Rooms::RoomsApi.new(api_client)
-    rooms_api.get_room_field_data(args[:room_id], args[:account_id])
+    results, _status, headers = rooms_api.get_room_field_data_with_http_info(args[:room_id], args[:account_id])
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Rooms3Step3
+
+    results
   end
 end

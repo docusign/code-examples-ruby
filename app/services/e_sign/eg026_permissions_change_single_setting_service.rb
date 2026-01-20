@@ -14,9 +14,20 @@ class ESign::Eg026PermissionsChangeSingleSettingService
     accounts_api = create_account_api(args)
     permission_profile_settings = make_permission_profile_settings
     permission_profile_id = args[:permission_profile_id]
-    accounts_api.update_permission_profile(args[:account_id], permission_profile_id,
-                                           permission_profile_settings, DocuSign_eSign::UpdatePermissionProfileOptions.default)
+    results, _status, headers = accounts_api.update_permission_profile_with_http_info(args[:account_id], permission_profile_id,
+                                                                                      permission_profile_settings, DocuSign_eSign::UpdatePermissionProfileOptions.default)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign26Step4
+
+    results
   end
 
   private

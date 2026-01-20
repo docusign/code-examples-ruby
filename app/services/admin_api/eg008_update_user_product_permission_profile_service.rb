@@ -23,7 +23,18 @@ class AdminApi::Eg008UpdateUserProductPermissionProfileService
 
     #ds-snippet-start:Admin8Step4
     product_permission_profiles_api = DocuSign_Admin::ProductPermissionProfilesApi.new(api_client)
-    product_permission_profiles_api.add_user_product_permission_profiles_by_email(args[:organization_id], args[:account_id], user_product_permission_profile_request)
+    results, _status, headers = product_permission_profiles_api.add_user_product_permission_profiles_by_email_with_http_info(args[:organization_id], args[:account_id], user_product_permission_profile_request)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Admin8Step4
+
+    results
   end
 end

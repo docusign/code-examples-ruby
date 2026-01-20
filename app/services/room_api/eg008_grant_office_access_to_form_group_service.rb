@@ -19,7 +19,16 @@ class RoomApi::Eg008GrantOfficeAccessToFormGroupService
     #ds-snippet-start:Rooms8Step5
     form_groups_api = DocuSign_Rooms::FormGroupsApi.new(api_client)
     begin
-      response = form_groups_api.grant_office_access_to_form_group(args[:form_group_id], args[:office_id], args[:account_id])
+      response, _status, headers = form_groups_api.grant_office_access_to_form_group_with_http_info(args[:form_group_id], args[:office_id], args[:account_id])
+
+      remaining = headers['X-RateLimit-Remaining']
+      reset = headers['X-RateLimit-Reset']
+
+      if remaining && reset
+        reset_date = Time.at(reset.to_i).utc
+        puts "API calls remaining: #{remaining}"
+        puts "Next Reset: #{reset_date}"
+      end
     rescue Exception
       return { exception: 'Failed to grant office access to a form group' }
     end

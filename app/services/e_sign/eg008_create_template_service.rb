@@ -14,7 +14,17 @@ class ESign::Eg008CreateTemplateService
     # Step 1. Does the template exist? Try to look it up by name
     options = DocuSign_eSign::ListTemplatesOptions.new
     options.search_text = args[:template_name]
-    results = templates_api.list_templates(args[:account_id], options)
+    results, _status, headers = templates_api.list_templates_with_http_info(args[:account_id], options)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
+
     created_new_template = false
 
     if results.result_set_size.to_i.positive?
@@ -25,7 +35,16 @@ class ESign::Eg008CreateTemplateService
       # Step 2 create the template
       #ds-snippet-start:eSign8Step3
       template_req_object = make_template_req
-      result = templates_api.create_template(args[:account_id], template_req_object)
+      result, _status, headers = templates_api.create_template_with_http_info(args[:account_id], template_req_object)
+
+      remaining = headers['X-RateLimit-Remaining']
+      reset = headers['X-RateLimit-Reset']
+
+      if remaining && reset
+        reset_date = Time.at(reset.to_i).utc
+        puts "API calls remaining: #{remaining}"
+        puts "Next Reset: #{reset_date}"
+      end
       #ds-snippet-end:eSign8Step3
       created_new_template = true
 

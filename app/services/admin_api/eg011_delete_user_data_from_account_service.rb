@@ -24,7 +24,18 @@ class AdminApi::Eg011DeleteUserDataFromAccountService
     #ds-snippet-end:Admin11Step3
 
     #ds-snippet-start:Admin11Step4
-    accounts_api.redact_individual_membership_data(args[:account_id], membership_redaction_request)
+    results, _status, headers = accounts_api.redact_individual_membership_data_with_http_info(args[:account_id], membership_redaction_request)
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:Admin11Step4
+
+    results
   end
 end

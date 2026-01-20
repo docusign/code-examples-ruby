@@ -22,7 +22,18 @@ class ESign::Eg003ListEnvelopesService
     options = DocuSign_eSign::ListStatusChangesOptions.new
     options.from_date = (Date.today - 30).strftime('%Y-%m-%d')
     # Exceptions will be caught by the calling function
-    envelope_api.list_status_changes args[:account_id], options
+    results, _status, headers = envelope_api.list_status_changes_with_http_info args[:account_id], options
+
+    remaining = headers['X-RateLimit-Remaining']
+    reset = headers['X-RateLimit-Reset']
+
+    if remaining && reset
+      reset_date = Time.at(reset.to_i).utc
+      puts "API calls remaining: #{remaining}"
+      puts "Next Reset: #{reset_date}"
+    end
     #ds-snippet-end:eSign3Step2
+
+    results
   end
 end
