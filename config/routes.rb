@@ -236,6 +236,9 @@ Rails.application.routes.draw do
     post 'eeg045' => 'eeg045_delete_restore_envelope#delete_envelope'
     get 'eeg045restore' => 'eeg045_delete_restore_envelope#get_restore_envelope'
     post 'eeg045restore' => 'eeg045_delete_restore_envelope#restore_envelope'
+
+    get 'eeg046' => 'eeg046_multiple_delivery#get'
+    post 'eeg046' => 'eeg046_multiple_delivery#create'
   end
 
   scope module: 'connect' do
