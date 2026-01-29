@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <h4><%= @example["ExampleName"] %></h4>
 <p><%= sanitize @example["ExampleDescription"] %></p>
 
@@ -28,35 +27,4 @@
 
 <p>
   <%= sanitize format_string(@manifest["SupportingTexts"]["ViewSourceFile"], "<a target='_blank' href='#{@source_url}'>#{@source_file}</a>" ) %>
-=======
-<h4><%= @example["ExampleName"] %></h4>
-<p><%= sanitize @example["ExampleDescription"] %></p>
-
-<% if @show_doc  %>
-  <p><a target='_blank' href='<%= @documentation %>'>Documentation</a> about this example.</p>
-<% end %>
-
-<% if @example["Notes"] %>
-  <%= sanitize @example["Notes"] %>
-<% end %>
-
-<% if @example["LinksToAPIMethod"] %>
-  <% if @example["LinksToAPIMethod"].length > 1 %>
-    <%= sanitize @manifest["SupportingTexts"]["APIMethodUsedPlural"] %>
-  <% else %>
-    <%= sanitize @manifest["SupportingTexts"]["APIMethodUsed"] %>
-  <% end %>
-
-  <% @example["LinksToAPIMethod"].each do |link| %>
-    <a target='_blank' href="<%= link["Path"] %>"><%= link["PathName"] %></a>
-  <% end %>
-<% end %>
-
-<% if @example["LinkToHowTo"] %>
-    <p>Prerequisite: See <a target='_blank' href="<%= @example["LinkToHowTo"][0]["Path"] %>"><%= @example["LinkToHowTo"][0]["PathName"] %></a></p>
-<% end %>
-
-<p>
-  <%= sanitize format_string(@manifest["SupportingTexts"]["ViewSourceFile"], "<a target='_blank' href='#{@source_url}'>#{@source_file}</a>" ) %>
->>>>>>> ad04cb92d8fcc1f8cb3dfe6be19914ea4018d17a
 </p>
