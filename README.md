@@ -92,11 +92,14 @@ For a list of code examples that use the Admin API, see the [How-to guides overv
 
 1. [Ruby version 2.7.2](https://www.ruby-lang.org/en/downloads/) or later
    1. Update the Gemfile to use later versions of Ruby.
+   1. Update the **.ruby-version** to use your preferred version of Ruby. Ruby version managers may automatically switch your Ruby version to what is specified in .ruby-version file.
    1. Windows x64 only:
       1. Ensure that your Ruby folder is appended with **-x64**, e.g. **Ruby27-x64**
       2. Install Curl for Ruby: [Download libcurl.dll](https://curl.haxx.se/windows/)
          Save **libcurl-x64.dll** as **libcurl.dll**
          Place **libcurl.dll** in your Ruby folder, e.g. **C:&#92;Ruby27-x64&#92;bin**
+      3. **Git Bash is not recommended**: it can cause issues with interactive input/output, signal handling, and path/quoting differences.
+         Use WSL or the VS Code integrated Bash terminal instead
 
 
 ### Installation steps
@@ -105,6 +108,7 @@ For a list of code examples that use the Admin API, see the [How-to guides overv
 1. Extract the Quickstart ZIP file, or download or clone the code-examples-ruby repository.
 1. In your command-line environment, switch to the folder:
    `cd <Quickstart folder>` or `cd code-examples-ruby`
+1. Adjust Ruby version in **Gemfile** and **.ruby-version**
 1. To install dependencies, run: `bundler install`
 1. To configure the launcher for [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) authentication, create a copy of the file config/appsettings.example.yml and save the copy as config/appsettings.yml.
    1. Add your integration key. On the [Apps and Keys](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey) page, under **Apps and Integration Keys**, choose the app to use, then select **Actions** > **Edit**. Under **General Info**, copy the **Integration Key** GUID and save it in appsettings.yml as your `integration_key`.
@@ -123,6 +127,7 @@ Also, in order to select JSON Web Token authentication in the launcher, in confi
 1. Extract the Quickstart ZIP file or download or clone the code-examples-ruby repository.
 1. In your command-line environment, switch to the folder:
    `cd <Quickstart folder>` or `cd code-examples-ruby`
+1. Adjust Ruby version in **Gemfile** and **.ruby-version**
 1. Install the dependencies: `bundler install`
 1. To configure the launcher for [JWT Grant](https://developers.docusign.com/platform/auth/jwt/) authentication, create a copy of the file config/appsettings.example.yml and save the copy as config/appsettings.yml.
    1. Add your User ID. On the [Apps and Keys](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey) page, under **My Account Information**, copy the **User ID** GUID and save it in appsettings.yml as your `impersonated_user_guid`.
@@ -141,7 +146,7 @@ Also, in order to select JSON Web Token authentication in the launcher, in confi
 See [Docusign Quickstart overview](https://developers.docusign.com/docs/esign-rest-api/quickstart/overview/) on the Docusign Developer Center for more information on how to run the JWT grant remote signing project and the Authorization Code Grant embedded signing project.
 
 ### Authorization Code Grant embedded signing example:
-Run in Git Bash:
+Run in terminal:
 ```
 $ cd <Quickstart folder>/quick_acg
 $ bundler install
@@ -151,7 +156,7 @@ $ rails s
 Open a browser to http://localhost:3000
 
 ### JWT grant remote signing example:
-Run in Windows Command Prompt (CMD):
+Run in terminal:
 ```
 $ cd jwt_console_project
 $ ruby jwt_console.rb
