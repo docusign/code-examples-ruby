@@ -35,6 +35,8 @@ class Webforms::Weg001CreateInstanceController < EgController
     web_forms = create_instance_service.list_web_forms
     results = create_instance_service.create_web_form_instance web_forms.items.first.id
 
+    additional_page = @example['AdditionalPage'].find { |p| p['Name'] == 'webforms_heading' }
+    @webforms_heading = additional_page['ResultsPageText']
     @integration_key = Rails.application.config.integration_key
     @form_url = results.form_url
     @instance_token = results.instance_token
