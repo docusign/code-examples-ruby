@@ -64,6 +64,14 @@ For information about the scopes used for obtaining authorization to use the Adm
 
 For a list of code examples that use the Admin API, see the [How-to guides overview](https://developers.docusign.com/docs/admin-api/how-to/) on the Docusign Developer Center.
 
+## Web Forms API
+
+The Web Forms API is available in all developer accounts, but only in certain production account plans. Contact [Docusign Support](https://support.docusign.com/) or your account manager to find out whether the Web Forms API is available for your production account plan.
+
+For more information about the scopes used for obtaining authorization to use the Web Forms API, see [Required scopes](https://developers.docusign.com/docs/web-forms-api/plan-integration/authentication/).
+
+For a list of code examples that use the Web Forms API, see the [How-to guides overview](https://developers.docusign.com/docs/web-forms-api/how-to/) on the Docusign Developer Center.
+
 ## Installation
 
 ### Prerequisites
@@ -90,14 +98,14 @@ For a list of code examples that use the Admin API, see the [How-to guides overv
 
    where {base_url} is the URL for the web app.
 
-1. [Ruby version 2.7.2](https://www.ruby-lang.org/en/downloads/) or later
+1. [Ruby version 3.3](https://www.ruby-lang.org/en/downloads/) or later
    1. Update the Gemfile to use later versions of Ruby.
    1. Update the **.ruby-version** to use your preferred version of Ruby. Ruby version managers may automatically switch your Ruby version to what is specified in .ruby-version file.
    1. Windows x64 only:
-      1. Ensure that your Ruby folder is appended with **-x64**, e.g. **Ruby27-x64**
+      1. Ensure that your Ruby folder is appended with **-x64**, e.g. **Ruby33-x64**
       2. Install Curl for Ruby: [Download libcurl.dll](https://curl.haxx.se/windows/)
          Save **libcurl-x64.dll** as **libcurl.dll**
-         Place **libcurl.dll** in your Ruby folder, e.g. **C:&#92;Ruby27-x64&#92;bin**
+         Place **libcurl.dll** in your Ruby folder, e.g. **C:&#92;Ruby33-x64&#92;bin**
       3. **Git Bash is not recommended**: it can cause issues with interactive input/output, signal handling, and path/quoting differences.
          Use WSL or the VS Code integrated Bash terminal instead
 
@@ -175,13 +183,13 @@ This error occurs because you’re attempting to use the Ruby launcher with a se
 - This method is offered here solely as a means to enable you to
 - develop quickly by lowering the security bar on your local machine.
 ```
-Find the root folder for your Ruby gems (in this case, a 64-bit version of Ruby 2.7.0):
+Find the root folder for your Ruby gems (in this case, a 64-bit version of Ruby 3.3):
 
-C:\Ruby27-x64\lib\ruby\gems\2.7.0\gems\
+C:\Ruby33-x64\lib\ruby\gems\3.3.0\gems\
 
 Find the relevant Docusign Ruby SDK you are using. The name always starts with “docusign”; for instance, Docusign Click SDK version 1.0.0:
 
-C:\Ruby27-x64\lib\ruby\gems\2.7.0\gems\docusign_click-1.0.0\lib\docusign_click
+C:\Ruby33-x64\lib\ruby\gems\3.3.0\gems\docusign_click-1.0.0\lib\docusign_click
 
 Find the **configuration.rb** file in that folder.
 Modify the following two lines in the **configuration.rb** file, replacing `true` with `false`:
