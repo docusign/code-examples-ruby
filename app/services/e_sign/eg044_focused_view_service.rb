@@ -19,10 +19,37 @@ class ESign::Eg044FocusedViewService
 
     # Create the envelope definition
     #ds-snippet-start:eSign44Step3
-    envelope = make_envelope(args[:signer_client_id], pdf_filename, signer_email, signer_name)
+    envelope_api = create_envelope_api(args)
+
+    if args[:phone_number].present?
+      accounts_api = DocuSign_eSign::AccountsApi.new(envelope_api.api_client)
+      workflow_results, _status, headers = accounts_api.get_account_identity_verification_with_http_info(args[:account_id])
+
+      remaining = headers['X-RateLimit-Remaining']
+      reset = headers['X-RateLimit-Reset']
+
+      if remaining && reset
+        reset_date = Time.at(reset.to_i).utc
+        puts "API calls remaining: #{remaining}"
+        puts "Next Reset: #{reset_date}"
+      end
+
+      workflow_id = nil
+      workflow_results.identity_verification&.each do |workflow|
+        if workflow.default_name == 'Phone Authentication'
+          workflow_id = workflow.workflow_id
+          break
+        end
+      end
+
+      raise 'IDENTITY_WORKFLOW_INVALID_ID' if workflow_id.nil?
+
+      args[:workflow_id] = workflow_id
+    end
+
+    envelope = make_envelope(args[:signer_client_id], pdf_filename, signer_email, signer_name, args)
 
     # Call Docusign to create the envelope
-    envelope_api = create_envelope_api(args)
 
     results, _status, headers = envelope_api.create_envelope_with_http_info args[:account_id], envelope
 
@@ -106,7 +133,7 @@ class ESign::Eg044FocusedViewService
   #ds-snippet-end:eSign44Step4
 
   #ds-snippet-start:eSign44Step2
-  def make_envelope(signer_client_id, pdf_filename, signer_email, signer_name)
+  def make_envelope(signer_client_id, pdf_filename, signer_email, signer_name, args = {})
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = 'Please sign this document sent from Ruby SDK'
 
@@ -124,18 +151,24 @@ class ESign::Eg044FocusedViewService
                                            email: signer_email, name: signer_name,
                                            clientUserId: signer_client_id, recipientId: 1
                                          })
-    # The Docusign platform searches throughout your envelope's documents for matching
-    # anchor strings. So the sign_here_2 tab will be used in both document 2 and 3
-    # since they use the same anchor string for their "signer 1" tabs.
-    sign_here = DocuSign_eSign::SignHere.new
-    sign_here.anchor_string = '/sn1/'
-    sign_here.anchor_units = 'pixels'
-    sign_here.anchor_x_offset = '20'
-    sign_here.anchor_y_offset = '10'
-    # Tabs are set per recipient/signer
-    tabs = DocuSign_eSign::Tabs.new
-    tabs.sign_here_tabs = [sign_here]
-    signer1.tabs = tabs
+
+    if args[:phone_number].present?
+      recipient_identity_phone_number = DocuSign_eSign::RecipientIdentityPhoneNumber.new
+      recipient_identity_phone_number.country_code = args[:country_code]
+      recipient_identity_phone_number.number = args[:phone_number]
+
+      recipient_identity_input_option = DocuSign_eSign::RecipientIdentityInputOption.new
+      recipient_identity_input_option.name = 'phone_number_list'
+      recipient_identity_input_option.value_type = 'PhoneNumberList'
+      recipient_identity_input_option.phone_number_list = [recipient_identity_phone_number]
+
+      recipient_identity_verification = DocuSign_eSign::RecipientIdentityVerification.new
+      recipient_identity_verification.workflow_id = args[:workflow_id]
+      recipient_identity_verification.input_options = [recipient_identity_input_option]
+
+      signer1.identity_verification = recipient_identity_verification
+    end
+
     # Add the recipients to the envelope object
     recipients = DocuSign_eSign::Recipients.new
     recipients.signers = [signer1]
