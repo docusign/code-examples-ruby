@@ -15,6 +15,8 @@ class ESign::Eeg044FocusedViewController < EgController
       access_token: session[:ds_access_token],
       signer_email: param_gsub(params[:signerEmail]),
       signer_name: param_gsub(params[:signerName]),
+      phone_number: params[:phoneNumber].present? ? param_gsub(params[:phoneNumber]) : nil,
+      country_code: params[:countryCode].present? ? param_gsub(params[:countryCode]) : nil,
       ds_ping_url: Rails.application.config.app_url,
       signer_client_id: 1000,
       pdf_filename: pdf_file_path

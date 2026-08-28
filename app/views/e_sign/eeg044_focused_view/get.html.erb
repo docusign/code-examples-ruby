@@ -3,6 +3,9 @@
 <% form_index = 0 %>
 <% signer_email_index = 0 %>
 <% signer_name_index = 1 %>
+<% phone_form_index = 1 %>
+<% country_code_index = 0 %>
+<% phone_number_index = 1 %>
 
 <form class="eg" id="data_form" action="" method="post" data-busy="form">
   <% if @example["Forms"][form_index]["FormName"] %>
@@ -23,5 +26,24 @@
            placeholder="<%= @example["Forms"][form_index]["Inputs"][signer_name_index]["InputPlaceholder"] %>"
            name="signerName" value="<%= @config.signer_name %>" required>
   </div>
+
+  <br/>
+  <% if @example["Forms"][phone_form_index] %>
+    <%= sanitize @example["Forms"][phone_form_index]["FormName"] %>
+  <% end %>
+
+  <div class="form-group">
+    <label for="countryCode"><%= @example["Forms"][phone_form_index]["Inputs"][country_code_index]["InputName"] %></label>
+    <input type="text" class="form-control" id="countryCode" name="countryCode"
+           placeholder="<%= @example["Forms"][phone_form_index]["Inputs"][country_code_index]["InputPlaceholder"] %>">
+  </div>
+  <div class="form-group">
+    <label for="phoneNumber"><%= @example["Forms"][phone_form_index]["Inputs"][phone_number_index]["InputName"] %></label>
+    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+           aria-describedby="phoneHelp"
+           placeholder="<%= @example["Forms"][phone_form_index]["Inputs"][phone_number_index]["InputPlaceholder"] %>">
+    <small id="phoneHelp" class="form-text text-muted">Provide a phone number to enable phone authentication for the signer</small>
+  </div>
+
   <%= render('partials/submit_button') %>
 </form>
